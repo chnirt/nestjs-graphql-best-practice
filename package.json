@@ -35,7 +35,8 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typeorm": "^0.2.18"
+    "typeorm": "^0.2.18",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@nestjs/testing": "^6.0.0",
@@ -44,6 +45,7 @@
     "@types/jest": "^23.3.13",
     "@types/node": "^10.12.18",
     "@types/supertest": "^2.0.7",
+    "@types/uuid": "^3.4.4",
     "concurrently": "^4.1.0",
     "jest": "^23.6.0",
     "nodemon": "^1.18.9",
