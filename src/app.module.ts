@@ -11,10 +11,6 @@ import { MemcachedCache } from 'apollo-server-cache-memcached';
   imports: [
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
-      definitions: {
-        path: join(process.cwd(), 'src/graphql.ts'),
-        outputAs: 'class',
-      },
       debug: false,
       subscriptions: {
         onConnect: (connectionParams, webSocket, context) => {

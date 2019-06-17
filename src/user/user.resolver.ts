@@ -1,7 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UserService } from './user.service';
-import { User, UserInput } from './user.entity';
-import { async } from 'rxjs/internal/scheduler/async';
+import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity';
 
 @Resolver('User')
 export class UserResolver {
@@ -22,7 +21,7 @@ export class UserResolver {
     return this.userService.findById(_id);
   }
 
-  @Mutation(() => User)
+  @Mutation(() => User, { name: 'register' })
   async createUser(@Args('input') input: UserInput) {
     return await this.userService.create(input);
   }
@@ -40,5 +39,10 @@ export class UserResolver {
   @Mutation(() => Boolean)
   async deleteAll() {
     return await this.userService.deleteAll();
+  }
+
+  @Mutation(() => LoginResponse)
+  async login(@Args('input') input: LoginUserInput) {
+    return await this.userService.login(input);
   }
 }

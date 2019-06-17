@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User, UserInput } from './user.entity';
+import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity';
 import { MongoRepository } from 'typeorm';
 
 @Injectable()
@@ -41,5 +41,11 @@ export class UserService {
 
   async deleteAll(): Promise<boolean> {
     return (await this.userRepository.deleteMany({})) ? true : false;
+  }
+
+  async login(input: LoginUserInput): Promise<LoginResponse> {
+    console.log('TCL: UserService -> input', input);
+
+    return { token: '123123123' };
   }
 }

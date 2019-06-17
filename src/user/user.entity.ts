@@ -18,23 +18,18 @@ import * as uuid from 'uuid';
 import * as bcrypt from 'bcrypt';
 import * as moment from 'moment';
 
+export class LoginUserInput {
+  username: string;
+  password: string;
+}
+
 export class UserInput {
   username: string;
   password: string;
 }
 
-export abstract class IMutation {
-  abstract createUser(input: UserInput): User | Promise<User>;
-
-  abstract updateUser(_id: string, input: UserInput): User | Promise<User>;
-
-  abstract deleteUser(_id: string): boolean | Promise<boolean>;
-}
-
-export abstract class IQuery {
-  abstract users(): User[] | Promise<User[]>;
-
-  abstract user(): User | Promise<User>;
+export class LoginResponse {
+  token: string;
 }
 
 @Entity()
