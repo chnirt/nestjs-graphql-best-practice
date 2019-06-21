@@ -1,7 +1,11 @@
+directive @isAuthenticated on FIELD | FIELD_DEFINITION
+directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
+
 type User {
   _id: String!
   username: String!
   password: String!
+  role: String!
   status: Boolean!
   createdAt: String!
   updatedAt: String!
@@ -22,8 +26,8 @@ input LoginUserInput {
 }
 
 type Query {
-  hello: String!
-  users: [User!]!
+  hello: String! @isAuthenticated
+  users: [User!]! @isAuthenticated
   user(_id: String!): User!
 }
 
