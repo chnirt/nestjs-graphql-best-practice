@@ -16,7 +16,7 @@ const directiveResolvers = {
   isAuthenticated: (next, source, args, ctx) => {
     // if (role === user.role) return next();
     // throw new Error(`Must have role: ${role}, you have role: ${user.role}`);
-    console.log(args);
+    // console.log(args);
     console.log('isAuthenticated');
     return next();
   },
@@ -38,9 +38,10 @@ const directiveResolvers = {
         let currentUser;
 
         const { token } = req.headers;
+        console.log('TCL: token', token);
 
-        const service = this.authService.hello();
-        console.log(service);
+        // const service = this.authService.hello();
+        // console.log(service);
 
         if (token) {
           // try {
@@ -105,7 +106,4 @@ const directiveResolvers = {
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // Inject graphQLFactory as in Nestjs Docs
-  constructor(private readonly authService: AuthService) {}
-}
+export class AppModule {}

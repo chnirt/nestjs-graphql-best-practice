@@ -16,18 +16,44 @@ import {
 } from 'typeorm';
 import * as uuid from 'uuid';
 import * as bcrypt from 'bcrypt';
+import { IsString, IsNotEmpty, Length, MinLength } from 'class-validator';
 
 export class LoginUserInput {
+  @IsString()
+  @MinLength(4, {
+    message: 'Your username must be at least 4 characters',
+  })
+  @IsNotEmpty()
   username: string;
+  @Length(1, 8, {
+    message: 'Your password must be between 1 and 8 characters.',
+  })
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
 export class UserInput {
+  @IsString()
+  @MinLength(4, {
+    message: 'Your username must be at least 4 characters',
+  })
+  @IsNotEmpty()
   username: string;
+  @Length(1, 8, {
+    message: 'Your password must be between 1 and 8 characters.',
+    context: {
+      errorCode: 1003,
+      developerNote: 'The validated string must contain 32 or more characters.',
+    },
+  })
+  @IsString()
+  @IsNotEmpty()
   password: string;
 }
 
 export class LoginResponse {
+  @IsString()
   token: string;
 }
 
@@ -35,16 +61,30 @@ export class LoginResponse {
 export class User {
   @ObjectIdColumn()
   _id: string;
+
   @Column()
+  @IsString()
+  @IsNotEmpty()
   username: string;
+
   @Column()
+  @IsString()
+  @IsNotEmpty()
   password: string;
+
   @Column()
+  @IsString()
+  @IsNotEmpty()
   role: string;
+
   @Column()
+  @IsString()
+  @IsNotEmpty()
   status: boolean;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
+
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: string;
 
