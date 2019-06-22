@@ -1,16 +1,12 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLFactory, GraphQLModule } from '@nestjs/graphql';
 import { UserModule } from './user/user.module';
 import { MemcachedCache } from 'apollo-server-cache-memcached';
-import { AuthenticationError } from 'apollo-server-express';
 import { AuthModule } from './auth/auth.module';
-
-import * as jwt from 'jsonwebtoken';
-import { AuthService } from './auth/auth.service';
+import { EventsModule } from './events/events.module';
+import { EventsGateway } from './events/events.gateway';
 
 const directiveResolvers = {
   isAuthenticated: (next, source, args, ctx) => {
@@ -34,37 +30,8 @@ const directiveResolvers = {
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       directiveResolvers,
-      context: async ({ req, res }) => {
-        let currentUser;
-
-        const { token } = req.headers;
-        console.log('TCL: token', token);
-
-        // const service = this.authService.hello();
-        // console.log(service);
-
-        if (token) {
-          // try {
-          //   // try to retrieve a user with the token
-          //   const decodeToken = await jwt.verify(token, process.env.SECRET_KEY);
-          //   currentUser = await User.findOne({
-          //     _id: decodeToken.sub,
-          //   });
-          //   // optionally block the user
-          //   // we could also check user roles/permissions here
-          //   if (!currentUser)
-          //     throw new AuthorizationError('You must be logged in');
-          // } catch (error) {}
-        }
-
-        // add the user to the context
-        return {
-          req,
-          res,
-          // pubsub,
-          currentUser,
-        };
-      },
+      context: ({ req, connection }) =>
+        connection ? { req: connection.context } : { req },
       debug: false,
       subscriptions: {
         onConnect: (connectionParams, webSocket, context) => {
@@ -102,8 +69,8 @@ const directiveResolvers = {
     }),
     UserModule,
     AuthModule,
+    EventsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  providers: [EventsGateway],
 })
 export class AppModule {}

@@ -69,4 +69,9 @@ export class UserService {
 
     return { token };
   }
+
+  async findOneByToken(token: string) {
+    console.log('findOneByToken', token);
+    return token;
+  }
 }

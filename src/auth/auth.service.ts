@@ -1,16 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MongoRepository } from 'typeorm';
-import { User } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: MongoRepository<User>,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
-  async hello() {
-    return 'this.userRepository.find({});';
+  async validateUser(token: string): Promise<any> {
+    // Validate if token passed along with HTTP request
+    // is associated with any registered account in the database
+    return await this.userService.findOneByToken(token);
   }
 }
