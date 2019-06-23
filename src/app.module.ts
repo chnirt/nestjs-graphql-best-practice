@@ -7,6 +7,8 @@ import { MemcachedCache } from 'apollo-server-cache-memcached';
 import { AuthModule } from './auth/auth.module';
 import { EventsModule } from './events/events.module';
 import { EventsGateway } from './events/events.gateway';
+import { User } from './user/user.entity';
+import { getMetadataArgsStorage } from 'typeorm';
 
 const directiveResolvers = {
   isAuthenticated: (next, source, args, ctx) => {
@@ -59,10 +61,12 @@ const directiveResolvers = {
         },
       },
     }),
+    // provides: typeorm/Connection, typeorm/EntityManager
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: 'mongodb://chnirt:chin04071803@ds055690.mlab.com:55690/nest-graphql',
-      entities: [join(__dirname, '**/**.entity{.ts,.js}')],
+      // entities: [join(__dirname, '**/**.entity.ts')],
+      entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
       synchronize: true,
       useNewUrlParser: true,
       logging: true,

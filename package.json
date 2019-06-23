@@ -8,7 +8,7 @@
     "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\"",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
-    "start:dev": "concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
+    "start:dev": "rm -rf dist && concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
     "start:debug": "nodemon --config nodemon-debug.json",
     "prestart:prod": "rimraf dist && npm run build",
     "start:prod": "node dist/main.js",
@@ -19,7 +19,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "rm -rf dist && webpack --config webpack.config.js",
-    "start:webpack": "nodemon dist/server"
+    "start:webpack": "node dist/server"
   },
   "dependencies": {
     "@nestjs/common": "^6.0.0",
@@ -44,7 +44,7 @@
     "reflect-metadata": "^0.1.12",
     "rimraf": "^2.6.2",
     "rxjs": "^6.3.3",
-    "typeorm": "^0.2.18",
+    "typeorm": "0.2.15-rc.1",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
@@ -68,7 +68,7 @@
     "ts-node": "8.1.0",
     "tsconfig-paths": "3.8.0",
     "tslint": "5.16.0",
-    "typescript": "3.4.3",
+    "typescript": "^3.5.2",
     "wait-on": "^3.2.0",
     "webpack": "^4.35.0",
     "webpack-cli": "^3.3.4",
