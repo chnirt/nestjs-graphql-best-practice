@@ -27,14 +27,18 @@ input LoginUserInput {
 
 type Query {
   hello: String! @isAuthenticated
-  users: [User!]! @isAuthenticated
-  user(_id: String!): User!
+  users: [User] @isAuthenticated
+  user(_id: String!): User
 }
 
 type Mutation {
-  register(input: UserInput!): User!
+  register(input: UserInput!): User
   updateUser(_id: String!, input: UserInput!): Boolean!
   deleteUser(_id: String!): Boolean!
   deleteAll: Boolean!
   login(input: LoginUserInput!): LoginResponse!
+}
+
+type Subscription {
+  userCreated: User
 }

@@ -41,6 +41,7 @@ export class GraphqlConfigService implements GqlOptionsFactory {
           { retries: 10, retry: 10000 }, // Options
         ),
       },
+      installSubscriptionHandlers: true,
       introspection: true,
       playground: {
         settings: {
