@@ -19,8 +19,8 @@ import { EventsGateway } from './events/events.gateway';
       useClass: TypeOrmConfigService,
     }),
     UserModule,
-    AuthModule,
-    EventsModule,
+    // AuthModule,
+    // EventsModule,
   ],
   providers: [EventsGateway],
 })

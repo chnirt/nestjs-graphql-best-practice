@@ -1,9 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql';
 import { MemcachedCache } from 'apollo-server-cache-memcached';
+import { UserService } from './user/user.service';
 
 @Injectable()
 export class GraphqlConfigService implements GqlOptionsFactory {
+  // constructor(private readonly userService: UserService) {}
   async createGqlOptions(): Promise<GqlModuleOptions> {
     const directiveResolvers = {
       isAuthenticated: (next, source, args, ctx) => {
