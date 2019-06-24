@@ -13,6 +13,7 @@ import {
   BeforeRemove,
   CreateDateColumn,
   UpdateDateColumn,
+  Index,
 } from 'typeorm';
 import * as uuid from 'uuid';
 import * as bcrypt from 'bcrypt';
@@ -49,16 +50,12 @@ export class UserInput {
 
   @Length(1, 8, {
     message: 'Your password must be between 1 and 8 characters.',
-    context: {
-      errorCode: 1003,
-      developerNote: 'The validated string must contain 32 or more characters.',
-    },
   })
   @IsString()
   @IsNotEmpty({ message: 'Your password can not be blank.' })
   password: string;
 
-  @IsEmail({}, { message: 'Invalid email message' })
+  @IsEmail(undefined, { message: 'Invalid email message' })
   @IsNotEmpty({ message: 'Your email can not be blank.' })
   email: string;
 }
@@ -86,6 +83,7 @@ export class User {
   @Column()
   @IsString()
   @IsNotEmpty()
+  @Index({ unique: true })
   email: string;
 
   @Column()

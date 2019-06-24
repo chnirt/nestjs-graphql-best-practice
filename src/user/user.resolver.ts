@@ -15,8 +15,8 @@ export class UserResolver {
   }
 
   @Query(() => [User])
-  async users() {
-    return this.userService.findAll();
+  async users(@Args('offset') offset: number, @Args('limit') limit: number) {
+    return this.userService.findAll(offset, limit);
   }
 
   @Query(() => User)

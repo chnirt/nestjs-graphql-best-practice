@@ -12,8 +12,13 @@ export class UserService {
     private readonly userRepository: MongoRepository<User>,
   ) {}
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find();
+  async findAll(offset: number, limit: number): Promise<User[]> {
+    return await this.userRepository.find({
+      order: { createdAt: 'DESC' },
+      skip: offset,
+      take: limit,
+      cache: true,
+    });
   }
 
   async findById(_id: string): Promise<User> {
@@ -73,7 +78,7 @@ export class UserService {
   }
 
   async findOneByToken(token: string) {
-    console.log('findOneByToken', token);
+    // console.log('findOneByToken', token);
     return token;
   }
 }

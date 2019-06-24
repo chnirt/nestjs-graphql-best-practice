@@ -29,7 +29,7 @@ input LoginUserInput {
 
 type Query {
   hello: String! @isAuthenticated
-  users: [User] @isAuthenticated
+  users(offset: Int!, limit: Int!): [User] @isAuthenticated
   user(_id: String!): User
 }
 

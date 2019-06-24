@@ -50,10 +50,10 @@ export class ValidationPipe implements PipeTransform {
       .join(', ');
   }
 
-  private isEmpty(value: any) {
-    if (Object.keys(value).length > 0) {
-      return false;
-    }
-    return true;
-  }
+  // private isEmpty(value: any) {
+  //   if (Object.keys(value).length > 0) {
+  //     return false;
+  //   }
+  //   return true;
+  // }
 }
