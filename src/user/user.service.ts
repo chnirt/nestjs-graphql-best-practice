@@ -24,6 +24,7 @@ export class UserService {
     const user = new User();
     user.username = input.username;
     user.password = input.password;
+    user.email = input.email;
     return await this.userRepository.save(user);
   }
 
@@ -32,6 +33,7 @@ export class UserService {
     user._id = _id;
     user.username = input.username;
     user.password = input.password;
+    user.email = input.email;
     return (await this.userRepository.save(user)) ? true : false;
   }
 

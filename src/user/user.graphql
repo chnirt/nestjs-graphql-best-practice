@@ -5,6 +5,7 @@ type User {
   _id: String!
   username: String!
   password: String!
+  email: String!
   role: String!
   status: Boolean!
   createdAt: String!
@@ -18,6 +19,7 @@ type LoginResponse {
 input UserInput {
   username: String!
   password: String!
+  email: String!
 }
 
 input LoginUserInput {

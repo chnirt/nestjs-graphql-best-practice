@@ -16,7 +16,13 @@ import {
 } from 'typeorm';
 import * as uuid from 'uuid';
 import * as bcrypt from 'bcrypt';
-import { IsString, IsNotEmpty, Length, MinLength } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  Length,
+  MinLength,
+  IsEmail,
+} from 'class-validator';
 
 export class LoginUserInput {
   @IsString()
@@ -38,8 +44,9 @@ export class UserInput {
   @MinLength(4, {
     message: 'Your username must be at least 4 characters',
   })
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Your username can not be blank.' })
   username: string;
+
   @Length(1, 8, {
     message: 'Your password must be between 1 and 8 characters.',
     context: {
@@ -48,8 +55,12 @@ export class UserInput {
     },
   })
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Your password can not be blank.' })
   password: string;
+
+  @IsEmail({}, { message: 'Invalid email message' })
+  @IsNotEmpty({ message: 'Your email can not be blank.' })
+  email: string;
 }
 
 export class LoginResponse {
@@ -68,9 +79,14 @@ export class User {
   username: string;
 
   @Column()
-  @IsString()
+  @IsEmail()
   @IsNotEmpty()
   password: string;
+
+  @Column()
+  @IsString()
+  @IsNotEmpty()
+  email: string;
 
   @Column()
   @IsString()
