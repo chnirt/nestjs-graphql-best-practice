@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 
 @Injectable()
-export class CacheConfigService implements CacheOptionsFactory {
+export class CacheService implements CacheOptionsFactory {
   createCacheOptions(): CacheModuleOptions {
     return {
       ttl: 5, // seconds

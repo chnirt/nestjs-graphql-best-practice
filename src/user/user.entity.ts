@@ -5,122 +5,123 @@
 
 /* tslint:disable */
 import {
-  Entity,
-  Column,
-  ObjectIdColumn,
-  BeforeInsert,
-  BeforeUpdate,
-  BeforeRemove,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Index,
-} from 'typeorm';
-import * as uuid from 'uuid';
-import * as bcrypt from 'bcrypt';
+	Entity,
+	Column,
+	ObjectIdColumn,
+	BeforeInsert,
+	BeforeUpdate,
+	BeforeRemove,
+	CreateDateColumn,
+	UpdateDateColumn,
+	Index
+} from 'typeorm'
+import * as uuid from 'uuid'
+import * as bcrypt from 'bcrypt'
 import {
-  IsString,
-  IsNotEmpty,
-  Length,
-  MinLength,
-  IsEmail,
-} from 'class-validator';
+	IsString,
+	IsNotEmpty,
+	Length,
+	MinLength,
+	IsEmail,
+	IsBoolean
+} from 'class-validator'
 
 export class LoginUserInput {
-  @IsString()
-  @MinLength(4, {
-    message: 'Your username must be at least 4 characters',
-  })
-  @IsNotEmpty()
-  username: string;
-  @Length(1, 8, {
-    message: 'Your password must be between 1 and 8 characters.',
-  })
-  @IsString()
-  @IsNotEmpty()
-  password: string;
+	@IsString()
+	@MinLength(4, {
+		message: 'Your username must be at least 4 characters'
+	})
+	@IsNotEmpty()
+	username: string
+	@Length(1, 8, {
+		message: 'Your password must be between 1 and 8 characters.'
+	})
+	@IsString()
+	@IsNotEmpty()
+	password: string
 }
 
 export class UserInput {
-  @IsString()
-  @MinLength(4, {
-    message: 'Your username must be at least 4 characters',
-  })
-  @IsNotEmpty({ message: 'Your username can not be blank.' })
-  username: string;
+	@IsString()
+	@MinLength(4, {
+		message: 'Your username must be at least 4 characters'
+	})
+	@IsNotEmpty({ message: 'Your username can not be blank.' })
+	username: string
 
-  @Length(1, 8, {
-    message: 'Your password must be between 1 and 8 characters.',
-  })
-  @IsString()
-  @IsNotEmpty({ message: 'Your password can not be blank.' })
-  password: string;
+	@Length(1, 8, {
+		message: 'Your password must be between 1 and 8 characters.'
+	})
+	@IsString()
+	@IsNotEmpty({ message: 'Your password can not be blank.' })
+	password: string
 
-  @IsEmail(undefined, { message: 'Invalid email message' })
-  @IsNotEmpty({ message: 'Your email can not be blank.' })
-  email: string;
+	@IsEmail(undefined, { message: 'Invalid email message' })
+	@IsNotEmpty({ message: 'Your email can not be blank.' })
+	email: string
 }
 
 export class LoginResponse {
-  @IsString()
-  token: string;
+	@IsString()
+	token: string
 }
 
 @Entity()
 export class User {
-  @ObjectIdColumn()
-  _id: string;
+	@ObjectIdColumn()
+	_id: string
 
-  @Column()
-  @IsString()
-  @IsNotEmpty()
-  username: string;
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	username: string
 
-  @Column()
-  @IsEmail()
-  @IsNotEmpty()
-  password: string;
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	password: string
 
-  @Column()
-  @IsString()
-  @IsNotEmpty()
-  @Index({ unique: true })
-  email: string;
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	@Index({ unique: true })
+	email: string
 
-  @Column()
-  @IsString()
-  @IsNotEmpty()
-  role: string;
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	role: string
 
-  @Column()
-  @IsString()
-  @IsNotEmpty()
-  status: boolean;
+	@Column()
+	@IsBoolean()
+	@IsNotEmpty()
+	status: boolean
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: string;
+	@CreateDateColumn({ type: 'timestamp' })
+	createdAt: string
 
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: string;
+	@UpdateDateColumn({ type: 'timestamp' })
+	updatedAt: string
 
-  @BeforeInsert()
-  async b4register() {
-    this._id = await uuid.v4();
-    this.role = await 'member';
-    this.status = await true;
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+	@BeforeInsert()
+	async b4register() {
+		this._id = await uuid.v4()
+		this.role = await 'MEMBER'
+		this.status = await true
+		this.password = await bcrypt.hash(this.password, 10)
+	}
 
-  @BeforeUpdate()
-  async b4update() {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
+	@BeforeUpdate()
+	async b4update() {
+		this.password = await bcrypt.hash(this.password, 10)
+	}
 
-  @BeforeRemove()
-  async b4block() {
-    this.status = false;
-  }
+	@BeforeRemove()
+	async b4block() {
+		this.status = false
+	}
 
-  async matchesPassword(password) {
-    return await bcrypt.compare(password, this.password);
-  }
+	async matchesPassword(password) {
+		return await bcrypt.compare(password, this.password)
+	}
 }

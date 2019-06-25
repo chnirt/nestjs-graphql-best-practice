@@ -1,84 +1,110 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity';
-import { MongoRepository } from 'typeorm';
-import { AuthenticationError } from 'apollo-server-express';
-import * as jwt from 'jsonwebtoken';
+import { Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
+import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity'
+import { MongoRepository } from 'typeorm'
+import * as jwt from 'jsonwebtoken'
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: MongoRepository<User>,
-  ) {}
+	constructor(
+		@InjectRepository(User)
+		private readonly userRepository: MongoRepository<User>
+	) {}
 
-  async findAll(offset: number, limit: number): Promise<User[]> {
-    return await this.userRepository.find({
-      order: { createdAt: 'DESC' },
-      skip: offset,
-      take: limit,
-      cache: true,
-    });
-  }
+	async findAll(offset: number, limit: number): Promise<User[]> {
+		return await this.userRepository.find({
+			order: { createdAt: 'DESC' },
+			skip: offset,
+			take: limit,
+			cache: true
+		})
+	}
 
-  async findById(_id: string): Promise<User> {
-    return await this.userRepository.findOne({ _id: _id });
-  }
+	async findById(_id: string): Promise<User> {
+		return await this.userRepository.findOne({ _id })
+	}
 
-  async create(input: UserInput): Promise<User> {
-    const user = new User();
-    user.username = input.username;
-    user.password = input.password;
-    user.email = input.email;
-    return await this.userRepository.save(user);
-  }
+	async create(input: UserInput): Promise<User> {
+		const { username, password, email } = input
+		const message = 'Email has already been taken.'
 
-  async update(_id: string, input: UserInput): Promise<boolean> {
-    const user = new User();
-    user._id = _id;
-    user.username = input.username;
-    user.password = input.password;
-    user.email = input.email;
-    return (await this.userRepository.save(user)) ? true : false;
-  }
+		const existedUser = await this.userRepository.findOne({ email })
 
-  async delete(_id: string): Promise<boolean> {
-    const user = new User();
-    user._id = _id;
-    return (await this.userRepository.remove(user)) ? true : false;
-  }
+		if (existedUser) {
+			throw new Error(message)
+		}
 
-  async deleteAll(): Promise<boolean> {
-    return (await this.userRepository.deleteMany({})) ? true : false;
-  }
+		const user = new User()
+		user.username = username
+		user.password = password
+		user.email = email
+		return await this.userRepository.save(user)
+	}
 
-  async login(input: LoginUserInput): Promise<LoginResponse> {
-    const { username, password } = input;
-    const message = 'Incorrect email or password. Please try again.';
+	async update(_id: string, input: UserInput): Promise<boolean> {
+		const user = await this.userRepository.findOne({ _id })
+		// user.username = input.username
+		user.password = input.password
+		// user.email = input.email
+		return (await this.userRepository.save(user)) ? true : false
+	}
 
-    const user = await this.userRepository.findOne({ username });
+	async delete(_id: string): Promise<boolean> {
+		const user = new User()
+		user._id = _id
+		return (await this.userRepository.remove(user)) ? true : false
+	}
 
-    if (!user || !(await user.matchesPassword(password))) {
-      throw new AuthenticationError(message);
-    }
+	async deleteAll(): Promise<boolean> {
+		return (await this.userRepository.deleteMany({})) ? true : false
+	}
 
-    const token = await jwt.sign(
-      {
-        issuer: 'http://chnirt.dev.io',
-        subject: user._id,
-        audience: user.username,
-      },
-      process.env.SECRET_KEY,
-      {
-        expiresIn: '1d',
-      },
-    );
+	async login(input: LoginUserInput): Promise<LoginResponse> {
+		const { username, password } = input
+		const message = 'Incorrect email or password. Please try again.'
 
-    return { token };
-  }
+		const user = await this.userRepository.findOne({ username })
 
-  async findOneByToken(token: string) {
-    // console.log('findOneByToken', token);
-    return token;
-  }
+		if (!user || !(await user.matchesPassword(password))) {
+			throw new Error(message)
+		}
+
+		const token = await jwt.sign(
+			{
+				issuer: 'http://chnirt.dev.io',
+				subject: user._id,
+				audience: user.username
+			},
+			process.env.SECRET_KEY,
+			{
+				expiresIn: '1d'
+			}
+		)
+
+		return { token }
+	}
+
+	async findOneByToken(token: string) {
+		const message = 'The token you provided was invalid.'
+		let currentUser
+
+		try {
+			let decodeToken
+
+			decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
+
+			currentUser = await this.userRepository.findOne({
+				_id: decodeToken.subject
+			})
+		} catch (error) {
+			throw new Error(message)
+		}
+
+		return currentUser
+	}
+
+	async setRole(_id: string, role: string): Promise<boolean> {
+		this.userRepository.updateOne({ _id }, { $set: { role } })
+		return true
+	}
 }

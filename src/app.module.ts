@@ -2,27 +2,29 @@ import { Module, CacheModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 
-import { TypeOrmConfigService } from './typeorm.config.service';
-import { GraphqlConfigService } from './graphql.config.service';
-import { CacheConfigService } from './cache.config.service';
+import { GraphqlModule } from './graphql/graphql.module';
+import { GraphqlService } from './graphql/graphql.service';
+import { TypeormModule } from './typeorm/typeorm.module';
+import { TypeormService } from './typeorm/typeorm.service';
+import { CacheService } from './cache/cache.service';
 
 import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
-import { EventsModule } from './events/events.module';
 import { EventsGateway } from './events/events.gateway';
 
 @Module({
   imports: [
     GraphQLModule.forRootAsync({
-      useClass: GraphqlConfigService,
+      useClass: GraphqlService,
     }),
     TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService,
+      useClass: TypeormService,
     }),
     CacheModule.registerAsync({
-      useClass: CacheConfigService,
+      useClass: CacheService,
     }),
     UserModule,
+    GraphqlModule,
+    TypeormModule,
     // AuthModule,
     // EventsModule,
   ],
