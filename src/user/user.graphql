@@ -34,7 +34,7 @@ input LoginUserInput {
 }
 
 type Query {
-	hello: String!
+	hello: String! @isAuthenticated
 	me: User @isAuthenticated
 	users(offset: Int!, limit: Int!): [User]
 	user(_id: String!): User

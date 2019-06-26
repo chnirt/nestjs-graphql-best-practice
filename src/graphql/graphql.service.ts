@@ -37,32 +37,28 @@ export class GraphqlService implements GqlOptionsFactory {
 			typePaths: ['./**/*.graphql'],
 			directiveResolvers,
 			context: async ({ req, res, connection }) => {
+				if (connection) {
+					return {
+						req: connection.context,
+						pubSub
+					}
+				}
+
 				let currentUser = ''
 
-				// if (req) {
-				// 	const { token } = req.headers
-				// 	currentUser = await this.userService.findOneByToken(token)
-				// }
+				const { token } = req.headers
 
-				// add the user to the context
-				return connection
-					? {
-							req: connection.context,
-							res,
-							pubSub,
-							currentUser
-					  }
-					: {
-							req,
-							res,
-							pubSub,
-							currentUser
-					  }
+				if (token) {
+					currentUser = await this.userService.findOneByToken(token)
+				}
+
+				return {
+					req,
+					res,
+					pubSub,
+					currentUser
+				}
 			},
-			// context: ({ req, res, connection }) => {
-
-			// 	return connection ? { req: connection.context } : { req }
-			// },
 			debug: false,
 			subscriptions: {
 				onConnect: (connectionParams, webSocket, context) => {
