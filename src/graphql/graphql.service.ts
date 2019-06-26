@@ -59,6 +59,17 @@ export class GraphqlService implements GqlOptionsFactory {
 					currentUser
 				}
 			},
+			formatError: err => {
+				// Don't give the specific errors to the client.
+				if (err.message.startsWith('Database Error: ')) {
+					console.log('Internal server error')
+					// return new Error('Internal server error')
+				}
+
+				// Otherwise return the original error.  The error can also
+				// be manipulated in other ways, so long as it's returned.
+				return err
+			},
 			debug: false,
 			subscriptions: {
 				onConnect: (connectionParams, webSocket, context) => {

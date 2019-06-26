@@ -9,7 +9,6 @@ import { TypeormService } from './typeorm/typeorm.service'
 import { CacheService } from './cache/cache.service'
 
 import { UserModule } from './user/user.module'
-import { EventsGateway } from './events/events.gateway'
 
 @Module({
 	imports: [
@@ -25,9 +24,6 @@ import { EventsGateway } from './events/events.gateway'
 		UserModule,
 		GraphqlModule,
 		TypeormModule
-		// AuthModule,
-		// EventsModule,
-	],
-	providers: [EventsGateway]
+	]
 })
 export class AppModule {}
