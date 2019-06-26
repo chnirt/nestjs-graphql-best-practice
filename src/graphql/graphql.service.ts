@@ -2,6 +2,9 @@ import { Injectable } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../user/user.service'
+import { PubSub } from 'graphql-subscriptions'
+
+const pubSub = new PubSub()
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
@@ -36,20 +39,30 @@ export class GraphqlService implements GqlOptionsFactory {
 			context: async ({ req, res, connection }) => {
 				let currentUser = ''
 
-				const { token } = req.headers
-
-				if (token) {
-					currentUser = await this.userService.findOneByToken(token)
-				}
+				// if (req) {
+				// 	const { token } = req.headers
+				// 	currentUser = await this.userService.findOneByToken(token)
+				// }
 
 				// add the user to the context
-				return {
-					req,
-					res,
-					currentUser
-				}
+				return connection
+					? {
+							req: connection.context,
+							res,
+							pubSub,
+							currentUser
+					  }
+					: {
+							req,
+							res,
+							pubSub,
+							currentUser
+					  }
 			},
-			// connection ? { req: connection.context } : { req },
+			// context: ({ req, res, connection }) => {
+
+			// 	return connection ? { req: connection.context } : { req }
+			// },
 			debug: false,
 			subscriptions: {
 				onConnect: (connectionParams, webSocket, context) => {

@@ -10,8 +10,6 @@ import { PubSub } from 'graphql-subscriptions'
 import { UserService } from './user.service'
 import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity'
 
-const pubSub = new PubSub()
-
 @Resolver('User')
 export class UserResolver {
 	constructor(private readonly userService: UserService) {}
@@ -37,7 +35,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => User, { name: 'register' })
-	async createUser(@Args('input') input: UserInput) {
+	async createUser(@Args('input') input: UserInput, @Context('pubSub') pubSub) {
 		const createdUser = await this.userService.create(input)
 		pubSub.publish('userCreated', { userCreated: createdUser })
 		return createdUser
@@ -69,7 +67,7 @@ export class UserResolver {
 	}
 
 	@Subscription()
-	userCreated() {
+	userCreated(@Context('pubSub') pubSub) {
 		return pubSub.asyncIterator('userCreated')
 	}
 }

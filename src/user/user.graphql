@@ -10,7 +10,7 @@ enum RoleEnum {
 type User {
 	_id: String!
 	username: String!
-	password: String! @hasRole(role: "admin")
+	password: String!
 	email: String!
 	role: RoleEnum!
 	status: Boolean!
@@ -37,7 +37,7 @@ type Query {
 	hello: String!
 	me: User @isAuthenticated
 	users(offset: Int!, limit: Int!): [User]
-	user(_id: String!): User @hasRole(role: "admin")
+	user(_id: String!): User
 }
 
 type Mutation {
@@ -50,5 +50,5 @@ type Mutation {
 }
 
 type Subscription {
-	userCreated: User @isAuthenticated
+	userCreated: User
 }
