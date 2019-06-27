@@ -8,7 +8,12 @@ import {
 } from '@nestjs/graphql'
 import { PubSub } from 'graphql-subscriptions'
 import { UserService } from './user.service'
-import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity'
+import {
+	User,
+	CreateUserInput,
+	LoginResponse,
+	LoginUserInput
+} from './user.entity'
 
 @Resolver('User')
 export class UserResolver {
@@ -35,14 +40,20 @@ export class UserResolver {
 	}
 
 	@Mutation(() => User, { name: 'register' })
-	async createUser(@Args('input') input: UserInput, @Context('pubSub') pubSub) {
+	async createUser(
+		@Args('input') input: CreateUserInput,
+		@Context('pubSub') pubSub
+	) {
 		const createdUser = await this.userService.create(input)
 		pubSub.publish('userCreated', { userCreated: createdUser })
 		return createdUser
 	}
 
 	@Mutation(() => Boolean)
-	async updateUser(@Args('_id') _id: string, @Args('input') input: UserInput) {
+	async updateUser(
+		@Args('_id') _id: string,
+		@Args('input') input: CreateUserInput
+	) {
 		return await this.userService.update(_id, input)
 	}
 

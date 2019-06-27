@@ -41,7 +41,7 @@ export class LoginUserInput {
 	password: string
 }
 
-export class UserInput {
+export class CreateUserInput {
 	@IsString()
 	@MinLength(4, {
 		message: 'Your username must be at least 4 characters'
@@ -105,7 +105,7 @@ export class User {
 
 	@BeforeInsert()
 	async b4register() {
-		this._id = await uuid.v4()
+		this._id = await uuid.v1()
 		this.role = await 'MEMBER'
 		this.status = await true
 		this.password = await bcrypt.hash(this.password, 10)

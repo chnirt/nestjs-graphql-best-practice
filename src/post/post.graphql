@@ -1,0 +1,14 @@
+type User {
+	_id: String!
+	username: String!
+	password: String!
+	email: String!
+	role: RoleEnum!
+	status: Boolean!
+	createdAt: String!
+	updatedAt: String!
+}
+
+type Query {
+	test: String!
+}

@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { User, UserInput, LoginResponse, LoginUserInput } from './user.entity'
+import {
+	User,
+	CreateUserInput,
+	LoginResponse,
+	LoginUserInput
+} from './user.entity'
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 
@@ -24,7 +29,7 @@ export class UserService {
 		return await this.userRepository.findOne({ _id })
 	}
 
-	async create(input: UserInput): Promise<User> {
+	async create(input: CreateUserInput): Promise<User> {
 		const { username, password, email } = input
 		const message = 'Email has already been taken.'
 
@@ -41,7 +46,7 @@ export class UserService {
 		return await this.userRepository.save(user)
 	}
 
-	async update(_id: string, input: UserInput): Promise<boolean> {
+	async update(_id: string, input: CreateUserInput): Promise<boolean> {
 		const user = await this.userRepository.findOne({ _id })
 		// user.username = input.username
 		user.password = input.password
@@ -104,7 +109,8 @@ export class UserService {
 	}
 
 	async setRole(_id: string, role: string): Promise<boolean> {
-		this.userRepository.updateOne({ _id }, { $set: { role } })
-		return true
+		return (await this.userRepository.updateOne({ _id }, { $set: { role } }))
+			? true
+			: false
 	}
 }

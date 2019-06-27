@@ -7,6 +7,21 @@ enum RoleEnum {
 	ADMIN
 }
 
+input CreateUserInput {
+	username: String!
+	password: String!
+	email: String!
+}
+
+input LoginUserInput {
+	username: String!
+	password: String!
+}
+
+type LoginResponse {
+	token: String!
+}
+
 type User {
 	_id: String!
 	username: String!
@@ -18,35 +33,20 @@ type User {
 	updatedAt: String!
 }
 
-type LoginResponse {
-	token: String!
-}
-
-input UserInput {
-	username: String!
-	password: String!
-	email: String!
-}
-
-input LoginUserInput {
-	username: String!
-	password: String!
-}
-
 type Query {
-	hello: String! @isAuthenticated
+	hello: String!
 	me: User @isAuthenticated
-	users(offset: Int!, limit: Int!): [User]
-	user(_id: String!): User
+	users(offset: Int!, limit: Int!): [User] @isAuthenticated
+	user(_id: String!): User @isAuthenticated
 }
 
 type Mutation {
-	register(input: UserInput!): User
-	updateUser(_id: String!, input: UserInput!): Boolean @isAuthenticated
+	register(input: CreateUserInput!): User
+	updateUser(_id: String!, input: CreateUserInput!): Boolean @isAuthenticated
 	deleteUser(_id: String!): Boolean @hasRole(role: "admin")
 	deleteAll: Boolean! @hasRole(role: "admin")
 	login(input: LoginUserInput!): LoginResponse
-	setRole(_id: String!, role: RoleEnum!): Boolean
+	setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
 }
 
 type Subscription {
