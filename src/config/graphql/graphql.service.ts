@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
-import { UserService } from '../user/user.service'
+import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 
 const pubSub = new PubSub()
@@ -65,14 +65,11 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 			},
 			formatError: err => {
-				// Don't give the specific errors to the client.
-				if (err.message.startsWith('Database Error: ')) {
-					console.log('Internal server error')
-					// return new Error('Internal server error')
-				}
-
-				// Otherwise return the original error.  The error can also
-				// be manipulated in other ways, so long as it's returned.
+				// console.log(err)
+				return err
+			},
+			formatResponse: err => {
+				// console.log(err)
 				return err
 			},
 			debug: false,

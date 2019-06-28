@@ -16,7 +16,7 @@ declare const module: any
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, { cors: true })
 
-	app.use(helmet())
+	// app.use(helmet())
 	// app.use(csurf())
 	// app.use(
 	// 	rateLimit({
@@ -27,12 +27,12 @@ async function bootstrap() {
 	// 	})
 	// )
 
-	logger.token('graphql-logger', req => {
-		const { query, variables, operationName } = req.body
-		return `graphql-logger: \n
-		Query: ${query} \n
-		Variables: ${JSON.stringify(variables)}`
-	})
+	// logger.token('graphql-logger', req => {
+	// 	const { query, variables, operationName } = req.body
+	// 	return `graphql-logger: \n
+	// 	Query: ${query} \n
+	// 	Variables: ${JSON.stringify(variables)}`
+	// })
 	// app.use(logger(':graphql-logger'))
 
 	app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }))

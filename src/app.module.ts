@@ -1,13 +1,12 @@
 import { Module, CacheModule } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
-import { GraphqlModule } from './graphql/graphql.module'
-import { GraphqlService } from './graphql/graphql.service'
-import { TypeormModule } from './typeorm/typeorm.module'
-import { TypeormService } from './typeorm/typeorm.service'
-import { CacheService } from './cache/cache.service'
-import { UserModule } from './user/user.module'
-import { PostModule } from './post/post.module'
+import { GraphqlModule } from './config/graphql/graphql.module'
+import { GraphqlService } from './config/graphql/graphql.service'
+import { TypeormModule } from './config/typeorm/typeorm.module'
+import { TypeormService } from './config/typeorm/typeorm.service'
+import { CacheService } from './config/cache/cache.service'
+import { UserModule } from './modules/user/user.module'
 
 @Module({
 	imports: [
@@ -22,8 +21,7 @@ import { PostModule } from './post/post.module'
 		}),
 		UserModule,
 		GraphqlModule,
-		TypeormModule,
-		PostModule
+		TypeormModule
 	]
 })
 export class AppModule {}
