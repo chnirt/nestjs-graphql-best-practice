@@ -50,7 +50,7 @@ export class UserService {
 		const user = await this.userRepository.findOne({ _id })
 		// user.username = input.username
 		user.password = input.password
-		// user.email = input.email
+		user.email = input.email
 		return (await this.userRepository.save(user)) ? true : false
 	}
 

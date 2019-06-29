@@ -1,7 +1,5 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { ExpressAdapter } from '@nestjs/platform-express'
-
 import { Logger } from '@nestjs/common'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import * as dotenv from 'dotenv'
