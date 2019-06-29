@@ -1,1 +1,1 @@
-web: yarn start:webpack
+web: yarn start:dev
