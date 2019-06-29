@@ -21,7 +21,8 @@
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
 		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
-		"compodoc": "npx compodoc -p tsconfig.json -s"
+		"compodoc": "npx compodoc -p tsconfig.json -s",
+		"postinstall": "yarn prestart:prod"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.0.0",
