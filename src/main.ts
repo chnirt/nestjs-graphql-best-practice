@@ -30,7 +30,7 @@ async function bootstrap() {
 		logger: new MyLogger()
 	})
 
-	// app.use(helmet())
+	app.use(helmet())
 	// app.use(csurf())
 	// app.use(
 	// 	rateLimit({
