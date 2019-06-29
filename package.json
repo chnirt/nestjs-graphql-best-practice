@@ -21,7 +21,7 @@
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
 		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
-		"postinstall": "yarn prestart:prod"
+		"heroku-postbuild": "yarn webpack"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.0.0",
