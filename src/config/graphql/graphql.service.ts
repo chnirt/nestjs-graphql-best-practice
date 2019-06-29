@@ -3,6 +3,7 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
+import { GraphQLError } from 'graphql'
 
 const pubSub = new PubSub()
 

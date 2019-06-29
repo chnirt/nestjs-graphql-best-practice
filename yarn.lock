@@ -448,7 +448,7 @@
   optionalDependencies:
     type-graphql "^0.17.3"
 
-"@nestjs/platform-express@^6.0.0":
+"@nestjs/platform-express@^6.3.2":
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-6.3.2.tgz#2b224a87daa193ffa56ef64acd48f28b4a754060"
   integrity sha512-fQTh+zXDgw7W/30ctVlhOCZVDn8P0Ry1UcxltH2dAmyYDih+gQtWeEMzotwB6MwaAAAo8hQ8nBWWY4vez1dzJQ==

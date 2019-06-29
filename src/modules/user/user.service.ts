@@ -8,6 +8,7 @@ import {
 } from './user.entity'
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
+import { AuthenticationError } from 'apollo-server-core'
 
 @Injectable()
 export class UserService {
@@ -71,7 +72,7 @@ export class UserService {
 		const user = await this.userRepository.findOne({ username })
 
 		if (!user || !(await user.matchesPassword(password))) {
-			throw new Error(message)
+			throw new AuthenticationError(message)
 		}
 
 		const token = await jwt.sign(
@@ -82,7 +83,7 @@ export class UserService {
 			},
 			process.env.SECRET_KEY,
 			{
-				expiresIn: '1d'
+				expiresIn: '15s'
 			}
 		)
 
@@ -102,7 +103,7 @@ export class UserService {
 				_id: decodeToken.subject
 			})
 		} catch (error) {
-			throw new Error(message)
+			throw new AuthenticationError(message)
 		}
 
 		return currentUser

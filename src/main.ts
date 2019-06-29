@@ -8,12 +8,14 @@ import helmet from 'helmet'
 import rateLimit from 'express-rate-limit'
 import logger from 'morgan'
 import { ValidationPipe } from './common/pipes/validation.pipe'
+import * as http from 'http'
 
 dotenv.config()
 const port = process.env.PORT || 3000
 declare const module: any
 
 async function bootstrap() {
+	const server = http.createServer()
 	const app = await NestFactory.create(AppModule, { cors: true })
 
 	// app.use(helmet())
