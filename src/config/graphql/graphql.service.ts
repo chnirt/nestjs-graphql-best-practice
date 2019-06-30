@@ -4,6 +4,7 @@ import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { GraphQLError } from 'graphql'
+import { join } from 'path'
 
 const pubSub = new PubSub()
 
@@ -41,6 +42,10 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
+			definitions: {
+				path: join(process.cwd(), 'src/graphql.ts'),
+				outputAs: 'class'
+			},
 			directiveResolvers,
 			context: async ({ req, res, connection }) => {
 				if (connection) {

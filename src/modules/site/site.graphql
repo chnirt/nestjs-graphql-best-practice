@@ -1,0 +1,22 @@
+type CreateSiteInput {
+	name: String!
+	address: String!
+	phone: String!
+}
+
+type Site {
+	_id: String!
+	name: String!
+	address: String!
+	phone: String!
+	createdAt: String!
+	updatedAt: String!
+}
+
+type Query {
+	sites: String!
+}
+
+# type Mutation {
+# 	createSite(input: CreateSiteInput!): Site
+# }

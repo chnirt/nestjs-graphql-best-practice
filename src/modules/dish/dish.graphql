@@ -1,0 +1,13 @@
+# type Dish {
+# 	_id: String!
+# 	title: String!
+# 	description: String!
+# 	price: Float!
+# 	creator: User!
+# 	createdAt: String!
+# 	updatedAt: String!
+# }
+
+type Query {
+	dishes: String!
+}

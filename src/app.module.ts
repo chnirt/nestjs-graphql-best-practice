@@ -7,7 +7,9 @@ import { TypeormModule } from './config/typeorm/typeorm.module'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { UserModule } from './modules/user/user.module'
-
+import { DataloaderModule } from './shared/dataloader/dataloader.module'
+import { DishModule } from './modules/dish/dish.module'
+import { SiteModule } from './modules/site/site.module';
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -21,7 +23,10 @@ import { UserModule } from './modules/user/user.module'
 		}),
 		UserModule,
 		GraphqlModule,
-		TypeormModule
+		TypeormModule,
+		DataloaderModule,
+		DishModule,
+		SiteModule
 	]
 })
 export class AppModule {}
