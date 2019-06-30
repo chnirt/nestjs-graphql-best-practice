@@ -9,6 +9,7 @@ import {
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { AuthenticationError } from 'apollo-server-core'
+import { UpdateUserInput } from '../../graphql'
 
 @Injectable()
 export class UserService {
@@ -47,11 +48,16 @@ export class UserService {
 		return await this.userRepository.save(user)
 	}
 
-	async update(_id: string, input: CreateUserInput): Promise<boolean> {
+	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
+		const { username, password, email } = input
+
+		// const updatedUser = await this.userRepository.updateOne({ _id }, { $set: { input } })
+
 		const user = await this.userRepository.findOne({ _id })
-		// user.username = input.username
-		user.password = input.password
-		// user.email = input.email
+		user.username = username
+		user.password = password
+		user.email = email
+
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
@@ -83,7 +89,7 @@ export class UserService {
 			},
 			process.env.SECRET_KEY,
 			{
-				expiresIn: '15s'
+				expiresIn: '30d'
 			}
 		)
 

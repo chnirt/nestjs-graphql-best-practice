@@ -6,14 +6,14 @@
 /* tslint:disable */
 import {
 	Entity,
-	Column,
 	ObjectIdColumn,
-	BeforeInsert,
-	BeforeUpdate,
-	BeforeRemove,
+	Column,
+	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Index
+	BeforeInsert,
+	BeforeUpdate,
+	BeforeRemove
 } from 'typeorm'
 import * as uuid from 'uuid'
 import * as bcrypt from 'bcrypt'

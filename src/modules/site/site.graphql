@@ -1,7 +1,13 @@
-type CreateSiteInput {
+input CreateSiteInput {
 	name: String!
 	address: String!
 	phone: String!
+}
+
+input UpdateSiteInput {
+	name: String
+	address: String
+	phone: String
 }
 
 type Site {
@@ -14,9 +20,13 @@ type Site {
 }
 
 type Query {
-	sites: String!
+	sites: [Site!]
+	site(_id: String!): Site
 }
 
-# type Mutation {
-# 	createSite(input: CreateSiteInput!): Site
-# }
+type Mutation {
+	createSite(input: CreateSiteInput!): Site
+	updateSite(_id: String!, input: UpdateSiteInput!): Boolean
+	deleteSite(_id: String!): Boolean
+	deleteSites: Boolean
+}

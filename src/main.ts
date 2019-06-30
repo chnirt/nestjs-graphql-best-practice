@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000
 declare const module: any
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, { cors: true })
+	const app = await NestFactory.create(AppModule, { cors: true, logger: false })
 
 	// app.use(helmet())
 	// app.use(csurf())

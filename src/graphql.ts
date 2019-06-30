@@ -11,6 +11,12 @@ export enum RoleEnum {
     ADMIN = "ADMIN"
 }
 
+export class CreateSiteInput {
+    name: string;
+    address: string;
+    phone: string;
+}
+
 export class CreateUserInput {
     username: string;
     password: string;
@@ -22,10 +28,16 @@ export class LoginUserInput {
     password: string;
 }
 
-export class CreateSiteInput {
-    name: string;
-    address: string;
-    phone: string;
+export class UpdateSiteInput {
+    name?: string;
+    address?: string;
+    phone?: string;
+}
+
+export class UpdateUserInput {
+    username?: string;
+    password?: string;
+    email?: string;
 }
 
 export class LoginResponse {
@@ -33,13 +45,21 @@ export class LoginResponse {
 }
 
 export abstract class IMutation {
+    abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
+
+    abstract updateSite(_id: string, input: UpdateSiteInput): boolean | Promise<boolean>;
+
+    abstract deleteSite(_id: string): boolean | Promise<boolean>;
+
+    abstract deleteSites(): boolean | Promise<boolean>;
+
     abstract register(input: CreateUserInput): User | Promise<User>;
 
-    abstract updateUser(_id: string, input: CreateUserInput): boolean | Promise<boolean>;
+    abstract updateUser(_id: string, input: UpdateUserInput): boolean | Promise<boolean>;
 
     abstract deleteUser(_id: string): boolean | Promise<boolean>;
 
-    abstract deleteAll(): boolean | Promise<boolean>;
+    abstract deleteUsers(): boolean | Promise<boolean>;
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
@@ -49,7 +69,9 @@ export abstract class IMutation {
 export abstract class IQuery {
     abstract dishes(): string | Promise<string>;
 
-    abstract sites(): string | Promise<string>;
+    abstract sites(): Site[] | Promise<Site[]>;
+
+    abstract site(_id: string): Site | Promise<Site>;
 
     abstract hello(): string | Promise<string>;
 
