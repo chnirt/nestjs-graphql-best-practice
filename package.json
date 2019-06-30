@@ -21,6 +21,7 @@
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
 		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
+		"compodoc": "npx compodoc -p tsconfig.json -s",
 		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {
@@ -37,6 +38,7 @@
 		"cache-manager": "^2.9.1",
 		"class-transformer": "^0.2.3",
 		"class-validator": "^0.9.1",
+		"compression": "^1.7.4",
 		"csurf": "^1.10.0",
 		"dataloader": "^1.4.0",
 		"dotenv": "^8.0.0",
@@ -57,6 +59,7 @@
 		"uuid": "^3.3.2"
 	},
 	"devDependencies": {
+		"@compodoc/compodoc": "^1.1.9",
 		"@nestjs/testing": "^6.0.0",
 		"@types/bcrypt": "^3.0.0",
 		"@types/dotenv": "^6.1.1",
@@ -77,8 +80,10 @@
 		"ts-node": "8.3.0",
 		"tsconfig-paths": "3.8.0",
 		"tslint": "5.18.0",
+		"typescript": "^3.5.2",
 		"wait-on": "^3.2.0",
 		"webpack": "^4.35.0",
+		"webpack-bundle-analyzer": "^3.3.2",
 		"webpack-cli": "^3.3.4",
 		"webpack-node-externals": "^1.7.2"
 	},

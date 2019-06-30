@@ -7,16 +7,30 @@ import helmet from 'helmet'
 import csurf from 'csurf'
 import rateLimit from 'express-rate-limit'
 import logger from 'morgan'
+import compression from 'compression'
 import { ValidationPipe } from './common/pipes/validation.pipe'
+
+import { LoggerService } from '@nestjs/common'
+
+export class MyLogger implements LoggerService {
+	log(message: string) {}
+	error(message: string, trace: string) {}
+	warn(message: string) {}
+	debug(message: string) {}
+	verbose(message: string) {}
+}
 
 dotenv.config()
 const port = process.env.PORT || 3000
 declare const module: any
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, { cors: true, logger: false })
+	const app = await NestFactory.create(AppModule, {
+		cors: true,
+		logger: new MyLogger()
+	})
 
-	// app.use(helmet())
+	app.use(helmet())
 	// app.use(csurf())
 	// app.use(
 	// 	rateLimit({
@@ -34,9 +48,11 @@ async function bootstrap() {
 	// 	Variables: ${JSON.stringify(variables)}`
 	// })
 	// app.use(logger(':graphql-logger'))
+	app.use(compression())
 
 	app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }))
 	app.useGlobalPipes(new ValidationPipe())
+
 	await app.listen(port)
 
 	if (module.hot) {

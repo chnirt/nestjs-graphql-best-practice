@@ -97,9 +97,12 @@ export class User {
 	@IsNotEmpty()
 	status: boolean
 
+	// Relationship
+	// @Column(type => Dish)
+	// dishes: Dish[]
+
 	@CreateDateColumn({ type: 'timestamp' })
 	createdAt: string
-
 	@UpdateDateColumn({ type: 'timestamp' })
 	updatedAt: string
 
