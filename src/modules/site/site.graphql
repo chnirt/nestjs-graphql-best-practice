@@ -1,0 +1,6 @@
+type Site {
+  _id: ID
+  name: String
+  createAt: String
+  updateAt: String
+}
