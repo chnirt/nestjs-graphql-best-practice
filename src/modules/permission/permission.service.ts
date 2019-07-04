@@ -40,7 +40,6 @@ export class PermissionService {
 			{ returnOriginal: false }
 		)
 
-		console.log('TCL: PermissionService -> updatedUser', updatedUser)
 		return (await this.permissionRepository.save(updatedUser.value))
 			? true
 			: false
