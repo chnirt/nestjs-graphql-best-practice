@@ -37,14 +37,14 @@ type User {
 type Query {
 	hello: String!
 	me: User @isAuthenticated
-	users(offset: Int!, limit: Int!): [User!] @isAuthenticated
-	user(_id: String!): User @isAuthenticated
+	users(offset: Int!, limit: Int!): [User!]
+	user(_id: String!): User @hasRole(role: "admin")
 }
 
 type Mutation {
 	register(input: CreateUserInput!): User
 	updateUser(_id: String!, input: UpdateUserInput!): Boolean
-	deleteUser(_id: String!): Boolean @hasRole(role: "admin")
+	deleteUser(_id: String!): Boolean
 	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
 	# setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated

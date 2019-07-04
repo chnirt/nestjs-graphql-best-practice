@@ -5,6 +5,8 @@ type UserPermission {
 	permissions: [PermissionsInfo]
 }
 
+##
+
 type PermissionsInfo {
 	_id: String
 	code: String

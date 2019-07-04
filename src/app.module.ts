@@ -10,6 +10,7 @@ import { UserModule } from './modules/user/user.module'
 import { DataloaderModule } from './shared/dataloader/dataloader.module'
 import { DishModule } from './modules/dish/dish.module'
 import { SiteModule } from './modules/site/site.module'
+import { PermissionModule } from './modules/permission/permission.module'
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -26,7 +27,8 @@ import { SiteModule } from './modules/site/site.module'
 		TypeormModule,
 		DataloaderModule,
 		DishModule,
-		SiteModule
+		SiteModule,
+		PermissionModule
 	]
 })
 export class AppModule {}
