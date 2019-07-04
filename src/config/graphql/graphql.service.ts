@@ -3,6 +3,8 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
+import { join } from 'path'
+import { ForbiddenError, AuthenticationError } from 'apollo-server-core'
 
 const pubSub = new PubSub()
 
@@ -16,7 +18,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				const { currentUser } = ctx
 
 				if (!currentUser) {
-					throw new Error('You are not authenticated!')
+					throw new AuthenticationError('You must be logged in!')
 				}
 
 				return next()
@@ -26,7 +28,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				const { currentUser } = ctx
 
 				if (!currentUser) {
-					throw new Error('You are not authenticated!')
+					throw new AuthenticationError('You are not authenticated!')
 				}
 
 				if (role !== currentUser.role) {
@@ -40,6 +42,10 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
+			definitions: {
+				path: join(process.cwd(), 'src/graphql.ts'),
+				outputAs: 'class'
+			},
 			directiveResolvers,
 			context: async ({ req, res, connection }) => {
 				if (connection) {

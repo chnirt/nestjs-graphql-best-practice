@@ -1,16 +1,16 @@
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
 directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
 
-enum RoleEnum {
-	MEMBER
-	MANAGER
-	ADMIN
-}
-
 input CreateUserInput {
 	username: String!
 	password: String!
-	email: String!
+	fullName: String!
+}
+
+input UpdateUserInput {
+	username: String
+	password: String
+	fullName: String
 }
 
 input LoginUserInput {
@@ -23,12 +23,13 @@ type LoginResponse {
 }
 
 type User {
-	_id: String!
+	_id: ID!
 	username: String!
 	password: String!
-	email: String!
-	role: RoleEnum!
-	status: Boolean!
+	fullName: String!
+	isLocked: Boolean!
+	reason: String!
+	isActive: Boolean!
 	createdAt: String!
 	updatedAt: String!
 }
@@ -36,17 +37,17 @@ type User {
 type Query {
 	hello: String!
 	me: User @isAuthenticated
-	users(offset: Int!, limit: Int!): [User] @isAuthenticated
+	users(offset: Int!, limit: Int!): [User!] @isAuthenticated
 	user(_id: String!): User @isAuthenticated
 }
 
 type Mutation {
 	register(input: CreateUserInput!): User
-	updateUser(_id: String!, input: CreateUserInput!): Boolean @isAuthenticated
+	updateUser(_id: String!, input: UpdateUserInput!): Boolean
 	deleteUser(_id: String!): Boolean @hasRole(role: "admin")
-	deleteAll: Boolean! @hasRole(role: "admin")
+	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
-	setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
+	# setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
 }
 
 type Subscription {

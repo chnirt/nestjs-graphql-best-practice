@@ -1,6 +1,26 @@
+input CreateSiteInput {
+	name: String!
+}
+
+input UpdateSiteInput {
+	name: String
+}
+
 type Site {
-  _id: ID
-  name: String
-  createAt: String
-  updateAt: String
+	_id: ID
+	name: String
+	createAt: String
+	updateAt: String
+}
+
+type Query {
+	sites: [Site!]
+	site(_id: String!): Site
+}
+
+type Mutation {
+	createSite(input: CreateSiteInput!): Site
+	updateSite(_id: String!, input: UpdateSiteInput!): Boolean
+	deleteSite(_id: String!): Boolean
+	deleteSites: Boolean
 }

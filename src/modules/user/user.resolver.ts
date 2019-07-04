@@ -6,11 +6,11 @@ import {
 	Subscription,
 	Context
 } from '@nestjs/graphql'
-import { PubSub } from 'graphql-subscriptions'
 import { UserService } from './user.service'
 import {
 	User,
 	CreateUserInput,
+	UpdateUserInput,
 	LoginResponse,
 	LoginUserInput
 } from './user.entity'
@@ -52,7 +52,7 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async updateUser(
 		@Args('_id') _id: string,
-		@Args('input') input: CreateUserInput
+		@Args('input') input: UpdateUserInput
 	) {
 		return await this.userService.update(_id, input)
 	}
@@ -63,7 +63,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async deleteAll() {
+	async deleteUsers() {
 		return await this.userService.deleteAll()
 	}
 
@@ -72,13 +72,13 @@ export class UserResolver {
 		return await this.userService.login(input)
 	}
 
-	@Mutation(() => Boolean)
-	async setRole(@Args('_id') _id: string, @Args('role') role: string) {
-		return await this.userService.setRole(_id, role)
-	}
+	// @Mutation(() => Boolean)
+	// async setRole(@Args('_id') _id: string, @Args('role') role: string) {
+	// 	return await this.userService.setRole(_id, role)
+	// }
 
 	@Subscription()
-	userCreated(@Context('pubSub') pubSub) {
+	userCreated(@Context('pubSub') pubSub: any) {
 		return pubSub.asyncIterator('userCreated')
 	}
 }

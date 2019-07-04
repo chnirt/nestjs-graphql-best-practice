@@ -4,10 +4,12 @@ import {
 	User,
 	CreateUserInput,
 	LoginResponse,
-	LoginUserInput
+	LoginUserInput,
+	UpdateUserInput
 } from './user.entity'
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
+import { AuthenticationError } from 'apollo-server-core'
 
 @Injectable()
 export class UserService {
@@ -30,10 +32,10 @@ export class UserService {
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
-		const { username, password, email } = input
-		const message = 'Email has already been taken.'
+		const { username, password, fullName } = input
+		const message = 'Username has already been taken.'
 
-		const existedUser = await this.userRepository.findOne({ email })
+		const existedUser = await this.userRepository.findOne({ username })
 
 		if (existedUser) {
 			throw new Error(message)
@@ -42,21 +44,25 @@ export class UserService {
 		const user = new User()
 		user.username = username
 		user.password = password
-		user.email = email
+		user.fullName = fullName
 		return await this.userRepository.save(user)
 	}
 
-	async update(_id: string, input: CreateUserInput): Promise<boolean> {
+	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
+		const { username, password, fullName } = input
+
+		// const updatedUser = await this.userRepository.updateOne({ _id }, { $set: { input } })
+
 		const user = await this.userRepository.findOne({ _id })
-		// user.username = input.username
-		user.password = input.password
-		// user.email = input.email
+		user.username = username
+		user.password = password
+		user.fullName = fullName
+
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	async delete(_id: string): Promise<boolean> {
-		const user = new User()
-		user._id = _id
+		const user = await this.userRepository.findOne({ _id })
 		return (await this.userRepository.remove(user)) ? true : false
 	}
 
@@ -71,7 +77,7 @@ export class UserService {
 		const user = await this.userRepository.findOne({ username })
 
 		if (!user || !(await user.matchesPassword(password))) {
-			throw new Error(message)
+			throw new AuthenticationError(message)
 		}
 
 		const token = await jwt.sign(
@@ -82,7 +88,7 @@ export class UserService {
 			},
 			process.env.SECRET_KEY,
 			{
-				expiresIn: '1d'
+				expiresIn: '30d'
 			}
 		)
 
@@ -90,7 +96,7 @@ export class UserService {
 	}
 
 	async findOneByToken(token: string) {
-		const message = 'The token you provided was invalid.'
+		const message = 'The token you provided was invalid'
 		let currentUser
 
 		try {
@@ -102,7 +108,7 @@ export class UserService {
 				_id: decodeToken.subject
 			})
 		} catch (error) {
-			throw new Error(message)
+			throw new AuthenticationError(message)
 		}
 
 		return currentUser

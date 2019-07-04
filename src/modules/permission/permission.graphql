@@ -1,5 +1,5 @@
 type Permission {
-  _id: ID
-  code: String
-  description: String
+	_id: ID
+	code: String
+	description: String
 }
