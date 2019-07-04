@@ -20,7 +20,7 @@ export class CreateSiteInput {
 export class CreateUserInput {
     username: string;
     password: string;
-    email: string;
+    fullName: string;
 }
 
 export class LoginUserInput {
@@ -37,7 +37,7 @@ export class UpdateSiteInput {
 export class UpdateUserInput {
     username?: string;
     password?: string;
-    email?: string;
+    fullName?: string;
 }
 
 export class LoginResponse {
@@ -99,9 +99,10 @@ export class User {
     _id: string;
     username: string;
     password: string;
-    email: string;
-    role: RoleEnum;
-    status: boolean;
+    fullName: string;
+    isLocked: boolean;
+    reason: string;
+    isActive: boolean;
     createdAt: string;
     updatedAt: string;
 }

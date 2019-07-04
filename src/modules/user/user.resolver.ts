@@ -10,10 +10,10 @@ import { UserService } from './user.service'
 import {
 	User,
 	CreateUserInput,
+	UpdateUserInput,
 	LoginResponse,
 	LoginUserInput
 } from './user.entity'
-import { UpdateUserInput } from '../../graphql'
 
 @Resolver('User')
 export class UserResolver {

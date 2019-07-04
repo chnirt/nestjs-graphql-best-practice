@@ -10,13 +10,13 @@ enum RoleEnum {
 input CreateUserInput {
 	username: String!
 	password: String!
-	email: String!
+	fullName: String!
 }
 
 input UpdateUserInput {
 	username: String
 	password: String
-	email: String
+	fullName: String
 }
 
 input LoginUserInput {
@@ -29,12 +29,13 @@ type LoginResponse {
 }
 
 type User {
-	_id: String!
+	_id: ID!
 	username: String!
 	password: String!
-	email: String!
-	role: RoleEnum!
-	status: Boolean!
+	fullName: String!
+	isLocked: Boolean!
+	reason: String!
+	isActive: Boolean!
 	createdAt: String!
 	updatedAt: String!
 }
@@ -50,7 +51,7 @@ type Mutation {
 	register(input: CreateUserInput!): User
 	updateUser(_id: String!, input: UpdateUserInput!): Boolean
 	deleteUser(_id: String!): Boolean @hasRole(role: "admin")
-	deleteUsers: Boolean! @hasRole(role: "admin")
+	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
 	setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
 }

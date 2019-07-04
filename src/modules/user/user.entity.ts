@@ -56,9 +56,35 @@ export class CreateUserInput {
 	@IsNotEmpty({ message: 'Your password can not be blank.' })
 	password: string
 
-	@IsEmail(undefined, { message: 'Invalid email message' })
-	@IsNotEmpty({ message: 'Your email can not be blank.' })
-	email: string
+	@Length(3, 20, {
+		message: 'Your fullName must be between 3 and 20 characters.'
+	})
+	@IsString()
+	@IsNotEmpty({ message: 'Your fullName can not be blank.' })
+	fullName: string
+}
+
+export class UpdateUserInput {
+	@IsString()
+	@MinLength(4, {
+		message: 'Your username must be at least 4 characters'
+	})
+	// @IsNotEmpty({ message: 'Your username can not be blank.' })
+	username: string
+
+	@Length(1, 8, {
+		message: 'Your password must be between 1 and 8 characters.'
+	})
+	@IsString()
+	// @IsNotEmpty({ message: 'Your password can not be blank.' })
+	password: string
+
+	@Length(3, 20, {
+		message: 'Your fullName must be between 3 and 20 characters.'
+	})
+	@IsString()
+	// @IsNotEmpty({ message: 'Your fullName can not be blank.' })
+	fullName: string
 }
 
 export class LoginResponse {
@@ -74,6 +100,7 @@ export class User {
 	@Column()
 	@IsString()
 	@IsNotEmpty()
+	@Index({ unique: true })
 	username: string
 
 	@Column()
@@ -84,22 +111,22 @@ export class User {
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	@Index({ unique: true })
-	email: string
-
-	@Column()
-	@IsString()
-	@IsNotEmpty()
-	role: string
+	fullName: string
 
 	@Column()
 	@IsBoolean()
 	@IsNotEmpty()
-	status: boolean
+	isLocked: boolean
 
-	// Relationship
-	// @Column(type => Dish)
-	// dishes: Dish[]
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	reason: string
+
+	@Column()
+	@IsBoolean()
+	@IsNotEmpty()
+	isActive: boolean
 
 	@CreateDateColumn({ type: 'timestamp' })
 	createdAt: string
@@ -109,9 +136,10 @@ export class User {
 	@BeforeInsert()
 	async b4register() {
 		this._id = await uuid.v1()
-		this.role = await 'MEMBER'
-		this.status = await true
 		this.password = await bcrypt.hash(this.password, 10)
+		this.isLocked = await false
+		this.reason = await ''
+		this.isActive = await true
 	}
 
 	@BeforeUpdate()
@@ -119,10 +147,10 @@ export class User {
 		this.password = await bcrypt.hash(this.password, 10)
 	}
 
-	@BeforeRemove()
-	async b4block() {
-		this.status = false
-	}
+	// @BeforeRemove()
+	// async b4block() {
+	// 	this.isActive = false
+	// }
 
 	async matchesPassword(password) {
 		return await bcrypt.compare(password, this.password)
