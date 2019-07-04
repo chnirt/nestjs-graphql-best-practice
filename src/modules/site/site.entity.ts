@@ -5,10 +5,11 @@ import {
 	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
-	BeforeInsert
+	BeforeInsert,
+	BeforeUpdate
 } from 'typeorm'
+import * as uuid from 'uuid'
 import { IsString, IsNotEmpty } from 'class-validator'
-import uuid = require('uuid')
 
 @Entity()
 export class Site {
@@ -29,5 +30,11 @@ export class Site {
 	@BeforeInsert()
 	async b4create() {
 		this._id = await uuid.v1()
+	}
+
+	@BeforeUpdate()
+	async b4update() {
+		console.log('b4Site')
+		// this.password = await bcrypt.hash(this.password, 10)
 	}
 }

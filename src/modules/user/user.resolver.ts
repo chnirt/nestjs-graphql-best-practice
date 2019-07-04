@@ -72,10 +72,10 @@ export class UserResolver {
 		return await this.userService.login(input)
 	}
 
-	// @Mutation(() => Boolean)
-	// async setRole(@Args('_id') _id: string, @Args('role') role: string) {
-	// 	return await this.userService.setRole(_id, role)
-	// }
+	@Mutation(() => Boolean)
+	async lockAndUnlock(@Args('_id') _id: string) {
+		return await this.userService.lockAndUnlock(_id)
+	}
 
 	@Subscription()
 	userCreated(@Context('pubSub') pubSub: any) {

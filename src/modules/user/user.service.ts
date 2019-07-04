@@ -28,7 +28,14 @@ export class UserService {
 	}
 
 	async findById(_id: string): Promise<User> {
-		return await this.userRepository.findOne({ _id })
+		const message = 'User is not found.'
+		const user = await this.userRepository.findOne({ _id })
+
+		if (!user) {
+			throw new Error(message)
+		}
+
+		return user
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
@@ -49,19 +56,32 @@ export class UserService {
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
-		// const { username, password, fullName } = input
+		const message = 'User is not found.'
+		const { fullName } = input
 
-		const updatedUser = await this.userRepository.findOneAndUpdate(
-			{ _id },
-			{ $set: { ...input } }
-		)
+		const user = await this.userRepository.findOne({ _id })
 
-		return (await this.userRepository.save(updatedUser.value)) ? true : false
+		if (!user) {
+			throw new Error(message)
+		}
+
+		user.fullName = fullName
+
+		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	async delete(_id: string): Promise<boolean> {
+		const message = 'User is not found.'
+
 		const user = await this.userRepository.findOne({ _id })
-		return (await this.userRepository.remove(user)) ? true : false
+
+		if (!user) {
+			throw new Error(message)
+		}
+
+		user.isActive = false
+
+		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	async deleteAll(): Promise<boolean> {
@@ -112,12 +132,9 @@ export class UserService {
 		return currentUser
 	}
 
-	async setRole(_id: string, role: string): Promise<boolean> {
-		const updatedUser = await this.userRepository.findOneAndUpdate(
-			{ _id },
-			{ $set: { role } }
-		)
-
-		return (await this.userRepository.save(updatedUser.value)) ? true : false
+	async lockAndUnlock(_id: string): Promise<boolean> {
+		const user = await this.userRepository.findOne({ _id })
+		user.isLocked = !user.isLocked
+		return (await this.userRepository.save(user)) ? true : false
 	}
 }

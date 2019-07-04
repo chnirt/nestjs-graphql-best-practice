@@ -8,7 +8,7 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	Index,
+	// Index,
 	CreateDateColumn,
 	UpdateDateColumn,
 	BeforeInsert,
@@ -27,12 +27,13 @@ import {
 } from 'class-validator'
 
 export class LoginUserInput {
-	@IsString()
 	@MinLength(4, {
 		message: 'Your username must be at least 4 characters'
 	})
+	@IsString()
 	@IsNotEmpty()
 	username: string
+
 	@Length(1, 8, {
 		message: 'Your password must be between 1 and 8 characters.'
 	})
@@ -42,10 +43,10 @@ export class LoginUserInput {
 }
 
 export class CreateUserInput {
-	@IsString()
 	@MinLength(4, {
 		message: 'Your username must be at least 4 characters'
 	})
+	@IsString()
 	@IsNotEmpty({ message: 'Your username can not be blank.' })
 	username: string
 
@@ -65,19 +66,12 @@ export class CreateUserInput {
 }
 
 export class UpdateUserInput {
-	@IsString()
-	@MinLength(4, {
-		message: 'Your username must be at least 4 characters'
-	})
-	// @IsNotEmpty({ message: 'Your username can not be blank.' })
-	username: string
-
-	@Length(1, 8, {
-		message: 'Your password must be between 1 and 8 characters.'
-	})
-	@IsString()
+	// @Length(1, 8, {
+	// 	message: 'Your password must be between 1 and 8 characters.'
+	// })
+	// @IsString()
 	// @IsNotEmpty({ message: 'Your password can not be blank.' })
-	password: string
+	// password: string
 
 	@Length(3, 20, {
 		message: 'Your fullName must be between 3 and 20 characters.'
@@ -100,7 +94,6 @@ export class User {
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	@Index({ unique: true })
 	username: string
 
 	@Column()
@@ -141,10 +134,10 @@ export class User {
 		this.isActive = true
 	}
 
-	@BeforeUpdate()
-	async b4update() {
-		this.password = await bcrypt.hash(this.password, 10)
-	}
+	// @BeforeUpdate()
+	// async b4update() {
+	// 	console.log('Hello')
+	// }
 
 	// @BeforeRemove()
 	// async b4block() {

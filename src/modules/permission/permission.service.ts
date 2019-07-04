@@ -18,7 +18,15 @@ export class PermissionService {
 	}
 
 	async findById(_id: string): Promise<Permission> {
-		return await this.permissionRepository.findOne({ _id })
+		const message = 'Permission is not found.'
+
+		const permission = await this.permissionRepository.findOne({ _id })
+
+		if (!permission) {
+			throw new Error(message)
+		}
+
+		return permission
 	}
 
 	async create(input: CreatePermissionInput): Promise<Permission> {
@@ -32,21 +40,30 @@ export class PermissionService {
 	}
 
 	async update(_id: string, input: UpdatePermissionInput): Promise<boolean> {
-		// const { code, description } = input
+		const message = 'Permission is not found.'
+		const { code, description } = input
 
-		const updatedUser = await this.permissionRepository.findOneAndUpdate(
-			{ _id },
-			{ $set: { ...input } },
-			{ returnOriginal: false }
-		)
+		const permission = await this.permissionRepository.findOne({ _id })
 
-		return (await this.permissionRepository.save(updatedUser.value))
-			? true
-			: false
+		if (!permission) {
+			throw new Error(message)
+		}
+
+		permission.code = code
+		permission.description = description
+
+		return (await this.permissionRepository.save(permission)) ? true : false
 	}
 
 	async delete(_id: string): Promise<boolean> {
+		const message = 'Permission is not found.'
+
 		const permission = await this.permissionRepository.findOne({ _id })
+
+		if (!permission) {
+			throw new Error(message)
+		}
+
 		return (await this.permissionRepository.remove(permission)) ? true : false
 	}
 

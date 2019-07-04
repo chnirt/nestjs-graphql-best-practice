@@ -39,7 +39,7 @@ export class Permission {
 
 	@BeforeUpdate()
 	async b4update() {
-		console.log('Updatex')
+		console.log('b4Permission')
 		// this.password = await bcrypt.hash(this.password, 10)
 	}
 }

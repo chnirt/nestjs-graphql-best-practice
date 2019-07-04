@@ -23,19 +23,24 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				return next()
 			},
-			hasRole: (next, source, args, ctx) => {
-				const { role } = args
+			hasPermission: (next, source, args, ctx) => {
+				const { permission } = args
+				console.log(
+					'TCL: GraphqlService -> constructor -> permission',
+					permission
+				)
 				const { currentUser } = ctx
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
 				}
 
-				if (role !== currentUser.role) {
-					throw new Error(
-						`Must have role: ${role}, you have role: ${currentUser.role}`
-					)
-				}
+				// if (permission !== currentUser.role) {
+				// 	throw new Error(
+				// 		`Must have role: ${permission}, you have role: ${currentUser.role}`
+				// 	)
+				// }
+
 				return next()
 			}
 		}

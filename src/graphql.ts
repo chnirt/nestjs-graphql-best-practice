@@ -35,8 +35,6 @@ export class UpdateSiteInput {
 }
 
 export class UpdateUserInput {
-    username?: string;
-    password?: string;
     fullName?: string;
 }
 
@@ -97,6 +95,8 @@ export abstract class IMutation {
     abstract deleteUsers(): boolean | Promise<boolean>;
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+
+    abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -153,10 +153,10 @@ export abstract class IQuery {
 }
 
 export class Site {
-    _id?: string;
-    name?: string;
-    createAt?: string;
-    updateAt?: string;
+    _id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export abstract class ISubscription {
