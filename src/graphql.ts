@@ -5,6 +5,11 @@
  */
 
 /* tslint:disable */
+export class CreatePermissionInput {
+    code: string;
+    description: string;
+}
+
 export class CreateSiteInput {
     name: string;
 }
@@ -18,6 +23,11 @@ export class CreateUserInput {
 export class LoginUserInput {
     username: string;
     password: string;
+}
+
+export class UpdatePermissionInput {
+    code?: string;
+    description?: string;
 }
 
 export class UpdateSiteInput {
@@ -62,6 +72,14 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
+
+    abstract updatePermission(_id: string, input: UpdatePermissionInput): boolean | Promise<boolean>;
+
+    abstract deletePermission(_id: string): boolean | Promise<boolean>;
+
+    abstract deletePermissions(): boolean | Promise<boolean>;
+
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
     abstract updateSite(_id: string, input: UpdateSiteInput): boolean | Promise<boolean>;
@@ -94,9 +112,11 @@ export class Order {
 }
 
 export class Permission {
-    _id?: string;
-    code?: string;
-    description?: string;
+    _id: string;
+    code: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export class PermissionsInfo {
@@ -114,6 +134,10 @@ export abstract class IQuery {
     abstract getOrderById(id: string): Order | Promise<Order>;
 
     abstract getOrders(): Order[] | Promise<Order[]>;
+
+    abstract permissions(): Permission[] | Promise<Permission[]>;
+
+    abstract permission(_id: string): Permission | Promise<Permission>;
 
     abstract sites(): Site[] | Promise<Site[]>;
 

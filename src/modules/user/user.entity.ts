@@ -120,7 +120,6 @@ export class User {
 
 	@Column()
 	@IsString()
-	@IsNotEmpty()
 	reason: string
 
 	@Column()
@@ -137,9 +136,9 @@ export class User {
 	async b4register() {
 		this._id = await uuid.v1()
 		this.password = await bcrypt.hash(this.password, 10)
-		this.isLocked = await false
-		this.reason = await ''
-		this.isActive = await true
+		this.isLocked = false
+		this.reason = ''
+		this.isActive = true
 	}
 
 	@BeforeUpdate()

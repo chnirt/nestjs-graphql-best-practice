@@ -49,16 +49,14 @@ export class UserService {
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
-		const { username, password, fullName } = input
+		// const { username, password, fullName } = input
 
-		// const updatedUser = await this.userRepository.updateOne({ _id }, { $set: { input } })
+		const updatedUser = await this.userRepository.findOneAndUpdate(
+			{ _id },
+			{ $set: { ...input } }
+		)
 
-		const user = await this.userRepository.findOne({ _id })
-		user.username = username
-		user.password = password
-		user.fullName = fullName
-
-		return (await this.userRepository.save(user)) ? true : false
+		return (await this.userRepository.save(updatedUser.value)) ? true : false
 	}
 
 	async delete(_id: string): Promise<boolean> {
@@ -115,8 +113,11 @@ export class UserService {
 	}
 
 	async setRole(_id: string, role: string): Promise<boolean> {
-		return (await this.userRepository.updateOne({ _id }, { $set: { role } }))
-			? true
-			: false
+		const updatedUser = await this.userRepository.findOneAndUpdate(
+			{ _id },
+			{ $set: { role } }
+		)
+
+		return (await this.userRepository.save(updatedUser.value)) ? true : false
 	}
 }
