@@ -1,12 +1,6 @@
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
 directive @hasRole(role: String) on FIELD | FIELD_DEFINITION
 
-enum RoleEnum {
-	MEMBER
-	MANAGER
-	ADMIN
-}
-
 input CreateUserInput {
 	username: String!
 	password: String!
@@ -53,7 +47,7 @@ type Mutation {
 	deleteUser(_id: String!): Boolean @hasRole(role: "admin")
 	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
-	setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
+	# setRole(_id: String!, role: RoleEnum!): Boolean @isAuthenticated
 }
 
 type Subscription {

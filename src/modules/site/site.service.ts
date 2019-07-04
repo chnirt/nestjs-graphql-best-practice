@@ -22,23 +22,19 @@ export class SiteService {
 	}
 
 	async create(input: CreateSiteInput): Promise<Site> {
-		const { name, address, phone } = input
+		const { name } = input
 
 		const site = new Site()
 		site.name = name
-		site.address = address
-		site.phone = phone
 
 		return await this.siteRepository.save(site)
 	}
 
 	async update(_id: string, input: UpdateSiteInput): Promise<boolean> {
-		const { name, address, phone } = input
+		const { name } = input
 
 		const site = await this.siteRepository.findOne({ _id })
 		site.name = name
-		site.address = address
-		site.phone = phone
 
 		return (await this.siteRepository.save(site)) ? true : false
 	}

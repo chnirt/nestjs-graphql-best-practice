@@ -5,16 +5,8 @@
  */
 
 /* tslint:disable */
-export enum RoleEnum {
-    MEMBER = "MEMBER",
-    MANAGER = "MANAGER",
-    ADMIN = "ADMIN"
-}
-
 export class CreateSiteInput {
     name: string;
-    address: string;
-    phone: string;
 }
 
 export class CreateUserInput {
@@ -30,8 +22,6 @@ export class LoginUserInput {
 
 export class UpdateSiteInput {
     name?: string;
-    address?: string;
-    phone?: string;
 }
 
 export class UpdateUserInput {
@@ -40,8 +30,35 @@ export class UpdateUserInput {
     fullName?: string;
 }
 
+export class Dish {
+    _id: string;
+    title: string;
+    description: string;
+    price: number;
+    creator: User;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export class DishInfo {
+    _id?: string;
+    name?: string;
+    count?: number;
+}
+
 export class LoginResponse {
     token: string;
+}
+
+export class Menu {
+    _id?: string;
+    name?: string;
+    siteId?: string;
+    dishes?: DishInfo[];
+    isPublish?: boolean;
+    isLocked?: boolean;
+    createAt?: string;
+    updateAt?: string;
 }
 
 export abstract class IMutation {
@@ -62,12 +79,41 @@ export abstract class IMutation {
     abstract deleteUsers(): boolean | Promise<boolean>;
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+}
 
-    abstract setRole(_id: string, role: RoleEnum): boolean | Promise<boolean>;
+export class Order {
+    _id?: string;
+    userId?: string;
+    menuId?: string;
+    dishId?: string;
+    note?: string;
+    count?: number;
+    isConfirmed?: boolean;
+    createAt?: string;
+    updateAt?: string;
+}
+
+export class Permission {
+    _id?: string;
+    code?: string;
+    description?: string;
+}
+
+export class PermissionsInfo {
+    _id?: string;
+    code?: string;
 }
 
 export abstract class IQuery {
     abstract dishes(): string | Promise<string>;
+
+    abstract getMenuById(id: string): Menu | Promise<Menu>;
+
+    abstract getMenus(): Menu[] | Promise<Menu[]>;
+
+    abstract getOrderById(id: string): Order | Promise<Order>;
+
+    abstract getOrders(): Order[] | Promise<Order[]>;
 
     abstract sites(): Site[] | Promise<Site[]>;
 
@@ -83,12 +129,10 @@ export abstract class IQuery {
 }
 
 export class Site {
-    _id: string;
-    name: string;
-    address: string;
-    phone: string;
-    createdAt: string;
-    updatedAt: string;
+    _id?: string;
+    name?: string;
+    createAt?: string;
+    updateAt?: string;
 }
 
 export abstract class ISubscription {
@@ -105,4 +149,11 @@ export class User {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+}
+
+export class UserPermission {
+    _id?: string;
+    userId?: string;
+    siteId?: string;
+    permissions?: PermissionsInfo[];
 }

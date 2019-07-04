@@ -1,0 +1,5 @@
+type Permission {
+	_id: ID
+	code: String
+	description: String
+}

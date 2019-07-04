@@ -1,22 +1,16 @@
 input CreateSiteInput {
 	name: String!
-	address: String!
-	phone: String!
 }
 
 input UpdateSiteInput {
 	name: String
-	address: String
-	phone: String
 }
 
 type Site {
-	_id: String!
-	name: String!
-	address: String!
-	phone: String!
-	createdAt: String!
-	updatedAt: String!
+	_id: ID
+	name: String
+	createAt: String
+	updateAt: String
 }
 
 type Query {
