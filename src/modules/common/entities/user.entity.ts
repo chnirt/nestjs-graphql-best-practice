@@ -100,8 +100,16 @@ export class User {
 	@CreateDateColumn({ type: 'timestamp' })
 	createdAt: string
 
+<<<<<<< HEAD:src/modules/user/user.entity.ts
 	@UpdateDateColumn({ type: 'timestamp' })
 	updatedAt: string
+=======
+  @Column()
+  reason: string
+
+  @Column()
+  isActive: boolean
+>>>>>>> c85fe22... Fix entities and add common services:src/modules/common/entities/user.entity.ts
 
 	@BeforeInsert()
 	async b4register() {
@@ -116,10 +124,19 @@ export class User {
 		this.password = await bcrypt.hash(this.password, 10)
 	}
 
+<<<<<<< HEAD:src/modules/user/user.entity.ts
 	@BeforeRemove()
 	async b4block() {
 		this.status = false
 	}
+=======
+  @BeforeInsert()
+  async b4create() {
+    this._id = await uuidv1()
+    this.isLocked = await false
+    this.password = await bcrypt.hash(this.password, 10)
+  }
+>>>>>>> c85fe22... Fix entities and add common services:src/modules/common/entities/user.entity.ts
 
 	async matchesPassword(password) {
 		return await bcrypt.compare(password, this.password)
