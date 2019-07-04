@@ -1,0 +1,27 @@
+type Menu {
+  _id: String
+  name: String
+  siteId: String
+  dishes: [DishInfo]
+  isPublish: Boolean
+  isLocked: Boolean
+  createAt: String
+  updateAt: String
+}
+
+type DishInfo {
+  _id: String
+  name: String
+  count: Int
+}
+
+type Query {
+  getMenuById(id: String!): Menu
+  getMenus: [Menu]
+}
+
+type Mutation {
+  createMenu(menuInfo: MenuInfo!): String
+  updateMenu(id: String!, menuInfo: MenuInfo!): String
+  removeMenu(id: String!): String
+}

@@ -1,0 +1,11 @@
+type UserPermission {
+  _id: ID
+  userId: String
+  siteId: String
+  permissions: [PermissionsInfo]
+}
+
+type PermissionsInfo {
+  _id: String
+  code: String
+}
