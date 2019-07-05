@@ -20,9 +20,26 @@ export class CreateUserInput {
     fullName: string;
 }
 
+export class CreateUserPermissionInput {
+    userId: string;
+    siteId: string;
+}
+
+export class DishInput {
+    name?: string;
+    count?: number;
+}
+
 export class LoginUserInput {
     username: string;
     password: string;
+}
+
+export class MenuInfo {
+    name?: string;
+    siteId?: string;
+    isPublish?: boolean;
+    isLocked?: boolean;
 }
 
 export class UpdatePermissionInput {
@@ -56,6 +73,10 @@ export class Dish {
     createdAt: string;
     updatedAt: string;
 }
+export class UpdateUserPermissionInput {
+    userId: string;
+    siteId: string;
+}
 
 export class DishInfo {
     _id?: string;
@@ -86,6 +107,14 @@ export abstract class IMutation {
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 
     abstract deleteOrders(): boolean | Promise<boolean>;
+    
+    abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
+
+    abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
+
+    abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
+
+    abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -114,6 +143,14 @@ export abstract class IMutation {
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
     abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
+
+    abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
+
+    abstract updateUserPermission(_id: string, input: UpdateUserPermissionInput): boolean | Promise<boolean>;
+
+    abstract deleteUserPermission(_id: string): boolean | Promise<boolean>;
+
+    abstract deleteUserPermissions(): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -136,19 +173,16 @@ export class Permission {
     updatedAt: string;
 }
 
-export class PermissionsInfo {
-    _id?: string;
-    code?: string;
-}
-
 export abstract class IQuery {
-    abstract dishes(): string | Promise<string>;
-
-    abstract getMenuById(id: string): Menu | Promise<Menu>;
+    abstract getMenu(id: string): Menu | Promise<Menu>;
 
     abstract getMenus(): Menu[] | Promise<Menu[]>;
 
     abstract order(id: string): Order | Promise<Order>;
+    
+    abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
+
+    abstract getOrderById(id: string): Order | Promise<Order>;
 
     abstract orders(): Order[] | Promise<Order[]>;
 
@@ -164,9 +198,15 @@ export abstract class IQuery {
 
     abstract me(): User | Promise<User>;
 
-    abstract users(offset: number, limit: number): User[] | Promise<User[]>;
+    abstract users(offset?: number, limit?: number): User[] | Promise<User[]>;
 
     abstract user(_id: string): User | Promise<User>;
+
+    abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
+
+    abstract userPermission(_id: string): UserPermission | Promise<UserPermission>;
+
+    abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;
 }
 
 export class Site {
@@ -208,8 +248,8 @@ export class UserInfo {
 }
 
 export class UserPermission {
-    _id?: string;
-    userId?: string;
-    siteId?: string;
-    permissions?: PermissionsInfo[];
+    _id: string;
+    userId: string;
+    siteId: string;
+    permissions: Permission[];
 }

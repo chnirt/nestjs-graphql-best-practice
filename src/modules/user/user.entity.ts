@@ -78,7 +78,7 @@ export class UpdateUserInput {
 	})
 	@IsString()
 	// @IsNotEmpty({ message: 'Your fullName can not be blank.' })
-	fullName: string
+	fullName?: string
 }
 
 export class LoginResponse {

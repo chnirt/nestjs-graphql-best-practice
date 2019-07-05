@@ -8,10 +8,11 @@ import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { UserModule } from './modules/user/user.module'
 import { DataloaderModule } from './shared/dataloader/dataloader.module'
-import { DishModule } from './modules/dish/dish.module'
 import { SiteModule } from './modules/site/site.module'
+import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { OrderModule } from './modules/order/order.module'
+import { UserPermissionModule } from './modules/userPermission/userPermission.module'
 
 @Module({
 	imports: [
@@ -28,10 +29,11 @@ import { OrderModule } from './modules/order/order.module'
 		GraphqlModule,
 		TypeormModule,
 		DataloaderModule,
-		DishModule,
 		SiteModule,
 		PermissionModule,
-		OrderModule
+		OrderModule,
+		MenuModule,
+		UserPermissionModule
 	]
 })
 export class AppModule {}

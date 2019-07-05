@@ -31,10 +31,4 @@ export class Site {
 	async b4create() {
 		this._id = await uuid.v1()
 	}
-
-	@BeforeUpdate()
-	async b4update() {
-		console.log('b4Site')
-		// this.password = await bcrypt.hash(this.password, 10)
-	}
 }
