@@ -170,7 +170,7 @@ export abstract class IQuery {
 
     abstract me(): User | Promise<User>;
 
-    abstract users(offset: number, limit: number): User[] | Promise<User[]>;
+    abstract users(offset?: number, limit?: number): User[] | Promise<User[]>;
 
     abstract user(_id: string): User | Promise<User>;
 
