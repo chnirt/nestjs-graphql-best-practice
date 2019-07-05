@@ -11,9 +11,8 @@ import { DataloaderModule } from './shared/dataloader/dataloader.module'
 import { DishModule } from './modules/dish/dish.module'
 import { SiteModule } from './modules/site/site.module'
 import { PermissionModule } from './modules/permission/permission.module'
-import { OrderService } from './modules/order/order.service';
-import { OrderResolver } from './modules/order/order.resolver';
-import { OrderModule } from './modules/order/order.module';
+import { OrderModule } from './modules/order/order.module'
+
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -33,7 +32,6 @@ import { OrderModule } from './modules/order/order.module';
 		SiteModule,
 		PermissionModule,
 		OrderModule
-	],
-	providers: [OrderService, OrderResolver]
+	]
 })
 export class AppModule {}

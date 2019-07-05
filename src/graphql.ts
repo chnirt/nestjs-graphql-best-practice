@@ -38,6 +38,15 @@ export class UpdateUserInput {
     fullName?: string;
 }
 
+export class CreateOrderInput {
+    userId: UserInfo;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed?: boolean;
+}
+
 export class Dish {
     _id: string;
     title: string;
@@ -70,11 +79,11 @@ export class Menu {
 }
 
 export abstract class IMutation {
-    abstract createOrder(imput: OrderInfo): string | Promise<string>;
+    abstract createOrder(input: CreateOrderInput): string | Promise<string>;
 
-    abstract updateOrder(id: string, imput: OrderInfo): boolean | Promise<boolean>;
+    abstract updateOrder(_id?: string, input: UpdateOrderInput): boolean | Promise<boolean>;
 
-    abstract deleteOrder(id: string): boolean | Promise<boolean>;
+    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 
     abstract deleteOrders(): boolean | Promise<boolean>;
 
@@ -109,23 +118,14 @@ export abstract class IMutation {
 
 export class Order {
     _id: string;
-    userId: UserInfo;
-    menuId: string;
-    dishId: string;
-    note: string;
-    count: number;
-    isConfirmed: boolean;
-    createAt: string;
-    updateAt: string;
-}
-
-export class OrderInfo {
-    userId: UserInfo;
-    menuId: string;
-    dishId: string;
-    note: string;
-    count: number;
+    userId?: UserInfo;
+    menuId?: string;
+    dishId?: string;
+    note?: string;
+    count?: number;
     isConfirmed?: boolean;
+    createAt?: string;
+    updateAt?: string;
 }
 
 export class Permission {
@@ -180,6 +180,15 @@ export abstract class ISubscription {
     abstract userCreated(): User | Promise<User>;
 }
 
+export class UpdateOrderInput {
+    userId: UserInfo;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed: boolean;
+}
+
 export class User {
     _id: string;
     username: string;
@@ -193,9 +202,9 @@ export class User {
 }
 
 export class UserInfo {
-    _id?: string;
-    username?: string;
-    fullname?: string;
+    _id: string;
+    username: string;
+    fullname: string;
 }
 
 export class UserPermission {
