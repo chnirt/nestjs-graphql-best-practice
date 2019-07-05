@@ -20,6 +20,11 @@ export class CreateUserInput {
     fullName: string;
 }
 
+export class CreateUserPermissionInput {
+    userId: string;
+    siteId: string;
+}
+
 export class LoginUserInput {
     username: string;
     password: string;
@@ -36,6 +41,11 @@ export class UpdateSiteInput {
 
 export class UpdateUserInput {
     fullName?: string;
+}
+
+export class UpdateUserPermissionInput {
+    userId: string;
+    siteId: string;
 }
 
 export class Dish {
@@ -97,6 +107,14 @@ export abstract class IMutation {
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
     abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
+
+    abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
+
+    abstract updateUserPermission(_id: string, input: UpdateUserPermissionInput): boolean | Promise<boolean>;
+
+    abstract deleteUserPermission(_id: string): boolean | Promise<boolean>;
+
+    abstract deleteUserPermissions(): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -117,11 +135,6 @@ export class Permission {
     description: string;
     createdAt: string;
     updatedAt: string;
-}
-
-export class PermissionsInfo {
-    _id?: string;
-    code?: string;
 }
 
 export abstract class IQuery {
@@ -150,6 +163,12 @@ export abstract class IQuery {
     abstract users(offset: number, limit: number): User[] | Promise<User[]>;
 
     abstract user(_id: string): User | Promise<User>;
+
+    abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
+
+    abstract userPermission(_id: string): UserPermission | Promise<UserPermission>;
+
+    abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;
 }
 
 export class Site {
@@ -176,8 +195,8 @@ export class User {
 }
 
 export class UserPermission {
-    _id?: string;
-    userId?: string;
-    siteId?: string;
-    permissions?: PermissionsInfo[];
+    _id: string;
+    userId: string;
+    siteId: string;
+    permissions: Permission[];
 }

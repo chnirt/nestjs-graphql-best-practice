@@ -11,6 +11,7 @@ import { DataloaderModule } from './shared/dataloader/dataloader.module'
 import { DishModule } from './modules/dish/dish.module'
 import { SiteModule } from './modules/site/site.module'
 import { PermissionModule } from './modules/permission/permission.module'
+import { UserPermissionModule } from './modules/userPermission/userPermission.module'
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -28,7 +29,8 @@ import { PermissionModule } from './modules/permission/permission.module'
 		DataloaderModule,
 		DishModule,
 		SiteModule,
-		PermissionModule
+		PermissionModule,
+		UserPermissionModule
 	]
 })
 export class AppModule {}

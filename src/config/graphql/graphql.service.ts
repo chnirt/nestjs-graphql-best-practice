@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
@@ -77,6 +77,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			formatError: err => {
 				// console.log(err)
+				Logger.log('❌ ' + JSON.stringify(err), 'Error')
 				return err
 			},
 			formatResponse: err => {
