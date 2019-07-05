@@ -1,5 +1,5 @@
 type Menu {
-	_id: String
+	_id: ID
 	name: String
 	siteId: String
 	dishes: [DishInfo]
@@ -16,12 +16,27 @@ type DishInfo {
 }
 
 type Query {
-	getMenuById(id: String!): Menu
+	getMenu(id: String!): Menu
 	getMenus: [Menu]
+	getMenuPublishBySite(currentSiteId: String!): Menu
 }
 
-# type Mutation {
-# 	createMenu(menuInfo: MenuInfo!): String
-# 	updateMenu(id: String!, menuInfo: MenuInfo!): String
-# 	removeMenu(id: String!): String
-# }
+type Mutation {
+	createMenu(menuInfo: MenuInfo!): Boolean
+	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean
+	# removeMenu(id: String!): Boolean
+	addDish(id: String!, dishInput: DishInput!): Boolean
+	updateDish(menuId: String!, dishId: String, dishInput: DishInput!): Boolean
+}
+
+input MenuInfo {
+	name: String
+	siteId: String
+	isPublish: Boolean
+	isLocked: Boolean
+}
+
+input DishInput {
+	name: String
+	count: Int
+}

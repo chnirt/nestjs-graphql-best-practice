@@ -95,7 +95,8 @@ export class CommonService {
     if (documentId && update) {
       try {
         await getMongoRepository(Entity).updateOne({ _id: documentId }, update)
-        return await getMongoRepository(Entity).findOne({ _id: documentId })
+        const data = await getMongoRepository(Entity).findOne({ _id: documentId })
+        return await getMongoRepository(Entity).save(data)
       } catch (error) {
         return new ApolloError(error, '403')
       }

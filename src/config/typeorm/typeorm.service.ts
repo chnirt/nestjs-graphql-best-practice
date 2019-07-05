@@ -7,7 +7,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 	async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
 		return {
 			type: 'mongodb',
-			url: 'mongodb://chnirt:chin04071803@ds055690.mlab.com:55690/nest-graphql',
+			url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
 			entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 			// entities: [User],
 			// entities: [__dirname + '/**/*.entity.ts'],
