@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { UserPermissionService } from './userpermission.service'
+import { UserPermissionService } from './userPermission.service'
 import { UserPermission } from './userPermission.entity'
 import {
 	CreateUserPermissionInput,
