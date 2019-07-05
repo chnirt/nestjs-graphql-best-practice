@@ -11,12 +11,21 @@ type Order {
 }
 
 type Query {
-	getOrderById(id: String!): Order
+	getOrder(id: String!): Order
 	getOrders: [Order]
 }
 
-# type Mutation {
-# 	createOrder(menuInfo: OrderInfo!): String
-# 	updateOrder(id: String!, menuInfo: OrderInfo!): String
-# 	removeOrder(id: String!): String
-# }
+type Mutation {
+	createOrder(menuInfo: OrderInfo!): String
+	updateOrder(id: String!, menuInfo: OrderInfo!): String
+	# removeOrder(id: String!): String
+}
+
+input OrderInfo {
+	userId: String
+	menuId: String
+	dishId: String
+	note: String
+	count: Int
+	isConfirmed: Boolean
+}
