@@ -25,9 +25,21 @@ export class CreateUserPermissionInput {
     siteId: string;
 }
 
+export class DishInput {
+    name?: string;
+    count?: number;
+}
+
 export class LoginUserInput {
     username: string;
     password: string;
+}
+
+export class MenuInfo {
+    name?: string;
+    siteId?: string;
+    isPublish?: boolean;
+    isLocked?: boolean;
 }
 
 export class UpdatePermissionInput {
@@ -46,16 +58,6 @@ export class UpdateUserInput {
 export class UpdateUserPermissionInput {
     userId: string;
     siteId: string;
-}
-
-export class Dish {
-    _id: string;
-    title: string;
-    description: string;
-    price: number;
-    creator: User;
-    createdAt: string;
-    updatedAt: string;
 }
 
 export class DishInfo {
@@ -80,6 +82,14 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
+
+    abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
+
+    abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
+
+    abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
+
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
     abstract updatePermission(_id: string, input: UpdatePermissionInput): boolean | Promise<boolean>;
@@ -138,11 +148,11 @@ export class Permission {
 }
 
 export abstract class IQuery {
-    abstract dishes(): string | Promise<string>;
-
-    abstract getMenuById(id: string): Menu | Promise<Menu>;
+    abstract getMenu(id: string): Menu | Promise<Menu>;
 
     abstract getMenus(): Menu[] | Promise<Menu[]>;
+
+    abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
 
     abstract getOrderById(id: string): Order | Promise<Order>;
 

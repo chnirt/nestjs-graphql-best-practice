@@ -8,8 +8,8 @@ import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { UserModule } from './modules/user/user.module'
 import { DataloaderModule } from './shared/dataloader/dataloader.module'
-import { DishModule } from './modules/dish/dish.module'
 import { SiteModule } from './modules/site/site.module'
+import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
 @Module({
@@ -27,8 +27,8 @@ import { UserPermissionModule } from './modules/userPermission/userPermission.mo
 		GraphqlModule,
 		TypeormModule,
 		DataloaderModule,
-		DishModule,
 		SiteModule,
+		MenuModule,
 		PermissionModule,
 		UserPermissionModule
 	]
