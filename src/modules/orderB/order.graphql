@@ -1,13 +1,13 @@
 type Order {
 	_id: ID!
-	userId: UserInfo
+	userId: String
 	menuId: String
 	dishId: String
 	note: String
 	count: Int
 	isConfirmed: Boolean
-	createAt: String
-	updateAt: String
+	createdAt: String
+	updatedAt: String
 }
 
 type UserInfo {
@@ -16,8 +16,13 @@ type UserInfo {
 	fullname: String!
 }
 
-type CreateOrderInput {
-	userId: UserInfo!
+input DishInput {
+	name: String
+	count: Int
+}
+
+input CreateOrderInput {
+	userId: String
 	menuId: String!
 	dishId: String!
 	note: String
@@ -25,8 +30,8 @@ type CreateOrderInput {
 	isConfirmed: Boolean
 }
 
-type UpdateOrderInput {
-	userId: UserInfo!
+input UpdateOrderInput {
+	userId: String!
 	menuId: String!
 	dishId: String!
 	note: String
@@ -40,8 +45,15 @@ type Query {
 }
 
 type Mutation {
-	createOrder(input: CreateOrderInput!): String
+	createOrder(input: CreateOrderInput!): Order
 	updateOrder(_id: String, input: UpdateOrderInput!): Boolean
 	deleteOrder(id: String): Boolean
 	deleteOrders: Boolean
+	updateDish(dishId: String!, dishInput: DishInput!): Boolean
+}
+
+type DishInfo {
+	_id: String
+	name: String
+	count: Int
 }

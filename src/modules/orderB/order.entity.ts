@@ -2,7 +2,6 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
 	BeforeInsert,
@@ -18,7 +17,8 @@ export class Order {
 
 	@Column()
 	@IsString()
-  @IsNotEmpty()
+	@IsNotEmpty()
+	userId: string
   menuId: string
   dishId: String
   note: string

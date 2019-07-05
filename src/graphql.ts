@@ -5,6 +5,15 @@
  */
 
 /* tslint:disable */
+export class CreateOrderInput {
+    userId?: string;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed?: boolean;
+}
+
 export class CreatePermissionInput {
     code: string;
     description: string;
@@ -42,6 +51,15 @@ export class MenuInfo {
     isLocked?: boolean;
 }
 
+export class UpdateOrderInput {
+    userId: string;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed: boolean;
+}
+
 export class UpdatePermissionInput {
     code?: string;
     description?: string;
@@ -55,24 +73,6 @@ export class UpdateUserInput {
     fullName?: string;
 }
 
-export class CreateOrderInput {
-    userId: UserInfo;
-    menuId: string;
-    dishId: string;
-    note?: string;
-    count: number;
-    isConfirmed?: boolean;
-}
-
-export class Dish {
-    _id: string;
-    title: string;
-    description: string;
-    price: number;
-    creator: User;
-    createdAt: string;
-    updatedAt: string;
-}
 export class UpdateUserPermissionInput {
     userId: string;
     siteId: string;
@@ -100,14 +100,6 @@ export class Menu {
 }
 
 export abstract class IMutation {
-    abstract createOrder(input: CreateOrderInput): string | Promise<string>;
-
-    abstract updateOrder(_id?: string, input: UpdateOrderInput): boolean | Promise<boolean>;
-
-    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
-
-    abstract deleteOrders(): boolean | Promise<boolean>;
-    
     abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
@@ -115,6 +107,14 @@ export abstract class IMutation {
     abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
 
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
+
+    abstract createOrder(input: CreateOrderInput): Order | Promise<Order>;
+
+    abstract updateOrder(_id?: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+
+    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
+
+    abstract deleteOrders(): boolean | Promise<boolean>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -155,14 +155,14 @@ export abstract class IMutation {
 
 export class Order {
     _id: string;
-    userId?: UserInfo;
+    userId?: string;
     menuId?: string;
     dishId?: string;
     note?: string;
     count?: number;
     isConfirmed?: boolean;
-    createAt?: string;
-    updateAt?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export class Permission {
@@ -178,11 +178,9 @@ export abstract class IQuery {
 
     abstract getMenus(): Menu[] | Promise<Menu[]>;
 
-    abstract order(id: string): Order | Promise<Order>;
-    
     abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
 
-    abstract getOrderById(id: string): Order | Promise<Order>;
+    abstract order(id: string): Order | Promise<Order>;
 
     abstract orders(): Order[] | Promise<Order[]>;
 
@@ -218,15 +216,6 @@ export class Site {
 
 export abstract class ISubscription {
     abstract userCreated(): User | Promise<User>;
-}
-
-export class UpdateOrderInput {
-    userId: UserInfo;
-    menuId: string;
-    dishId: string;
-    note?: string;
-    count: number;
-    isConfirmed: boolean;
 }
 
 export class User {

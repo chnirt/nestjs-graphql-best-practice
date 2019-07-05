@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Order } from './order.entity'
 import { MongoRepository } from 'typeorm'
-import { CreateOrderInput, UpdateOrderInput } from '../../graphql'
+import { CreateOrderInput, UpdateOrderInput, DishInput } from '../../graphql'
 
 @Injectable()
 export class OrderService {
@@ -12,11 +12,14 @@ export class OrderService {
   ) {}
 
   async create(input: CreateOrderInput): Promise<Order> {
-    const { note, count } = input
+    const { note, count, menuId, dishId, userId } = input
     const order = new Order()
+    order.userId = userId
+    order.menuId = menuId
+    order.dishId = dishId
     order.note = note
     order.count = count
-
+    console.log(order)
     return await this.orderRepository.save(order)
   }
 
@@ -36,17 +39,35 @@ export class OrderService {
   }
 
   async update(_id: string, input: UpdateOrderInput): Promise<boolean> {
-    const { note, count } = input
+    const { note, count, menuId, dishId, userId, isConfirmed } = input
     const order = await this.orderRepository.findOne({ _id })
 
     if (!order) {
       throw Error.prototype.message
     }
 
+    order.userId = userId
+    order.menuId = menuId
+    order.dishId = dishId
     order.note = note
     order.count = count
+    order.isComfirmed = isConfirmed
 
     return (await this.orderRepository.save(order)) ? true : false
+  }
+
+  async updateDish(dishId: string, dishInput: DishInput): Promise<boolean> {
+    const dish = await this.orderRepository.findOne({ dishId })
+    const { name, count } = dishInput
+
+    if (!dish) {
+      throw Error.prototype.message
+    }
+
+    // dish.name = name
+    dish.count = count
+
+    return (await this.orderRepository.save(dish)) ? true : false
   }
 
   async delete(_id: string): Promise<boolean> {
