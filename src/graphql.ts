@@ -5,6 +5,11 @@
  */
 
 /* tslint:disable */
+export class CreatePermissionInput {
+    code: string;
+    description: string;
+}
+
 export class CreateSiteInput {
     name: string;
 }
@@ -32,13 +37,16 @@ export class MenuInfo {
     isLocked?: boolean;
 }
 
+export class UpdatePermissionInput {
+    code?: string;
+    description?: string;
+}
+
 export class UpdateSiteInput {
     name?: string;
 }
 
 export class UpdateUserInput {
-    username?: string;
-    password?: string;
     fullName?: string;
 }
 
@@ -80,7 +88,15 @@ export abstract class IMutation {
 
     abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
 
-    abstract updateDish(menuId: string, dishId?: string, dishInput: DishInput): boolean | Promise<boolean>;
+    abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
+
+    abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
+
+    abstract updatePermission(_id: string, input: UpdatePermissionInput): boolean | Promise<boolean>;
+
+    abstract deletePermission(_id: string): boolean | Promise<boolean>;
+
+    abstract deletePermissions(): boolean | Promise<boolean>;
 
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
@@ -99,6 +115,8 @@ export abstract class IMutation {
     abstract deleteUsers(): boolean | Promise<boolean>;
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
+
+    abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -114,9 +132,11 @@ export class Order {
 }
 
 export class Permission {
-    _id?: string;
-    code?: string;
-    description?: string;
+    _id: string;
+    code: string;
+    description: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export class PermissionsInfo {
@@ -137,6 +157,10 @@ export abstract class IQuery {
 
     abstract getOrders(): Order[] | Promise<Order[]>;
 
+    abstract permissions(): Permission[] | Promise<Permission[]>;
+
+    abstract permission(_id: string): Permission | Promise<Permission>;
+
     abstract sites(): Site[] | Promise<Site[]>;
 
     abstract site(_id: string): Site | Promise<Site>;
@@ -151,10 +175,10 @@ export abstract class IQuery {
 }
 
 export class Site {
-    _id?: string;
-    name?: string;
-    createAt?: string;
-    updateAt?: string;
+    _id: string;
+    name: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export abstract class ISubscription {

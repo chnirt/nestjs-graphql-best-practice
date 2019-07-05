@@ -8,18 +8,23 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import * as uuid from 'uuid'
 import { IsString, IsNotEmpty } from 'class-validator'
+import uuid = require('uuid')
 
 @Entity()
-export class Site {
+export class Permission {
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	name: string
+	@Index({ unique: true })
+	code: string
+
+	@Column()
+	@IsString()
+	description: string
 
 	@CreateDateColumn({ type: 'timestamp' })
 	createdAt: string
@@ -34,7 +39,7 @@ export class Site {
 
 	@BeforeUpdate()
 	async b4update() {
-		console.log('b4Site')
+		console.log('b4Permission')
 		// this.password = await bcrypt.hash(this.password, 10)
 	}
 }

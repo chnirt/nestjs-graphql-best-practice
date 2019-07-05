@@ -7,10 +7,10 @@ input UpdateSiteInput {
 }
 
 type Site {
-	_id: ID
-	name: String
-	createAt: String
-	updateAt: String
+	_id: ID!
+	name: String!
+	createdAt: String!
+	updatedAt: String!
 }
 
 type Query {

@@ -49,8 +49,8 @@ module.exports = {
 			analyzerHost: '127.0.0.1',
 			analyzerPort: '8888',
 			reportFilename: 'report.html',
-			openAnalyzer: true,
-			generateStatsFile: true,
+			openAnalyzer: false,
+			generateStatsFile: false,
 			statsFilename: 'stats.json'
 		})
 	],

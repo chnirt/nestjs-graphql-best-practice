@@ -26,7 +26,7 @@ type Mutation {
 	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean
 	# removeMenu(id: String!): Boolean
 	addDish(id: String!, dishInput: DishInput!): Boolean
-	updateDish(menuId: String!, dishId: String, dishInput: DishInput!): Boolean
+	updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
 }
 
 input MenuInfo {
