@@ -35,7 +35,7 @@ type User {
 type Query {
 	hello: String!
 	me: User @isAuthenticated
-	users(offset: Int!, limit: Int!): [User!] @isAuthenticated
+	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: String!): User @isAuthenticated
 }
 
