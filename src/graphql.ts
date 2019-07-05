@@ -70,6 +70,14 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createOrder(imput: OrderInfo): string | Promise<string>;
+
+    abstract updateOrder(id: string, imput: OrderInfo): boolean | Promise<boolean>;
+
+    abstract deleteOrder(id: string): boolean | Promise<boolean>;
+
+    abstract deleteOrders(): boolean | Promise<boolean>;
+
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
     abstract updatePermission(_id: string, input: UpdatePermissionInput): boolean | Promise<boolean>;
@@ -100,15 +108,24 @@ export abstract class IMutation {
 }
 
 export class Order {
-    _id?: string;
-    userId?: string;
-    menuId?: string;
-    dishId?: string;
-    note?: string;
-    count?: number;
+    _id: string;
+    userId: UserInfo;
+    menuId: string;
+    dishId: string;
+    note: string;
+    count: number;
+    isConfirmed: boolean;
+    createAt: string;
+    updateAt: string;
+}
+
+export class OrderInfo {
+    userId: UserInfo;
+    menuId: string;
+    dishId: string;
+    note: string;
+    count: number;
     isConfirmed?: boolean;
-    createAt?: string;
-    updateAt?: string;
 }
 
 export class Permission {
@@ -131,9 +148,9 @@ export abstract class IQuery {
 
     abstract getMenus(): Menu[] | Promise<Menu[]>;
 
-    abstract getOrderById(id: string): Order | Promise<Order>;
+    abstract order(id: string): Order | Promise<Order>;
 
-    abstract getOrders(): Order[] | Promise<Order[]>;
+    abstract orders(): Order[] | Promise<Order[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
@@ -173,6 +190,12 @@ export class User {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+}
+
+export class UserInfo {
+    _id?: string;
+    username?: string;
+    fullname?: string;
 }
 
 export class UserPermission {
