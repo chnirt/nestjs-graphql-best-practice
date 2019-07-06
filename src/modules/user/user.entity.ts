@@ -120,9 +120,9 @@ export class User {
 	@IsNotEmpty()
 	isActive: boolean
 
-	@CreateDateColumn({ type: 'timestamp' })
+	@CreateDateColumn()
 	createdAt: string
-	@UpdateDateColumn({ type: 'timestamp' })
+	@UpdateDateColumn()
 	updatedAt: string
 
 	@BeforeInsert()

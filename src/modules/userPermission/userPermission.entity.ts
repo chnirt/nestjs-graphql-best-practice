@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, Column, BeforeInsert } from 'typeorm'
+import { Entity, ObjectIdColumn, Column, BeforeInsert, CreateDateColumn, UpdateDateColumn } from 'typeorm'
 import { IsString, IsNotEmpty, IsArray } from 'class-validator'
 import * as uuid from 'uuid'
 import { Permission } from '../common/entities/entity.index'
@@ -21,7 +21,12 @@ export class UserPermission {
 	@Column()
 	@IsArray()
 	@IsNotEmpty()
-	permissions: Permission[]
+	permissions: string[]
+
+	@CreateDateColumn()
+	createdAt: string
+	@UpdateDateColumn()
+	updatedAt: string
 
 	@BeforeInsert()
 	async b4create() {

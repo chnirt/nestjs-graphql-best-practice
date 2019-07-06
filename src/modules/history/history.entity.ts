@@ -2,27 +2,26 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
-	BeforeInsert,
-	BeforeUpdate
+	BeforeInsert
 } from 'typeorm'
 import { IsString, IsNotEmpty } from 'class-validator'
-import uuid = require('uuid')
+import * as uuid from 'uuid'
 
 @Entity()
-export class Permission {
+export class History {
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	code: string
+	userId: string
 
 	@Column()
 	@IsString()
+	@IsNotEmpty()
 	description: string
 
 	@CreateDateColumn()
@@ -33,11 +32,5 @@ export class Permission {
 	@BeforeInsert()
 	async b4create() {
 		this._id = await uuid.v1()
-	}
-
-	@BeforeUpdate()
-	async b4update() {
-		console.log('b4Permission')
-		// this.password = await bcrypt.hash(this.password, 10)
 	}
 }
