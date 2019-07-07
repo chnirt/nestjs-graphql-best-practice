@@ -28,7 +28,8 @@ export class GraphqlService implements GqlOptionsFactory {
 				return next()
 			},
 			hasPermission: async (next, source, args, ctx) => {
-				const { currentUser } = ctx
+				const { currentUser, currentsite } = ctx
+				// console.log('TCL: GraphqlService -> currentSiteId', currentSiteId)
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
@@ -36,20 +37,19 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				const { permission } = args
 
-				const userPermission = await this.userPermissionService.find({
-					userId: currentUser._id
+				const userPermission = await this.userPermissionService.findOne({
+					userId: currentUser._id,
+					siteId: currentsite
 				})
 
 				// console.log('TCL: GraphqlService -> userPermission', userPermission)
 
 				let status = false
 
-				userPermission.map(item => {
-					item.permissions.map(item => {
-						if (item.code === permission) {
-							status = true
-						}
-					})
+				userPermission.permissions.map(item => {
+					if (item.code === permission) {
+						status = true
+					}
 				})
 
 				if (status === false) {
@@ -77,7 +77,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser = ''
 
-				const { token } = req.headers
+				const { token, currentsite } = req.headers
 
 				if (token) {
 					currentUser = await this.userService.findOneByToken(token)
@@ -87,7 +87,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser
+					currentUser,
+					currentsite
 				}
 			},
 			formatError: err => {

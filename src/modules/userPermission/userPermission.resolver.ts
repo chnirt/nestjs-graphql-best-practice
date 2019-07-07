@@ -37,8 +37,8 @@ export class UserPermissionResolver {
 	// }
 
 	@Query(() => UserPermission)
-	async userPermission(@Args('_id') _id: string) {
-		return await this.userPermissionService.findById(_id)
+	async findOneByUserId(@Args('_id') _id: string) {
+		return await this.userPermissionService.findOneByUserId(_id)
 	}
 
 	@Mutation(() => UserPermission)

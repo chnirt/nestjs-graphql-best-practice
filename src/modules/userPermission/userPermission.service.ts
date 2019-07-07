@@ -20,10 +20,12 @@ export class UserPermissionService {
 		})
 	}
 
-	async findById(_id: string): Promise<UserPermission> {
+	async findOneByUserId(_id: string): Promise<UserPermission> {
 		const message = 'UserPermission is not found.'
 
-		const userPermission = await this.userPermissionRepository.findOne({ _id })
+		const userPermission = await this.userPermissionRepository.findOne({
+			userId: _id
+		})
 
 		if (!userPermission) {
 			throw new Error(message)
@@ -32,10 +34,12 @@ export class UserPermissionService {
 		return userPermission
 	}
 
-	async find(conditions: any): Promise<UserPermission[]> {
-		const message = 'UserPermission is not found.'
+	async findOne(conditions: any): Promise<UserPermission> {
+		const message = 'You are not authorized!.'
 
-		const userPermission = await this.userPermissionRepository.find(conditions)
+		const userPermission = await this.userPermissionRepository.findOne(
+			conditions
+		)
 
 		if (!userPermission) {
 			throw new Error(message)
