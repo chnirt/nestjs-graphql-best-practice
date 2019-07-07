@@ -32,23 +32,53 @@ export class UserPermissionService {
 		return site
 	}
 
-	async create(
-		input: CreateUserPermissionInput,
-		permissions: string[]
-	): Promise<UserPermission> {
-		const { userId, siteId } = input
+	async create(input: CreateUserPermissionInput): Promise<UserPermission> {
+		const { userId, siteId, permissions } = input
 
-		const userPermission = new UserPermission()
-		userPermission.userId = userId
-		userPermission.userId = siteId
-		userPermission.permissions = permissions
+		// await this.userPermissionRepository.updateOne(
+		// 	{
+		// 		userId,
+		// 		siteId
+		// 	},
+		// 	{
+		// 		$set: {
+		// 			permissions
+		// 		}
+		// 	},
+		// 	{
+		// 		upsert: true
+		// 	}
+		// )
 
-		return await this.userPermissionRepository.save(userPermission)
+		const existedUserPermission = await this.userPermissionRepository.findOne({
+			userId,
+			siteId
+		})
+
+		if (existedUserPermission) {
+			existedUserPermission.permissions = permissions
+
+			await this.userPermissionRepository.save(existedUserPermission)
+
+			const userPermission = await this.userPermissionRepository.findOne({
+				userId,
+				siteId
+			})
+
+			return userPermission
+		} else {
+			const userPermission = new UserPermission()
+			userPermission.userId = userId
+			userPermission.siteId = siteId
+			userPermission.permissions = permissions
+
+			return await this.userPermissionRepository.save(userPermission)
+		}
 	}
 
 	async update(_id: string, input: UpdateUserPermissionInput): Promise<boolean> {
 		const message = 'UserPermission is not found.'
-		// const { permissions } = input
+		const { permissions } = input
 
 		const userPermission = await this.userPermissionRepository.findOne({ _id })
 
@@ -56,7 +86,7 @@ export class UserPermissionService {
 			throw new Error(message)
 		}
 
-		// userPermission.permissions = permissions
+		userPermission.permissions = permissions
 
 		return (await this.userPermissionRepository.save(userPermission))
 			? true

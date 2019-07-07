@@ -1,7 +1,15 @@
-import { Entity, ObjectIdColumn, Column, BeforeInsert, CreateDateColumn, UpdateDateColumn } from 'typeorm'
+import {
+	Entity,
+	ObjectIdColumn,
+	Column,
+	BeforeInsert,
+	CreateDateColumn,
+	UpdateDateColumn
+} from 'typeorm'
 import { IsString, IsNotEmpty, IsArray } from 'class-validator'
 import * as uuid from 'uuid'
-import { Permission } from '../common/entities/entity.index'
+// import { PermissionInfo } from '../../graphql'
+import { PermissionInfo } from '../common/entities/interface.entity'
 
 @Entity()
 export class UserPermission {
@@ -21,7 +29,7 @@ export class UserPermission {
 	@Column()
 	@IsArray()
 	@IsNotEmpty()
-	permissions: string[]
+	permissions: PermissionInfo[]
 
 	@CreateDateColumn()
 	createdAt: string

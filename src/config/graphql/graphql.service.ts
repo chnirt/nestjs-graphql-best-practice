@@ -5,12 +5,16 @@ import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
 import { ForbiddenError, AuthenticationError } from 'apollo-server-core'
+import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 
 const pubSub = new PubSub()
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly userPermissionService: UserPermissionService
+	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -24,16 +28,17 @@ export class GraphqlService implements GqlOptionsFactory {
 				return next()
 			},
 			hasPermission: (next, source, args, ctx) => {
-				const { permission } = args
-				console.log(
-					'TCL: GraphqlService -> constructor -> permission',
-					permission
-				)
 				const { currentUser } = ctx
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
 				}
+
+				const { permission } = args
+				console.log(
+					'TCL: GraphqlService -> constructor -> permission',
+					permission
+				)
 
 				// if (permission !== currentUser.role) {
 				// 	throw new Error(
