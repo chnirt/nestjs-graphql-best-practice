@@ -23,13 +23,25 @@ export class UserPermissionService {
 	async findById(_id: string): Promise<UserPermission> {
 		const message = 'UserPermission is not found.'
 
-		const site = await this.userPermissionRepository.findOne({ _id })
+		const userPermission = await this.userPermissionRepository.findOne({ _id })
 
-		if (!site) {
+		if (!userPermission) {
 			throw new Error(message)
 		}
 
-		return site
+		return userPermission
+	}
+
+	async find(conditions: any): Promise<UserPermission[]> {
+		const message = 'UserPermission is not found.'
+
+		const userPermission = await this.userPermissionRepository.find(conditions)
+
+		if (!userPermission) {
+			throw new Error(message)
+		}
+
+		return userPermission
 	}
 
 	async create(input: CreateUserPermissionInput): Promise<UserPermission> {
@@ -96,13 +108,15 @@ export class UserPermissionService {
 	async delete(_id: string): Promise<boolean> {
 		const message = 'UserPermission is not found.'
 
-		const site = await this.userPermissionRepository.findOne({ _id })
+		const userPermission = await this.userPermissionRepository.findOne({ _id })
 
-		if (!site) {
+		if (!userPermission) {
 			throw new Error(message)
 		}
 
-		return (await this.userPermissionRepository.remove(site)) ? true : false
+		return (await this.userPermissionRepository.remove(userPermission))
+			? true
+			: false
 	}
 
 	async deleteAll(): Promise<boolean> {

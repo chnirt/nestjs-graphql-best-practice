@@ -27,7 +27,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				return next()
 			},
-			hasPermission: (next, source, args, ctx) => {
+			hasPermission: async (next, source, args, ctx) => {
 				const { currentUser } = ctx
 
 				if (!currentUser) {
@@ -35,16 +35,26 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 
 				const { permission } = args
-				console.log(
-					'TCL: GraphqlService -> constructor -> permission',
-					permission
-				)
 
-				// if (permission !== currentUser.role) {
-				// 	throw new Error(
-				// 		`Must have role: ${permission}, you have role: ${currentUser.role}`
-				// 	)
-				// }
+				const userPermission = await this.userPermissionService.find({
+					userId: currentUser._id
+				})
+
+				// console.log('TCL: GraphqlService -> userPermission', userPermission)
+
+				let status = false
+
+				userPermission.map(item => {
+					item.permissions.map(item => {
+						if (item.code === permission) {
+							status = true
+						}
+					})
+				})
+
+				if (status === false) {
+					throw new Error(`You are not authorized!`)
+				}
 
 				return next()
 			}
