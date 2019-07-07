@@ -6,8 +6,8 @@ type Order {
 	note: String
 	count: Int
 	isConfirmed: Boolean
-	createAt: String
-	updateAt: String
+	createdAt: String
+	updatedAt: String
 }
 
 type Query {
@@ -16,9 +16,9 @@ type Query {
 }
 
 type Mutation {
-	createOrder(menuInfo: OrderInfo!): String
-	updateOrder(id: String!, menuInfo: OrderInfo!): String
-	# removeOrder(id: String!): String
+	createOrder(orderInfo: OrderInfo!): Boolean
+	updateOrder(id: String!, orderInfo: OrderInfo!): Boolean
+	# removeOrder(id: String!): Boolean
 }
 
 input OrderInfo {

@@ -24,7 +24,7 @@ export class Menu {
 	dishes: [DishInfo] | []
 
 	@Column()
-	isPublish: boolean
+	isPublished: boolean
 
 	@Column()
 	isLocked: boolean
@@ -39,7 +39,7 @@ export class Menu {
 	async b4create() {
 		this._id = await uuidv1()
 		this.dishes = []
-		this.isPublish = false
+		this.isPublished = false
 		this.isLocked = true
 	}
 

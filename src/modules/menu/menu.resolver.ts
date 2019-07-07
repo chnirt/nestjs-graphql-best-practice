@@ -32,6 +32,16 @@ export class MenuResolver {
     return await this.menuService.updateMenu(id, menuInfo)
   }
 
+  @Mutation('publishAndUnpublish')
+  async publishAndUnpublish(@Args('id') id: string) {
+    return await this.menuService.publishAndUnpublish(id)
+  }
+
+  @Mutation('lockAndUnlockMenu')
+  async lockAndUnlockMenu(@Args('id') id: string) {
+    return await this.menuService.lockAndUnlockMenu(id)
+  }
+
   @Mutation('addDish')
   async addDish(@Args('id') id: string, @Args('dishInput') dishInput: DishInput) {
     return await this.menuService.addDish(id, dishInput)

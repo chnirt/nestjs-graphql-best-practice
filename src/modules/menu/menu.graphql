@@ -3,7 +3,7 @@ type Menu {
 	name: String
 	siteId: String
 	dishes: [DishInfo]
-	isPublish: Boolean
+	isPublished: Boolean
 	isLocked: Boolean
 	createAt: String
 	updateAt: String
@@ -24,6 +24,8 @@ type Query {
 type Mutation {
 	createMenu(menuInfo: MenuInfo!): Boolean
 	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean
+	publishAndUnpublish(id: String!): Boolean
+	lockAndUnlockMenu(id: String!): Boolean
 	# removeMenu(id: String!): Boolean
 	addDish(id: String!, dishInput: DishInput!): Boolean
 	updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
@@ -32,7 +34,7 @@ type Mutation {
 input MenuInfo {
 	name: String
 	siteId: String
-	isPublish: Boolean
+	isPublished: Boolean
 	isLocked: Boolean
 }
 

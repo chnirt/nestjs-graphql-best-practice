@@ -32,14 +32,15 @@ export class Order {
 	isConfirmed: boolean
 
 	@CreateDateColumn({ type: 'timestamp' })
-	createdDate: string
+	createdAt: string
 
-	@UpdateDateColumn()
+	@UpdateDateColumn({ type: 'timestamp' })
 	updatedAt: string
 
 	@BeforeInsert()
 	async b4create() {
 		this._id = await uuidv1()
+		this.isConfirmed = false
 	}
 
 	constructor(args) {
