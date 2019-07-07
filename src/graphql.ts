@@ -5,6 +5,11 @@
  */
 
 /* tslint:disable */
+export class CreateHistoryInput {
+    userId: string;
+    description: string;
+}
+
 export class CreatePermissionInput {
     code: string;
     description: string;
@@ -75,6 +80,14 @@ export class DishInfo {
     count?: number;
 }
 
+export class History {
+    _id: string;
+    userId: string;
+    description: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
 export class LoginResponse {
     token: string;
 }
@@ -91,6 +104,10 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createHistory(input: CreateHistoryInput): History | Promise<History>;
+
+    abstract deleteHistories(): boolean | Promise<boolean>;
+
     abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
@@ -135,7 +152,7 @@ export abstract class IMutation {
 
     abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
 
-    abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
+    abstract createUserPermission(input: CreateUserPermissionInput, permissions: string[]): UserPermission | Promise<UserPermission>;
 
     abstract updateUserPermission(_id: string, input: UpdateUserPermissionInput): boolean | Promise<boolean>;
 
@@ -165,6 +182,8 @@ export class Permission {
 }
 
 export abstract class IQuery {
+    abstract histories(): History[] | Promise<History[]>;
+
     abstract getMenu(id: string): Menu | Promise<Menu>;
 
     abstract getMenus(): Menu[] | Promise<Menu[]>;
@@ -225,5 +244,7 @@ export class UserPermission {
     _id: string;
     userId: string;
     siteId: string;
-    permissions: Permission[];
+    permissions: string[];
+    createdAt: string;
+    updatedAt: string;
 }

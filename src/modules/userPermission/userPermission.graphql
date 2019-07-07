@@ -14,7 +14,9 @@ type UserPermission {
 	_id: ID!
 	userId: String!
 	siteId: String!
-	permissions: [Permission!]!
+	permissions: [String!]!
+	createdAt: String!
+	updatedAt: String!
 }
 
 type Query {
@@ -24,7 +26,10 @@ type Query {
 }
 
 type Mutation {
-	createUserPermission(input: CreateUserPermissionInput!): UserPermission
+	createUserPermission(
+		input: CreateUserPermissionInput!
+		permissions: [ID!]!
+	): UserPermission
 	updateUserPermission(_id: String!, input: UpdateUserPermissionInput!): Boolean
 	deleteUserPermission(_id: String!): Boolean
 	deleteUserPermissions: Boolean

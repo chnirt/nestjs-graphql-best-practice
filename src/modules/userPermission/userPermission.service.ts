@@ -32,13 +32,16 @@ export class UserPermissionService {
 		return site
 	}
 
-	async create(input: CreateUserPermissionInput): Promise<UserPermission> {
+	async create(
+		input: CreateUserPermissionInput,
+		permissions: string[]
+	): Promise<UserPermission> {
 		const { userId, siteId } = input
 
 		const userPermission = new UserPermission()
 		userPermission.userId = userId
 		userPermission.userId = siteId
-		// userPermission.permissions = permissions
+		userPermission.permissions = permissions
 
 		return await this.userPermissionRepository.save(userPermission)
 	}
