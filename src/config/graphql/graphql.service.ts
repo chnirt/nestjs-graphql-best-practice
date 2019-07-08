@@ -4,7 +4,7 @@ import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
-import { ForbiddenError, AuthenticationError } from 'apollo-server-core'
+import { AuthenticationError } from 'apollo-server-core'
 import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 
 const pubSub = new PubSub()
@@ -29,7 +29,6 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			hasPermission: async (next, source, args, ctx) => {
 				const { currentUser, currentsite } = ctx
-				// console.log('TCL: GraphqlService -> currentSiteId', currentSiteId)
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
@@ -37,24 +36,11 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				const { permission } = args
 
-				const userPermission = await this.userPermissionService.findOne({
+				await this.userPermissionService.findOne({
 					userId: currentUser._id,
-					siteId: currentsite
+					siteId: currentsite,
+					'permissions.code': permission
 				})
-
-				// console.log('TCL: GraphqlService -> userPermission', userPermission)
-
-				let status = false
-
-				userPermission.permissions.map(item => {
-					if (item.code === permission) {
-						status = true
-					}
-				})
-
-				if (status === false) {
-					throw new Error(`You are not authorized!`)
-				}
 
 				return next()
 			}
