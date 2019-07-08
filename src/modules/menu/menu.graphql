@@ -5,6 +5,7 @@ type Menu {
 	dishes: [DishInfo]
 	isPublished: Boolean
 	isLocked: Boolean
+	isActived: Boolean
 	createAt: String
 	updateAt: String
 }
@@ -29,6 +30,7 @@ type Mutation {
 	# removeMenu(id: String!): Boolean
 	addDish(id: String!, dishInput: DishInput!): Boolean
 	updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
+	closeMenu(id: String!): Boolean
 }
 
 input MenuInfo {
@@ -36,6 +38,7 @@ input MenuInfo {
 	siteId: String
 	isPublished: Boolean
 	isLocked: Boolean
+	isActived: Boolean
 }
 
 input DishInput {

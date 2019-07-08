@@ -33,11 +33,8 @@ import { HistoryModule } from './modules/history/history.module'
 		MenuModule,
 		PermissionModule,
 		UserPermissionModule,
-<<<<<<< HEAD
-		OrderModule
-=======
+		OrderModule,
 		HistoryModule
->>>>>>> 8edff28c061e3cece097f591553760e6c6140116
 	]
 })
 export class AppModule {}

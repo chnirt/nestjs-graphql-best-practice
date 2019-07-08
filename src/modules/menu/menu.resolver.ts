@@ -52,4 +52,9 @@ export class MenuResolver {
     return await this.menuService.updateDish(menuId, dishId, dishInput)
   }
 
+  @Mutation('closeMenu')
+  async closeMenu(@Args('id') id: string) {
+    return await this.menuService.closeMenu(id)
+  }
+
 }

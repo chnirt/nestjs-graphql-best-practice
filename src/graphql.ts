@@ -45,6 +45,7 @@ export class MenuInfo {
     siteId?: string;
     isPublished?: boolean;
     isLocked?: boolean;
+    isActived?: boolean;
 }
 
 export class OrderInfo {
@@ -99,6 +100,7 @@ export class Menu {
     dishes?: DishInfo[];
     isPublished?: boolean;
     isLocked?: boolean;
+    isActived?: boolean;
     createAt?: string;
     updateAt?: string;
 }
@@ -119,6 +121,8 @@ export abstract class IMutation {
     abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
 
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
+
+    abstract closeMenu(id: string): boolean | Promise<boolean>;
 
     abstract createOrder(orderInfo: OrderInfo): boolean | Promise<boolean>;
 
