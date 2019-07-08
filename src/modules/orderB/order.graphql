@@ -1,10 +1,10 @@
 type Order {
 	_id: ID!
-	userId: String
-	menuId: String
-	dishId: String
+	userId: String!
+	menuId: String!
+	dishId: String!
 	note: String
-	count: Int
+	count: Int!
 	isConfirmed: Boolean
 	createdAt: String
 	updatedAt: String
@@ -16,18 +16,13 @@ type UserInfo {
 	fullname: String!
 }
 
-input DishInput {
-	name: String
-	count: Int
-}
-
 input CreateOrderInput {
-	userId: String
+	userId: String!
 	menuId: String!
 	dishId: String!
 	note: String
 	count: Int!
-	isConfirmed: Boolean
+	isConfirmed: Boolean!
 }
 
 input UpdateOrderInput {
@@ -35,7 +30,11 @@ input UpdateOrderInput {
 	menuId: String!
 	dishId: String!
 	note: String
-	count: Int!
+	count: Int
+	isConfirmed: Boolean
+}
+
+input ConfirmOrderInput {
 	isConfirmed: Boolean!
 }
 
@@ -46,10 +45,10 @@ type Query {
 
 type Mutation {
 	createOrder(input: CreateOrderInput!): Order
-	updateOrder(_id: String, input: UpdateOrderInput!): Boolean
+	updateOrder(_id: String!, input: UpdateOrderInput!): Boolean
+	confirmOrder(_id: String!, input: ConfirmOrderInput!): Boolean
 	deleteOrder(id: String): Boolean
 	deleteOrders: Boolean
-	updateDish(dishId: String!, dishInput: DishInput!): Boolean
 }
 
 type DishInfo {

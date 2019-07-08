@@ -5,12 +5,16 @@ import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
 import { ForbiddenError, AuthenticationError } from 'apollo-server-core'
+import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 
 const pubSub = new PubSub()
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly userPermissionService: UserPermissionService
+	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -23,23 +27,34 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				return next()
 			},
-			hasPermission: (next, source, args, ctx) => {
-				const { permission } = args
-				console.log(
-					'TCL: GraphqlService -> constructor -> permission',
-					permission
-				)
-				const { currentUser } = ctx
+			hasPermission: async (next, source, args, ctx) => {
+				const { currentUser, currentsite } = ctx
+				// console.log('TCL: GraphqlService -> currentSiteId', currentSiteId)
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
 				}
 
-				// if (permission !== currentUser.role) {
-				// 	throw new Error(
-				// 		`Must have role: ${permission}, you have role: ${currentUser.role}`
-				// 	)
-				// }
+				const { permission } = args
+
+				const userPermission = await this.userPermissionService.findOne({
+					userId: currentUser._id,
+					siteId: currentsite
+				})
+
+				// console.log('TCL: GraphqlService -> userPermission', userPermission)
+
+				let status = false
+
+				userPermission.permissions.map(item => {
+					if (item.code === permission) {
+						status = true
+					}
+				})
+
+				if (status === false) {
+					throw new Error(`You are not authorized!`)
+				}
 
 				return next()
 			}
@@ -62,7 +77,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser = ''
 
-				const { token } = req.headers
+				const { token, currentsite } = req.headers
 
 				if (token) {
 					currentUser = await this.userService.findOneByToken(token)
@@ -72,7 +87,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser
+					currentUser,
+					currentsite
 				}
 			},
 			formatError: err => {

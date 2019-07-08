@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { Order } from './order.entity'
 import { OrderService } from './order.service'
-import { CreateOrderInput, UpdateOrderInput, DishInput } from '../../graphql'
+import { CreateOrderInput, UpdateOrderInput, ConfirmOrderInput } from '../../graphql'
 
 @Resolver('Order')
 export class OrderResolver {
@@ -37,8 +37,8 @@ export class OrderResolver {
     return await this.orderService.update(_id, input)
   }
 
-  @Mutation(() => Boolean)
-  async updateDish(@Args('dishId') dishId: string, @Args('dishInput') dishInput: DishInput) {
-    return await this.orderService.updateDish(dishId, dishInput)
+  @Mutation(() => Order)
+  async confirmOrder(@Args('_id') _id: string, @Args('input') input: ConfirmOrderInput) {
+    return await this.orderService.confirm(_id, input)
   }
 }

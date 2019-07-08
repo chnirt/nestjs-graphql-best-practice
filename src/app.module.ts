@@ -13,7 +13,7 @@ import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { OrderBModule } from './modules/orderB/order.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
-
+import { HistoryModule } from './modules/history/history.module'
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -33,7 +33,8 @@ import { UserPermissionModule } from './modules/userPermission/userPermission.mo
 		PermissionModule,
 		OrderBModule,
 		MenuModule,
-		UserPermissionModule
+		UserPermissionModule,
+		HistoryModule
 	]
 })
 export class AppModule {}

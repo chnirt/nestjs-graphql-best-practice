@@ -8,7 +8,7 @@ import {
 	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
-import { IsString, IsNotEmpty } from 'class-validator'
+import { IsString, IsNotEmpty, IsBoolean, IsNumber } from 'class-validator'
 
 @Entity()
 export class Order {
@@ -19,11 +19,31 @@ export class Order {
 	@IsString()
 	@IsNotEmpty()
 	userId: string
-  menuId: string
-  dishId: String
-  note: string
-  count: number
-  isComfirmed: boolean
+
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	menuId: string
+	
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	dishId: String
+	
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	note: string
+	
+	@Column()
+	@IsNumber()
+	@IsNotEmpty()
+	count: number
+	
+	@Column()
+	@IsBoolean()
+	@IsNotEmpty()
+	isConfirmed: boolean
 
 	@CreateDateColumn({ type: 'timestamp' })
 	createdAt: string
@@ -34,11 +54,11 @@ export class Order {
 	@BeforeInsert()
 	async b4create() {
 		this._id = await uuid.v1()
+		this.isConfirmed = false
 	}
 
 	@BeforeUpdate()
 	async b4update() {
 		console.log('b4Order')
-		// this.password = await bcrypt.hash(this.password, 10)
 	}
 }

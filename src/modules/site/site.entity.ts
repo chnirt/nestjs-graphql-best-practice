@@ -21,10 +21,10 @@ export class Site {
 	@IsNotEmpty()
 	name: string
 
-	@CreateDateColumn({ type: 'timestamp' })
+	@CreateDateColumn()
 	createdAt: string
 
-	@UpdateDateColumn({ type: 'timestamp' })
+	@UpdateDateColumn()
 	updatedAt: string
 
 	@BeforeInsert()

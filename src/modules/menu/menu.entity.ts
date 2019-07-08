@@ -29,10 +29,10 @@ export class Menu {
 	@Column()
 	isLocked: boolean
 
-	@CreateDateColumn({ type: 'timestamp' })
+	@CreateDateColumn()
 	createAt: string
 
-	@UpdateDateColumn({ type: 'timestamp' })
+	@UpdateDateColumn()
 	updateAt: string
 
 	@BeforeInsert()
