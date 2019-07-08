@@ -5,9 +5,22 @@
  */
 
 /* tslint:disable */
+export class ConfirmOrderInput {
+    isConfirmed: boolean;
+}
+
 export class CreateHistoryInput {
     userId: string;
     description: string;
+}
+
+export class CreateOrderInput {
+    userId: string;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed: boolean;
 }
 
 export class CreatePermissionInput {
@@ -51,6 +64,15 @@ export class MenuInfo {
 export class PermissionInfoInput {
     _id: string;
     code: string;
+}
+
+export class UpdateOrderInput {
+    userId: string;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count?: number;
+    isConfirmed?: boolean;
 }
 
 export class UpdatePermissionInput {
@@ -112,6 +134,16 @@ export abstract class IMutation {
 
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
 
+    abstract createOrder(input: CreateOrderInput): Order | Promise<Order>;
+
+    abstract updateOrder(_id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+
+    abstract confirmOrder(_id: string, input: ConfirmOrderInput): boolean | Promise<boolean>;
+
+    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
+
+    abstract deleteOrders(): boolean | Promise<boolean>;
+
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
     abstract updatePermission(_id: string, input: UpdatePermissionInput): boolean | Promise<boolean>;
@@ -150,15 +182,15 @@ export abstract class IMutation {
 }
 
 export class Order {
-    _id?: string;
-    userId?: string;
-    menuId?: string;
-    dishId?: string;
+    _id: string;
+    userId: string;
+    menuId: string;
+    dishId: string;
     note?: string;
-    count?: number;
+    count: number;
     isConfirmed?: boolean;
-    createAt?: string;
-    updateAt?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export class Permission {
@@ -183,9 +215,9 @@ export abstract class IQuery {
 
     abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
 
-    abstract getOrderById(id: string): Order | Promise<Order>;
+    abstract order(id: string): Order | Promise<Order>;
 
-    abstract getOrders(): Order[] | Promise<Order[]>;
+    abstract orders(): Order[] | Promise<Order[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
@@ -231,6 +263,12 @@ export class User {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
+}
+
+export class UserInfo {
+    _id: string;
+    username: string;
+    fullname: string;
 }
 
 export class UserPermission {

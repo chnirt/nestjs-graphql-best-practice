@@ -11,8 +11,9 @@ import { DataloaderModule } from './shared/dataloader/dataloader.module'
 import { SiteModule } from './modules/site/site.module'
 import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
+import { OrderBModule } from './modules/orderB/order.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
-import { HistoryModule } from './modules/history/history.module';
+import { HistoryModule } from './modules/history/history.module'
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
@@ -29,8 +30,9 @@ import { HistoryModule } from './modules/history/history.module';
 		TypeormModule,
 		DataloaderModule,
 		SiteModule,
-		MenuModule,
 		PermissionModule,
+		OrderBModule,
+		MenuModule,
 		UserPermissionModule,
 		HistoryModule
 	]

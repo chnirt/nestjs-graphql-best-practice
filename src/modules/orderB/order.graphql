@@ -1,0 +1,58 @@
+type Order {
+	_id: ID!
+	userId: String!
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int!
+	isConfirmed: Boolean
+	createdAt: String
+	updatedAt: String
+}
+
+type UserInfo {
+	_id: String!
+	username: String!
+	fullname: String!
+}
+
+input CreateOrderInput {
+	userId: String!
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int!
+	isConfirmed: Boolean!
+}
+
+input UpdateOrderInput {
+	userId: String!
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int
+	isConfirmed: Boolean
+}
+
+input ConfirmOrderInput {
+	isConfirmed: Boolean!
+}
+
+type Query {
+	order(id: String!): Order
+	orders: [Order!]
+}
+
+type Mutation {
+	createOrder(input: CreateOrderInput!): Order
+	updateOrder(_id: String!, input: UpdateOrderInput!): Boolean
+	confirmOrder(_id: String!, input: ConfirmOrderInput!): Boolean
+	deleteOrder(id: String): Boolean
+	deleteOrders: Boolean
+}
+
+type DishInfo {
+	_id: String
+	name: String
+	count: Int
+}
