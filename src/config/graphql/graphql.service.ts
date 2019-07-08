@@ -4,13 +4,17 @@ import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
-import { ForbiddenError, AuthenticationError } from 'apollo-server-core'
+import { AuthenticationError } from 'apollo-server-core'
+import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 
 const pubSub = new PubSub()
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(private readonly userService: UserService) {}
+	constructor(
+		private readonly userService: UserService,
+		private readonly userPermissionService: UserPermissionService
+	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -23,23 +27,20 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				return next()
 			},
-			hasPermission: (next, source, args, ctx) => {
-				const { permission } = args
-				console.log(
-					'TCL: GraphqlService -> constructor -> permission',
-					permission
-				)
-				const { currentUser } = ctx
+			hasPermission: async (next, source, args, ctx) => {
+				const { currentUser, currentsite } = ctx
 
 				if (!currentUser) {
 					throw new AuthenticationError('You are not authenticated!')
 				}
 
-				// if (permission !== currentUser.role) {
-				// 	throw new Error(
-				// 		`Must have role: ${permission}, you have role: ${currentUser.role}`
-				// 	)
-				// }
+				const { permission } = args
+
+				await this.userPermissionService.findOne({
+					userId: currentUser._id,
+					siteId: currentsite,
+					'permissions.code': permission
+				})
 
 				return next()
 			}
@@ -62,7 +63,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser = ''
 
-				const { token } = req.headers
+				const { token, currentsite } = req.headers
 
 				if (token) {
 					currentUser = await this.userService.findOneByToken(token)
@@ -72,7 +73,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser
+					currentUser,
+					currentsite
 				}
 			},
 			formatError: err => {

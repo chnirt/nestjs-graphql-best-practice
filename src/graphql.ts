@@ -28,6 +28,7 @@ export class CreateUserInput {
 export class CreateUserPermissionInput {
     userId: string;
     siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class DishInput {
@@ -57,6 +58,11 @@ export class OrderInfo {
     isConfirmed?: boolean;
 }
 
+export class PermissionInfoInput {
+    _id: string;
+    code: string;
+}
+
 export class UpdatePermissionInput {
     code?: string;
     description?: string;
@@ -71,8 +77,7 @@ export class UpdateUserInput {
 }
 
 export class UpdateUserPermissionInput {
-    userId: string;
-    siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class DishInfo {
@@ -156,7 +161,7 @@ export abstract class IMutation {
 
     abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
 
-    abstract createUserPermission(input: CreateUserPermissionInput, permissions: string[]): UserPermission | Promise<UserPermission>;
+    abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 
     abstract updateUserPermission(_id: string, input: UpdateUserPermissionInput): boolean | Promise<boolean>;
 
@@ -183,6 +188,11 @@ export class Permission {
     description: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export class PermissionInfo {
+    _id: string;
+    code: string;
 }
 
 export abstract class IQuery {
@@ -216,7 +226,7 @@ export abstract class IQuery {
 
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
-    abstract userPermission(_id: string): UserPermission | Promise<UserPermission>;
+    abstract findOneByUserId(_id: string): UserPermission | Promise<UserPermission>;
 
     abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;
 }
@@ -248,7 +258,7 @@ export class UserPermission {
     _id: string;
     userId: string;
     siteId: string;
-    permissions: string[];
+    permissions: PermissionInfo[];
     createdAt: string;
     updatedAt: string;
 }

@@ -14,6 +14,7 @@ import {
 import { forwardRef, Inject } from '@nestjs/common'
 import { PermissionService } from '../permission/permission.service'
 import { Permission } from '../permission/permission.entity'
+import { PermissionInfo } from '../common/entities/interface.entity'
 
 @Resolver('UserPermission')
 export class UserPermissionResolver {
@@ -36,16 +37,13 @@ export class UserPermissionResolver {
 	// }
 
 	@Query(() => UserPermission)
-	async userPermission(@Args('_id') _id: string) {
-		return await this.userPermissionService.findById(_id)
+	async findOneByUserId(@Args('_id') _id: string) {
+		return await this.userPermissionService.findOneByUserId(_id)
 	}
 
 	@Mutation(() => UserPermission)
-	async createUserPermission(
-		@Args('input') input: CreateUserPermissionInput,
-		@Args('permissions') permissions: string[]
-	) {
-		return await this.userPermissionService.create(input, permissions)
+	async createUserPermission(@Args('input') input: CreateUserPermissionInput) {
+		return await this.userPermissionService.create(input)
 	}
 
 	@Mutation(() => UserPermission)

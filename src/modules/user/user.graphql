@@ -33,7 +33,7 @@ type User {
 }
 
 type Query {
-	hello: String!
+	hello: String! @hasPermission(permission: "USER_CREATE")
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: String!): User @isAuthenticated
@@ -41,6 +41,7 @@ type Query {
 
 type Mutation {
 	register(input: CreateUserInput!): User
+		@hasPermission(permission: "USER_CREATE")
 	updateUser(_id: String!, input: UpdateUserInput!): Boolean
 		@hasPermission(permission: "USER_UPDATE")
 	deleteUser(_id: String!): Boolean @hasPermission(permission: "USER_DELETE")

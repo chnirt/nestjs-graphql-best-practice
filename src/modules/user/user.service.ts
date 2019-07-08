@@ -90,7 +90,7 @@ export class UserService {
 
 	async login(input: LoginUserInput): Promise<LoginResponse> {
 		const { username, password } = input
-		const message = 'Incorrect email or password. Please try again.'
+		const message = 'Incorrect username or password. Please try again.'
 
 		const user = await this.userRepository.findOne({ username })
 

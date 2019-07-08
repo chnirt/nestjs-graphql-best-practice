@@ -1,35 +1,40 @@
 input CreateUserPermissionInput {
 	userId: String!
 	siteId: String!
-	# permissions: [Permission!]!
+	permissions: [PermissionInfoInput!]!
 }
 
 input UpdateUserPermissionInput {
-	userId: String!
-	siteId: String!
-	# permissions: [Permission!]!
+	permissions: [PermissionInfoInput]!
+}
+
+input PermissionInfoInput {
+	_id: String!
+	code: String!
+}
+
+type PermissionInfo {
+	_id: String!
+	code: String!
 }
 
 type UserPermission {
 	_id: ID!
 	userId: String!
 	siteId: String!
-	permissions: [String!]!
+	permissions: [PermissionInfo!]!
 	createdAt: String!
 	updatedAt: String!
 }
 
 type Query {
 	userPermissions: [UserPermission!]
-	userPermission(_id: String!): UserPermission
+	findOneByUserId(_id: String!): UserPermission
 	getPermissionsByUserId(id: String!): [Permission!]
 }
 
 type Mutation {
-	createUserPermission(
-		input: CreateUserPermissionInput!
-		permissions: [ID!]!
-	): UserPermission
+	createUserPermission(input: CreateUserPermissionInput!): UserPermission
 	updateUserPermission(_id: String!, input: UpdateUserPermissionInput!): Boolean
 	deleteUserPermission(_id: String!): Boolean
 	deleteUserPermissions: Boolean
