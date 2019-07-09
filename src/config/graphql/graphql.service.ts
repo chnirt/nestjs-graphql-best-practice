@@ -4,7 +4,7 @@ import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
-import { AuthenticationError } from 'apollo-server-core'
+import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 
 const pubSub = new PubSub()
@@ -19,19 +19,27 @@ export class GraphqlService implements GqlOptionsFactory {
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
 			isAuthenticated: (next, source, args, ctx) => {
+				const message = 'Token Required'
+				const code = '499'
+				const additionalProperties = {}
+
 				const { currentUser } = ctx
 
 				if (!currentUser) {
-					throw new AuthenticationError('You must be logged in!')
+					throw new ApolloError(message, code, additionalProperties)
 				}
 
 				return next()
 			},
 			hasPermission: async (next, source, args, ctx) => {
+				const message = 'Token Required'
+				const code = '499'
+				const additionalProperties = {}
+
 				const { currentUser, currentsite } = ctx
 
 				if (!currentUser) {
-					throw new AuthenticationError('You are not authenticated!')
+					throw new ApolloError(message, code, additionalProperties)
 				}
 
 				const { permission } = args

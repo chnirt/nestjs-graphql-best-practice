@@ -34,7 +34,7 @@ type User {
 }
 
 type Query {
-	hello: String! @hasPermission(permission: "USER_CREATE")
+	hello: String! @isAuthenticated
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: String!): User @isAuthenticated

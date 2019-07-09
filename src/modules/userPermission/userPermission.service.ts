@@ -6,6 +6,7 @@ import {
 	CreateUserPermissionInput,
 	UpdateUserPermissionInput
 } from '../../graphql'
+import { ApolloError } from 'apollo-server-core'
 
 @Injectable()
 export class UserPermissionService {
@@ -49,14 +50,16 @@ export class UserPermissionService {
 	}
 
 	async findOne(conditions: any): Promise<UserPermission> {
-		const message = 'You are not authorized!.'
+		const message = 'Unauthorized'
+		const code = '401'
+		const additionalProperties = {}
 
 		const userPermission = await this.userPermissionRepository.findOne(
 			conditions
 		)
 
 		if (!userPermission) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		return userPermission

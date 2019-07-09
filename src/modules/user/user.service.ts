@@ -9,7 +9,7 @@ import {
 } from './user.entity'
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
-import { AuthenticationError } from 'apollo-server-core'
+import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../userPermission/userPermission.service'
 
 @Injectable()
@@ -21,33 +21,48 @@ export class UserService {
 	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
-		return await this.userRepository.find({
+		const message = 'No Content'
+		const code = '204'
+		const additionalProperties = {}
+
+		const users = await this.userRepository.find({
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,
 			cache: true
 		})
+
+		if (users.length === 0) {
+			throw new ApolloError(message, code, additionalProperties)
+		}
+		return users
 	}
 
 	async findById(_id: string): Promise<User> {
-		const message = 'User is not found.'
+		const message = 'Not Found: User'
+		const code = '404'
+		const additionalProperties = {}
+
 		const user = await this.userRepository.findOne({ _id })
 
 		if (!user) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		return user
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
+		const message = 'Conflict: Username'
+		const code = '409'
+		const additionalProperties = {}
+
 		const { username, password, fullName } = input
-		const message = 'Username has already been taken.'
 
 		const existedUser = await this.userRepository.findOne({ username })
 
 		if (existedUser) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		const user = new User()
@@ -59,13 +74,16 @@ export class UserService {
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
-		const message = 'User is not found.'
+		const message = 'Not Found: User'
+		const code = '404'
+		const additionalProperties = {}
+
 		const { fullName } = input
 
 		const user = await this.userRepository.findOne({ _id })
 
 		if (!user) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		user.fullName = fullName
@@ -74,12 +92,14 @@ export class UserService {
 	}
 
 	async delete(_id: string): Promise<boolean> {
-		const message = 'User is not found.'
+		const message = 'Not Found: User'
+		const code = '404'
+		const additionalProperties = {}
 
 		const user = await this.userRepository.findOne({ _id })
 
 		if (!user) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		user.isActive = false
@@ -92,13 +112,16 @@ export class UserService {
 	}
 
 	async login(input: LoginUserInput): Promise<LoginResponse> {
+		const message = 'Unauthorized'
+		const code = '401'
+		const additionalProperties = {}
+
 		const { username, password } = input
-		const message = 'Incorrect username or password. Please try again.'
 
 		const user = await this.userRepository.findOne({ username })
 
 		if (!user || !(await user.matchesPassword(password))) {
-			throw new AuthenticationError(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		const token = await jwt.sign(
@@ -123,7 +146,10 @@ export class UserService {
 	}
 
 	async findOneByToken(token: string) {
-		const message = 'The token you provided was invalid'
+		const message = 'Invalid Token'
+		const code = '498'
+		const additionalProperties = {}
+
 		let currentUser
 
 		try {
@@ -135,15 +161,25 @@ export class UserService {
 				_id: decodeToken.subject
 			})
 		} catch (error) {
-			throw new AuthenticationError(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		return currentUser
 	}
 
 	async lockAndUnlock(_id: string): Promise<boolean> {
+		const message = 'Not Found: User'
+		const code = '404'
+		const additionalProperties = {}
+
 		const user = await this.userRepository.findOne({ _id })
+
+		if (!user) {
+			throw new ApolloError(message, code, additionalProperties)
+		}
+
 		user.isLocked = !user.isLocked
+
 		return (await this.userRepository.save(user)) ? true : false
 	}
 }
