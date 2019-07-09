@@ -19,7 +19,7 @@ type DishInfo {
 type Query {
 	Menu(id: String!): Menu
 	Menus: [Menu]
-	MenuBySite: Menu
+	MenusBySite: [Menu]
 	MenuPublishBySite: Menu
 }
 

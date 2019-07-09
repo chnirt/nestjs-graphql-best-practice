@@ -17,9 +17,9 @@ export class MenuResolver {
     return await this.menuService.getMenu(id)
   }
 
-  @Query('MenuBySite')
-  async getMenuBySite(@Context('currentsite') siteId: string) {
-    return await this.menuService.getMenuBySite(siteId)
+  @Query('MenusBySite')
+  async getMenusBySite(@Context('currentsite') siteId: string) {
+    return await this.menuService.getMenusBySite(siteId)
   }
 
   @Query('MenuPublishBySite')
