@@ -8,8 +8,8 @@ export class SiteResolver {
 	constructor(private readonly siteService: SiteService) {}
 
 	@Query(() => [Site])
-	async sites() {
-		return await this.siteService.findAll()
+	async sites(@Args('ids') ids: string[]) {
+		return await this.siteService.findAll(ids)
 	}
 
 	@Query(() => Site)

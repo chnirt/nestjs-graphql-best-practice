@@ -14,7 +14,7 @@ type Site {
 }
 
 type Query {
-	sites: [Site!]
+	sites(ids: [String!]): [Site!]
 	site(_id: String!): Site
 }
 

@@ -10,7 +10,6 @@ import {
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { AuthenticationError } from 'apollo-server-core'
-import { UserPermission } from '../userPermission/userPermission.entity'
 import { UserPermissionService } from '../userPermission/userPermission.service'
 
 @Injectable()
