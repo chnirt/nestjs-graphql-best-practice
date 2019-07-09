@@ -207,13 +207,13 @@ export class PermissionInfo {
 export abstract class IQuery {
     abstract histories(): History[] | Promise<History[]>;
 
-    abstract Menu(id: string): Menu | Promise<Menu>;
+    abstract menu(id: string): Menu | Promise<Menu>;
 
-    abstract Menus(): Menu[] | Promise<Menu[]>;
+    abstract menus(): Menu[] | Promise<Menu[]>;
 
-    abstract MenusBySite(): Menu[] | Promise<Menu[]>;
+    abstract menusBySite(): Menu[] | Promise<Menu[]>;
 
-    abstract MenuPublishBySite(): Menu | Promise<Menu>;
+    abstract menuPublishBySite(): Menu | Promise<Menu>;
 
     abstract order(id: string): Order | Promise<Order>;
 

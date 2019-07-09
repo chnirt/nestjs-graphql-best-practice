@@ -17,10 +17,10 @@ type DishInfo {
 }
 
 type Query {
-	Menu(id: String!): Menu
-	Menus: [Menu]
-	MenusBySite: [Menu]
-	MenuPublishBySite: Menu
+	menu(id: String!): Menu
+	menus: [Menu]
+	menusBySite: [Menu]
+	menuPublishBySite: Menu
 }
 
 type Mutation {
