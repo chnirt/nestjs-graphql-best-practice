@@ -23,7 +23,8 @@ import {
 	Length,
 	MinLength,
 	IsEmail,
-	IsBoolean
+	IsBoolean,
+	IsArray
 } from 'class-validator'
 
 export class LoginUserInput {
@@ -83,7 +84,12 @@ export class UpdateUserInput {
 
 export class LoginResponse {
 	@IsString()
+	@IsNotEmpty()
 	token: string
+
+	@IsArray()
+	@IsNotEmpty()
+	sites: string[]
 }
 
 @Entity()

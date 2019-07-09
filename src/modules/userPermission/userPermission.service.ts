@@ -34,6 +34,20 @@ export class UserPermissionService {
 		return userPermission
 	}
 
+	async findAllByUserId(userId: string): Promise<UserPermission[]> {
+		const message = 'UserPermission is not found.'
+
+		const userPermission = await this.userPermissionRepository.find({
+			userId
+		})
+
+		if (!userPermission) {
+			throw new Error(message)
+		}
+
+		return userPermission
+	}
+
 	async findOne(conditions: any): Promise<UserPermission> {
 		const message = 'You are not authorized!.'
 

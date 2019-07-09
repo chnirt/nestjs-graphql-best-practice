@@ -8,8 +8,7 @@ import {
 } from 'typeorm'
 import { IsString, IsNotEmpty, IsArray } from 'class-validator'
 import * as uuid from 'uuid'
-// import { PermissionInfo } from '../../graphql'
-import { PermissionInfo } from '../common/entities/interface.entity'
+import { PermissionInfo } from '../../graphql'
 
 @Entity()
 export class UserPermission {

@@ -18,6 +18,7 @@ input LoginUserInput {
 
 type LoginResponse {
 	token: String!
+	sites: [String!]!
 }
 
 type User {
