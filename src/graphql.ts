@@ -210,7 +210,7 @@ export abstract class IQuery {
 
     abstract Menus(): Menu[] | Promise<Menu[]>;
 
-    abstract MenuBySite(): Menu | Promise<Menu>;
+    abstract MenusBySite(): Menu[] | Promise<Menu[]>;
 
     abstract MenuPublishBySite(): Menu | Promise<Menu>;
 

@@ -24,9 +24,9 @@ export class MenuService {
 		}
 	}
 
-	async getMenuBySite(siteId: string): Promise<Menu | ApolloError> {
+	async getMenusBySite(siteId: string): Promise<Menu | ApolloError> {
 		try {
-			return await this.commonService.findOneAdapter(Menu, { siteId, isActived: true })
+			return await this.commonService.findAdapter(Menu, { siteId, isActived: true })
 		} catch (error) {
 			throw new ApolloError(error)
 		}
