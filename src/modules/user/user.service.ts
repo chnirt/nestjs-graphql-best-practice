@@ -132,7 +132,7 @@ export class UserService {
 			},
 			process.env.SECRET_KEY,
 			{
-				expiresIn: '15s'
+				expiresIn: '30d'
 			}
 		)
 
