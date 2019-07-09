@@ -11,8 +11,8 @@ import { DataloaderModule } from './shared/dataloader/dataloader.module'
 import { SiteModule } from './modules/site/site.module'
 import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
-import { OrderBModule } from './modules/orderB/order.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
+import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
 @Module({
 	imports: [
@@ -31,9 +31,9 @@ import { HistoryModule } from './modules/history/history.module'
 		DataloaderModule,
 		SiteModule,
 		PermissionModule,
-		OrderBModule,
 		MenuModule,
 		UserPermissionModule,
+		OrderModule,
 		HistoryModule
 	]
 })

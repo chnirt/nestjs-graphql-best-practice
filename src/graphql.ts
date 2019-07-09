@@ -5,22 +5,16 @@
  */
 
 /* tslint:disable */
-export class ConfirmOrderInput {
-    isConfirmed: boolean;
-}
-
 export class CreateHistoryInput {
     userId: string;
     description: string;
 }
 
 export class CreateOrderInput {
-    userId: string;
     menuId: string;
     dishId: string;
     note?: string;
     count: number;
-    isConfirmed: boolean;
 }
 
 export class CreatePermissionInput {
@@ -56,9 +50,9 @@ export class LoginUserInput {
 
 export class MenuInfo {
     name?: string;
-    siteId?: string;
-    isPublish?: boolean;
+    isPublished?: boolean;
     isLocked?: boolean;
+    isActived?: boolean;
 }
 
 export class PermissionInfoInput {
@@ -67,12 +61,10 @@ export class PermissionInfoInput {
 }
 
 export class UpdateOrderInput {
-    userId: string;
     menuId: string;
     dishId: string;
     note?: string;
     count?: number;
-    isConfirmed?: boolean;
 }
 
 export class UpdatePermissionInput {
@@ -115,8 +107,9 @@ export class Menu {
     name?: string;
     siteId?: string;
     dishes?: DishInfo[];
-    isPublish?: boolean;
+    isPublished?: boolean;
     isLocked?: boolean;
+    isActived?: boolean;
     createAt?: string;
     updateAt?: string;
 }
@@ -130,19 +123,23 @@ export abstract class IMutation {
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
 
+    abstract publishAndUnpublish(id: string): boolean | Promise<boolean>;
+
+    abstract lockAndUnlockMenu(id: string): boolean | Promise<boolean>;
+
     abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
 
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
 
-    abstract createOrder(input: CreateOrderInput): Order | Promise<Order>;
+    abstract closeMenu(id: string): boolean | Promise<boolean>;
 
-    abstract updateOrder(_id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+    abstract orderDish(input: CreateOrderInput): boolean | Promise<boolean>;
 
-    abstract confirmOrder(_id: string, input: ConfirmOrderInput): boolean | Promise<boolean>;
+    abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+
+    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
 
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
-
-    abstract deleteOrders(): boolean | Promise<boolean>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -209,11 +206,13 @@ export class PermissionInfo {
 export abstract class IQuery {
     abstract histories(): History[] | Promise<History[]>;
 
-    abstract getMenu(id: string): Menu | Promise<Menu>;
+    abstract Menu(id: string): Menu | Promise<Menu>;
 
-    abstract getMenus(): Menu[] | Promise<Menu[]>;
+    abstract Menus(): Menu[] | Promise<Menu[]>;
 
-    abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
+    abstract MenuBySite(): Menu | Promise<Menu>;
+
+    abstract MenuPublishBySite(): Menu | Promise<Menu>;
 
     abstract order(id: string): Order | Promise<Order>;
 
@@ -263,12 +262,6 @@ export class User {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
-}
-
-export class UserInfo {
-    _id: string;
-    username: string;
-    fullname: string;
 }
 
 export class UserPermission {

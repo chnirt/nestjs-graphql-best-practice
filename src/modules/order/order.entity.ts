@@ -24,22 +24,22 @@ export class Order {
 	@IsString()
 	@IsNotEmpty()
 	menuId: string
-	
+
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	dishId: String
-	
+	dishId: string
+
 	@Column()
 	@IsString()
 	@IsNotEmpty()
 	note: string
-	
+
 	@Column()
 	@IsNumber()
 	@IsNotEmpty()
 	count: number
-	
+
 	@Column()
 	@IsBoolean()
 	@IsNotEmpty()
@@ -57,8 +57,8 @@ export class Order {
 		this.isConfirmed = false
 	}
 
-	@BeforeUpdate()
-	async b4update() {
-		console.log('b4Order')
-	}
+	// @BeforeUpdate()
+	// async b4update() {
+	// 	console.log('b4Order')
+	// }
 }

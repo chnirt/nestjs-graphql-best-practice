@@ -7,7 +7,7 @@ import {
 	UpdateDateColumn
 } from 'typeorm'
 import { v1 as uuidv1 } from 'uuid'
-import { DishInfo } from '../common/entities/interface.entity'
+import { DishInfo } from '../../graphql'
 
 @Entity()
 export class Menu {
@@ -24,10 +24,13 @@ export class Menu {
 	dishes: [DishInfo] | []
 
 	@Column()
-	isPublish: boolean
+	isPublished: boolean
 
 	@Column()
 	isLocked: boolean
+
+	@Column()
+	isActived: boolean
 
 	@CreateDateColumn()
 	createAt: string
@@ -39,8 +42,9 @@ export class Menu {
 	async b4create() {
 		this._id = await uuidv1()
 		this.dishes = []
-		this.isPublish = false
-		this.isLocked = true
+		this.isPublished = false
+		this.isLocked = true,
+		this.isActived = true
 	}
 
 	constructor(args) {
