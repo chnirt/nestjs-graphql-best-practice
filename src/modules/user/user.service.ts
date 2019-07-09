@@ -10,12 +10,15 @@ import {
 import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { AuthenticationError } from 'apollo-server-core'
+import { UserPermission } from '../userPermission/userPermission.entity'
+import { UserPermissionService } from '../userPermission/userPermission.service'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User)
-		private readonly userRepository: MongoRepository<User>
+		private readonly userRepository: MongoRepository<User>,
+		private readonly userPermissionService: UserPermissionService
 	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
@@ -52,6 +55,7 @@ export class UserService {
 		user.username = username
 		user.password = password
 		user.fullName = fullName
+
 		return await this.userRepository.save(user)
 	}
 
@@ -110,7 +114,13 @@ export class UserService {
 			}
 		)
 
-		return { token }
+		const userPermission = await this.userPermissionService.findAllByUserId(
+			user._id
+		)
+
+		const sites = userPermission.map(item => item.siteId)
+
+		return { token, sites }
 	}
 
 	async findOneByToken(token: string) {
