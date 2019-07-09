@@ -24,6 +24,14 @@ export class MenuService {
 		}
 	}
 
+	async getMenuBySite(siteId: string): Promise<Menu | ApolloError> {
+		try {
+			return await this.commonService.findOneAdapter(Menu, { siteId, isActived: true })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
+	}
+
 	async getMenuPublishBySite(
 		currentSiteId: string
 	): Promise<Menu | ApolloError> {
@@ -38,9 +46,9 @@ export class MenuService {
 		}
 	}
 
-	async createMenu(menuInfo: MenuInfo): Promise<boolean | ApolloError> {
+	async createMenu(menuInfo: MenuInfo, siteId: string): Promise<boolean | ApolloError> {
 		try {
-			return (await this.commonService.createAdapter(Menu, menuInfo))
+			return (await this.commonService.createAdapter(Menu, { ...menuInfo, siteId }))
 				? true
 				: false
 		} catch (error) {
@@ -146,7 +154,7 @@ export class MenuService {
 					isPublished: false
 				}
 			})
-			return await this.createMenu({ name, siteId })
+			return await this.commonService.createAdapter(Menu, { name, siteId }) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}

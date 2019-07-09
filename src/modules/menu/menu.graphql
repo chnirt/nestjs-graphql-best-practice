@@ -17,9 +17,10 @@ type DishInfo {
 }
 
 type Query {
-	getMenu(id: String!): Menu
-	getMenus: [Menu]
-	getMenuPublishBySite(currentSiteId: String!): Menu
+	Menu(id: String!): Menu
+	Menus: [Menu]
+	MenuBySite: Menu
+	MenuPublishBySite: Menu
 }
 
 type Mutation {
@@ -35,7 +36,6 @@ type Mutation {
 
 input MenuInfo {
 	name: String
-	siteId: String
 	isPublished: Boolean
 	isLocked: Boolean
 	isActived: Boolean

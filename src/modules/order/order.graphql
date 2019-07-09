@@ -1,31 +1,37 @@
 type Order {
-	_id: ID
-	userId: String
-	menuId: String
-	dishId: String
+	_id: ID!
+	userId: String!
+	menuId: String!
+	dishId: String!
 	note: String
-	count: Int
+	count: Int!
 	isConfirmed: Boolean
 	createdAt: String
 	updatedAt: String
 }
 
+input CreateOrderInput {
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int!
+}
+
+input UpdateOrderInput {
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int
+}
+
 type Query {
-	getOrder(id: String!): Order
-	getOrders: [Order]
+	order(id: String!): Order
+	orders: [Order!]
 }
 
 type Mutation {
-	createOrder(orderInfo: OrderInfo!): Boolean
-	updateOrder(id: String!, orderInfo: OrderInfo!): Boolean
-	# removeOrder(id: String!): Boolean
-}
-
-input OrderInfo {
-	userId: String
-	menuId: String
-	dishId: String
-	note: String
-	count: Int
-	isConfirmed: Boolean
+	orderDish(input: CreateOrderInput!): Boolean
+	updateOrder(id: String!, input: UpdateOrderInput!): Boolean
+	confirmOrder(menuId: String!, dishId: String!): Boolean
+	deleteOrder(id: String): Boolean
 }

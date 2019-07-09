@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
+import { Resolver, Query, Args, Mutation, Context } from '@nestjs/graphql'
 import { MenuService } from './menu.service'
 import { MenuInfo, DishInput } from '../../graphql'
 import { async } from 'rxjs/internal/scheduler/async';
@@ -7,24 +7,29 @@ import { async } from 'rxjs/internal/scheduler/async';
 export class MenuResolver {
   constructor(private readonly menuService: MenuService) {}
 
-  @Query('getMenus')
+  @Query('Menus')
   async getMenus() {
     return await this.menuService.getMenus()
   }
 
-  @Query('getMenu')
+  @Query('Menu')
   async getMenu(@Args('id') id: string) {
     return await this.menuService.getMenu(id)
   }
 
-  @Query('getMenuPublishBySite')
-  async getMenuPublishBySite(@Args('currentSiteId') currentSiteId: string) {
+  @Query('MenuBySite')
+  async getMenuBySite(@Context('currentsite') siteId: string) {
+    return await this.menuService.getMenuBySite(siteId)
+  }
+
+  @Query('MenuPublishBySite')
+  async getMenuPublishBySite(@Context('currentsite') currentSiteId: string) {
     return await this.menuService.getMenuPublishBySite(currentSiteId)
   }
 
   @Mutation('createMenu')
-  async createMenu(@Args('menuInfo') menuInfo: MenuInfo) {
-    return await this.menuService.createMenu(menuInfo)
+  async createMenu(@Args('menuInfo') menuInfo: MenuInfo, @Context('currentsite') siteId: string) {
+    return await this.menuService.createMenu(menuInfo, siteId)
   }
 
   @Mutation('updateMenu')

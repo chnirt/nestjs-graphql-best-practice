@@ -3,10 +3,12 @@ import {
 	ObjectIdColumn,
 	Column,
 	CreateDateColumn,
+	UpdateDateColumn,
 	BeforeInsert,
-	UpdateDateColumn
+	BeforeUpdate
 } from 'typeorm'
-import { v1 as uuidv1 } from 'uuid'
+import * as uuid from 'uuid'
+import { IsString, IsNotEmpty, IsBoolean, IsNumber } from 'class-validator'
 
 @Entity()
 export class Order {
@@ -14,21 +16,33 @@ export class Order {
 	_id: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	userId: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	menuId: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	dishId: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	note: string
 
 	@Column()
+	@IsNumber()
+	@IsNotEmpty()
 	count: number
 
 	@Column()
+	@IsBoolean()
+	@IsNotEmpty()
 	isConfirmed: boolean
 
 	@CreateDateColumn({ type: 'timestamp' })
@@ -39,13 +53,12 @@ export class Order {
 
 	@BeforeInsert()
 	async b4create() {
-		this._id = await uuidv1()
+		this._id = await uuid.v1()
 		this.isConfirmed = false
 	}
 
-	constructor(args) {
-		if (args) {
-			Object.assign(this, args)
-		}
-	}
+	// @BeforeUpdate()
+	// async b4update() {
+	// 	console.log('b4Order')
+	// }
 }

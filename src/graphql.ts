@@ -10,6 +10,13 @@ export class CreateHistoryInput {
     description: string;
 }
 
+export class CreateOrderInput {
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+}
+
 export class CreatePermissionInput {
     code: string;
     description: string;
@@ -43,24 +50,21 @@ export class LoginUserInput {
 
 export class MenuInfo {
     name?: string;
-    siteId?: string;
     isPublished?: boolean;
     isLocked?: boolean;
     isActived?: boolean;
 }
 
-export class OrderInfo {
-    userId?: string;
-    menuId?: string;
-    dishId?: string;
-    note?: string;
-    count?: number;
-    isConfirmed?: boolean;
-}
-
 export class PermissionInfoInput {
     _id: string;
     code: string;
+}
+
+export class UpdateOrderInput {
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count?: number;
 }
 
 export class UpdatePermissionInput {
@@ -129,9 +133,13 @@ export abstract class IMutation {
 
     abstract closeMenu(id: string): boolean | Promise<boolean>;
 
-    abstract createOrder(orderInfo: OrderInfo): boolean | Promise<boolean>;
+    abstract orderDish(input: CreateOrderInput): boolean | Promise<boolean>;
 
-    abstract updateOrder(id: string, orderInfo: OrderInfo): boolean | Promise<boolean>;
+    abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+
+    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
+
+    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -171,12 +179,12 @@ export abstract class IMutation {
 }
 
 export class Order {
-    _id?: string;
-    userId?: string;
-    menuId?: string;
-    dishId?: string;
+    _id: string;
+    userId: string;
+    menuId: string;
+    dishId: string;
     note?: string;
-    count?: number;
+    count: number;
     isConfirmed?: boolean;
     createdAt?: string;
     updatedAt?: string;
@@ -198,15 +206,17 @@ export class PermissionInfo {
 export abstract class IQuery {
     abstract histories(): History[] | Promise<History[]>;
 
-    abstract getMenu(id: string): Menu | Promise<Menu>;
+    abstract Menu(id: string): Menu | Promise<Menu>;
 
-    abstract getMenus(): Menu[] | Promise<Menu[]>;
+    abstract Menus(): Menu[] | Promise<Menu[]>;
 
-    abstract getMenuPublishBySite(currentSiteId: string): Menu | Promise<Menu>;
+    abstract MenuBySite(): Menu | Promise<Menu>;
 
-    abstract getOrder(id: string): Order | Promise<Order>;
+    abstract MenuPublishBySite(): Menu | Promise<Menu>;
 
-    abstract getOrders(): Order[] | Promise<Order[]>;
+    abstract order(id: string): Order | Promise<Order>;
+
+    abstract orders(): Order[] | Promise<Order[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 

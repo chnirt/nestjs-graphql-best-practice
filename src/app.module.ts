@@ -30,8 +30,8 @@ import { HistoryModule } from './modules/history/history.module'
 		TypeormModule,
 		DataloaderModule,
 		SiteModule,
-		MenuModule,
 		PermissionModule,
+		MenuModule,
 		UserPermissionModule,
 		OrderModule,
 		HistoryModule
