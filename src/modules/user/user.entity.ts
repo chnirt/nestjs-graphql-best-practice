@@ -26,6 +26,7 @@ import {
 	IsBoolean,
 	IsArray
 } from 'class-validator'
+import { LoginResponseInfo } from '../../graphql'
 
 export class LoginUserInput {
 	@MinLength(4, {
@@ -89,7 +90,7 @@ export class LoginResponse {
 
 	@IsArray()
 	@IsNotEmpty()
-	sites: string[]
+	sites: LoginResponseInfo[]
 }
 
 @Entity()

@@ -100,7 +100,12 @@ export class History {
 
 export class LoginResponse {
     token: string;
-    sites: string[];
+    sites: LoginResponseInfo[];
+}
+
+export class LoginResponseInfo {
+    _id: string;
+    name: string;
 }
 
 export class Menu {
