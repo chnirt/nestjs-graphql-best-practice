@@ -25,7 +25,7 @@ export class SiteService {
 		})
 
 		return await this.siteRepository.find({
-			where: { $in: convertIds }
+			where: { $or: convertIds }
 		})
 	}
 
