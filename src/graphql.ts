@@ -100,7 +100,12 @@ export class History {
 
 export class LoginResponse {
     token: string;
-    sites: string[];
+    sites: LoginResponseInfo[];
+}
+
+export class LoginResponseInfo {
+    _id: string;
+    name: string;
 }
 
 export class Menu {
@@ -120,14 +125,6 @@ export abstract class IMutation {
 
     abstract deleteHistories(): boolean | Promise<boolean>;
 
-    abstract orderDish(input: CreateOrderInput): boolean | Promise<boolean>;
-
-    abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
-
-    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
-
-    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
-
     abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
@@ -141,6 +138,14 @@ export abstract class IMutation {
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
 
     abstract closeMenu(id: string): boolean | Promise<boolean>;
+
+    abstract orderDish(input: CreateOrderInput): boolean | Promise<boolean>;
+
+    abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
+
+    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
+
+    abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -207,10 +212,6 @@ export class PermissionInfo {
 export abstract class IQuery {
     abstract histories(): History[] | Promise<History[]>;
 
-    abstract order(id: string): Order | Promise<Order>;
-
-    abstract orders(): Order[] | Promise<Order[]>;
-
     abstract menu(id: string): Menu | Promise<Menu>;
 
     abstract menus(): Menu[] | Promise<Menu[]>;
@@ -218,6 +219,10 @@ export abstract class IQuery {
     abstract menusBySite(): Menu[] | Promise<Menu[]>;
 
     abstract menuPublishBySite(): Menu | Promise<Menu>;
+
+    abstract order(id: string): Order | Promise<Order>;
+
+    abstract orders(): Order[] | Promise<Order[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 

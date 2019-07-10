@@ -11,13 +11,15 @@ import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../userPermission/userPermission.service'
+import { SiteService } from '../site/site.service'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
-		private readonly userPermissionService: UserPermissionService
+		private readonly userPermissionService: UserPermissionService,
+		private readonly siteService: SiteService
 	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
@@ -140,7 +142,9 @@ export class UserService {
 			user._id
 		)
 
-		const sites = userPermission.map(item => item.siteId)
+		const siteIds = await userPermission.map(item => item.siteId)
+
+		const sites = await this.siteService.findAllByIds(siteIds)
 
 		return { token, sites }
 	}

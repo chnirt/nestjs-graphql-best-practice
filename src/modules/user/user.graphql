@@ -18,7 +18,12 @@ input LoginUserInput {
 
 type LoginResponse {
 	token: String!
-	sites: [String!]!
+	sites: [LoginResponseInfo!]!
+}
+
+type LoginResponseInfo {
+	_id: String!
+	name: String!
 }
 
 type User {
