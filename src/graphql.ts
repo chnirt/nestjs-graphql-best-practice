@@ -223,7 +223,9 @@ export abstract class IQuery {
 
     abstract permission(_id: string): Permission | Promise<Permission>;
 
-    abstract sites(ids?: string[]): Site[] | Promise<Site[]>;
+    abstract sites(): Site[] | Promise<Site[]>;
+
+    abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
 
     abstract site(_id: string): Site | Promise<Site>;
 

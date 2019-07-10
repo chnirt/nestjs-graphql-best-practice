@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Site } from './site.entity'
-import { MongoRepository, In } from 'typeorm'
+import { MongoRepository } from 'typeorm'
 import { CreateSiteInput, UpdateSiteInput } from '../../graphql'
 
 @Injectable()
@@ -11,9 +11,21 @@ export class SiteService {
 		private readonly siteRepository: MongoRepository<Site>
 	) {}
 
-	async findAll(ids: string[]): Promise<Site[]> {
+	async findAll(): Promise<Site[]> {
 		return await this.siteRepository.find({
-			// _id: { $in: ids }
+			cache: true
+		})
+	}
+
+	async findAllByIds(ids: string[]): Promise<Site[]> {
+		const convertIds = await ids.map(item => {
+			return {
+				_id: item
+			}
+		})
+
+		return await this.siteRepository.find({
+			where: { $in: convertIds }
 		})
 	}
 
