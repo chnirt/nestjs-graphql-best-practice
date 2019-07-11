@@ -218,9 +218,9 @@ export abstract class IQuery {
 
     abstract menus(): Menu[] | Promise<Menu[]>;
 
-    abstract menusBySite(): Menu[] | Promise<Menu[]>;
+    abstract menusBySite(siteId: string): Menu[] | Promise<Menu[]>;
 
-    abstract menuPublishBySite(): Menu | Promise<Menu>;
+    abstract menuPublishBySite(siteId: string): Menu | Promise<Menu>;
 
     abstract order(id: string): Order | Promise<Order>;
 
