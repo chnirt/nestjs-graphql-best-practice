@@ -4,10 +4,16 @@ import { Menu } from './menu.entity'
 import { ApolloError } from 'apollo-server-core'
 import { MenuInfo, DishInput } from '../../graphql'
 import { v1 as uuidv1 } from 'uuid'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository } from 'typeorm'
 
 @Injectable()
 export class MenuService {
-	constructor(private readonly commonService: CommonService) {}
+	constructor(
+		@InjectRepository(Menu)
+		private readonly menuRepository: MongoRepository<Menu>,
+		private readonly commonService: CommonService
+	) {}
 	async getMenus(): Promise<Menu[] | ApolloError> {
 		try {
 			return await this.commonService.findAdapter(Menu, { isActived: true })
@@ -26,7 +32,10 @@ export class MenuService {
 
 	async getMenusBySite(siteId: string): Promise<Menu | ApolloError> {
 		try {
-			return await this.commonService.findAdapter(Menu, { siteId, isActived: true })
+			return await this.commonService.findAdapter(Menu, {
+				siteId,
+				isActived: true
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -46,9 +55,15 @@ export class MenuService {
 		}
 	}
 
-	async createMenu(menuInfo: MenuInfo, siteId: string): Promise<boolean | ApolloError> {
+	async createMenu(
+		menuInfo: MenuInfo,
+		siteId: string
+	): Promise<boolean | ApolloError> {
 		try {
-			return (await this.commonService.createAdapter(Menu, { ...menuInfo, siteId }))
+			return (await this.commonService.createAdapter(Menu, {
+				...menuInfo,
+				siteId
+			}))
 				? true
 				: false
 		} catch (error) {
@@ -128,7 +143,7 @@ export class MenuService {
 		try {
 			return (await this.commonService.updateManyAdapter(
 				Menu,
-				{ '_id': menuId, 'dishes._id': dishId },
+				{ _id: menuId, 'dishes._id': dishId },
 				{
 					$set: {
 						'dishes.$': { ...dishInput, _id: dishId }
@@ -142,19 +157,46 @@ export class MenuService {
 		}
 	}
 
+	async deleteDish(
+		menuId: string,
+		dishId: string
+	): Promise<boolean | ApolloError> {
+		try {
+			const menu = await this.commonService.findOneAdapter(Menu, { _id: menuId })
+			const dishes = await menu.dishes.filter(dish => dish._id !== dishId)
+			return (await this.commonService.updateOneByIdAdapter(Menu, menuId, {
+				$set: {
+					dishes
+				}
+			}))
+				? true
+				: false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
+	}
+
 	async closeMenu(id: string): Promise<boolean | ApolloError> {
 		try {
-			const { name, siteId } = await this.commonService.findOneAdapter(Menu, {
-				_id: id
+			const menu = await this.commonService.findOneAdapter(Menu, {
+				_id: id,
+				isActived: true
 			})
-			await this.commonService.updateOneByIdAdapter(Menu, id, {
-				$set: {
-					isActived: false,
-					isLocked: true,
-					isPublished: false
-				}
-			})
-			return await this.commonService.createAdapter(Menu, { name, siteId }) ? true : false
+			if (menu) {
+				await this.commonService.updateOneByIdAdapter(Menu, id, {
+					$set: {
+						isActived: false,
+						isLocked: true,
+						isPublished: false
+					}
+				})
+				return (await this.commonService.createAdapter(Menu, {
+					name: menu.name,
+					siteId: menu.siteId
+				}))
+					? true
+					: false
+			}
 		} catch (error) {
 			throw new ApolloError(error)
 		}

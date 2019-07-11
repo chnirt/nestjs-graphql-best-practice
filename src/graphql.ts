@@ -137,6 +137,8 @@ export abstract class IMutation {
 
     abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
 
+    abstract deleteDish(menuId: string, dishId: string): boolean | Promise<boolean>;
+
     abstract closeMenu(id: string): boolean | Promise<boolean>;
 
     abstract orderDish(input: CreateOrderInput): boolean | Promise<boolean>;
