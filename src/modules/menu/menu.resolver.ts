@@ -70,6 +70,14 @@ export class MenuResolver {
 		return await this.menuService.updateDish(menuId, dishId, dishInput)
 	}
 
+	@Mutation('deleteDish')
+	async deleteDish(
+		@Args('menuId') menuId: string,
+		@Args('dishId') dishId: string
+	) {
+		return await this.menuService.deleteDish(menuId, dishId)
+	}
+
 	@Mutation('closeMenu')
 	async closeMenu(@Args('id') id: string) {
 		return await this.menuService.closeMenu(id)
