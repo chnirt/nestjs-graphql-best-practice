@@ -110,7 +110,11 @@ export class UserService {
 	}
 
 	async deleteAll(): Promise<boolean> {
-		return (await this.userRepository.deleteMany({})) ? true : false
+		return (await this.userRepository.deleteMany({
+			username: { $ne: 'admin' }
+		}))
+			? true
+			: false
 	}
 
 	async login(input: LoginUserInput): Promise<LoginResponse> {
@@ -171,7 +175,7 @@ export class UserService {
 		return currentUser
 	}
 
-	async lockAndUnlock(_id: string): Promise<boolean> {
+	async lockAndUnlockUser(_id: string): Promise<boolean> {
 		const message = 'Not Found: User'
 		const code = '404'
 		const additionalProperties = {}

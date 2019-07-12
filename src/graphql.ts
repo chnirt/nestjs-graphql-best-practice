@@ -173,7 +173,7 @@ export abstract class IMutation {
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
-    abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
+    abstract lockAndUnlockUser(_id: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 

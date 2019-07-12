@@ -53,7 +53,7 @@ type Mutation {
 	deleteUser(_id: String!): Boolean @hasPermission(permission: "USER_DELETE")
 	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
-	lockAndUnlock(_id: String!): Boolean
+	lockAndUnlockUser(_id: String!): Boolean
 		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
 }
 
