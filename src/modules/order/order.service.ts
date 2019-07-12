@@ -30,6 +30,14 @@ export class OrderService {
     return await this.orderRepository.findOne({ userId, menuId, dishId })
   }
 
+  async findOrdersByUser(userId: string, menuId: string) {
+    return await this.orderRepository.find({ userId, menuId })
+  }
+
+  async findOrdersByMenu(menuId: string) {
+    return await this.orderRepository.find({ menuId })
+  }
+
   async create(input: CreateOrderInput, userId: string): Promise<boolean> {
     const { note, count, menuId, dishId } = input
     if (await this.findCurrentOrder(userId, menuId, dishId)) {

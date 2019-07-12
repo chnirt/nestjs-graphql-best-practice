@@ -27,6 +27,8 @@ input UpdateOrderInput {
 type Query {
 	order(id: String!): Order
 	orders: [Order!]
+	ordersByUser(menuId: String!): [Order]
+	ordersByMenu(menuId: String!): [Order]
 }
 
 type Mutation {
