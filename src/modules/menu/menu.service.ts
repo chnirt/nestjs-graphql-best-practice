@@ -10,7 +10,7 @@ export class MenuService {
 	constructor(private readonly commonService: CommonService) {}
 	async getMenus(): Promise<Menu[] | ApolloError> {
 		try {
-			return await this.commonService.findAdapter(Menu, { isActived: true })
+			return await this.commonService.findAdapter(Menu, { isActive: true })
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -28,7 +28,7 @@ export class MenuService {
 		try {
 			return await this.commonService.findAdapter(Menu, {
 				siteId,
-				isActived: true
+				isActive: true
 			})
 		} catch (error) {
 			throw new ApolloError(error)
@@ -40,7 +40,7 @@ export class MenuService {
 			return await this.commonService.findOneAdapter(Menu, {
 				siteId,
 				isPublished: true,
-				isActived: true
+				isActive: true
 			})
 		} catch (error) {
 			throw new ApolloError(error)
@@ -172,12 +172,12 @@ export class MenuService {
 		try {
 			const menu = await this.commonService.findOneAdapter(Menu, {
 				_id: id,
-				isActived: true
+				isActive: true
 			})
 			if (menu) {
 				await this.commonService.updateOneByIdAdapter(Menu, id, {
 					$set: {
-						isActived: false,
+						isActive: false,
 						isLocked: true,
 						isPublished: false
 					}

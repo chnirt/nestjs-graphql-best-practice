@@ -52,7 +52,7 @@ export class MenuInfo {
     name?: string;
     isPublished?: boolean;
     isLocked?: boolean;
-    isActived?: boolean;
+    isActive?: boolean;
 }
 
 export class PermissionInfoInput {
@@ -115,7 +115,7 @@ export class Menu {
     dishes?: DishInfo[];
     isPublished?: boolean;
     isLocked?: boolean;
-    isActived?: boolean;
+    isActive?: boolean;
     createAt?: string;
     updateAt?: string;
 }

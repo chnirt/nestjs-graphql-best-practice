@@ -5,7 +5,7 @@ type Menu {
 	dishes: [DishInfo]
 	isPublished: Boolean
 	isLocked: Boolean
-	isActived: Boolean
+	isActive: Boolean
 	createAt: String
 	updateAt: String
 }
@@ -39,7 +39,7 @@ input MenuInfo {
 	name: String
 	isPublished: Boolean
 	isLocked: Boolean
-	isActived: Boolean
+	isActive: Boolean
 }
 
 input DishInput {
