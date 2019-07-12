@@ -62,7 +62,8 @@ export class UserService {
 		const code = '409'
 		const additionalProperties = {}
 
-		const { username, password, fullName, siteId, permissions } = input
+		// const { username, password, fullName, siteId, permissions } = input
+		const { username, password, fullName, sites } = input
 
 		const existedUser = await this.userRepository.findOne({ username })
 
@@ -77,17 +78,21 @@ export class UserService {
 
 		const newUser = await this.userRepository.save(user)
 
-		await this.siteService.findById(siteId)
+		sites.map(async item => {
+			const { siteId, permissions } = item
 
-		const userPermission = new UserPermission()
+			await this.siteService.findById(siteId)
 
-		userPermission.userId = newUser._id
-		userPermission.siteId = siteId
-		userPermission.permissions = permissions
+			const userPermission = new UserPermission()
 
-		await this.userPermissionService.create(userPermission)
+			userPermission.userId = newUser._id
+			userPermission.siteId = siteId
+			userPermission.permissions = permissions
 
-		return newUser
+			await this.userPermissionService.create(userPermission)
+		})
+
+		return null
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
@@ -95,28 +100,29 @@ export class UserService {
 		const code = '404'
 		const additionalProperties = {}
 
-		const { fullName, siteId, permissions } = input
+		// const { fullName, siteId, permissions } = input
 
-		const user = await this.userRepository.findOne({ _id })
+		// const user = await this.userRepository.findOne({ _id })
 
-		if (!user) {
-			throw new ApolloError(message, code, additionalProperties)
-		}
+		// if (!user) {
+		// 	throw new ApolloError(message, code, additionalProperties)
+		// }
 
-		user.fullName = fullName
+		// user.fullName = fullName
 
-		await this.siteService.findById(siteId)
+		// await this.siteService.findById(siteId)
 
-		const userPermission = new UserPermission()
+		// const userPermission = new UserPermission()
 
-		userPermission.userId = user._id
-		userPermission.siteId = siteId
-		userPermission.permissions = permissions
+		// userPermission.userId = user._id
+		// userPermission.siteId = siteId
+		// userPermission.permissions = permissions
 
-		await this.userPermissionService.create(userPermission)
-		// console.log('TCL: UserService -> newUserPermission', newUserPermission)
+		// await this.userPermissionService.create(userPermission)
+		// // console.log('TCL: UserService -> newUserPermission', newUserPermission)
 
-		return (await this.userRepository.save(user)) ? true : false
+		// return (await this.userRepository.save(user)) ? true : false
+		return true
 	}
 
 	async delete(_id: string): Promise<boolean> {

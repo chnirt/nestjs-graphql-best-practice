@@ -27,6 +27,19 @@ import {
 } from 'class-validator'
 import { LoginResponseInfo, PermissionInfoInput } from '../../graphql'
 
+export class SitesInfoInput {
+	@Length(36, 36, {
+		message: 'Your siteId must be 36 characters'
+	})
+	@IsString()
+	@IsNotEmpty({ message: 'Your siteId can not be blank' })
+	siteId: string
+
+	@IsArray()
+	@IsNotEmpty({ message: 'Your permissions can not be blank' })
+	permissions: PermissionInfoInput[]
+}
+
 export class LoginUserInput {
 	@MinLength(4, {
 		message: 'Your username must be at least 4 characters'
@@ -65,16 +78,9 @@ export class CreateUserInput {
 	@IsNotEmpty({ message: 'Your fullName can not be blank' })
 	fullName: string
 
-	@Length(36, 36, {
-		message: 'Your siteId must be 36 characters'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your siteId can not be blank' })
-	siteId: string
-
 	@IsArray()
-	@IsNotEmpty({ message: 'Your permissions can not be blank' })
-	permissions: PermissionInfoInput[]
+	@IsNotEmpty({ message: 'Your sites can not be blank' })
+	sites: SitesInfoInput[]
 }
 
 export class UpdateUserInput {
@@ -92,16 +98,9 @@ export class UpdateUserInput {
 	@IsNotEmpty({ message: 'Your fullName can not be blank.' })
 	fullName: string
 
-	@Length(36, 36, {
-		message: 'Your siteId must be 36 characters'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your siteId can not be blank' })
-	siteId: string
-
 	@IsArray()
-	@IsNotEmpty({ message: 'Your permissions can not be blank' })
-	permissions: PermissionInfoInput[]
+	@IsNotEmpty({ message: 'Your sites can not be blank' })
+	sites: SitesInfoInput[]
 }
 
 export class LoginResponse {
