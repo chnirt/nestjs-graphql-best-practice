@@ -4,6 +4,6 @@ import { MenuResolver } from './menu.resolver'
 import { CommonService } from '../common/services/common.service'
 
 @Module({
-  providers: [MenuService, MenuResolver, CommonService]
+	providers: [MenuService, MenuResolver, CommonService]
 })
 export class MenuModule {}

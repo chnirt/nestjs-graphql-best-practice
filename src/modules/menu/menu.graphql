@@ -19,8 +19,8 @@ type DishInfo {
 type Query {
 	menu(id: String!): Menu
 	menus: [Menu]
-	menusBySite: [Menu]
-	menuPublishBySite: Menu
+	menusBySite(siteId: String!): [Menu]
+	menuPublishBySite(siteId: String!): Menu
 }
 
 type Mutation {
@@ -31,6 +31,7 @@ type Mutation {
 	# removeMenu(id: String!): Boolean
 	addDish(id: String!, dishInput: DishInput!): Boolean
 	updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
+	deleteDish(menuId: String!, dishId: String!): Boolean
 	closeMenu(id: String!): Boolean
 }
 

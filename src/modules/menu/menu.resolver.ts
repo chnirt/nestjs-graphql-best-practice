@@ -18,13 +18,13 @@ export class MenuResolver {
 	}
 
 	@Query('menusBySite')
-	async getMenusBySite(@Context('currentsite') siteId: string) {
+	async getMenusBySite(@Args('siteId') siteId: string) {
 		return await this.menuService.getMenusBySite(siteId)
 	}
 
 	@Query('menuPublishBySite')
-	async getMenuPublishBySite(@Context('currentsite') currentSiteId: string) {
-		return await this.menuService.getMenuPublishBySite(currentSiteId)
+	async getMenuPublishBySite(@Args('siteId') siteId: string) {
+		return await this.menuService.getMenuPublishBySite(siteId)
 	}
 
 	@Mutation('createMenu')
@@ -68,6 +68,14 @@ export class MenuResolver {
 		@Args('dishInput') dishInput: DishInput
 	) {
 		return await this.menuService.updateDish(menuId, dishId, dishInput)
+	}
+
+	@Mutation('deleteDish')
+	async deleteDish(
+		@Args('menuId') menuId: string,
+		@Args('dishId') dishId: string
+	) {
+		return await this.menuService.deleteDish(menuId, dishId)
 	}
 
 	@Mutation('closeMenu')
