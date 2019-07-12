@@ -10,7 +10,10 @@ input CreateUserInput {
 }
 
 input UpdateUserInput {
-	fullName: String
+	password: String!
+	fullName: String!
+	siteId: String!
+	permissions: [PermissionInfoInput!]!
 }
 
 input LoginUserInput {

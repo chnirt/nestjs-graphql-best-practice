@@ -85,10 +85,7 @@ export class UserService {
 		userPermission.siteId = siteId
 		userPermission.permissions = permissions
 
-		const newUserPermission = await this.userPermissionService.create(
-			userPermission
-		)
-		console.log('TCL: UserService -> newUserPermission', newUserPermission)
+		await this.userPermissionService.create(userPermission)
 
 		return newUser
 	}
@@ -98,7 +95,7 @@ export class UserService {
 		const code = '404'
 		const additionalProperties = {}
 
-		const { fullName } = input
+		const { fullName, siteId, permissions } = input
 
 		const user = await this.userRepository.findOne({ _id })
 
@@ -107,6 +104,17 @@ export class UserService {
 		}
 
 		user.fullName = fullName
+
+		await this.siteService.findById(siteId)
+
+		const userPermission = new UserPermission()
+
+		userPermission.userId = user._id
+		userPermission.siteId = siteId
+		userPermission.permissions = permissions
+
+		await this.userPermissionService.create(userPermission)
+		// console.log('TCL: UserService -> newUserPermission', newUserPermission)
 
 		return (await this.userRepository.save(user)) ? true : false
 	}
@@ -165,10 +173,8 @@ export class UserService {
 		)
 
 		const siteIds = await userPermission.map(item => item.siteId)
-		console.log('TCL: UserService -> siteIds', siteIds)
 
 		const sites = await this.siteService.findAllByIds(siteIds)
-		console.log('TCL: UserService -> sites', sites)
 
 		return { token, sites }
 	}

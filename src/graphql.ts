@@ -79,7 +79,10 @@ export class UpdateSiteInput {
 }
 
 export class UpdateUserInput {
-    fullName?: string;
+    password: string;
+    fullName: string;
+    siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class UpdateUserPermissionInput {
