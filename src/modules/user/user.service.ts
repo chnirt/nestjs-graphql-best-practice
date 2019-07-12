@@ -28,6 +28,7 @@ export class UserService {
 		const additionalProperties = {}
 
 		const users = await this.userRepository.find({
+			where: { username: { $ne: 'admin' } },
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,

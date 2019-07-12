@@ -165,7 +165,7 @@ export abstract class IMutation {
 
     abstract deleteSites(): boolean | Promise<boolean>;
 
-    abstract register(input: CreateUserInput): User | Promise<User>;
+    abstract createUser(input: CreateUserInput): User | Promise<User>;
 
     abstract updateUser(_id: string, input: UpdateUserInput): boolean | Promise<boolean>;
 
