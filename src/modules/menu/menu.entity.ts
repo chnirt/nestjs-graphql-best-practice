@@ -30,7 +30,7 @@ export class Menu {
 	isLocked: boolean
 
 	@Column()
-	isActived: boolean
+	isActive: boolean
 
 	@CreateDateColumn()
 	createAt: string
@@ -43,8 +43,8 @@ export class Menu {
 		this._id = await uuidv1()
 		this.dishes = []
 		this.isPublished = false
-		this.isLocked = true,
-		this.isActived = true
+		this.isLocked = true
+		this.isActive = true
 	}
 
 	constructor(args) {
