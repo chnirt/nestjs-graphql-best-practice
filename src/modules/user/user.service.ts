@@ -11,7 +11,9 @@ import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../userPermission/userPermission.service'
+
 import { SiteService } from '../site/site.service'
+import { UserPermission } from '../userPermission/userPermission.entity'
 
 @Injectable()
 export class UserService {
@@ -60,7 +62,7 @@ export class UserService {
 		const code = '409'
 		const additionalProperties = {}
 
-		const { username, password, fullName } = input
+		const { username, password, fullName, siteId, permissions } = input
 
 		const existedUser = await this.userRepository.findOne({ username })
 
@@ -75,7 +77,18 @@ export class UserService {
 
 		const newUser = await this.userRepository.save(user)
 
-		console.log(newUser._id)
+		await this.siteService.findById(siteId)
+
+		const userPermission = new UserPermission()
+
+		userPermission.userId = newUser._id
+		userPermission.siteId = siteId
+		userPermission.permissions = permissions
+
+		const newUserPermission = await this.userPermissionService.create(
+			userPermission
+		)
+		console.log('TCL: UserService -> newUserPermission', newUserPermission)
 
 		return newUser
 	}

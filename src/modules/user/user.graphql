@@ -5,6 +5,8 @@ input CreateUserInput {
 	username: String!
 	password: String!
 	fullName: String!
+	siteId: String!
+	permissions: [PermissionInfoInput!]!
 }
 
 input UpdateUserInput {

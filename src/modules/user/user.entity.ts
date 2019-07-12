@@ -22,11 +22,10 @@ import {
 	IsNotEmpty,
 	Length,
 	MinLength,
-	IsEmail,
 	IsBoolean,
 	IsArray
 } from 'class-validator'
-import { LoginResponseInfo } from '../../graphql'
+import { LoginResponseInfo, PermissionInfoInput } from '../../graphql'
 
 export class LoginUserInput {
 	@MinLength(4, {
@@ -37,7 +36,7 @@ export class LoginUserInput {
 	username: string
 
 	@Length(1, 8, {
-		message: 'Your password must be between 1 and 8 characters.'
+		message: 'Your password must be between 1 and 8 characters'
 	})
 	@IsString()
 	@IsNotEmpty()
@@ -49,22 +48,33 @@ export class CreateUserInput {
 		message: 'Your username must be at least 4 characters'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your username can not be blank.' })
+	@IsNotEmpty({ message: 'Your username can not be blank' })
 	username: string
 
 	@Length(1, 8, {
-		message: 'Your password must be between 1 and 8 characters.'
+		message: 'Your password must be between 1 and 8 characters'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your password can not be blank.' })
+	@IsNotEmpty({ message: 'Your password can not be blank' })
 	password: string
 
 	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters.'
+		message: 'Your fullName must be between 3 and 20 characters'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your fullName can not be blank.' })
+	@IsNotEmpty({ message: 'Your fullName can not be blank' })
 	fullName: string
+
+	@Length(36, 36, {
+		message: 'Your siteId must be 36 characters'
+	})
+	@IsString()
+	@IsNotEmpty({ message: 'Your siteId can not be blank' })
+	siteId: string
+
+	@IsArray()
+	@IsNotEmpty({ message: 'Your permissions can not be blank' })
+	permissions: PermissionInfoInput[]
 }
 
 export class UpdateUserInput {

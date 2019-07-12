@@ -30,6 +30,8 @@ export class CreateUserInput {
     username: string;
     password: string;
     fullName: string;
+    siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class CreateUserPermissionInput {
