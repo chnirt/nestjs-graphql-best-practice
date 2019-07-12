@@ -39,7 +39,7 @@ export class UserResolver {
 		return this.userService.findById(_id)
 	}
 
-	@Mutation(() => User, { name: 'register' })
+	@Mutation(() => User)
 	async createUser(
 		@Args('input') input: CreateUserInput,
 		@Context('pubSub') pubSub
@@ -73,8 +73,8 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async lockAndUnlock(@Args('_id') _id: string) {
-		return await this.userService.lockAndUnlock(_id)
+	async lockAndUnlockUser(@Args('_id') _id: string) {
+		return await this.userService.lockAndUnlockUser(_id)
 	}
 
 	@Subscription()

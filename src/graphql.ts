@@ -30,6 +30,8 @@ export class CreateUserInput {
     username: string;
     password: string;
     fullName: string;
+    siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class CreateUserPermissionInput {
@@ -77,7 +79,10 @@ export class UpdateSiteInput {
 }
 
 export class UpdateUserInput {
-    fullName?: string;
+    password: string;
+    fullName: string;
+    siteId: string;
+    permissions: PermissionInfoInput[];
 }
 
 export class UpdateUserPermissionInput {
@@ -165,7 +170,7 @@ export abstract class IMutation {
 
     abstract deleteSites(): boolean | Promise<boolean>;
 
-    abstract register(input: CreateUserInput): User | Promise<User>;
+    abstract createUser(input: CreateUserInput): User | Promise<User>;
 
     abstract updateUser(_id: string, input: UpdateUserInput): boolean | Promise<boolean>;
 
@@ -175,7 +180,7 @@ export abstract class IMutation {
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
-    abstract lockAndUnlock(_id: string): boolean | Promise<boolean>;
+    abstract lockAndUnlockUser(_id: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 

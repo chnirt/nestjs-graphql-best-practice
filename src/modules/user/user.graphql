@@ -5,10 +5,15 @@ input CreateUserInput {
 	username: String!
 	password: String!
 	fullName: String!
+	siteId: String!
+	permissions: [PermissionInfoInput!]!
 }
 
 input UpdateUserInput {
-	fullName: String
+	password: String!
+	fullName: String!
+	siteId: String!
+	permissions: [PermissionInfoInput!]!
 }
 
 input LoginUserInput {
@@ -46,14 +51,14 @@ type Query {
 }
 
 type Mutation {
-	register(input: CreateUserInput!): User
+	createUser(input: CreateUserInput!): User
 		@hasPermission(permission: "USER_CREATE")
 	updateUser(_id: String!, input: UpdateUserInput!): Boolean
 		@hasPermission(permission: "USER_UPDATE")
 	deleteUser(_id: String!): Boolean @hasPermission(permission: "USER_DELETE")
 	deleteUsers: Boolean!
 	login(input: LoginUserInput!): LoginResponse
-	lockAndUnlock(_id: String!): Boolean
+	lockAndUnlockUser(_id: String!): Boolean
 		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
 }
 

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { Site } from './site.entity'
 import { MongoRepository } from 'typeorm'
 import { CreateSiteInput, UpdateSiteInput } from '../../graphql'
+import { ApolloError } from 'apollo-server-core'
 
 @Injectable()
 export class SiteService {
@@ -30,12 +31,14 @@ export class SiteService {
 	}
 
 	async findById(_id: string): Promise<Site> {
-		const message = 'Site is not found.'
+		const message = 'Not Found: Site'
+		const code = '404'
+		const additionalProperties = {}
 
 		const site = await this.siteRepository.findOne({ _id })
 
 		if (!site) {
-			throw new Error(message)
+			throw new ApolloError(message, code, additionalProperties)
 		}
 
 		return site

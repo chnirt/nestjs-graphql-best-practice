@@ -11,7 +11,9 @@ import { MongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../userPermission/userPermission.service'
+
 import { SiteService } from '../site/site.service'
+import { UserPermission } from '../userPermission/userPermission.entity'
 
 @Injectable()
 export class UserService {
@@ -28,6 +30,7 @@ export class UserService {
 		const additionalProperties = {}
 
 		const users = await this.userRepository.find({
+			where: { username: { $ne: 'admin' } },
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,
@@ -59,7 +62,7 @@ export class UserService {
 		const code = '409'
 		const additionalProperties = {}
 
-		const { username, password, fullName } = input
+		const { username, password, fullName, siteId, permissions } = input
 
 		const existedUser = await this.userRepository.findOne({ username })
 
@@ -72,7 +75,19 @@ export class UserService {
 		user.password = password
 		user.fullName = fullName
 
-		return await this.userRepository.save(user)
+		const newUser = await this.userRepository.save(user)
+
+		await this.siteService.findById(siteId)
+
+		const userPermission = new UserPermission()
+
+		userPermission.userId = newUser._id
+		userPermission.siteId = siteId
+		userPermission.permissions = permissions
+
+		await this.userPermissionService.create(userPermission)
+
+		return newUser
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
@@ -80,7 +95,7 @@ export class UserService {
 		const code = '404'
 		const additionalProperties = {}
 
-		const { fullName } = input
+		const { fullName, siteId, permissions } = input
 
 		const user = await this.userRepository.findOne({ _id })
 
@@ -89,6 +104,17 @@ export class UserService {
 		}
 
 		user.fullName = fullName
+
+		await this.siteService.findById(siteId)
+
+		const userPermission = new UserPermission()
+
+		userPermission.userId = user._id
+		userPermission.siteId = siteId
+		userPermission.permissions = permissions
+
+		await this.userPermissionService.create(userPermission)
+		// console.log('TCL: UserService -> newUserPermission', newUserPermission)
 
 		return (await this.userRepository.save(user)) ? true : false
 	}
@@ -110,7 +136,11 @@ export class UserService {
 	}
 
 	async deleteAll(): Promise<boolean> {
-		return (await this.userRepository.deleteMany({})) ? true : false
+		return (await this.userRepository.deleteMany({
+			username: { $ne: 'admin' }
+		}))
+			? true
+			: false
 	}
 
 	async login(input: LoginUserInput): Promise<LoginResponse> {
@@ -171,7 +201,7 @@ export class UserService {
 		return currentUser
 	}
 
-	async lockAndUnlock(_id: string): Promise<boolean> {
+	async lockAndUnlockUser(_id: string): Promise<boolean> {
 		const message = 'Not Found: User'
 		const code = '404'
 		const additionalProperties = {}

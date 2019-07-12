@@ -68,21 +68,6 @@ export class UserPermissionService {
 	async create(input: CreateUserPermissionInput): Promise<UserPermission> {
 		const { userId, siteId, permissions } = input
 
-		// await this.userPermissionRepository.updateOne(
-		// 	{
-		// 		userId,
-		// 		siteId
-		// 	},
-		// 	{
-		// 		$set: {
-		// 			permissions
-		// 		}
-		// 	},
-		// 	{
-		// 		upsert: true
-		// 	}
-		// )
-
 		const existedUserPermission = await this.userPermissionRepository.findOne({
 			userId,
 			siteId
@@ -91,14 +76,7 @@ export class UserPermissionService {
 		if (existedUserPermission) {
 			existedUserPermission.permissions = permissions
 
-			await this.userPermissionRepository.save(existedUserPermission)
-
-			const userPermission = await this.userPermissionRepository.findOne({
-				userId,
-				siteId
-			})
-
-			return userPermission
+			return await this.userPermissionRepository.save(existedUserPermission)
 		} else {
 			const userPermission = new UserPermission()
 			userPermission.userId = userId
