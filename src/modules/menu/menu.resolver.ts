@@ -18,13 +18,13 @@ export class MenuResolver {
 	}
 
 	@Query('menusBySite')
-	async getMenusBySite(@Context('currentsite') siteId: string) {
+	async getMenusBySite(@Args('siteId') siteId: string) {
 		return await this.menuService.getMenusBySite(siteId)
 	}
 
 	@Query('menuPublishBySite')
-	async getMenuPublishBySite(@Context('currentsite') currentSiteId: string) {
-		return await this.menuService.getMenuPublishBySite(currentSiteId)
+	async getMenuPublishBySite(@Args('siteId') siteId: string) {
+		return await this.menuService.getMenuPublishBySite(siteId)
 	}
 
 	@Mutation('createMenu')

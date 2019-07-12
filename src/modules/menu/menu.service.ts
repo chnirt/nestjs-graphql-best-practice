@@ -4,16 +4,10 @@ import { Menu } from './menu.entity'
 import { ApolloError } from 'apollo-server-core'
 import { MenuInfo, DishInput } from '../../graphql'
 import { v1 as uuidv1 } from 'uuid'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository } from 'typeorm'
 
 @Injectable()
 export class MenuService {
-	constructor(
-		@InjectRepository(Menu)
-		private readonly menuRepository: MongoRepository<Menu>,
-		private readonly commonService: CommonService
-	) {}
+	constructor(private readonly commonService: CommonService) {}
 	async getMenus(): Promise<Menu[] | ApolloError> {
 		try {
 			return await this.commonService.findAdapter(Menu, { isActived: true })
@@ -41,12 +35,10 @@ export class MenuService {
 		}
 	}
 
-	async getMenuPublishBySite(
-		currentSiteId: string
-	): Promise<Menu | ApolloError> {
+	async getMenuPublishBySite(siteId: string): Promise<Menu | ApolloError> {
 		try {
 			return await this.commonService.findOneAdapter(Menu, {
-				siteId: currentSiteId,
+				siteId,
 				isPublished: true,
 				isActived: true
 			})
