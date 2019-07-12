@@ -28,6 +28,16 @@ export class OrderResolver {
   //   return await this.orderService.findCurrentOrder(currentUser._id, menuId, dishId)
   // }
 
+  @Query('ordersByUser')
+  async ordersByUser(@Args('menuId') menuId: string, @Context('currentUser') currentUser: User) {
+    return await this.orderService.findOrdersByUser(currentUser._id, menuId)
+  }
+
+  @Query('ordersByMenu')
+  async ordersByMenu(@Args('menuId') menuId: string) {
+    return await this.orderService.findOrdersByMenu(menuId)
+  }
+
   @Mutation(() => Order)
   async updateOrder(@Args('input') input: UpdateOrderInput, @Args('id') id: string) {
     return await this.orderService.update(id, input)

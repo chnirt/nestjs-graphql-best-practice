@@ -234,6 +234,10 @@ export abstract class IQuery {
 
     abstract orders(): Order[] | Promise<Order[]>;
 
+    abstract ordersByUser(menuId: string): Order[] | Promise<Order[]>;
+
+    abstract ordersByMenu(menuId: string): Order[] | Promise<Order[]>;
+
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
     abstract permission(_id: string): Permission | Promise<Permission>;
