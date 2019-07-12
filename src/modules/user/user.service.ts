@@ -101,27 +101,30 @@ export class UserService {
 		const additionalProperties = {}
 
 		// const { fullName, siteId, permissions } = input
+		const { fullName, sites } = input
 
-		// const user = await this.userRepository.findOne({ _id })
+		const user = await this.userRepository.findOne({ _id })
 
-		// if (!user) {
-		// 	throw new ApolloError(message, code, additionalProperties)
-		// }
+		if (!user) {
+			throw new ApolloError(message, code, additionalProperties)
+		}
 
-		// user.fullName = fullName
+		user.fullName = fullName
 
-		// await this.siteService.findById(siteId)
+		sites.map(async item => {
+			await this.siteService.findById(item.siteId)
 
-		// const userPermission = new UserPermission()
+			const userPermission = new UserPermission()
 
-		// userPermission.userId = user._id
-		// userPermission.siteId = siteId
-		// userPermission.permissions = permissions
+			userPermission.userId = user._id
+			userPermission.siteId = item.siteId
+			userPermission.permissions = item.permissions
 
-		// await this.userPermissionService.create(userPermission)
-		// // console.log('TCL: UserService -> newUserPermission', newUserPermission)
+			await this.userPermissionService.create(userPermission)
 
-		// return (await this.userRepository.save(user)) ? true : false
+			await this.userRepository.save(user)
+		})
+
 		return true
 	}
 
