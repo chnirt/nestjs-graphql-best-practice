@@ -46,7 +46,7 @@ type Query {
 }
 
 type Mutation {
-	register(input: CreateUserInput!): User
+	createUser(input: CreateUserInput!): User
 		@hasPermission(permission: "USER_CREATE")
 	updateUser(_id: String!, input: UpdateUserInput!): Boolean
 		@hasPermission(permission: "USER_UPDATE")

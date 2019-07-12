@@ -72,7 +72,11 @@ export class UserService {
 		user.password = password
 		user.fullName = fullName
 
-		return await this.userRepository.save(user)
+		const newUser = await this.userRepository.save(user)
+
+		console.log(newUser._id)
+
+		return newUser
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
@@ -147,8 +151,10 @@ export class UserService {
 		)
 
 		const siteIds = await userPermission.map(item => item.siteId)
+		console.log('TCL: UserService -> siteIds', siteIds)
 
 		const sites = await this.siteService.findAllByIds(siteIds)
+		console.log('TCL: UserService -> sites', sites)
 
 		return { token, sites }
 	}
