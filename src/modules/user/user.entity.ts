@@ -26,6 +26,7 @@ import {
 	IsArray
 } from 'class-validator'
 import { LoginResponseInfo, PermissionInfoInput } from '../../graphql'
+import { ApolloError } from 'apollo-server-core'
 
 export class SitesInfoInput {
 	@Length(36, 36, {
@@ -172,6 +173,6 @@ export class User {
 	// }
 
 	async matchesPassword(password) {
-		return await bcrypt.compare(password, this.password)
+		return bcrypt.compare(password, this.password)
 	}
 }

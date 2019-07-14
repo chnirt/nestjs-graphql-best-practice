@@ -18,6 +18,7 @@ import { HistoryModule } from './modules/history/history.module'
 // import { APP_INTERCEPTOR } from '@nestjs/core'
 // import { MorganModule, MorganInterceptor } from 'nest-morgan'
 import * as winston from 'winston'
+
 const {
 	combine,
 	json,
