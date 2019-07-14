@@ -165,6 +165,30 @@ export class UserService {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
+		const activeMessage = 'Gone'
+		const activeCode = '404'
+		const activeAdditionalProperties = {}
+
+		if (!user.isActive) {
+			throw new ApolloError(
+				activeMessage,
+				activeCode,
+				activeAdditionalProperties
+			)
+		}
+
+		const lockedMessage = 'Locked'
+		const lockedCode = '423'
+		const lockedAdditionalProperties = {}
+
+		if (user.isLocked) {
+			throw new ApolloError(
+				lockedMessage,
+				lockedCode,
+				lockedAdditionalProperties
+			)
+		}
+
 		const token = await jwt.sign(
 			{
 				issuer: 'http://chnirt.dev.io',

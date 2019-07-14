@@ -20,23 +20,23 @@ export class UserResolver {
 	constructor(private readonly userService: UserService) {}
 
 	@Query(() => String)
-	async hello() {
-		return await 'world'
+	hello() {
+		return 'world'
 	}
 
 	@Query(() => User)
-	async me(@Context('currentUser') currentUser: User) {
-		return await currentUser
+	me(@Context('currentUser') currentUser: User) {
+		return currentUser
 	}
 
 	@Query(() => [User])
 	async users(@Args('offset') offset: number, @Args('limit') limit: number) {
-		return this.userService.findAll(offset, limit)
+		return await this.userService.findAll(offset, limit)
 	}
 
 	@Query(() => User)
 	async user(@Args('_id') _id: string) {
-		return this.userService.findById(_id)
+		return await this.userService.findById(_id)
 	}
 
 	@Mutation(() => User)
@@ -78,7 +78,7 @@ export class UserResolver {
 	}
 
 	@Subscription()
-	userCreated(@Context('pubSub') pubSub: any) {
-		return pubSub.asyncIterator('userCreated')
+	async userCreated(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('userCreated')
 	}
 }
