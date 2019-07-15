@@ -21,7 +21,7 @@
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
 		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
-		"compodoc": "npx compodoc -p tsconfig.json -s",
+		"compodoc": "npx compodoc --port 11047 -p tsconfig.json -s",
 		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {

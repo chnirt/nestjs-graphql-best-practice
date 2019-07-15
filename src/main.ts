@@ -56,7 +56,6 @@ async function bootstrap() {
 
 	// logger.token('graphql-logger', req => {
 	// 	const { query, variables, operationName } = req.body
-	// 	// this.logger.info('✔️ ' + JSON.stringify(query), 'Query')
 	// 	return `graphql-logger: \n
 	// 	Query: ${query} \n
 	// 	Variables: ${JSON.stringify(variables)}`
@@ -71,7 +70,7 @@ async function bootstrap() {
 
 	// TODO: not working
 	/* App filters. */
-	app.useGlobalFilters(new HttpExceptionFilter())
+	// app.useGlobalFilters(new HttpExceptionFilter())
 	/* End of app filters. */
 
 	// DONE:

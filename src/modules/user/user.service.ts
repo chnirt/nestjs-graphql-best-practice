@@ -22,12 +22,12 @@ export class UserService {
 		private readonly userRepository: MongoRepository<User>,
 		private readonly userPermissionService: UserPermissionService,
 		private readonly siteService: SiteService
-	) {}
+	) { }
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
-		const message = 'No Content'
-		const code = '204'
-		const additionalProperties = {}
+		// const message = 'No Content'
+		// const code = '204'
+		// const additionalProperties = {}
 
 		const users = await this.userRepository.find({
 			where: { username: { $ne: 'admin' } },
@@ -37,9 +37,9 @@ export class UserService {
 			cache: true
 		})
 
-		if (users.length === 0) {
-			throw new ApolloError(message, code, additionalProperties)
-		}
+		// if (users.length === 0) {
+		// 	throw new ApolloError(message, code, additionalProperties)
+		// }
 		return users
 	}
 
@@ -191,7 +191,7 @@ export class UserService {
 
 		const token = await jwt.sign(
 			{
-				issuer: 'http://chnirt.dev.io',
+				issuer: 'http://lunchapp2.dev.io',
 				subject: user._id,
 				audience: user.username
 			},
