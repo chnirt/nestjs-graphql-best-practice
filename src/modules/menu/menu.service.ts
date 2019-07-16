@@ -48,12 +48,12 @@ export class MenuService {
 	}
 
 	async createMenu(
-		menuInfo: MenuInfo,
+		name: string,
 		siteId: string
 	): Promise<boolean | ApolloError> {
 		try {
 			return (await this.commonService.createAdapter(Menu, {
-				...menuInfo,
+				name,
 				siteId
 			}))
 				? true
@@ -135,7 +135,7 @@ export class MenuService {
 		try {
 			return (await this.commonService.updateManyAdapter(
 				Menu,
-				{ _id: menuId, 'dishes._id': dishId },
+				{ '_id': menuId, 'dishes._id': dishId },
 				{
 					$set: {
 						'dishes.$': { ...dishInput, _id: dishId }

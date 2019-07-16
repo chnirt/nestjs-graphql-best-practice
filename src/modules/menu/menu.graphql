@@ -24,14 +24,14 @@ type Query {
 }
 
 type Mutation {
-	createMenu(menuInfo: MenuInfo!): Boolean
+	createMenu(name: String!, siteId: String!): Boolean
 	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean
 	publishAndUnpublish(id: String!): Boolean
 	lockAndUnlockMenu(id: String!): Boolean
 	# removeMenu(id: String!): Boolean
-	addDish(id: String!, dishInput: DishInput!): Boolean
-	updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
-	deleteDish(menuId: String!, dishId: String!): Boolean
+	# addDish(id: String!, dishInput: DishInput!): Boolean
+	# updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
+	# deleteDish(menuId: String!, dishId: String!): Boolean
 	closeMenu(id: String!): Boolean
 }
 
