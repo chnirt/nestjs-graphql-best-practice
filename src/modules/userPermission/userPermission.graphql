@@ -29,6 +29,7 @@ type UserPermission {
 
 type Query {
 	userPermissions: [UserPermission!]
+	findAllByUserId(_id: String!): [UserPermission!]
 	findOneByUserId(_id: String!): UserPermission
 	getPermissionsByUserId(id: String!): [Permission!]
 }

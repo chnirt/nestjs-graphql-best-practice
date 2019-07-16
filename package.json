@@ -21,7 +21,7 @@
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
 		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
-		"compodoc": "npx compodoc -p tsconfig.json -s",
+		"compodoc": "npx compodoc --port 11047 -p tsconfig.json -s",
 		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {
@@ -32,6 +32,7 @@
 		"@nestjs/platform-socket.io": "^6.4.1",
 		"@nestjs/typeorm": "^6.1.2",
 		"@nestjs/websockets": "^6.4.1",
+		"@types/morgan": "^1.7.35",
 		"apollo-server-cache-memcached": "^0.5.0",
 		"apollo-server-express": "^2.6.3",
 		"bcrypt": "^3.0.6",
@@ -51,12 +52,15 @@
 		"moment": "^2.24.0",
 		"mongodb": "^3.2.7",
 		"morgan": "^1.9.1",
+		"nest-morgan": "^1.0.1",
+		"nest-winston": "^1.0.4",
 		"pm2": "^3.5.1",
 		"reflect-metadata": "^0.1.12",
 		"rimraf": "^2.6.2",
 		"rxjs": "^6.3.3",
 		"typeorm": "^0.2.18",
-		"uuid": "^3.3.2"
+		"uuid": "^3.3.2",
+		"winston": "^3.2.1"
 	},
 	"devDependencies": {
 		"@compodoc/compodoc": "^1.1.9",

@@ -25,9 +25,9 @@ export class UserService {
 	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
-		const message = 'No Content'
-		const code = '204'
-		const additionalProperties = {}
+		// const message = 'No Content'
+		// const code = '204'
+		// const additionalProperties = {}
 
 		const users = await this.userRepository.find({
 			where: { username: { $ne: 'admin' } },
@@ -37,9 +37,9 @@ export class UserService {
 			cache: true
 		})
 
-		if (users.length === 0) {
-			throw new ApolloError(message, code, additionalProperties)
-		}
+		// if (users.length === 0) {
+		// 	throw new ApolloError(message, code, additionalProperties)
+		// }
 		return users
 	}
 
@@ -101,7 +101,7 @@ export class UserService {
 		const additionalProperties = {}
 
 		// const { fullName, siteId, permissions } = input
-		const { fullName, sites } = input
+		const { password, fullName, sites } = input
 
 		const user = await this.userRepository.findOne({ _id })
 
@@ -109,6 +109,7 @@ export class UserService {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
+		user.password = password
 		user.fullName = fullName
 
 		sites.map(async item => {
@@ -165,9 +166,33 @@ export class UserService {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
+		const activeMessage = 'Gone'
+		const activeCode = '404'
+		const activeAdditionalProperties = {}
+
+		if (!user.isActive) {
+			throw new ApolloError(
+				activeMessage,
+				activeCode,
+				activeAdditionalProperties
+			)
+		}
+
+		const lockedMessage = 'Locked'
+		const lockedCode = '423'
+		const lockedAdditionalProperties = {}
+
+		if (user.isLocked) {
+			throw new ApolloError(
+				lockedMessage,
+				lockedCode,
+				lockedAdditionalProperties
+			)
+		}
+
 		const token = await jwt.sign(
 			{
-				issuer: 'http://chnirt.dev.io',
+				issuer: 'http://lunchapp2.dev.io',
 				subject: user._id,
 				audience: user.username
 			},

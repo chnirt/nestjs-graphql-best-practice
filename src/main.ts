@@ -8,16 +8,28 @@ import csurf from 'csurf'
 import rateLimit from 'express-rate-limit'
 import logger from 'morgan'
 import compression from 'compression'
+import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { ValidationPipe } from './common/pipes/validation.pipe'
 
 import { LoggerService } from '@nestjs/common'
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 
 export class MyLogger implements LoggerService {
-	log(message: string) {}
-	error(message: string, trace: string) {}
-	warn(message: string) {}
-	debug(message: string) {}
-	verbose(message: string) {}
+	log(message: string) {
+		// console.log(message)
+	}
+	error(message: string, trace: string) {
+		console.log('error', message, trace)
+	}
+	warn(message: string) {
+		console.log('warn', message)
+	}
+	debug(message: string) {
+		// console.log(message)
+	}
+	verbose(message: string) {
+		// console.log(message)
+	}
 }
 
 dotenv.config()
@@ -27,6 +39,7 @@ declare const module: any
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		cors: true,
+		// DONE:
 		logger: new MyLogger()
 	})
 
@@ -51,6 +64,16 @@ async function bootstrap() {
 	app.use(compression())
 
 	app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }))
+
+	// DONE:
+	app.useGlobalInterceptors(new LoggingInterceptor())
+
+	// TODO: not working
+	/* App filters. */
+	// app.useGlobalFilters(new HttpExceptionFilter())
+	/* End of app filters. */
+
+	// DONE:
 	app.useGlobalPipes(new ValidationPipe())
 
 	await app.listen(port)

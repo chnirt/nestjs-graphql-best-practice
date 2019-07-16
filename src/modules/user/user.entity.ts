@@ -88,7 +88,7 @@ export class UpdateUserInput {
 		message: 'Your password must be between 1 and 8 characters.'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your password can not be blank.' })
+	// @IsNotEmpty({ message: 'Your password can not be blank.' })
 	password: string
 
 	@Length(3, 20, {
@@ -172,6 +172,6 @@ export class User {
 	// }
 
 	async matchesPassword(password) {
-		return await bcrypt.compare(password, this.password)
+		return bcrypt.compare(password, this.password)
 	}
 }

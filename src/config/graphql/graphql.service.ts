@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { UserService } from '../../modules/user/user.service'
@@ -6,12 +6,14 @@ import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
 import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
+import { Logger } from 'winston'
 
 const pubSub = new PubSub()
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
 	constructor(
+		@Inject('winston') private readonly logger: Logger,
 		private readonly userService: UserService,
 		private readonly userPermissionService: UserPermissionService
 	) {}
@@ -86,8 +88,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 			},
 			formatError: err => {
-				// console.log(err)
-				Logger.log('❌ ' + JSON.stringify(err), 'Error')
+				this.logger.error('✖️ ' + JSON.stringify(err), 'Error')
 				return err
 			},
 			formatResponse: err => {
