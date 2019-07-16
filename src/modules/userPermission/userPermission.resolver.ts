@@ -18,11 +18,7 @@ import { PermissionInfo } from '../common/entities/interface.entity'
 
 @Resolver('UserPermission')
 export class UserPermissionResolver {
-	constructor(
-		@Inject(forwardRef(() => PermissionService))
-		private readonly permissionService: PermissionService,
-		private readonly userPermissionService: UserPermissionService
-	) {}
+	constructor(private readonly userPermissionService: UserPermissionService) {}
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
@@ -35,6 +31,11 @@ export class UserPermissionResolver {
 	// 		userPermission._id
 	// 	)
 	// }
+
+	@Query(() => [UserPermission])
+	async findAllByUserId(@Args('_id') _id: string) {
+		return await this.userPermissionService.findAllByUserId(_id)
+	}
 
 	@Query(() => UserPermission)
 	async findOneByUserId(@Args('_id') _id: string) {

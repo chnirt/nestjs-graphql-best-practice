@@ -258,6 +258,8 @@ export abstract class IQuery {
 
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
+    abstract findAllByUserId(_id: string): UserPermission[] | Promise<UserPermission[]>;
+
     abstract findOneByUserId(_id: string): UserPermission | Promise<UserPermission>;
 
     abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;

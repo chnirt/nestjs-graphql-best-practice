@@ -22,7 +22,7 @@ export class UserService {
 		private readonly userRepository: MongoRepository<User>,
 		private readonly userPermissionService: UserPermissionService,
 		private readonly siteService: SiteService
-	) { }
+	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
 		// const message = 'No Content'
@@ -101,7 +101,7 @@ export class UserService {
 		const additionalProperties = {}
 
 		// const { fullName, siteId, permissions } = input
-		const { fullName, sites } = input
+		const { password, fullName, sites } = input
 
 		const user = await this.userRepository.findOne({ _id })
 
@@ -109,6 +109,7 @@ export class UserService {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
+		user.password = password
 		user.fullName = fullName
 
 		sites.map(async item => {
