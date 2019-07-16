@@ -22,7 +22,7 @@ export class UserService {
 		private readonly userRepository: MongoRepository<User>,
 		private readonly userPermissionService: UserPermissionService,
 		private readonly siteService: SiteService
-	) {}
+	) { }
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
 		// const message = 'No Content'
@@ -112,6 +112,8 @@ export class UserService {
 		user.password = password
 		user.fullName = fullName
 
+		await this.userRepository.save(user)
+
 		sites.map(async item => {
 			await this.siteService.findById(item.siteId)
 
@@ -122,8 +124,6 @@ export class UserService {
 			userPermission.permissions = item.permissions
 
 			await this.userPermissionService.create(userPermission)
-
-			await this.userRepository.save(user)
 		})
 
 		return true
