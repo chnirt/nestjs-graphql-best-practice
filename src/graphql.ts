@@ -61,6 +61,11 @@ export class PermissionInfoInput {
     code: string;
 }
 
+export class ShopInput {
+    name?: string;
+    siteId?: string;
+}
+
 export class SitesInfoInput {
     siteId: string;
     permissions: PermissionInfoInput[];
@@ -133,19 +138,13 @@ export abstract class IMutation {
 
     abstract deleteHistories(): boolean | Promise<boolean>;
 
-    abstract createMenu(menuInfo: MenuInfo): boolean | Promise<boolean>;
+    abstract createMenu(name: string, siteId: string): boolean | Promise<boolean>;
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
 
     abstract publishAndUnpublish(id: string): boolean | Promise<boolean>;
 
     abstract lockAndUnlockMenu(id: string): boolean | Promise<boolean>;
-
-    abstract addDish(id: string, dishInput: DishInput): boolean | Promise<boolean>;
-
-    abstract updateDish(menuId: string, dishId: string, dishInput: DishInput): boolean | Promise<boolean>;
-
-    abstract deleteDish(menuId: string, dishId: string): boolean | Promise<boolean>;
 
     abstract closeMenu(id: string): boolean | Promise<boolean>;
 
@@ -164,6 +163,14 @@ export abstract class IMutation {
     abstract deletePermission(_id: string): boolean | Promise<boolean>;
 
     abstract deletePermissions(): boolean | Promise<boolean>;
+
+    abstract createShop(input: ShopInput): boolean | Promise<boolean>;
+
+    abstract deleteShop(id: string): boolean | Promise<boolean>;
+
+    abstract addDish(id: string, name: string): boolean | Promise<boolean>;
+
+    abstract updateDish(id: string, dishId: string, name: string): boolean | Promise<boolean>;
 
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
@@ -242,6 +249,12 @@ export abstract class IQuery {
 
     abstract permission(_id: string): Permission | Promise<Permission>;
 
+    abstract shops(): Shop[] | Promise<Shop[]>;
+
+    abstract shop(id: string): Shop | Promise<Shop>;
+
+    abstract shopsBySite(siteId: string): Shop[] | Promise<Shop[]>;
+
     abstract sites(): Site[] | Promise<Site[]>;
 
     abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
@@ -263,6 +276,16 @@ export abstract class IQuery {
     abstract findOneByUserId(_id: string): UserPermission | Promise<UserPermission>;
 
     abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;
+}
+
+export class Shop {
+    _id?: string;
+    name?: string;
+    siteId?: string;
+    dishes?: DishInfo[];
+    isActive?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export class Site {

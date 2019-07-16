@@ -1,0 +1,27 @@
+type Shop {
+  _id: ID
+  name: String
+  siteId: String
+  dishes: [DishInfo]
+  isActive: Boolean
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  shops: [Shop]
+  shop(id: String!): Shop
+  shopsBySite(siteId: String!): [Shop]
+}
+
+type Mutation {
+  createShop(input: ShopInput!): Boolean
+  deleteShop(id: String!): Boolean
+  addDish(id: String!, name: String!): Boolean
+  updateDish(id: String!, dishId: String!, name: String!): Boolean
+}
+
+input ShopInput {
+  name: String
+  siteId: String
+}

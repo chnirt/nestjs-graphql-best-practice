@@ -29,10 +29,10 @@ export class MenuResolver {
 
 	@Mutation('createMenu')
 	async createMenu(
-		@Args('menuInfo') menuInfo: MenuInfo,
-		@Context('currentsite') siteId: string
+		@Args('name') name: string,
+		@Args('siteId') siteId: string
 	) {
-		return await this.menuService.createMenu(menuInfo, siteId)
+		return await this.menuService.createMenu(name, siteId)
 	}
 
 	@Mutation('updateMenu')
@@ -53,30 +53,30 @@ export class MenuResolver {
 		return await this.menuService.lockAndUnlockMenu(id)
 	}
 
-	@Mutation('addDish')
-	async addDish(
-		@Args('id') id: string,
-		@Args('dishInput') dishInput: DishInput
-	) {
-		return await this.menuService.addDish(id, dishInput)
-	}
+	// @Mutation('addDish')
+	// async addDish(
+	// 	@Args('id') id: string,
+	// 	@Args('dishInput') dishInput: DishInput
+	// ) {
+	// 	return await this.menuService.addDish(id, dishInput)
+	// }
 
-	@Mutation('updateDish')
-	async updateDish(
-		@Args('menuId') menuId: string,
-		@Args('dishId') dishId: string,
-		@Args('dishInput') dishInput: DishInput
-	) {
-		return await this.menuService.updateDish(menuId, dishId, dishInput)
-	}
+	// @Mutation('updateDish')
+	// async updateDish(
+	// 	@Args('menuId') menuId: string,
+	// 	@Args('dishId') dishId: string,
+	// 	@Args('dishInput') dishInput: DishInput
+	// ) {
+	// 	return await this.menuService.updateDish(menuId, dishId, dishInput)
+	// }
 
-	@Mutation('deleteDish')
-	async deleteDish(
-		@Args('menuId') menuId: string,
-		@Args('dishId') dishId: string
-	) {
-		return await this.menuService.deleteDish(menuId, dishId)
-	}
+	// @Mutation('deleteDish')
+	// async deleteDish(
+	// 	@Args('menuId') menuId: string,
+	// 	@Args('dishId') dishId: string
+	// ) {
+	// 	return await this.menuService.deleteDish(menuId, dishId)
+	// }
 
 	@Mutation('closeMenu')
 	async closeMenu(@Args('id') id: string) {

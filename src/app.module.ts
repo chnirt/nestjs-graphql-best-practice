@@ -15,6 +15,7 @@ import { PermissionModule } from './modules/permission/permission.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
 import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
+import { ShopModule } from './modules/shop/shop.module';
 // import { APP_INTERCEPTOR } from '@nestjs/core'
 // import { MorganModule, MorganInterceptor } from 'nest-morgan'
 import * as winston from 'winston'
@@ -85,7 +86,8 @@ const {
 		MenuModule,
 		UserPermissionModule,
 		OrderModule,
-		HistoryModule
+		HistoryModule,
+		ShopModule
 	]
 	// providers: [
 	// 	{
