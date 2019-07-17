@@ -25,7 +25,7 @@ import {
 	IsBoolean,
 	IsArray
 } from 'class-validator'
-import { LoginResponseInfo, PermissionInfoInput } from '../../graphql'
+import { UserPermissionsInfo, PermissionInfoInput } from '../../graphql'
 
 export class SitesInfoInput {
 	@Length(36, 36, {
@@ -110,7 +110,7 @@ export class LoginResponse {
 
 	@IsArray()
 	@IsNotEmpty()
-	sites: LoginResponseInfo[]
+	userPermissions: UserPermissionsInfo[]
 }
 
 @Entity()
@@ -161,10 +161,10 @@ export class User {
 		this.isActive = true
 	}
 
-	// @BeforeUpdate()
-	// async b4update() {
-	// 	console.log('Hello')
-	// }
+	@BeforeUpdate()
+	async b4update() {
+		this.password = await bcrypt.hash(this.password, 10)
+	}
 
 	// @BeforeRemove()
 	// async b4block() {
@@ -172,6 +172,6 @@ export class User {
 	// }
 
 	async matchesPassword(password) {
-		return bcrypt.compare(password, this.password)
+		return await bcrypt.compare(password, this.password)
 	}
 }

@@ -113,12 +113,7 @@ export class History {
 
 export class LoginResponse {
     token: string;
-    sites: LoginResponseInfo[];
-}
-
-export class LoginResponseInfo {
-    _id: string;
-    name: string;
+    userPermissions: UserPermissionsInfo[];
 }
 
 export class Menu {
@@ -336,7 +331,14 @@ export class UserPermission {
     _id: string;
     userId: string;
     siteId: string;
+    siteName: string;
     permissions: PermissionInfo[];
     createdAt: string;
     updatedAt: string;
+}
+
+export class UserPermissionsInfo {
+    siteId: string;
+    siteName?: string;
+    permissions: PermissionInfo[];
 }

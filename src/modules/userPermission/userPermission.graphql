@@ -22,6 +22,7 @@ type UserPermission {
 	_id: ID!
 	userId: String!
 	siteId: String!
+	siteName: String!
 	permissions: [PermissionInfo!]!
 	createdAt: String!
 	updatedAt: String!

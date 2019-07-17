@@ -26,6 +26,11 @@ export class UserPermission {
 	siteId: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
+	siteName: string
+
+	@Column()
 	@IsArray()
 	@IsNotEmpty()
 	permissions: PermissionInfo[]

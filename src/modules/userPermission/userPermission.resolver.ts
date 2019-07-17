@@ -3,7 +3,8 @@ import {
 	Query,
 	Mutation,
 	Args,
-	ResolveProperty
+	ResolveProperty,
+	Parent
 } from '@nestjs/graphql'
 import { UserPermissionService } from './userPermission.service'
 import { UserPermission } from './userPermission.entity'
@@ -11,26 +12,19 @@ import {
 	CreateUserPermissionInput,
 	UpdateUserPermissionInput
 } from '../../graphql'
-import { forwardRef, Inject } from '@nestjs/common'
-import { PermissionService } from '../permission/permission.service'
-import { Permission } from '../permission/permission.entity'
-import { PermissionInfo } from '../common/entities/interface.entity'
+import { SiteService } from '../site/site.service'
 
 @Resolver('UserPermission')
 export class UserPermissionResolver {
-	constructor(private readonly userPermissionService: UserPermissionService) {}
+	constructor(
+		private readonly userPermissionService: UserPermissionService,
+		private readonly siteService: SiteService
+	) {}
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
 		return await this.userPermissionService.findAll()
 	}
-
-	// @ResolveProperty('permissions')
-	// async getPermissions(userPermission): Promise<Permission[]> {
-	// 	return await this.permissionService.findPermissionsByUserPermissionId(
-	// 		userPermission._id
-	// 	)
-	// }
 
 	@Query(() => [UserPermission])
 	async findAllByUserId(@Args('_id') _id: string) {
@@ -63,5 +57,15 @@ export class UserPermissionResolver {
 	@Mutation(() => Boolean)
 	async deleteUserPermissions() {
 		return await this.userPermissionService.deleteAll()
+	}
+
+	@ResolveProperty()
+	async siteName(@Parent() userPermission) {
+		// console.log(userPermission)
+		const { siteId } = userPermission
+
+		const site = await this.siteService.findById(siteId)
+
+		return site.name
 	}
 }

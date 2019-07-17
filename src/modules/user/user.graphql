@@ -2,7 +2,7 @@ directive @isAuthenticated on FIELD | FIELD_DEFINITION
 directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 
 input SitesInfoInput {
-	siteId: String!
+	siteId: ID!
 	permissions: [PermissionInfoInput!]!
 }
 
@@ -26,12 +26,18 @@ input LoginUserInput {
 
 type LoginResponse {
 	token: String!
-	sites: [LoginResponseInfo!]!
+	userPermissions: [UserPermissionsInfo!]!
 }
 
-type LoginResponseInfo {
-	_id: String!
-	name: String!
+type UserPermissionsInfo {
+	siteId: ID!
+	siteName: String
+	permissions: [PermissionInfo!]!
+}
+
+type PermissionInfo {
+	_id: ID!
+	code: String!
 }
 
 type User {
