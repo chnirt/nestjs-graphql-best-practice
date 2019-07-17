@@ -25,7 +25,7 @@ import {
 	IsBoolean,
 	IsArray
 } from 'class-validator'
-import { LoginResponseInfo, PermissionInfoInput } from '../../graphql'
+import { UserPermissionsInfo, PermissionInfoInput } from '../../graphql'
 
 export class SitesInfoInput {
 	@Length(36, 36, {
@@ -110,7 +110,7 @@ export class LoginResponse {
 
 	@IsArray()
 	@IsNotEmpty()
-	sites: LoginResponseInfo[]
+	userPermissions: UserPermissionsInfo[]
 }
 
 @Entity()

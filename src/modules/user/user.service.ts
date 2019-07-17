@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
+import { getMongoManager } from 'typeorm'
 import {
 	User,
 	CreateUserInput,
@@ -22,7 +23,7 @@ export class UserService {
 		private readonly userRepository: MongoRepository<User>,
 		private readonly userPermissionService: UserPermissionService,
 		private readonly siteService: SiteService
-	) { }
+	) {}
 
 	async findAll(offset: number, limit: number): Promise<User[]> {
 		// const message = 'No Content'
@@ -38,8 +39,8 @@ export class UserService {
 		})
 
 		// if (users.length === 0) {
-		// 	throw new ApolloError(message, code, additionalProperties)
-		// }
+		// 	getMongoManager additionalProperties)
+		// }getMongoManager
 		return users
 	}
 
@@ -162,7 +163,7 @@ export class UserService {
 
 		const user = await this.userRepository.findOne({ username })
 
-		if (!user || !(await user.matchesPassword(password))) {
+		if (!user || !user.matchesPassword(password)) {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
@@ -190,7 +191,7 @@ export class UserService {
 			)
 		}
 
-		const token = await jwt.sign(
+		const token = jwt.sign(
 			{
 				issuer: 'http://lunchapp2.dev.io',
 				subject: user._id,
@@ -202,15 +203,42 @@ export class UserService {
 			}
 		)
 
-		const userPermission = await this.userPermissionService.findAllByUserId(
-			user._id
-		)
+		const userPermissions = await getMongoManager()
+			.aggregate(UserPermission, [
+				{
+					$match: {
+						userId: user._id
+					}
+				},
+				{
+					$lookup: {
+						from: 'site',
+						localField: 'siteId',
+						foreignField: '_id',
+						as: 'siteName'
+					}
+				},
+				{
+					$unwind: {
+						path: '$siteName',
+						preserveNullAndEmptyArrays: true
+					}
+				}
+				// {
+				// 	$project: {
+				// 		siteName: {
+				// 			_id: false,
+				// 			createdAt: false,
+				// 			updatedAt: false
+				// 		}
+				// 	}
+				// }
+			])
+			.toArray()
 
-		const siteIds = await userPermission.map(item => item.siteId)
+		userPermissions.map(item => (item.siteName = item.siteName.name))
 
-		const sites = await this.siteService.findAllByIds(siteIds)
-
-		return { token, sites }
+		return { token, userPermissions }
 	}
 
 	async findOneByToken(token: string) {
