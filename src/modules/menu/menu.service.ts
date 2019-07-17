@@ -108,65 +108,73 @@ export class MenuService {
 		}
 	}
 
-	async addDish(
-		id: string,
-		dishInput: DishInput
-	): Promise<boolean | ApolloError> {
+	async deleteMenu(id: string): Promise<boolean | ApolloError> {
 		try {
-			const menu = await this.commonService.findOneAdapter(Menu, { _id: id })
-			menu.dishes.push({ _id: await uuidv1(), ...dishInput })
-			return (await this.commonService.updateOneByIdAdapter(Menu, id, {
-				$set: {
-					dishes: await menu.dishes
-				}
-			}))
-				? true
-				: false
+			return await this.commonService.deleteAdapter(Menu, id)
 		} catch (error) {
 			throw new ApolloError(error)
 		}
 	}
 
-	async updateDish(
-		menuId: string,
-		dishId: string,
-		dishInput: DishInput
-	): Promise<boolean | ApolloError> {
-		try {
-			return (await this.commonService.updateManyAdapter(
-				Menu,
-				{ '_id': menuId, 'dishes._id': dishId },
-				{
-					$set: {
-						'dishes.$': { ...dishInput, _id: dishId }
-					}
-				}
-			))
-				? true
-				: false
-		} catch (error) {
-			throw new ApolloError(error)
-		}
-	}
+	// async addDish(
+	// 	id: string,
+	// 	dishInput: DishInput
+	// ): Promise<boolean | ApolloError> {
+	// 	try {
+	// 		const menu = await this.commonService.findOneAdapter(Menu, { _id: id })
+	// 		menu.dishes.push({ _id: await uuidv1(), ...dishInput })
+	// 		return (await this.commonService.updateOneByIdAdapter(Menu, id, {
+	// 			$set: {
+	// 				dishes: await menu.dishes
+	// 			}
+	// 		}))
+	// 			? true
+	// 			: false
+	// 	} catch (error) {
+	// 		throw new ApolloError(error)
+	// 	}
+	// }
 
-	async deleteDish(
-		menuId: string,
-		dishId: string
-	): Promise<boolean | ApolloError> {
-		try {
-			const menu = await this.commonService.findOneAdapter(Menu, { _id: menuId })
-			const dishes = await menu.dishes.filter(dish => dish._id !== dishId)
-			return (await this.commonService.updateOneByIdAdapter(Menu, menuId, {
-				$set: {
-					dishes
-				}
-			}))
-				? true
-				: false
-		} catch (error) {
-			throw new ApolloError(error)
-		}
-	}
+	// async updateDish(
+	// 	menuId: string,
+	// 	dishId: string,
+	// 	dishInput: DishInput
+	// ): Promise<boolean | ApolloError> {
+	// 	try {
+	// 		return (await this.commonService.updateManyAdapter(
+	// 			Menu,
+	// 			{ '_id': menuId, 'dishes._id': dishId },
+	// 			{
+	// 				$set: {
+	// 					'dishes.$': { ...dishInput, _id: dishId }
+	// 				}
+	// 			}
+	// 		))
+	// 			? true
+	// 			: false
+	// 	} catch (error) {
+	// 		throw new ApolloError(error)
+	// 	}
+	// }
+
+	// async deleteDish(
+	// 	menuId: string,
+	// 	dishId: string
+	// ): Promise<boolean | ApolloError> {
+	// 	try {
+	// 		const menu = await this.commonService.findOneAdapter(Menu, { _id: menuId })
+	// 		const dishes = await menu.dishes.filter(dish => dish._id !== dishId)
+	// 		return (await this.commonService.updateOneByIdAdapter(Menu, menuId, {
+	// 			$set: {
+	// 				dishes
+	// 			}
+	// 		}))
+	// 			? true
+	// 			: false
+	// 	} catch (error) {
+	// 		throw new ApolloError(error)
+	// 	}
+	// }
 
 	async closeMenu(id: string): Promise<boolean | ApolloError> {
 		try {

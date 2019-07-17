@@ -1,7 +1,8 @@
 type Menu {
 	_id: ID
 	name: String
-	siteId: String
+	siteId: ID
+	shopId: ID
 	dishes: [DishInfo]
 	isPublished: Boolean
 	isLocked: Boolean
@@ -11,38 +12,35 @@ type Menu {
 }
 
 type DishInfo {
-	_id: String
+	_id: ID
 	name: String
 	count: Int
 }
 
 type Query {
-	menu(id: String!): Menu
-	menus: [Menu]
-	menusBySite(siteId: String!): [Menu]
-	menuPublishBySite(siteId: String!): Menu
+	menu(id: String!): Menu @isAuthenticated
+	menus: [Menu] @isAuthenticated
+	menusBySite(siteId: String!): [Menu] @isAuthenticated
+	menuPublishBySite(siteId: String!): Menu @isAuthenticated
 }
 
 type Mutation {
-	createMenu(name: String!, siteId: String!): Boolean
-	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean
-	publishAndUnpublish(id: String!): Boolean
-	lockAndUnlockMenu(id: String!): Boolean
-	# removeMenu(id: String!): Boolean
-	# addDish(id: String!, dishInput: DishInput!): Boolean
-	# updateDish(menuId: String!, dishId: String!, dishInput: DishInput!): Boolean
-	# deleteDish(menuId: String!, dishId: String!): Boolean
-	closeMenu(id: String!): Boolean
+	createMenu(name: String!, siteId: String!): Boolean @isAuthenticated
+	updateMenu(id: String!, menuInfo: MenuInfo!): Boolean @isAuthenticated
+	publishAndUnpublish(id: String!): Boolean @isAuthenticated
+	lockAndUnlockMenu(id: String!): Boolean @isAuthenticated
+	deleteMenu(id: String!): Boolean @isAuthenticated
+	closeMenu(id: String!): Boolean @isAuthenticated
 }
 
 input MenuInfo {
 	name: String
-	isPublished: Boolean
-	isLocked: Boolean
-	isActive: Boolean
+	shopId: String
+	dishes: [DishInput]
 }
 
 input DishInput {
+	_id: String
 	name: String
 	count: Int
 }

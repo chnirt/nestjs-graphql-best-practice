@@ -25,15 +25,15 @@ input UpdateOrderInput {
 }
 
 type Query {
-	order(id: String!): Order
-	orders: [Order!]
-	ordersByUser(menuId: String!): [Order]
-	ordersByMenu(menuId: String!): [Order]
+	order(id: String!): Order @isAuthenticated
+	orders: [Order!] @isAuthenticated
+	ordersByUser(menuId: String!): [Order] @isAuthenticated
+	ordersByMenu(menuId: String!): [Order] @isAuthenticated
 }
 
 type Mutation {
-	orderDish(input: CreateOrderInput!): Boolean
-	updateOrder(id: String!, input: UpdateOrderInput!): Boolean
-	confirmOrder(menuId: String!, dishId: String!): Boolean
-	deleteOrder(id: String): Boolean
+	orderDish(input: CreateOrderInput!): Boolean @isAuthenticated
+	updateOrder(id: String!, input: UpdateOrderInput!): Boolean @isAuthenticated
+	confirmOrder(menuId: String!, dishId: String!): Boolean @isAuthenticated
+	deleteOrder(id: String): Boolean @isAuthenticated
 }

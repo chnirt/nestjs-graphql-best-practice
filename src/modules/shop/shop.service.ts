@@ -19,7 +19,7 @@ export class ShopService {
 
   async getShop(id: string): Promise<Shop | ApolloError> {
     try {
-      return this.commonService.findOneAdapter(Shop, {_id: id})
+      return await this.commonService.findOneAdapter(Shop, {_id: id})
     } catch (error) {
       throw new ApolloError(error)
     }

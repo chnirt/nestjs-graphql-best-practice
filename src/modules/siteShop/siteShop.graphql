@@ -1,0 +1,21 @@
+type SiteShop {
+  _id: ID
+  siteId: ID
+  shopId: ID
+  createdAt: String
+  updatedAt: String
+}
+
+type SiteShopResponse {
+  siteId: ID
+  shopId: ID
+  name: String
+}
+
+type Query {
+  siteShopsBySiteId(siteId: String!): [SiteShopResponse]
+}
+
+type Mutation {
+  createSiteShop(siteId: String!, shopId: String!): Boolean 
+}

@@ -21,6 +21,9 @@ export class Menu {
 	siteId: string
 
 	@Column()
+	shopId: string
+
+	@Column()
 	dishes: [DishInfo] | []
 
 	@Column()
