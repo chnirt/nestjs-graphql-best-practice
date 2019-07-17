@@ -163,7 +163,7 @@ export class UserService {
 
 		const user = await this.userRepository.findOne({ username })
 
-		if (!user || !user.matchesPassword(password)) {
+		if (!user || !(await user.matchesPassword(password))) {
 			throw new ApolloError(message, code, additionalProperties)
 		}
 
