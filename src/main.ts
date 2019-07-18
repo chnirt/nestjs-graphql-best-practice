@@ -33,8 +33,11 @@ export class MyLogger implements LoggerService {
 }
 
 dotenv.config()
-const port = process.env.PORT || 3000
+
 declare const module: any
+
+const port = process.env.PORT || 3001
+const domain = 'devcloud3.digihcs.com'
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -83,9 +86,9 @@ async function bootstrap() {
 		module.hot.dispose(() => app.close())
 	}
 
-	Logger.log(`🚀 Server ready at http://localhost:${port}/graphql`, 'Bootstrap')
+	Logger.log(`🚀 Server ready at http://${domain}:${port}/graphql`, 'Bootstrap')
 	Logger.log(
-		`🚀 Subscriptions ready at ws://localhost:${port}/graphql`,
+		`🚀 Subscriptions ready at ws://${domain}:${port}/graphql`,
 		'Bootstrap'
 	)
 }

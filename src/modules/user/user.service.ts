@@ -79,19 +79,36 @@ export class UserService {
 
 		const newUser = await this.userRepository.save(user)
 
-		sites.map(async item => {
-			const { siteId, permissions } = item
+		// sites.map(async item => {
+		// 	const { siteId, permissions } = item
 
-			await this.siteService.findById(siteId)
+		// 	// await this.siteService.findById(siteId)
 
-			const userPermission = new UserPermission()
+		// 	const userPermission = new UserPermission()
 
-			userPermission.userId = newUser._id
-			userPermission.siteId = siteId
-			userPermission.permissions = permissions
+		// 	userPermission.userId = newUser._id
+		// 	userPermission.siteId = siteId
+		// 	userPermission.permissions = permissions
 
-			await this.userPermissionService.create(userPermission)
+		// 	this.userPermissionService.create(userPermission)
+		// })
+
+		const loading = sites.map(item => {
+			return async () => {
+				const { siteId, permissions } = item
+
+				// await this.siteService.findById(siteId)
+
+				const userPermission = new UserPermission()
+
+				userPermission.userId = newUser._id
+				userPermission.siteId = siteId
+				userPermission.permissions = permissions
+
+				await this.userPermissionService.create(userPermission)
+			}
 		})
+		Promise.all(loading)
 
 		return null
 	}
@@ -114,6 +131,23 @@ export class UserService {
 		user.fullName = fullName
 
 		await this.userRepository.save(user)
+
+		// const loading = sites.map(item => {
+		// 	return async () => {
+		// 		const { siteId, permissions } = item
+
+		// 		// await this.siteService.findById(siteId)
+
+		// 		const userPermission = new UserPermission()
+
+		// 		userPermission.userId = user._id
+		// 		userPermission.siteId = siteId
+		// 		userPermission.permissions = permissions
+
+		// 		await this.userPermissionService.create(userPermission)
+		// 	}
+		// })
+		// Promise.all(loading)
 
 		sites.map(async item => {
 			await this.siteService.findById(item.siteId)
