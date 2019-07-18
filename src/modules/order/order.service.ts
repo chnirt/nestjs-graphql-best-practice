@@ -68,16 +68,13 @@ export class OrderService {
     return (await this.orderRepository.save(order)) ? true : false
   }
 
-  async confirm(userId: string, menuId: string, dishId: string): Promise<boolean> {
-    const order = await this.findCurrentOrder(userId, menuId, dishId)
-
-    if (!order) {
-      throw Error.prototype.message
-    }
-
-    order.isConfirmed = true
-
-    return (await this.orderRepository.save(order)) ? true : false
+  async confirm(orderIds: string[]): Promise<boolean> {
+    orderIds.map(async id => {
+      const order = await this.findById(id)
+      order.isConfirmed = true
+      await this.orderRepository.save(order).then().catch(error => false)
+    })
+    return true
   }
 
   async delete(_id: string): Promise<boolean> {
