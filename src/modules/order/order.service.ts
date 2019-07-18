@@ -35,7 +35,19 @@ export class OrderService {
   }
 
   async findOrdersByMenu(menuId: string) {
-    return await this.orderRepository.find({ menuId })
+    const orders = await this.orderRepository.find({ menuId })
+    let list = []
+    await orders.map(order => {
+      const index = list.findIndex(item => item._id === order._id)
+      if (index === -1) {
+        list.push(order)
+      } else {
+        const o = list[index]
+        o.count += order.count
+        list = [...list.slice(0, index), o, ...list.slice(index + 1)]
+      }
+    })
+    return list
   }
 
   async create(input: CreateOrderInput, userId: string): Promise<boolean> {
