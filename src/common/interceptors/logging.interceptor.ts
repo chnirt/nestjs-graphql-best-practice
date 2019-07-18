@@ -15,6 +15,15 @@ export class LoggingInterceptor implements NestInterceptor {
 		const now = Date.now()
 		return next
 			.handle()
-			.pipe(tap(() => console.log(`After... ${Date.now() - now}ms`)))
+			.pipe(
+				tap(() =>
+					console.log(
+						context.getArgs()[3].parentType,
+						'➢ ',
+						context.getArgs()[3].fieldName,
+						`is finished in ${Date.now() - now}ms`
+					)
+				)
+			)
 	}
 }

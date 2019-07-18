@@ -12,8 +12,7 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	BeforeInsert,
-	BeforeUpdate,
-	BeforeRemove
+	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
 import * as bcrypt from 'bcrypt'
@@ -165,11 +164,6 @@ export class User {
 	async b4update() {
 		this.password = await bcrypt.hash(this.password, 10)
 	}
-
-	// @BeforeRemove()
-	// async b4block() {
-	// 	this.isActive = false
-	// }
 
 	async matchesPassword(password) {
 		return await bcrypt.compare(password, this.password)
