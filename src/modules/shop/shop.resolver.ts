@@ -41,4 +41,9 @@ export class ShopResolver {
   async updateDish(@Args('id') id: string, @Args('dishId') dishId: string, @Args('name') name: string) {
     return await this.shopService.updateDish(id, dishId, name)
   }
+
+  @Mutation('deleteDish')
+  async deleteDish(@Args('id') id: string, @Args('dishId') dishId: string) {
+    return await this.shopService.deleteDish(id, dishId)
+  }
 }

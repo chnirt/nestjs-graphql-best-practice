@@ -53,6 +53,11 @@ export class MenuResolver {
 		return await this.menuService.lockAndUnlockMenu(id)
 	}
 
+	@Mutation('deleteMenu')
+	async deleteMenu(@Args('id') id: string) {
+		return await this.menuService.deleteMenu(id)
+	}
+
 	// @Mutation('addDish')
 	// async addDish(
 	// 	@Args('id') id: string,

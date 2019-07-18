@@ -9,16 +9,17 @@ type Shop {
 }
 
 type Query {
-  shops: [Shop]
-  shop(id: String!): Shop
-  shopsBySite(siteId: String!): [Shop]
+  shops: [Shop] @isAuthenticated
+  shop(id: String!): Shop @isAuthenticated
+  shopsBySite(siteId: String!): [Shop] @isAuthenticated
 }
 
 type Mutation {
-  createShop(input: ShopInput!): Boolean
-  deleteShop(id: String!): Boolean
-  addDish(id: String!, name: String!): Boolean
-  updateDish(id: String!, dishId: String!, name: String!): Boolean
+  createShop(input: ShopInput!): Boolean @isAuthenticated
+  deleteShop(id: String!): Boolean @isAuthenticated
+  addDish(id: String!, name: String!): Boolean @isAuthenticated
+  updateDish(id: String!, dishId: String!, name: String!): Boolean @isAuthenticated
+  deleteDish(id: String!, dishId: String!): Boolean @isAuthenticated
 }
 
 input ShopInput {

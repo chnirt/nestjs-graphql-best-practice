@@ -19,7 +19,7 @@ export class ShopService {
 
   async getShop(id: string): Promise<Shop | ApolloError> {
     try {
-      return this.commonService.findOneAdapter(Shop, {_id: id})
+      return await this.commonService.findOneAdapter(Shop, {_id: id})
     } catch (error) {
       throw new ApolloError(error)
     }
@@ -82,4 +82,23 @@ export class ShopService {
       throw new ApolloError(error)
     }
   }
+
+  async deleteDish(
+		id: string,
+		dishId: string
+	): Promise<boolean | ApolloError> {
+		try {
+			const shop = await this.commonService.findOneAdapter(Shop, { _id: id })
+			const dishes = await shop.dishes.filter(dish => dish._id !== dishId)
+			return (await this.commonService.updateOneByIdAdapter(Shop, id, {
+				$set: {
+					dishes
+				}
+			}))
+				? true
+				: false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
+	}
 }

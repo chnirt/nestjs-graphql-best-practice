@@ -40,6 +40,7 @@ export class CreateUserPermissionInput {
 }
 
 export class DishInput {
+    _id?: string;
     name?: string;
     count?: number;
 }
@@ -51,9 +52,8 @@ export class LoginUserInput {
 
 export class MenuInfo {
     name?: string;
-    isPublished?: boolean;
-    isLocked?: boolean;
-    isActive?: boolean;
+    shopId?: string;
+    dishes?: DishInput[];
 }
 
 export class PermissionInfoInput {
@@ -120,6 +120,7 @@ export class Menu {
     _id?: string;
     name?: string;
     siteId?: string;
+    shopId?: string;
     dishes?: DishInfo[];
     isPublished?: boolean;
     isLocked?: boolean;
@@ -140,6 +141,8 @@ export abstract class IMutation {
     abstract publishAndUnpublish(id: string): boolean | Promise<boolean>;
 
     abstract lockAndUnlockMenu(id: string): boolean | Promise<boolean>;
+
+    abstract deleteMenu(id: string): boolean | Promise<boolean>;
 
     abstract closeMenu(id: string): boolean | Promise<boolean>;
 
@@ -167,6 +170,8 @@ export abstract class IMutation {
 
     abstract updateDish(id: string, dishId: string, name: string): boolean | Promise<boolean>;
 
+    abstract deleteDish(id: string, dishId: string): boolean | Promise<boolean>;
+
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
     abstract updateSite(_id: string, input: UpdateSiteInput): boolean | Promise<boolean>;
@@ -174,6 +179,8 @@ export abstract class IMutation {
     abstract deleteSite(_id: string): boolean | Promise<boolean>;
 
     abstract deleteSites(): boolean | Promise<boolean>;
+
+    abstract createSiteShop(siteId: string, shopId: string): boolean | Promise<boolean>;
 
     abstract createUser(input: CreateUserInput): User | Promise<User>;
 
@@ -208,6 +215,12 @@ export class Order {
     updatedAt?: string;
 }
 
+export class OrderCount {
+    menuId?: string;
+    dishId?: string;
+    count?: number;
+}
+
 export class Permission {
     _id: string;
     code: string;
@@ -240,6 +253,10 @@ export abstract class IQuery {
 
     abstract ordersByMenu(menuId: string): Order[] | Promise<Order[]>;
 
+    abstract ordersCountByUser(menuId: string): OrderCount[] | Promise<OrderCount[]>;
+
+    abstract ordersCountByMenu(menuId: string): OrderCount[] | Promise<OrderCount[]>;
+
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
     abstract permission(_id: string): Permission | Promise<Permission>;
@@ -255,6 +272,8 @@ export abstract class IQuery {
     abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
 
     abstract site(_id: string): Site | Promise<Site>;
+
+    abstract siteShopsBySiteId(siteId: string): SiteShopResponse[] | Promise<SiteShopResponse[]>;
 
     abstract hello(): string | Promise<string>;
 
@@ -288,6 +307,20 @@ export class Site {
     name: string;
     createdAt: string;
     updatedAt: string;
+}
+
+export class SiteShop {
+    _id?: string;
+    siteId?: string;
+    shopId?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
+export class SiteShopResponse {
+    siteId?: string;
+    shopId?: string;
+    name?: string;
 }
 
 export abstract class ISubscription {
