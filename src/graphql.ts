@@ -170,6 +170,8 @@ export abstract class IMutation {
 
     abstract updateDish(id: string, dishId: string, name: string): boolean | Promise<boolean>;
 
+    abstract deleteDish(id: string, dishId: string): boolean | Promise<boolean>;
+
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
     abstract updateSite(_id: string, input: UpdateSiteInput): boolean | Promise<boolean>;
