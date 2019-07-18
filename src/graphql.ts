@@ -150,7 +150,7 @@ export abstract class IMutation {
 
     abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
 
-    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
+    abstract confirmOrder(orderIds?: string[]): boolean | Promise<boolean>;
 
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 
@@ -215,6 +215,12 @@ export class Order {
     updatedAt?: string;
 }
 
+export class OrderCount {
+    menuId?: string;
+    dishId?: string;
+    count?: number;
+}
+
 export class Permission {
     _id: string;
     code: string;
@@ -246,6 +252,10 @@ export abstract class IQuery {
     abstract ordersByUser(menuId: string): Order[] | Promise<Order[]>;
 
     abstract ordersByMenu(menuId: string): Order[] | Promise<Order[]>;
+
+    abstract ordersCountByUser(menuId: string): OrderCount[] | Promise<OrderCount[]>;
+
+    abstract ordersCountByMenu(menuId: string): OrderCount[] | Promise<OrderCount[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 

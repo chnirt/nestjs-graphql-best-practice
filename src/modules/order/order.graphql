@@ -10,6 +10,12 @@ type Order {
 	updatedAt: String
 }
 
+type OrderCount {
+	menuId: String
+	dishId: String
+	count: Int
+}
+
 input CreateOrderInput {
 	menuId: String!
 	dishId: String!
@@ -29,11 +35,14 @@ type Query {
 	orders: [Order!] @isAuthenticated
 	ordersByUser(menuId: String!): [Order] @isAuthenticated
 	ordersByMenu(menuId: String!): [Order] @isAuthenticated
+	ordersCountByUser(menuId: String!): [OrderCount] @isAuthenticated
+	ordersCountByMenu(menuId: String!): [OrderCount] @isAuthenticated
 }
 
 type Mutation {
 	orderDish(input: CreateOrderInput!): Boolean @isAuthenticated
 	updateOrder(id: String!, input: UpdateOrderInput!): Boolean @isAuthenticated
-	confirmOrder(menuId: String!, dishId: String!): Boolean @isAuthenticated
+	confirmOrder(orderIds: [String]): Boolean @isAuthenticated
 	deleteOrder(id: String): Boolean @isAuthenticated
 }
+
