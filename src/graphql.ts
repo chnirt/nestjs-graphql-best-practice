@@ -147,7 +147,7 @@ export abstract class IMutation {
 
     abstract updateOrder(id: string, input: UpdateOrderInput): boolean | Promise<boolean>;
 
-    abstract confirmOrder(menuId: string, dishId: string): boolean | Promise<boolean>;
+    abstract confirmOrder(orderIds?: string[]): boolean | Promise<boolean>;
 
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
 

@@ -34,6 +34,7 @@ type Query {
 type Mutation {
 	orderDish(input: CreateOrderInput!): Boolean
 	updateOrder(id: String!, input: UpdateOrderInput!): Boolean
-	confirmOrder(menuId: String!, dishId: String!): Boolean
+	confirmOrder(orderIds: [String]): Boolean
 	deleteOrder(id: String): Boolean
 }
+

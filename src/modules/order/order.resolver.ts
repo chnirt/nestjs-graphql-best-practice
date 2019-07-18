@@ -43,9 +43,9 @@ export class OrderResolver {
     return await this.orderService.update(id, input)
   }
 
-  @Mutation(() => Order)
-  async confirmOrder(@Context('currentUser') currentUser: User, @Args('menuId') menuId: string, @Args('dishId') dishId: string) {
-    return await this.orderService.confirm(currentUser._id, menuId, dishId)
+  @Mutation(() => Boolean)
+  async confirmOrder(@Args('orderIds') orderIds: string[]) {
+    return await this.orderService.confirm(orderIds)
   }
 
   @Mutation(() => Boolean)

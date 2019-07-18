@@ -35,7 +35,19 @@ export class OrderService {
   }
 
   async findOrdersByMenu(menuId: string) {
-    return await this.orderRepository.find({ menuId })
+    const orders = await this.orderRepository.find({ menuId })
+    let list = []
+    await orders.map(order => {
+      const index = list.findIndex(item => item._id === order._id)
+      if (index === -1) {
+        list.push(order)
+      } else {
+        const o = list[index]
+        o.count += order.count
+        list = [...list.slice(0, index), o, ...list.slice(index + 1)]
+      }
+    })
+    return list
   }
 
   async create(input: CreateOrderInput, userId: string): Promise<boolean> {
@@ -68,16 +80,13 @@ export class OrderService {
     return (await this.orderRepository.save(order)) ? true : false
   }
 
-  async confirm(userId: string, menuId: string, dishId: string): Promise<boolean> {
-    const order = await this.findCurrentOrder(userId, menuId, dishId)
-
-    if (!order) {
-      throw Error.prototype.message
-    }
-
-    order.isConfirmed = true
-
-    return (await this.orderRepository.save(order)) ? true : false
+  async confirm(orderIds: string[]): Promise<boolean> {
+    orderIds.map(async id => {
+      const order = await this.findById(id)
+      order.isConfirmed = true
+      await this.orderRepository.save(order).then().catch(error => false)
+    })
+    return true
   }
 
   async delete(_id: string): Promise<boolean> {
