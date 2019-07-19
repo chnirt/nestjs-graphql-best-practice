@@ -36,18 +36,7 @@ export class OrderService {
 
   async findOrdersCountByUser(userId: string, menuId: string) {
     const orders = await this.orderRepository.find({ userId, menuId })
-    let list = []
-    await orders.map(order => {
-      const index = list.findIndex(item => item.dishId === order.dishId)
-      if (index === -1) {
-        list.push({menuId: order.menuId, dishId: order.dishId, count: order.count})
-      } else {
-        const obj = list[index]
-        obj.count += order.count
-        list = [...list.slice(0, index), obj, ...list.slice(index + 1)]
-      }
-    })
-    return list
+    return orders.map(order => ({menuId: order.menuId, dishId: order.dishId, count: order.count}))
   }
 
   async findOrdersByMenu(menuId: string) {
