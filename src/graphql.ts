@@ -324,6 +324,8 @@ export class SiteShopResponse {
 }
 
 export abstract class ISubscription {
+    abstract ordersByMenuCreated(): Order[] | Promise<Order[]>;
+
     abstract userCreated(): User | Promise<User>;
 }
 
