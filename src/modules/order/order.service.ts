@@ -103,13 +103,14 @@ export class OrderService {
   }
 
   async delete(_id: string): Promise<boolean> {
-    const order = await this.orderRepository.findOne({ _id })
+    // const order = await this.orderRepository.findOne({ _id })
 
-    if (!order) {
-      throw Error.prototype.message
-    }
+    // if (!order) {
+    //   throw Error.prototype.message
+    // }
 
-    return (await this.orderRepository.remove(order)) ? true : false
+    // return (await this.orderRepository.remove(order)) ? true : false
+    return await this.orderRepository.deleteOne({_id}) ? true : false
   }
 
   // async deleteAll(): Promise<boolean> {
