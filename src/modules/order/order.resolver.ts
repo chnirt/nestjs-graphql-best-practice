@@ -16,7 +16,7 @@ import { async } from 'rxjs/internal/scheduler/async'
 export class OrderResolver {
 	constructor(private readonly orderService: OrderService) {}
 
-	@Mutation(() => Boolean)
+	@Mutation(() => String)
 	async orderDish(
 		@Args('input') input: CreateOrderInput,
 		@Context('currentUser') currentUser: User,

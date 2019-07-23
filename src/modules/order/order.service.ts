@@ -59,16 +59,18 @@ export class OrderService {
     return list
   }
 
-  async create(input: CreateOrderInput, userId: string): Promise<boolean> {
+  async create(input: CreateOrderInput, userId: string): Promise<string> {
     const { note, count, menuId, dishId } = input
     const order = await this.findCurrentOrder(userId, menuId, dishId)
     if (order) {
       if (count > 0) {
         order.note = note || ''
         order.count = count
-        return (await this.orderRepository.save(order)) ? true : false
+        await this.orderRepository.save(order)
+        return order._id
       } else {
-        return await this.orderRepository.deleteOne({_id: order._id}) ? true : false
+        await this.orderRepository.deleteOne({_id: order._id})
+        return order._id
       }
     } else {
       const newOrder = new Order()
@@ -77,7 +79,7 @@ export class OrderService {
       newOrder.dishId = dishId
       newOrder.note = note || ''
       newOrder.count = count
-      return await this.orderRepository.save(newOrder) ? true : false
+      return await this.orderRepository.save(newOrder).then(res => res._id)
     }
   }
 
