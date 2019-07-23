@@ -40,7 +40,7 @@ type Query {
 }
 
 type Mutation {
-	orderDish(input: CreateOrderInput!): Boolean @isAuthenticated
+	orderDish(input: CreateOrderInput!): String @isAuthenticated
 	updateOrder(id: String!, input: UpdateOrderInput!): Boolean @isAuthenticated
 	confirmOrder(orderIds: [String]): Boolean @isAuthenticated
 	deleteOrder(id: String): Boolean @isAuthenticated
