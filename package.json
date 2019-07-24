@@ -19,7 +19,7 @@
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
-		"start:webpack": "node dist/server",
+		"start:webpack": "NODE_ENV=production SECRET_KEY=chnirt1803 node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
 		"compodoc": "npx compodoc --port 11047 -p tsconfig.json -s",
 		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
