@@ -47,8 +47,10 @@ export class GraphqlService implements GqlOptionsFactory {
 				const { permission } = args
 
 				await this.userPermissionService.findOne({
-					'userId': currentUser._id,
-					'siteId': currentsite,
+					// tslint:disable-next-line:object-literal-key-quotes
+					userId: currentUser._id,
+					// tslint:disable-next-line:object-literal-key-quotes
+					siteId: currentsite,
 					'permissions.code': permission
 				})
 
@@ -109,7 +111,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			installSubscriptionHandlers: true,
 			introspection: true,
-			playground: {
+			playground: process.env.NODE_ENV !== 'production' && {
 				settings: {
 					'editor.cursorShape': 'line', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
