@@ -1,7 +1,7 @@
 const config = {
 	development: {
 		port: 11048,
-		end_point: 'graphql'
+		end_point: 'graphqllunch'
 	},
 	production: {
 		port: process.env.PORT,

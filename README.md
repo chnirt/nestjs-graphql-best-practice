@@ -130,17 +130,17 @@ Nest is [MIT licensed](LICENSE).
 
 ## `3. Code Style Practices`
 
-##### [❔] 3.1 Use ESLint
+##### ![❔] 3.1 Use ESLint
 
 ##### [❔] 3.2 Node.js specific plugins
 
-##### [❔] 3.3 Start a Codeblock's Curly Braces on the Same Line
+##### [✔️] 3.3 Start a Codeblock's Curly Braces on the Same Line
 
-##### [❔] 3.4 Separate your statements properly
+##### [✔️] 3.4 Separate your statements properly
 
-##### [❔] 3.5 Name your functions
+##### [✔️] 3.5 Name your functions
 
-##### [❔] 3.6 Use naming conventions for variables, constants, functions and classes
+##### [✔️] 3.6 Use naming conventions for variables, constants, functions and classes
 
 ##### [❔] 3.7 Prefer const over let. Ditch the var
 
