@@ -45,10 +45,10 @@ export class Order {
 	@IsNotEmpty()
 	isConfirmed: boolean
 
-	@CreateDateColumn({ type: 'timestamp' })
+	@CreateDateColumn()
 	createdAt: string
 
-	@UpdateDateColumn({ type: 'timestamp' })
+	@UpdateDateColumn()
 	updatedAt: string
 
 	@BeforeInsert()
