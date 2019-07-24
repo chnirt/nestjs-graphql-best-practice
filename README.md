@@ -78,6 +78,10 @@ Nest is [MIT licensed](LICENSE).
 
 # Node.js Best Practices
 
+<h1 align="center">
+  <img src="assets/images/banner-2.jpg" alt="Node.js Best Practices">
+</h1>
+
 ### Table of Contents
 
 1.  [Project Structure Practices (5)](#1-project-structure-practices)
