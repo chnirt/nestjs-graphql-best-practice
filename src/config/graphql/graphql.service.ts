@@ -8,7 +8,11 @@ import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 import { Logger } from 'winston'
 
+import config from '../../config.env'
+
 const pubSub = new PubSub()
+
+const end_point = config.end_point
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
@@ -60,6 +64,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
+			path: `/${end_point}`,
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.ts'),
 				outputAs: 'class'
@@ -99,6 +104,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			debug: false,
 			subscriptions: {
+				path: `/${end_point}`,
 				onConnect: (connectionParams, webSocket, context) => {
 					console.log('🔗 Connected to websocket')
 				}

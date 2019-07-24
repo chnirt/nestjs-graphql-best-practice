@@ -5,7 +5,7 @@ const config = {
 	},
 	production: {
 		port: process.env.PORT,
-		end_point: process.env.END_POINT
+		end_point: process.env.END_POINT || 'graphqllunch'
 	}
 }
 export default config[process.env.NODE_ENV || 'development']

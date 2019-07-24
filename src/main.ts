@@ -66,7 +66,9 @@ async function bootstrap() {
 	// app.use(logger(':graphql-logger'))
 	app.use(compression())
 
-	app.use('/voyager', voyagerMiddleware({ endpointUrl: `/${end_point}` }))
+	if (process.env.NODE_ENV !== 'production') {
+		app.use('/voyager', voyagerMiddleware({ endpointUrl: `/${end_point}` }))
+	}
 
 	// DONE:
 	app.useGlobalInterceptors(new LoggingInterceptor())
