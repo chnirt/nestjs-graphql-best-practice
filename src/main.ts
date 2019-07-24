@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
-import * as dotenv from 'dotenv'
 import helmet from 'helmet'
 import csurf from 'csurf'
 import rateLimit from 'express-rate-limit'
@@ -13,6 +12,8 @@ import { ValidationPipe } from './common/pipes/validation.pipe'
 
 import { LoggerService } from '@nestjs/common'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
+
+import config from './config.env'
 
 export class MyLogger implements LoggerService {
 	log(message: string) {
@@ -32,11 +33,9 @@ export class MyLogger implements LoggerService {
 	}
 }
 
-dotenv.config()
-
 declare const module: any
 
-const port = process.env.PORT || 3001
+const port = config.port
 const domain = 'devcloud3.digihcs.com'
 
 async function bootstrap() {
