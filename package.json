@@ -11,7 +11,7 @@
 		"start:dev": "rm -rf dist && concurrently --handle-input \"wait-on dist/main.js && nodemon\" \"tsc -w -p tsconfig.build.json\" ",
 		"start:debug": "nodemon --config nodemon-debug.json",
 		"prestart:prod": "rimraf dist && npm run build",
-		"start:prod": "NODE_ENV=production SECRET_KEY=chnirt1803 node dist/main.js",
+		"start:prod": "NODE_ENV=production PORT=11045 END_POINT=graphqllunch3 SECRET_KEY=chnirt1803 node dist/main.js",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
 		"test": "jest",
 		"test:watch": "jest --watch",
@@ -19,7 +19,7 @@
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "jest --config ./test/jest-e2e.json",
 		"webpack": "rm -rf dist && webpack --config webpack.config.js",
-		"start:webpack": "NODE_ENV=production SECRET_KEY=chnirt1803 node dist/server",
+		"start:webpack": "node dist/server",
 		"start:pm2": "pm2-runtime start ecosystem.config.js --env production",
 		"compodoc": "npx compodoc --port 11047 -p tsconfig.json -s",
 		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
