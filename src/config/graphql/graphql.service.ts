@@ -47,8 +47,8 @@ export class GraphqlService implements GqlOptionsFactory {
 				const { permission } = args
 
 				await this.userPermissionService.findOne({
-					userId: currentUser._id,
-					siteId: currentsite,
+					'userId': currentUser._id,
+					'siteId': currentsite,
 					'permissions.code': permission
 				})
 

@@ -93,7 +93,7 @@ export class UserService {
 			this.userPermissionService.create(userPermission)
 		})
 
-		return null
+		return newUser
 	}
 
 	async update(_id: string, input: UpdateUserInput): Promise<boolean> {
