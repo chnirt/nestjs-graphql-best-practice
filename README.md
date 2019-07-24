@@ -142,43 +142,43 @@ Nest is [MIT licensed](LICENSE).
 
 ##### [✔️] 3.6 Use naming conventions for variables, constants, functions and classes
 
-##### [❔] 3.7 Prefer const over let. Ditch the var
+##### [✔️] 3.7 Prefer const over let. Ditch the var
 
-##### [❔] 3.8 Require modules first, not inside functions
+##### [✔️] 3.8 Require modules first, not inside functions
 
-##### [❔] 3.9 Require modules by folders, opposed to the files directly
+##### [〽️] Nest must import files directly - 3.9 Require modules by folders, opposed to the files directly
 
-##### [❔] 3.10 Use the `===` operator
+##### [✔️] 3.10 Use the `===` operator
 
-##### [❔] 3.11 Use Async Await, avoid callbacks
+##### [✔️] 3.11 Use Async Await, avoid callbacks
 
-##### [❔] 3.12 Use arrow function expressions (=>)
+##### [✔️] 3.12 Use arrow function expressions (=>)
 
 ## `4. Testing And Overall Quality Practices`
 
-##### [❔] 4.1 At the very least, write API (component) testing
+##### ![❔] 4.1 At the very least, write API (component) testing
 
-##### [❔] 4.2 Include 3 parts in each test name
+##### [〽️] use Jest - 4.2 Include 3 parts in each test name
 
-##### [❔] 4.3 Structure tests by the AAA pattern
+##### [〽️] use Jest - 4.3 Structure tests by the AAA pattern
 
-##### [❔] 4.4 Detect code issues with a linter
+##### ![❔] 4.4 Detect code issues with a linter
 
-##### [❔] 4.5 Avoid global test fixtures and seeds, add data per-test
+##### [〽️] use Jest - 4.5 Avoid global test fixtures and seeds, add data per-test
 
-##### [❔] 4.6 Constantly inspect for vulnerable dependencies
+##### ![❔] 4.6 Constantly inspect for vulnerable dependencies
 
-##### [❔] 4.7 Tag your tests
+##### ![❔] 4.7 Tag your tests
 
-##### [❔] 4.8 Check your test coverage, it helps to identify wrong test patterns
+##### ![❔] 4.8 Check your test coverage, it helps to identify wrong test patterns
 
-##### [❔] 4.9 Inspect for outdated packages
+##### ![❔] 4.9 Inspect for outdated packages
 
-##### [❔] 4.10 Use production-like env for e2e testing
+##### ![❔] 4.10 Use production-like env for e2e testing
 
-##### [❔] 4.11 Refactor regularly using static analysis tools
+##### ![❔] 4.11 Refactor regularly using static analysis tools
 
-##### [❔] 4.12 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
+##### [✔️] 4.12 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
 
 ## `5. Going To Production Practices`
 
