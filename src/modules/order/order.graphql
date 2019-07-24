@@ -37,6 +37,7 @@ type Query {
 	ordersByMenu(menuId: String!): [Order] @isAuthenticated
 	ordersCountByUser(menuId: String!): [OrderCount] @isAuthenticated
 	ordersCountByMenu(menuId: String!): [OrderCount] @isAuthenticated
+	currentOrder(menuId: String!, dishId: String!): Order @isAuthenticated
 }
 
 type Mutation {
