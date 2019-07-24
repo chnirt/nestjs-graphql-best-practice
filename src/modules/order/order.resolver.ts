@@ -41,10 +41,10 @@ export class OrderResolver {
 		return await this.orderService.findById(id)
 	}
 
-	// @Query(() => Order)
-	// async orderCurrentOfUser(@Args('menuId') menuId: string, @Args('dishId') dishId: string, @Context('currentUser') currentUser: User) {
-	//   return await this.orderService.findCurrentOrder(currentUser._id, menuId, dishId)
-	// }
+	@Query(() => Order)
+	async currentOrder(@Args('menuId') menuId: string, @Args('dishId') dishId: string, @Context('currentUser') currentUser: User) {
+	  return await this.orderService.findCurrentOrder(currentUser._id, menuId, dishId)
+	}
 
 	@Query('ordersByUser')
 	async ordersByUser(

@@ -37,6 +37,7 @@ declare const module: any
 
 const port = config.port
 const domain = 'devcloud3.digihcs.com'
+const end_point = config.end_point
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
@@ -65,7 +66,7 @@ async function bootstrap() {
 	// app.use(logger(':graphql-logger'))
 	app.use(compression())
 
-	app.use('/voyager', voyagerMiddleware({ endpointUrl: '/graphql' }))
+	app.use('/voyager', voyagerMiddleware({ endpointUrl: `/${end_point}` }))
 
 	// DONE:
 	app.useGlobalInterceptors(new LoggingInterceptor())
@@ -85,9 +86,12 @@ async function bootstrap() {
 		module.hot.dispose(() => app.close())
 	}
 
-	Logger.log(`🚀 Server ready at http://${domain}:${port}/graphql`, 'Bootstrap')
 	Logger.log(
-		`🚀 Subscriptions ready at ws://${domain}:${port}/graphql`,
+		`🚀 Server ready at http://${domain}:${port}/${end_point}`,
+		'Bootstrap'
+	)
+	Logger.log(
+		`🚀 Subscriptions ready at ws://${domain}:${port}/${end_point}`,
 		'Bootstrap'
 	)
 }

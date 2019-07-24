@@ -257,6 +257,8 @@ export abstract class IQuery {
 
     abstract ordersCountByMenu(menuId: string): OrderCount[] | Promise<OrderCount[]>;
 
+    abstract currentOrder(menuId: string, dishId: string): Order | Promise<Order>;
+
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
     abstract permission(_id: string): Permission | Promise<Permission>;
