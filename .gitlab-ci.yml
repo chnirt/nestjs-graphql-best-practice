@@ -40,6 +40,7 @@ deployDevBackend3:
   only:
     refs:
       - master
+      - cicd
   script:
     - npm run build
     - rsync -a -e "ssh -p 22" . deploy@192.168.88.133:/opt/backend/lunch4
