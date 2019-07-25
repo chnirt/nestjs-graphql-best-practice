@@ -1,0 +1,47 @@
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+  - node_modules/
+
+before_script:
+  - export PATH=$PATH:/home/gitlab-runner/.nvm/versions/node/v11.11.0/bin/
+  - pwd
+  - npm i
+
+stages:
+  - deployTest
+  - intergrateTest
+  - deploy
+
+deployDevBackend3Test:
+  stage: deployTest
+  only:
+    refs:
+      - unknown
+      #- master
+      #- cicd
+  script:
+    - npm run build
+    - rsync -a -e "ssh -p 22" dist/ deploy@192.168.88.133:/opt/backend/lunch4
+    - ssh -p 22 deploy@192.168.88.133 "/nfs/san03/deploy/scripts/pm2lunch4.sh.sh"
+    
+intergrateTest:
+  stage: intergrateTest
+  only:
+    refs:
+      - unknown
+      #- master
+      #- cicd
+  script:
+    - URL=http://translatetest.mdlib.vn/ cypress run
+
+deployDevBackend3:
+  stage: deploy
+  only:
+    refs:
+      - master
+      - cicd
+  script:
+    - npm run build
+    - rsync -a -e "ssh -p 22" . deploy@192.168.88.133:/opt/backend/lunch4
+    - ssh -p 22 deploy@192.168.88.133 "/nfs/san03/deploy/scripts/pm2lunch4.sh"

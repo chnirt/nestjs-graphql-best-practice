@@ -8,7 +8,11 @@ import { ApolloError } from 'apollo-server-core'
 import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
 import { Logger } from 'winston'
 
+import config from '../../config.env'
+
 const pubSub = new PubSub()
+
+const end_point = config.end_point
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
@@ -47,8 +51,10 @@ export class GraphqlService implements GqlOptionsFactory {
 				const { permission } = args
 
 				await this.userPermissionService.findOne({
-					'userId': currentUser._id,
-					'siteId': currentsite,
+					// tslint:disable-next-line:object-literal-key-quotes
+					userId: currentUser._id,
+					// tslint:disable-next-line:object-literal-key-quotes
+					siteId: currentsite,
 					'permissions.code': permission
 				})
 
@@ -58,6 +64,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
+			path: `/${end_point}`,
 			definitions: {
 				path: join(process.cwd(), 'src/graphql.ts'),
 				outputAs: 'class'
@@ -97,6 +104,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			debug: false,
 			subscriptions: {
+				path: `/${end_point}`,
 				onConnect: (connectionParams, webSocket, context) => {
 					console.log('🔗 Connected to websocket')
 				}
@@ -109,7 +117,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			installSubscriptionHandlers: true,
 			introspection: true,
-			playground: {
+			playground: process.env.NODE_ENV !== 'production' && {
 				settings: {
 					'editor.cursorShape': 'line', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
