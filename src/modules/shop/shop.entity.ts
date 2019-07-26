@@ -11,9 +11,6 @@ export class Shop {
 	name: string
 
 	@Column()
-	siteId: string
-
-	@Column()
   dishes: [DishInfo] | []
 
   @Column()

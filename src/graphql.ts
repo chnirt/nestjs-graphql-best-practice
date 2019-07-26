@@ -61,11 +61,6 @@ export class PermissionInfoInput {
     code: string;
 }
 
-export class ShopInput {
-    name?: string;
-    siteId?: string;
-}
-
 export class SitesInfoInput {
     siteId: string;
     permissions: PermissionInfoInput[];
@@ -162,7 +157,7 @@ export abstract class IMutation {
 
     abstract deletePermissions(): boolean | Promise<boolean>;
 
-    abstract createShop(input: ShopInput): boolean | Promise<boolean>;
+    abstract createShop(name: string): boolean | Promise<boolean>;
 
     abstract deleteShop(id: string): boolean | Promise<boolean>;
 
@@ -267,8 +262,6 @@ export abstract class IQuery {
 
     abstract shop(id: string): Shop | Promise<Shop>;
 
-    abstract shopsBySite(siteId: string): Shop[] | Promise<Shop[]>;
-
     abstract sites(): Site[] | Promise<Site[]>;
 
     abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
@@ -297,7 +290,6 @@ export abstract class IQuery {
 export class Shop {
     _id?: string;
     name?: string;
-    siteId?: string;
     dishes?: DishInfo[];
     isActive?: boolean;
     createdAt?: string;

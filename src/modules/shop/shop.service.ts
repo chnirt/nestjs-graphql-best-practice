@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import { CommonService } from '../common/services/common.service'
-import { ShopInput } from '../../graphql'
 import { ApolloError } from 'apollo-server-core'
 import { Shop } from './shop.entity'
 import { v1 as uuidv1 } from 'uuid'
@@ -25,17 +24,9 @@ export class ShopService {
     }
   }
 
-  async getShopsBySite(siteId: string): Promise<Shop[] | ApolloError> {
-    try {
-      return this.commonService.findAdapter(Shop, { siteId, isActive: true })
-    } catch (error) {
-      throw new ApolloError(error)
-    }
-  }
-
-	async createShop(input: ShopInput): Promise<boolean | ApolloError> {
+	async createShop(name: string): Promise<boolean | ApolloError> {
 		try {
-			return await this.commonService.createAdapter(Shop, { ...input }) ? true : false
+			return await this.commonService.createAdapter(Shop, { name }) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}

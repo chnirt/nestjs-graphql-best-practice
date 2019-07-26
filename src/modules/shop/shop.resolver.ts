@@ -1,6 +1,5 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { ShopService } from './shop.service'
-import { ShopInput } from '../../graphql'
 import { async } from 'rxjs/internal/scheduler/async';
 
 @Resolver('Shop')
@@ -17,14 +16,9 @@ export class ShopResolver {
     return await this.shopService.getShop(id)
   }
 
-  @Query('shopsBySite')
-  async shopBySite(@Args('siteId') siteId: string) {
-    return await this.shopService.getShopsBySite(siteId)
-  }
-
   @Mutation('createShop')
-  async createShop(@Args('input') input: ShopInput) {
-    return await this.shopService.createShop(input)
+  async createShop(@Args('name') name: string) {
+    return await this.shopService.createShop(name)
   }
 
   @Mutation('deleteShop')
