@@ -17,13 +17,11 @@ deployDevBackend3Test:
   stage: deployTest
   only:
     refs:
-      - unknown
-      #- master
-      #- cicd
+      - cicd
   script:
     - npm run build
-    - rsync -a -e "ssh -p 22" dist/ deploy@192.168.88.133:/opt/backend/lunch4
-    - ssh -p 22 deploy@192.168.88.133 "/nfs/san03/deploy/scripts/pm2lunch4.sh.sh"
+    - rsync -a -e "ssh -p 22" . deploy@192.168.88.133:/opt/backend/lunch4test
+    - ssh -p 22 deploy@192.168.88.133 "/nfs/san03/deploy/scripts/pm2lunch4test.sh"
     
 intergrateTest:
   stage: intergrateTest
@@ -40,7 +38,7 @@ deployDevBackend3:
   only:
     refs:
       - master
-      - cicd
+      #- cicd
   script:
     - npm run build
     - rsync -a -e "ssh -p 22" . deploy@192.168.88.133:/opt/backend/lunch4
