@@ -1,7 +1,7 @@
 const config = {
 	development: {
 		domain: 'devcloud3.digihcs.com',
-		port: process.env.BE_PORT,
+		port: process.env.PORT,
 		end_point: 'graphql',
 		orm: {
 			type: 'mongodb',
@@ -15,7 +15,7 @@ const config = {
 	},
 	production: {
 		domain: 'devcloud3.digihcs.com',
-		port: process.env.BE_PORT,
+		port: process.env.PORT,
 		end_point: process.env.END_POINT || 'graphqllunch',
 		orm: {
 			type: 'mongodb',
