@@ -35,8 +35,8 @@ export class MyLogger implements LoggerService {
 
 declare const module: any
 
+const domain = config.domain
 const port = config.port
-const domain = 'devcloud3.digihcs.com'
 const end_point = config.end_point
 
 async function bootstrap() {

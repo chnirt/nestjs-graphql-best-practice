@@ -38,24 +38,25 @@ export class UserService {
 			cache: true
 		})
 
-		// if (users.length === 0) {
-		// 	getMongoManager additionalProperties)
-		// }getMongoManager
 		return users
 	}
 
 	async findById(_id: string): Promise<User> {
-		const message = 'Not Found: User'
-		const code = '404'
-		const additionalProperties = {}
+		try {
+			const message = 'Not Found: User'
+			const code = '404'
+			const additionalProperties = {}
 
-		const user = await this.userRepository.findOne({ _id })
+			const user = await this.userRepository.findOne({ _id })
 
-		if (!user) {
-			throw new ApolloError(message, code, additionalProperties)
+			if (!user) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			return user
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
 		}
-
-		return user
 	}
 
 	async create(input: CreateUserInput): Promise<User> {
@@ -131,27 +132,35 @@ export class UserService {
 	}
 
 	async delete(_id: string): Promise<boolean> {
-		const message = 'Not Found: User'
-		const code = '404'
-		const additionalProperties = {}
+		try {
+			const message = 'Not Found: User'
+			const code = '404'
+			const additionalProperties = {}
 
-		const user = await this.userRepository.findOne({ _id })
+			const user = await this.userRepository.findOne({ _id })
 
-		if (!user) {
-			throw new ApolloError(message, code, additionalProperties)
+			if (!user) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			user.isActive = false
+
+			return (await this.userRepository.save(user)) ? true : false
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
 		}
-
-		user.isActive = false
-
-		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	async deleteAll(): Promise<boolean> {
-		return (await this.userRepository.deleteMany({
-			username: { $ne: 'admin' }
-		}))
-			? true
-			: false
+		try {
+			return (await this.userRepository.deleteMany({
+				username: { $ne: 'admin' }
+			}))
+				? true
+				: false
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
+		}
 	}
 
 	async login(input: LoginUserInput): Promise<LoginResponse> {
@@ -224,15 +233,6 @@ export class UserService {
 						preserveNullAndEmptyArrays: true
 					}
 				}
-				// {
-				// 	$project: {
-				// 		siteName: {
-				// 			_id: false,
-				// 			createdAt: false,
-				// 			updatedAt: false
-				// 		}
-				// 	}
-				// }
 			])
 			.toArray()
 
@@ -242,40 +242,48 @@ export class UserService {
 	}
 
 	async findOneByToken(token: string) {
-		const message = 'Invalid Token'
-		const code = '498'
-		const additionalProperties = {}
-
-		let currentUser
-
 		try {
-			let decodeToken
+			const message = 'Invalid Token'
+			const code = '498'
+			const additionalProperties = {}
 
-			decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
+			let currentUser
 
-			currentUser = await this.userRepository.findOne({
-				_id: decodeToken.subject
-			})
+			try {
+				let decodeToken
+
+				decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
+
+				currentUser = await this.userRepository.findOne({
+					_id: decodeToken.subject
+				})
+			} catch (error) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			return currentUser
 		} catch (error) {
-			throw new ApolloError(message, code, additionalProperties)
+			throw new ApolloError(error, '500', {})
 		}
-
-		return currentUser
 	}
 
 	async lockAndUnlockUser(_id: string): Promise<boolean> {
-		const message = 'Not Found: User'
-		const code = '404'
-		const additionalProperties = {}
+		try {
+			const message = 'Not Found: User'
+			const code = '404'
+			const additionalProperties = {}
 
-		const user = await this.userRepository.findOne({ _id })
+			const user = await this.userRepository.findOne({ _id })
 
-		if (!user) {
-			throw new ApolloError(message, code, additionalProperties)
+			if (!user) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			user.isLocked = !user.isLocked
+
+			return (await this.userRepository.save(user)) ? true : false
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
 		}
-
-		user.isLocked = !user.isLocked
-
-		return (await this.userRepository.save(user)) ? true : false
 	}
 }
