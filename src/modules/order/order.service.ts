@@ -60,11 +60,10 @@ export class OrderService {
   }
 
   async create(input: CreateOrderInput, userId: string): Promise<string> {
-    const { note, count, menuId, dishId } = input
+    const { count, menuId, dishId } = input
     const order = await this.findCurrentOrder(userId, menuId, dishId)
     if (order) {
       if (count > 0) {
-        order.note = note || ''
         order.count = count
         await this.orderRepository.save(order)
         return order._id
@@ -77,7 +76,6 @@ export class OrderService {
       newOrder.userId = userId
       newOrder.menuId = menuId
       newOrder.dishId = dishId
-      newOrder.note = note || ''
       newOrder.count = count
       return await this.orderRepository.save(newOrder).then(res => res._id)
     }
@@ -105,17 +103,7 @@ export class OrderService {
   }
 
   async delete(_id: string): Promise<boolean> {
-    // const order = await this.orderRepository.findOne({ _id })
-
-    // if (!order) {
-    //   throw Error.prototype.message
-    // }
-
-    // return (await this.orderRepository.remove(order)) ? true : false
     return await this.orderRepository.deleteOne({_id}) ? true : false
   }
 
-  // async deleteAll(): Promise<boolean> {
-  //   return (await this.orderRepository.deleteMany({})) ? true : false
-  // }
 }

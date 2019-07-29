@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import { CommonService } from '../common/services/common.service'
 import { SiteShop } from './siteShop.entity'
 import { ShopService } from '../shop/shop.service'
-import { ApolloError } from 'apollo-server-core';
+import { ApolloError } from 'apollo-server-core'
 
 @Injectable()
 export class SiteShopService {

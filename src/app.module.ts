@@ -18,8 +18,9 @@ import { HistoryModule } from './modules/history/history.module'
 import { ShopModule } from './modules/shop/shop.module'
 // import { APP_INTERCEPTOR } from '@nestjs/core'
 // import { MorganModule, MorganInterceptor } from 'nest-morgan'
-import * as winston from 'winston'
 import { SiteShopModule } from './modules/siteShop/siteShop.module'
+import { DishModule } from './modules/dish/dish.module';
+import * as winston from 'winston'
 
 const {
 	combine,
@@ -89,7 +90,8 @@ const {
 		OrderModule,
 		HistoryModule,
 		ShopModule,
-		SiteShopModule
+		SiteShopModule,
+		DishModule
 	]
 	// providers: [
 	// 	{

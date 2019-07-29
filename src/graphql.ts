@@ -61,11 +61,6 @@ export class PermissionInfoInput {
     code: string;
 }
 
-export class ShopInput {
-    name?: string;
-    siteId?: string;
-}
-
 export class SitesInfoInput {
     siteId: string;
     permissions: PermissionInfoInput[];
@@ -95,6 +90,15 @@ export class UpdateUserInput {
 
 export class UpdateUserPermissionInput {
     permissions: PermissionInfoInput[];
+}
+
+export class Dish {
+    _id?: string;
+    name?: string;
+    isActive?: boolean;
+    shopId?: string;
+    createdAt?: string;
+    updatedAt?: string;
 }
 
 export class DishInfo {
@@ -130,6 +134,10 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createDish(name: string, shopId: string): boolean | Promise<boolean>;
+
+    abstract deleteDish(id: string): boolean | Promise<boolean>;
+
     abstract createHistory(input: CreateHistoryInput): History | Promise<History>;
 
     abstract deleteHistories(): boolean | Promise<boolean>;
@@ -162,15 +170,9 @@ export abstract class IMutation {
 
     abstract deletePermissions(): boolean | Promise<boolean>;
 
-    abstract createShop(input: ShopInput): boolean | Promise<boolean>;
+    abstract createShop(name: string): boolean | Promise<boolean>;
 
     abstract deleteShop(id: string): boolean | Promise<boolean>;
-
-    abstract addDish(id: string, name: string): boolean | Promise<boolean>;
-
-    abstract updateDish(id: string, dishId: string, name: string): boolean | Promise<boolean>;
-
-    abstract deleteDish(id: string, dishId: string): boolean | Promise<boolean>;
 
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
@@ -235,6 +237,10 @@ export class PermissionInfo {
 }
 
 export abstract class IQuery {
+    abstract dish(id: string): Dish | Promise<Dish>;
+
+    abstract dishesByShop(shopId: string): Dish[] | Promise<Dish[]>;
+
     abstract histories(): History[] | Promise<History[]>;
 
     abstract menu(id: string): Menu | Promise<Menu>;
@@ -267,8 +273,6 @@ export abstract class IQuery {
 
     abstract shop(id: string): Shop | Promise<Shop>;
 
-    abstract shopsBySite(siteId: string): Shop[] | Promise<Shop[]>;
-
     abstract sites(): Site[] | Promise<Site[]>;
 
     abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
@@ -297,8 +301,6 @@ export abstract class IQuery {
 export class Shop {
     _id?: string;
     name?: string;
-    siteId?: string;
-    dishes?: DishInfo[];
     isActive?: boolean;
     createdAt?: string;
     updatedAt?: string;
