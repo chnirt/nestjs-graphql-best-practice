@@ -1,6 +1,5 @@
 import { Entity, ObjectIdColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm'
 import { v1 as uuidv1 } from 'uuid'
-import { DishInfo } from '../../graphql'
 
 @Entity()
 export class Shop {
@@ -9,9 +8,6 @@ export class Shop {
 
 	@Column()
 	name: string
-
-	@Column()
-  dishes: [DishInfo] | []
 
   @Column()
 	isActive: boolean
@@ -25,7 +21,6 @@ export class Shop {
 	@BeforeInsert()
 	async b4create() {
 		this._id = await uuidv1()
-		this.dishes = []
 		this.isActive = true
 	}
 

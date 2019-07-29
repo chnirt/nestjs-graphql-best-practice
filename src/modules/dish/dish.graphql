@@ -1,0 +1,18 @@
+type Dish {
+  _id: ID
+  name: String
+  isActive: Boolean
+  shopId: ID
+  createdAt: String
+  updatedAt: String
+}
+
+type Query {
+  dish(id: String!): Dish @isAuthenticated
+  dishesByShop(shopId: String!): [Dish] @isAuthenticated
+}
+
+type Mutation {
+  createDish(name: String!, shopId: String!): Boolean @isAuthenticated
+  deleteDish(id: String!): Boolean @isAuthenticated
+}

@@ -1,7 +1,6 @@
 type Shop {
   _id: ID
   name: String
-  dishes: [DishInfo]
   isActive: Boolean
   createdAt: String
   updatedAt: String
@@ -15,7 +14,4 @@ type Query {
 type Mutation {
   createShop(name: String!): Boolean @isAuthenticated
   deleteShop(id: String!): Boolean @isAuthenticated
-  addDish(id: String!, name: String!): Boolean @isAuthenticated
-  updateDish(id: String!, dishId: String!, name: String!): Boolean @isAuthenticated
-  deleteDish(id: String!, dishId: String!): Boolean @isAuthenticated
 }

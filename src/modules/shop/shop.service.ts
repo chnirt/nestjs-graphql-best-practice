@@ -2,7 +2,6 @@ import { Injectable } from '@nestjs/common'
 import { CommonService } from '../common/services/common.service'
 import { ApolloError } from 'apollo-server-core'
 import { Shop } from './shop.entity'
-import { v1 as uuidv1 } from 'uuid'
 
 @Injectable()
 export class ShopService {
@@ -40,56 +39,4 @@ export class ShopService {
     }
   }
 
-  async addDish(id: string, name: string): Promise<boolean | ApolloError> {
-    try {
-      const shop = await this.commonService.findOneAdapter(Shop, { _id: id })
-      shop.dishes.push({ _id: await uuidv1(), name, count: 0 })
-      return (await this.commonService.updateOneByIdAdapter(Shop, id, {
-				$set: {
-					dishes: await shop.dishes
-				}
-			}))
-				? true
-				: false
-    } catch (error) {
-      throw new ApolloError(error)
-    }
-  }
-
-  async updateDish(id: string, dishId: string, name: string): Promise<boolean | ApolloError> {
-    try {
-      return (await this.commonService.updateManyAdapter(
-				Shop,
-				{ '_id': id, 'dishes._id': dishId },
-				{
-					$set: {
-						'dishes.$': { _id: dishId, name, count: 0 }
-					}
-				}
-			))
-				? true
-				: false
-    } catch (error) {
-      throw new ApolloError(error)
-    }
-  }
-
-  async deleteDish(
-		id: string,
-		dishId: string
-	): Promise<boolean | ApolloError> {
-		try {
-			const shop = await this.commonService.findOneAdapter(Shop, { _id: id })
-			const dishes = await shop.dishes.filter(dish => dish._id !== dishId)
-			return (await this.commonService.updateOneByIdAdapter(Shop, id, {
-				$set: {
-					dishes
-				}
-			}))
-				? true
-				: false
-		} catch (error) {
-			throw new ApolloError(error)
-		}
-	}
 }

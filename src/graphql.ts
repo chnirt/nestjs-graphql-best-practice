@@ -92,6 +92,15 @@ export class UpdateUserPermissionInput {
     permissions: PermissionInfoInput[];
 }
 
+export class Dish {
+    _id?: string;
+    name?: string;
+    isActive?: boolean;
+    shopId?: string;
+    createdAt?: string;
+    updatedAt?: string;
+}
+
 export class DishInfo {
     _id?: string;
     name?: string;
@@ -125,6 +134,10 @@ export class Menu {
 }
 
 export abstract class IMutation {
+    abstract createDish(name: string, shopId: string): boolean | Promise<boolean>;
+
+    abstract deleteDish(id: string): boolean | Promise<boolean>;
+
     abstract createHistory(input: CreateHistoryInput): History | Promise<History>;
 
     abstract deleteHistories(): boolean | Promise<boolean>;
@@ -160,12 +173,6 @@ export abstract class IMutation {
     abstract createShop(name: string): boolean | Promise<boolean>;
 
     abstract deleteShop(id: string): boolean | Promise<boolean>;
-
-    abstract addDish(id: string, name: string): boolean | Promise<boolean>;
-
-    abstract updateDish(id: string, dishId: string, name: string): boolean | Promise<boolean>;
-
-    abstract deleteDish(id: string, dishId: string): boolean | Promise<boolean>;
 
     abstract createSite(input: CreateSiteInput): Site | Promise<Site>;
 
@@ -230,6 +237,10 @@ export class PermissionInfo {
 }
 
 export abstract class IQuery {
+    abstract dish(id: string): Dish | Promise<Dish>;
+
+    abstract dishesByShop(shopId: string): Dish[] | Promise<Dish[]>;
+
     abstract histories(): History[] | Promise<History[]>;
 
     abstract menu(id: string): Menu | Promise<Menu>;
@@ -290,7 +301,6 @@ export abstract class IQuery {
 export class Shop {
     _id?: string;
     name?: string;
-    dishes?: DishInfo[];
     isActive?: boolean;
     createdAt?: string;
     updatedAt?: string;

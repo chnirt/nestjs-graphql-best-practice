@@ -1,6 +1,5 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { SiteShopService } from './siteShop.service'
-import { async } from 'rxjs/internal/scheduler/async';
 
 @Resolver('siteShop')
 export class SiteShopResolver {
