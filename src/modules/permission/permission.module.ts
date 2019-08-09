@@ -3,15 +3,9 @@ import { PermissionResolver } from './permission.resolver'
 import { PermissionService } from './permission.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Permission } from './permission.entity'
-import { UserPermissionModule } from '../userPermission/userPermission.module'
 
-@Global()
 @Module({
-	imports: [
-		TypeOrmModule.forFeature([Permission]),
-		forwardRef(() => UserPermissionModule)
-	],
-	providers: [PermissionResolver, PermissionService],
-	exports: [PermissionService]
+	imports: [TypeOrmModule.forFeature([Permission])],
+	providers: [PermissionResolver, PermissionService]
 })
 export class PermissionModule {}

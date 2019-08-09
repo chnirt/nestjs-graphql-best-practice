@@ -2,14 +2,22 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { IsString, IsNotEmpty } from 'class-validator'
+import { IsString, IsNotEmpty, Length } from 'class-validator'
 import uuid = require('uuid')
+
+export class CreatePermissionInput {
+	code: string
+	description: string
+}
+export class UpdatePermissionInput {
+	code?: string
+	description?: string
+}
 
 @Entity()
 export class Permission {

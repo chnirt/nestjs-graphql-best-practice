@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Permission } from './permission.entity'
+import {
+	Permission,
+	CreatePermissionInput,
+	UpdatePermissionInput
+} from './permission.entity'
 import { MongoRepository } from 'typeorm'
-import { CreatePermissionInput, UpdatePermissionInput } from '../../graphql'
 
 @Injectable()
 export class PermissionService {

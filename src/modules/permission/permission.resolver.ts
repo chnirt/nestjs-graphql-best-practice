@@ -2,7 +2,6 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { PermissionService } from './permission.service'
 import { Permission } from './permission.entity'
 import { CreatePermissionInput, UpdatePermissionInput } from '../../graphql'
-import { UserPermissionService } from '../userPermission/userPermission.service'
 
 @Resolver('Permission')
 export class PermissionResolver {

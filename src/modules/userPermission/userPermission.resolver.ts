@@ -12,14 +12,10 @@ import {
 	CreateUserPermissionInput,
 	UpdateUserPermissionInput
 } from '../../graphql'
-import { SiteService } from '../site/site.service'
 
 @Resolver('UserPermission')
 export class UserPermissionResolver {
-	constructor(
-		private readonly userPermissionService: UserPermissionService,
-		private readonly siteService: SiteService
-	) {}
+	constructor(private readonly userPermissionService: UserPermissionService) {}
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
@@ -57,15 +53,5 @@ export class UserPermissionResolver {
 	@Mutation(() => Boolean)
 	async deleteUserPermissions() {
 		return await this.userPermissionService.deleteAll()
-	}
-
-	@ResolveProperty()
-	async siteName(@Parent() userPermission) {
-		// console.log(userPermission)
-		const { siteId } = userPermission
-
-		const site = await this.siteService.findById(siteId)
-
-		return site.name
 	}
 }

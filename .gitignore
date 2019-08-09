@@ -1,8 +1,11 @@
 # compiled output
 /dist
-/documentation
 /node_modules
+/documentation
 .env
+
+# ts
+graphql.ts
 
 # Logs
 logs
@@ -11,8 +14,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-package-lock.json
-yarn.lock
 
 # OS
 .DS_Store

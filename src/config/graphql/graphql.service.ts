@@ -1,26 +1,23 @@
 import { Injectable, Inject } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
-import { UserService } from '../../modules/user/user.service'
 import { PubSub } from 'graphql-subscriptions'
 import { join } from 'path'
 import { ApolloError } from 'apollo-server-core'
-import { UserPermissionService } from '../../modules/userPermission/userPermission.service'
-import { Logger } from 'winston'
-
+import { Logger } from '@nestjs/common'
+import { Logger as winstonLogger } from 'winston'
+import { getRepository } from 'typeorm'
+import * as jwt from 'jsonwebtoken'
+import { User } from '../../modules/user/user.entity'
 import config from '../../config.env'
 
 const pubSub = new PubSub()
-
 const end_point = config.end_point
 
+// COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(
-		@Inject('winston') private readonly logger: Logger,
-		private readonly userService: UserService,
-		private readonly userPermissionService: UserPermissionService
-	) {}
+	constructor(@Inject('winston') private readonly logger: winstonLogger) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -36,39 +33,16 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 
 				return next()
-			},
-			hasPermission: async (next, source, args, ctx) => {
-				const message = 'Token Required'
-				const code = '499'
-				const additionalProperties = {}
-
-				const { currentUser, currentsite } = ctx
-
-				if (!currentUser) {
-					throw new ApolloError(message, code, additionalProperties)
-				}
-
-				const { permission } = args
-
-				await this.userPermissionService.findOne({
-					// tslint:disable-next-line:object-literal-key-quotes
-					userId: currentUser._id,
-					// tslint:disable-next-line:object-literal-key-quotes
-					siteId: currentsite,
-					'permissions.code': permission
-				})
-
-				return next()
 			}
 		}
 
 		return {
 			typePaths: ['./**/*.graphql'],
 			path: `/${end_point}`,
-			definitions: {
-				path: join(process.cwd(), 'src/graphql.ts'),
-				outputAs: 'class'
-			},
+			// definitions: {
+			// 	path: join(process.cwd(), 'src/graphql.ts'),
+			// 	outputAs: 'class'
+			// },
 			directiveResolvers,
 			context: async ({ req, res, connection }) => {
 				if (connection) {
@@ -78,35 +52,76 @@ export class GraphqlService implements GqlOptionsFactory {
 					}
 				}
 
-				let currentUser = ''
+				let currentUser
 
-				const { token, currentsite } = req.headers
-
+				const { token } = req.headers
 				if (token) {
-					currentUser = await this.userService.findOneByToken(token)
+					const message = 'Invalid Token'
+					const code = '498'
+					const additionalProperties = {}
+					try {
+						let decodeToken
+
+						decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
+
+						currentUser = await getRepository(User).findOne({
+							_id: decodeToken.subject
+						})
+					} catch (error) {
+						throw new ApolloError(message, code, additionalProperties)
+					}
 				}
 
 				return {
 					req,
 					res,
 					pubSub,
-					currentUser,
-					currentsite
+					currentUser
 				}
 			},
 			formatError: err => {
-				this.logger.error('✖️ ' + JSON.stringify(err), 'Error')
+				// this.logger.error('✖️ ' + JSON.stringify(err.message), 'Error')
 				return err
 			},
 			formatResponse: err => {
 				// console.log(err)
 				return err
 			},
-			debug: false,
+			debug: true,
 			subscriptions: {
 				path: `/${end_point}`,
-				onConnect: (connectionParams, webSocket, context) => {
-					console.log('🔗 Connected to websocket')
+				onConnect: async (connectionParams, webSocket, context) => {
+					Logger.log(`🔗  Connected to websocket`, 'GraphQL')
+					const message = 'Invalid Token'
+					const code = '500'
+					const additionalProperties = {}
+					if (connectionParams['token']) {
+						const message = 'Invalid Token'
+						const code = '498'
+						const additionalProperties = {}
+
+						try {
+							let decodeToken
+							let currentUser
+
+							decodeToken = await jwt.verify(
+								connectionParams['token'],
+								process.env.SECRET_KEY
+							)
+
+							currentUser = await getRepository(User).findOne({
+								_id: decodeToken.subject
+							})
+
+							return { currentUser }
+						} catch (error) {
+							throw new ApolloError(message, code, additionalProperties)
+						}
+					}
+					throw new ApolloError(message, code, additionalProperties)
+				},
+				onDisconnect: (webSocket, context) => {
+					Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},
 			persistedQueries: {

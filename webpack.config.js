@@ -5,7 +5,6 @@ const chalk = require('chalk')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 	.BundleAnalyzerPlugin
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
 	entry: ['webpack/hot/poll?100', './src/main.ts'],
@@ -20,7 +19,15 @@ module.exports = {
 		rules: [
 			{
 				test: /.tsx?$/,
-				use: 'ts-loader',
+				use: [
+					{
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+							experimentalWatchApi: true
+						}
+					}
+				],
 				exclude: /node_modules/
 			}
 		]
@@ -31,6 +38,7 @@ module.exports = {
 	},
 	plugins: [
 		new webpack.HotModuleReplacementPlugin(),
+		new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/]),
 		new ProgressBarPlugin({
 			format:
 				chalk.hex('#6c5ce7')('build ') +
@@ -54,8 +62,14 @@ module.exports = {
 			statsFilename: 'stats.json'
 		})
 	],
+	optimization: {
+		removeAvailableModules: false,
+		removeEmptyChunks: false,
+		splitChunks: false
+	},
 	output: {
-		path: path.join(__dirname, 'dist'),
-		filename: 'server.js'
+		pathinfo: false
+		// path: path.join(__dirname, 'dist'),
+		// filename: 'server.js'
 	}
 }

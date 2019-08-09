@@ -13,11 +13,14 @@
 		"interface-name": [false],
 		"arrow-parens": false,
 		"object-literal-sort-keys": false,
-		"indent": [false],
-		"trailing-comma": [false],
-		"semicolon": [false],
-		"no-console": [false],
-		"variable-name": [false]
+		"indent": false,
+		"trailing-comma": false,
+		"semicolon": false,
+		"no-console": false,
+		"variable-name": false,
+		"no-shadowed-variable": false,
+		"no-string-literal": false,
+		"max-classes-per-file": true
 	},
 	"rulesDirectory": []
 }

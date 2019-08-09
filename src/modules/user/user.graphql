@@ -1,22 +1,14 @@
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
-directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
-
-input SitesInfoInput {
-	siteId: ID!
-	permissions: [PermissionInfoInput!]!
-}
 
 input CreateUserInput {
 	username: String!
 	password: String!
 	fullName: String!
-	sites: [SitesInfoInput!]!
 }
 
 input UpdateUserInput {
 	password: String!
 	fullName: String!
-	sites: [SitesInfoInput!]!
 }
 
 input LoginUserInput {
@@ -53,7 +45,7 @@ type User {
 }
 
 type Query {
-	hello: String! @isAuthenticated
+	hello: String!
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: String!): User @isAuthenticated
@@ -61,14 +53,11 @@ type Query {
 
 type Mutation {
 	createUser(input: CreateUserInput!): User
-		@hasPermission(permission: "USER_CREATE")
-	updateUser(_id: String!, input: UpdateUserInput!): Boolean
-		@hasPermission(permission: "USER_UPDATE")
-	deleteUser(_id: String!): Boolean @hasPermission(permission: "USER_DELETE")
-	deleteUsers: Boolean!
+	updateUser(_id: String!, input: UpdateUserInput!): Boolean @isAuthenticated
+	deleteUser(_id: String!): Boolean @isAuthenticated
+	deleteUsers: Boolean! @isAuthenticated
 	login(input: LoginUserInput!): LoginResponse
-	lockAndUnlockUser(_id: String!): Boolean
-		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
+	lockAndUnlockUser(_id: String!): Boolean @isAuthenticated
 }
 
 type Subscription {

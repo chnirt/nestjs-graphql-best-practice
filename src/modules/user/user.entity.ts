@@ -1,14 +1,7 @@
-/** ------------------------------------------------------
- * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
- * -------------------------------------------------------
- */
-
-/* tslint:disable */
 import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	// Index,
 	CreateDateColumn,
 	UpdateDateColumn,
 	BeforeInsert,
@@ -21,23 +14,8 @@ import {
 	IsNotEmpty,
 	Length,
 	MinLength,
-	IsBoolean,
-	IsArray
+	IsBoolean
 } from 'class-validator'
-import { UserPermissionsInfo, PermissionInfoInput } from '../../graphql'
-
-export class SitesInfoInput {
-	@Length(36, 36, {
-		message: 'Your siteId must be 36 characters'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your siteId can not be blank' })
-	siteId: string
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your permissions can not be blank' })
-	permissions: PermissionInfoInput[]
-}
 
 export class LoginUserInput {
 	@MinLength(4, {
@@ -76,10 +54,6 @@ export class CreateUserInput {
 	@IsString()
 	@IsNotEmpty({ message: 'Your fullName can not be blank' })
 	fullName: string
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your sites can not be blank' })
-	sites: SitesInfoInput[]
 }
 
 export class UpdateUserInput {
@@ -96,20 +70,12 @@ export class UpdateUserInput {
 	@IsString()
 	@IsNotEmpty({ message: 'Your fullName can not be blank.' })
 	fullName: string
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your sites can not be blank' })
-	sites: SitesInfoInput[]
 }
 
 export class LoginResponse {
 	@IsString()
 	@IsNotEmpty()
 	token: string
-
-	@IsArray()
-	@IsNotEmpty()
-	userPermissions: UserPermissionsInfo[]
 }
 
 @Entity()

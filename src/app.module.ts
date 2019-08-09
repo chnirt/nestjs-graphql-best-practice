@@ -7,19 +7,18 @@ import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormModule } from './config/typeorm/typeorm.module'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
+
 import { UserModule } from './modules/user/user.module'
-import { DataloaderModule } from './shared/dataloader/dataloader.module'
-import { SiteModule } from './modules/site/site.module'
-import { MenuModule } from './modules/menu/menu.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
+import { SiteModule } from './modules/site/site.module'
+import { ShopModule } from './modules/shop/shop.module'
+import { SiteShopModule } from './modules/siteShop/siteShop.module'
+import { DishModule } from './modules/dish/dish.module'
+import { MenuModule } from './modules/menu/menu.module'
 import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
-import { ShopModule } from './modules/shop/shop.module'
-// import { APP_INTERCEPTOR } from '@nestjs/core'
-// import { MorganModule, MorganInterceptor } from 'nest-morgan'
-import { SiteShopModule } from './modules/siteShop/siteShop.module'
-import { DishModule } from './modules/dish/dish.module';
+
 import * as winston from 'winston'
 
 const {
@@ -77,27 +76,18 @@ const {
 			}),
 			inject: []
 		}),
-		// MorganModule.forRoot(),
-
-		UserModule,
 		GraphqlModule,
 		TypeormModule,
-		DataloaderModule,
-		SiteModule,
+		UserModule,
 		PermissionModule,
-		MenuModule,
 		UserPermissionModule,
-		OrderModule,
-		HistoryModule,
+		SiteModule,
 		ShopModule,
 		SiteShopModule,
-		DishModule
+		DishModule,
+		MenuModule,
+		OrderModule,
+		HistoryModule
 	]
-	// providers: [
-	// 	{
-	// 		provide: APP_INTERCEPTOR,
-	// 		useClass: MorganInterceptor('combined')
-	// 	}
-	// ]
 })
 export class AppModule {}
