@@ -4,9 +4,9 @@ dotenv.config()
 // COMPLETE:
 const config = {
 	development: {
-		domain: 'devcloud4.digihcs.com',
+		domain: 'devcloud3.digihcs.com',
 		port: process.env.PORT,
-		end_point: 'graphqllunch',
+		end_point: 'graphql',
 		orm: {
 			type: 'mongodb',
 			url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',

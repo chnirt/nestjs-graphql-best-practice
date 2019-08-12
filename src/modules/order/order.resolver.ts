@@ -7,93 +7,179 @@ import {
 	Subscription
 } from '@nestjs/graphql'
 import { Order } from './order.entity'
-import { OrderService } from './order.service'
-import { CreateOrderInput, UpdateOrderInput } from '../../graphql'
+import { CreateOrderInput, UpdateOrderInput, OrderCount } from '../../graphql'
 import { User } from '../user/user.entity'
-import { async } from 'rxjs/internal/scheduler/async'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository } from 'typeorm'
+import { ApolloError } from 'apollo-server-core'
 
 @Resolver('Order')
 export class OrderResolver {
-	constructor(private readonly orderService: OrderService) {}
+	constructor(
+		@InjectRepository(Order)
+		private readonly orderRepository: MongoRepository<Order>
+	) { }
 
 	@Mutation(() => String)
 	async orderDish(
 		@Args('input') input: CreateOrderInput,
 		@Context('currentUser') currentUser: User,
 		@Context('pubSub') pubSub
-	) {
-		const order = await this.orderService.create(input, currentUser._id)
+	): Promise<string> {
+		try {
+			const userId = currentUser._id
+			const { count, menuId, dishId } = input
+			const order = await this.orderRepository.findOne({ userId, menuId, dishId })
+			let orderId = order._id
+			if (order) {
+				if (count > 0) {
+					order.count = count
+					await this.orderRepository.save(order)
+				} else {
+					await this.orderRepository.deleteOne({ _id: order._id })
+				}
+			} else {
+				const newOrder = new Order()
+				newOrder.userId = userId
+				newOrder.menuId = menuId
+				newOrder.dishId = dishId
+				newOrder.count = count
+				await this.orderRepository.save(newOrder).then(res => (orderId = res._id))
+			}
 
-		const ordersByMenu = await this.orderService.findOrdersByMenu(input.menuId)
+			const ordersByMenu = await this.orderRepository.find({ menuId })
 
-		pubSub.publish('ordersByMenuCreated', { ordersByMenuCreated: ordersByMenu })
+			pubSub.publish('ordersByMenuCreated', { ordersByMenuCreated: ordersByMenu })
 
-		return order
+			return orderId
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query(() => [Order])
-	async orders() {
-		return await this.orderService.findAll()
+	async orders(): Promise<Order[]> {
+		try {
+			return await this.orderRepository.find({ cache: true })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query(() => Order)
-	async order(@Args('id') id: string) {
-		return await this.orderService.findById(id)
+	async order(@Args('id') id: string): Promise<Order> {
+		try {
+			return await this.orderRepository.findOne({ _id: id })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query(() => Order)
-	async currentOrder(@Args('menuId') menuId: string, @Args('dishId') dishId: string, @Context('currentUser') currentUser: User) {
-	  return await this.orderService.findCurrentOrder(currentUser._id, menuId, dishId)
+	async currentOrder(@Args('menuId') menuId: string, @Args('dishId') dishId: string, @Context('currentUser') currentUser: User): Promise<Order> {
+		try {
+			return await this.orderRepository.findOne({ userId: currentUser._id, menuId, dishId })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('ordersByUser')
 	async ordersByUser(
 		@Args('menuId') menuId: string,
 		@Context('currentUser') currentUser: User
-	) {
-		return await this.orderService.findOrdersByUser(currentUser._id, menuId)
+	): Promise<Order[]> {
+		try {
+			return await this.orderRepository.find({ userId: currentUser._id, menuId })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('ordersCountByUser')
 	async ordersCountByUser(
 		@Args('menuId') menuId: string,
 		@Context('currentUser') currentUser: User
-	) {
-		return await this.orderService.findOrdersCountByUser(currentUser._id, menuId)
+	): Promise<OrderCount[]> {
+		try {
+			const orders = await this.orderRepository.find({ userId: currentUser._id, menuId })
+    	return orders.map(order => ({menuId: order.menuId, dishId: order.dishId, count: order.count}))
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('ordersByMenu')
-	async ordersByMenu(@Args('menuId') menuId: string) {
-		return await this.orderService.findOrdersByMenu(menuId)
+	async ordersByMenu(@Args('menuId') menuId: string): Promise<Order[]> {
+		try {
+			return await this.orderRepository.find({ menuId })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('ordersCountByMenu')
-	async ordersCountByMenu(@Args('menuId') menuId: string) {
-		return await this.orderService.findOrdersCountByMenu(menuId)
+	async ordersCountByMenu(@Args('menuId') menuId: string): Promise<OrderCount[]> {
+		try {
+			const orders = await this.orderRepository.find({ menuId })
+			let list = []
+			await orders.map(order => {
+				const index = list.findIndex(item => item.dishId === order.dishId)
+				if (index === -1) {
+					list.push({menuId: order.menuId, dishId: order.dishId, count: order.count})
+				} else {
+					const obj = list[index]
+					obj.count += order.count
+					list = [...list.slice(0, index), obj, ...list.slice(index + 1)]
+				}
+			})
+			return list
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation(() => Order)
 	async updateOrder(
 		@Args('input') input: UpdateOrderInput,
 		@Args('id') id: string
-	) {
-		return await this.orderService.update(id, input)
+	): Promise<boolean> {
+		try {
+			const { note, count } = input
+			const order = await this.orderRepository.findOne({ _id: id })
+			if (!order) {
+				throw Error.prototype.message
+			}
+			order.note = note || ''
+			order.count = count
+			return (await this.orderRepository.save(order)) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation(() => Boolean)
-	async confirmOrder(@Args('orderIds') orderIds: string[]) {
-		return await this.orderService.confirm(orderIds)
+	async confirmOrder(@Args('orderIds') orderIds: string[]): Promise<boolean> {
+		try {
+			orderIds.map(async id => {
+				const order = await this.orderRepository.findOne({ _id: id })
+				order.isConfirmed = true
+				await this.orderRepository.save(order).then().catch(() => false)
+			})
+			return true
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation(() => Boolean)
-	async deleteOrder(@Args('id') id: string) {
-		return await this.orderService.delete(id)
+	async deleteOrder(@Args('id') id: string): Promise<boolean> {
+		try {
+			return await this.orderRepository.deleteOne({ _id: id }) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
-
-	// @Mutation(() => Boolean)
-	// async deleteOrders() {
-	//   return await this.orderService.deleteAll()
-	// }
 
 	@Subscription()
 	async ordersByMenuCreated(@Context('pubSub') pubSub: any) {

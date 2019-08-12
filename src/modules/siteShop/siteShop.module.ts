@@ -1,12 +1,10 @@
 import { Module } from '@nestjs/common'
-import { SiteShopService } from './siteShop.service'
 import { SiteShopResolver } from './siteShop.resolver'
-import { CommonService } from '../common/services/common.service'
-import { ShopService } from '../shop/shop.service'
-import { ShopModule } from '../shop/shop.module'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { SiteShop } from './siteShop.entity'
 
 @Module({
-  imports: [ShopModule],
-  providers: [SiteShopService, SiteShopResolver, CommonService, ShopService]
+  imports: [TypeOrmModule.forFeature([SiteShop])],
+  providers: [SiteShopResolver]
 })
 export class SiteShopModule {}

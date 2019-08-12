@@ -1,90 +1,135 @@
-import { Resolver, Query, Args, Mutation, Context } from '@nestjs/graphql'
-import { MenuService } from './menu.service'
-import { MenuInfo, DishInput } from '../../graphql'
-import { async } from 'rxjs/internal/scheduler/async'
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
+import { MenuInfo } from '../../graphql'
+import { MongoRepository } from 'typeorm'
+import { ApolloError } from 'apollo-server-core'
+import { InjectRepository } from '@nestjs/typeorm'
+import { Menu } from './menu.entity'
 
 @Resolver('menu')
 export class MenuResolver {
-	constructor(private readonly menuService: MenuService) {}
+
+	constructor(
+		@InjectRepository(Menu)
+		private readonly menuRepository: MongoRepository<Menu>
+	) { }
 
 	@Query('menus')
-	async getMenus() {
-		return await this.menuService.getMenus()
+	async getMenus(): Promise<Menu[]> {
+		try {
+			return await this.menuRepository.find({ isActive: true })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('menu')
-	async getMenu(@Args('id') id: string) {
-		return await this.menuService.getMenu(id)
+	async getMenu(@Args('id') id: string): Promise<Menu> {
+		try {
+			return await this.menuRepository.findOne({ _id: id })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('menusBySite')
-	async getMenusBySite(@Args('siteId') siteId: string) {
-		return await this.menuService.getMenusBySite(siteId)
+	async getMenusBySite(@Args('siteId') siteId: string): Promise<Menu[]> {
+		try {
+			return await this.menuRepository.find({ siteId, isActive: true })
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Query('menuPublishBySite')
-	async getMenuPublishBySite(@Args('siteId') siteId: string) {
-		return await this.menuService.getMenuPublishBySite(siteId)
+	async getMenuPublishBySite(@Args('siteId') siteId: string): Promise<Menu> {
+		try {
+			return await this.menuRepository.findOne({
+				siteId,
+				isPublished: true,
+				isActive: true
+			})
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation('createMenu')
 	async createMenu(
 		@Args('name') name: string,
 		@Args('siteId') siteId: string
-	) {
-		return await this.menuService.createMenu(name, siteId)
+	): Promise<boolean> {
+		try {
+			return await this.menuRepository.save(new Menu({ name, siteId })) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation('updateMenu')
 	async updateMenu(
 		@Args('id') id: string,
 		@Args('menuInfo') menuInfo: MenuInfo
-	) {
-		return await this.menuService.updateMenu(id, menuInfo)
+	): Promise<boolean> {
+		try {
+			const updatedMenu = await this.menuRepository.findOneAndUpdate({ _id: id }, { $set: { ...menuInfo } }, { returnOriginal: false })
+			return await this.menuRepository.save(updatedMenu.value) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation('publishAndUnpublish')
-	async publishAndUnpublish(@Args('id') id: string) {
-		return await this.menuService.publishAndUnpublish(id)
+	async publishAndUnpublish(@Args('id') id: string): Promise<boolean> {
+		try {
+			const menu = await this.menuRepository.findOne({ _id: id })
+			menu.isPublished = !menu.isPublished
+			return await this.menuRepository.save(menu) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation('lockAndUnlockMenu')
-	async lockAndUnlockMenu(@Args('id') id: string) {
-		return await this.menuService.lockAndUnlockMenu(id)
+	async lockAndUnlockMenu(@Args('id') id: string): Promise<boolean> {
+		try {
+			const menu = await this.menuRepository.findOne({ _id: id })
+			menu.isLocked = !menu.isLocked
+			return await this.menuRepository.save(menu) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
 	@Mutation('deleteMenu')
-	async deleteMenu(@Args('id') id: string) {
-		return await this.menuService.deleteMenu(id)
+	async deleteMenu(@Args('id') id: string): Promise<boolean> {
+		try {
+			const deletedMenu = await this.menuRepository.findOneAndUpdate({ _id: id }, { $set: { isActive: false } }, { returnOriginal: false })
+			return await this.menuRepository.save(deletedMenu.value) ? true : false
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 
-	// @Mutation('addDish')
-	// async addDish(
-	// 	@Args('id') id: string,
-	// 	@Args('dishInput') dishInput: DishInput
-	// ) {
-	// 	return await this.menuService.addDish(id, dishInput)
-	// }
-
-	// @Mutation('updateDish')
-	// async updateDish(
-	// 	@Args('menuId') menuId: string,
-	// 	@Args('dishId') dishId: string,
-	// 	@Args('dishInput') dishInput: DishInput
-	// ) {
-	// 	return await this.menuService.updateDish(menuId, dishId, dishInput)
-	// }
-
-	// @Mutation('deleteDish')
-	// async deleteDish(
-	// 	@Args('menuId') menuId: string,
-	// 	@Args('dishId') dishId: string
-	// ) {
-	// 	return await this.menuService.deleteDish(menuId, dishId)
-	// }
-
 	@Mutation('closeMenu')
-	async closeMenu(@Args('id') id: string) {
-		return await this.menuService.closeMenu(id)
+	async closeMenu(@Args('id') id: string): Promise<boolean> {
+		try {
+			const menu = await this.menuRepository.findOne({
+				_id: id,
+				isActive: true
+			})
+			if (menu) {
+				const closedMenu = await this.menuRepository.findOneAndUpdate({ _id: id }, {
+					$set: {
+						isActive: false,
+						isLocked: true,
+						isPublished: false
+					}
+				}, { returnOriginal: true })
+				await this.menuRepository.save(closedMenu.value)
+				return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
+			}
+		} catch (error) {
+			throw new ApolloError(error)
+		}
 	}
 }
