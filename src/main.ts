@@ -9,36 +9,17 @@ import logger from 'morgan'
 import * as compression from 'compression'
 import { HttpExceptionFilter } from './common/filters/http-exception.filter'
 import { ValidationPipe } from './common/pipes/validation.pipe'
-
-import { LoggerService } from '@nestjs/common'
+import { createConnection } from 'typeorm'
+import { LoggerService } from './config/logger/logger.service'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 
 import config from './config.env'
-
-import { createConnection } from 'typeorm'
 
 createConnection(config.orm)
 	.then(connection => Logger.log(`☁️  Database connected`, 'TypeORM'))
 	.catch(error => Logger.log(`❌  Database connect error`, 'TypeORM'))
 
 // PENDING:
-export class MyLogger implements LoggerService {
-	log(message: string) {
-		// console.log(message)
-	}
-	error(message: string, trace: string) {
-		console.log('error', message, trace)
-	}
-	warn(message: string) {
-		console.log('warn', message)
-	}
-	debug(message: string) {
-		// console.log(message)
-	}
-	verbose(message: string) {
-		// console.log(message)
-	}
-}
 
 declare const module: any
 
@@ -49,8 +30,10 @@ const end_point = config.end_point
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		cors: true,
-		logger: new MyLogger()
+		logger: false
 	})
+
+	app.useLogger(app.get(LoggerService))
 
 	// COMPLETE:
 	app.use(helmet())
@@ -88,6 +71,8 @@ async function bootstrap() {
 
 	// COMPLETE:
 	app.useGlobalPipes(new ValidationPipe())
+
+	app.enableShutdownHooks()
 
 	await app.listen(port)
 
