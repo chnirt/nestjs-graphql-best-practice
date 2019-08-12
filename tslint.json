@@ -20,7 +20,8 @@
 		"variable-name": false,
 		"no-shadowed-variable": false,
 		"no-string-literal": false,
-		"max-classes-per-file": true
+		"max-classes-per-file": true,
+		"no-default-export": true
 	},
 	"rulesDirectory": []
 }
