@@ -6,8 +6,8 @@ async function main() {
 
 	const url =
 		// 'mongodb://localhost:' + process.env.MONGO_PORT ||
-		// 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
-		'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
+		'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
 	const dbName = 'database-test'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })

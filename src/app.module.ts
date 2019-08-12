@@ -1,7 +1,13 @@
-import { Module, CacheModule, Inject } from '@nestjs/common'
+import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
+import * as winston from 'winston'
+import * as helmet from 'helmet'
+import * as compression from 'compression'
+import * as csurf from 'csurf'
+import * as rateLimit from 'express-rate-limit'
+
 import { GraphqlModule } from './config/graphql/graphql.module'
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormModule } from './config/typeorm/typeorm.module'
@@ -20,7 +26,7 @@ import { MenuModule } from './modules/menu/menu.module'
 import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
 
-import * as winston from 'winston'
+import { LoggerMiddleware } from './common/middleware/logger.middleware'
 
 const {
 	combine,
@@ -92,4 +98,21 @@ const {
 		LoggerModule
 	]
 })
-export class AppModule {}
+export class AppModule {
+	configure(consumer: MiddlewareConsumer) {
+		consumer
+			.apply(
+				helmet(),
+				compression(),
+				csurf(),
+				rateLimit({
+					windowMs: 15 * 60 * 1000, // 15 minutes
+					max: 1, // limit each IP to 100 requests per windowMs
+					message:
+						'Too many request created from this IP, please try again after an hour'
+				}),
+				LoggerMiddleware
+			)
+			.forRoutes('/graphqllunch')
+	}
+}
