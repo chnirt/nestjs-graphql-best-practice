@@ -7,6 +7,7 @@ import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormModule } from './config/typeorm/typeorm.module'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
+import { LoggerModule } from './config/logger/logger.module'
 
 import { UserModule } from './modules/user/user.module'
 import { PermissionModule } from './modules/permission/permission.module'
@@ -87,7 +88,8 @@ const {
 		DishModule,
 		MenuModule,
 		OrderModule,
-		HistoryModule
+		HistoryModule,
+		LoggerModule
 	]
 })
 export class AppModule {}

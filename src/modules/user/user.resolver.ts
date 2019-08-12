@@ -242,7 +242,7 @@ export class UserResolver {
 				item.newPermissions = newPermissions
 			})
 
-			console.log(userPermissions)
+			// console.log(userPermissions)
 
 			return { token, userPermissions }
 		} catch (error) {
