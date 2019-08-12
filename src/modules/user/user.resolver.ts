@@ -6,7 +6,11 @@ import {
 	Subscription,
 	Context
 } from '@nestjs/graphql'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository, getMongoRepository } from 'typeorm'
 import { getMongoManager } from 'typeorm'
+import { ApolloError } from 'apollo-server-core'
+import * as jwt from 'jsonwebtoken'
 import {
 	User,
 	CreateUserInput,
@@ -14,12 +18,15 @@ import {
 	LoginResponse,
 	LoginUserInput
 } from './user.entity'
-import { ApolloError } from 'apollo-server-core'
-import * as jwt from 'jsonwebtoken'
 import { UserPermission } from '../userPermission/userPermission.entity'
 
 @Resolver('User')
 export class UserResolver {
+	constructor(
+		@InjectRepository(User)
+		private readonly userRepository: MongoRepository<User>
+	) {}
+
 	@Query(() => String)
 	hello() {
 		return 'world'
@@ -32,7 +39,7 @@ export class UserResolver {
 
 	@Query(() => [User])
 	async users(@Args('offset') offset: number, @Args('limit') limit: number) {
-		const users = await getMongoManager().find(User, {
+		const users = await this.userRepository.find({
 			where: { username: { $ne: 'admin' } },
 			order: { createdAt: 'DESC' },
 			skip: offset,
@@ -50,7 +57,7 @@ export class UserResolver {
 			const code = '404'
 			const additionalProperties = {}
 
-			const user = await getMongoManager().findOne(User, { _id })
+			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError(message, code, additionalProperties)
@@ -67,28 +74,32 @@ export class UserResolver {
 		@Args('input') input: CreateUserInput,
 		@Context('pubSub') pubSub
 	) {
-		const message = 'Conflict: Username'
-		const code = '409'
-		const additionalProperties = {}
+		try {
+			const message = 'Conflict: Username'
+			const code = '409'
+			const additionalProperties = {}
 
-		const { username, password, fullName } = input
+			const { username, password, fullName } = input
 
-		const existedUser = await getMongoManager().findOne(User, { username })
+			const existedUser = await this.userRepository.findOne({ username })
 
-		if (existedUser) {
-			throw new ApolloError(message, code, additionalProperties)
+			if (existedUser) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			const user = new User()
+			user.username = username
+			user.password = password
+			user.fullName = fullName
+
+			const createdUser = await this.userRepository.save(user)
+
+			pubSub.publish('userCreated', { userCreated: createdUser })
+
+			return createdUser
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
 		}
-
-		const user = new User()
-		user.username = username
-		user.password = password
-		user.fullName = fullName
-
-		const createdUser = await getMongoManager().save(user)
-
-		pubSub.publish('userCreated', { userCreated: createdUser })
-
-		return createdUser
 	}
 
 	@Mutation(() => Boolean)
@@ -101,10 +112,9 @@ export class UserResolver {
 			const code = '404'
 			const additionalProperties = {}
 
-			// const { fullName, siteId, permissions } = input
 			const { password, fullName } = input
 
-			const user = await getMongoManager().findOne(User, { _id })
+			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError(message, code, additionalProperties)
@@ -113,7 +123,7 @@ export class UserResolver {
 			user.password = password
 			user.fullName = fullName
 
-			return (await getMongoManager().save(user)) ? true : false
+			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error, '500', {})
 		}
@@ -126,7 +136,7 @@ export class UserResolver {
 			const code = '404'
 			const additionalProperties = {}
 
-			const user = await getMongoManager().findOne(User, { _id })
+			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError(message, code, additionalProperties)
@@ -134,7 +144,7 @@ export class UserResolver {
 
 			user.isActive = false
 
-			return (await getMongoManager().save(user)) ? true : false
+			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error, '500', {})
 		}
@@ -143,7 +153,7 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async deleteUsers() {
 		try {
-			return (await getMongoManager().deleteMany(User, {
+			return (await this.userRepository.deleteMany({
 				username: { $ne: 'admin' }
 			}))
 				? true
@@ -162,7 +172,7 @@ export class UserResolver {
 
 			const { username, password } = input
 
-			const user = await getMongoManager().findOne(User, { username })
+			const user = await this.userRepository.findOne({ username })
 
 			if (!user || !(await user.matchesPassword(password))) {
 				throw new ApolloError(message, code, additionalProperties)
@@ -204,8 +214,8 @@ export class UserResolver {
 				}
 			)
 
-			const userPermissions = await getMongoManager()
-				.aggregate(UserPermission, [
+			const userPermissions = await getMongoRepository(UserPermission)
+				.aggregate([
 					{
 						$match: {
 							userId: user._id
@@ -255,7 +265,7 @@ export class UserResolver {
 			const code = '404'
 			const additionalProperties = {}
 
-			const user = await getMongoManager().findOne(User, { _id })
+			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError(message, code, additionalProperties)
@@ -263,7 +273,7 @@ export class UserResolver {
 
 			user.isLocked = !user.isLocked
 
-			return (await getMongoManager().save(user)) ? true : false
+			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error, '500', {})
 		}
