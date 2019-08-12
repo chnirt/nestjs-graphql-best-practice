@@ -2,11 +2,11 @@ import { Injectable, Inject } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
-import { join } from 'path'
+// import { join } from 'path'
 import { ApolloError } from 'apollo-server-core'
 import { Logger } from '@nestjs/common'
 import { Logger as winstonLogger } from 'winston'
-import { getRepository } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { User } from '../../modules/user/user.entity'
 import config from '../../config.env'
@@ -64,7 +64,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 						decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
 
-						currentUser = await getRepository(User).findOne({
+						currentUser = await getMongoRepository(User).findOne({
 							_id: decodeToken.subject
 						})
 					} catch (error) {
@@ -109,7 +109,7 @@ export class GraphqlService implements GqlOptionsFactory {
 								process.env.SECRET_KEY
 							)
 
-							currentUser = await getRepository(User).findOne({
+							currentUser = await getMongoRepository(User).findOne({
 								_id: decodeToken.subject
 							})
 

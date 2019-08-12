@@ -22,8 +22,6 @@ export class LoggingInterceptor implements NestInterceptor {
 					'»',
 					context.getArgs()[3].fieldName,
 					chalk.hex('#fff566')(`+${Date.now() - now}ms`)
-					// context.getArgs()[2].req.headers &&
-					// 	context.getArgs()[2].req.headers['user-agent'].split(') ')[0] + ')'
 				)
 			})
 		)

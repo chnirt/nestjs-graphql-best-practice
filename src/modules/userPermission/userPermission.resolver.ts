@@ -1,57 +1,58 @@
-import {
-	Resolver,
-	Query,
-	Mutation,
-	Args,
-	ResolveProperty,
-	Parent
-} from '@nestjs/graphql'
-import { UserPermissionService } from './userPermission.service'
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository } from 'typeorm'
 import { UserPermission } from './userPermission.entity'
-import {
-	CreateUserPermissionInput,
-	UpdateUserPermissionInput
-} from '../../graphql'
+import { CreateUserPermissionInput } from '../../graphql'
 
 @Resolver('UserPermission')
 export class UserPermissionResolver {
-	constructor(private readonly userPermissionService: UserPermissionService) {}
+	constructor(
+		@InjectRepository(UserPermission)
+		private readonly userPermissionRepository: MongoRepository<UserPermission>
+	) {}
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
-		return await this.userPermissionService.findAll()
+		return await await this.userPermissionRepository.find({
+			cache: true
+		})
 	}
 
 	@Query(() => [UserPermission])
 	async findAllByUserId(@Args('_id') _id: string) {
-		return await this.userPermissionService.findAllByUserId(_id)
-	}
+		const message = 'UserPermission is not found.'
 
-	@Query(() => UserPermission)
-	async findOneByUserId(@Args('_id') _id: string) {
-		return await this.userPermissionService.findOneByUserId(_id)
+		const userPermission = await this.userPermissionRepository.find({
+			userId: _id
+		})
+
+		if (!userPermission) {
+			throw new Error(message)
+		}
+
+		return userPermission
 	}
 
 	@Mutation(() => UserPermission)
 	async createUserPermission(@Args('input') input: CreateUserPermissionInput) {
-		return await this.userPermissionService.create(input)
-	}
+		const { userId, siteId, permissions } = input
 
-	@Mutation(() => UserPermission)
-	async updateUserPermission(
-		@Args('_id') _id: string,
-		@Args('input') input: UpdateUserPermissionInput
-	) {
-		return await this.userPermissionService.update(_id, input)
-	}
+		const existedUserPermission = await this.userPermissionRepository.findOne({
+			userId,
+			siteId
+		})
 
-	@Mutation(() => Boolean)
-	async deleteUserPermission(@Args('_id') _id: string) {
-		return await this.userPermissionService.delete(_id)
-	}
+		if (existedUserPermission) {
+			existedUserPermission.permissions = permissions
 
-	@Mutation(() => Boolean)
-	async deleteUserPermissions() {
-		return await this.userPermissionService.deleteAll()
+			return await this.userPermissionRepository.save(existedUserPermission)
+		} else {
+			const userPermission = new UserPermission()
+			userPermission.userId = userId
+			userPermission.siteId = siteId
+			userPermission.permissions = permissions
+
+			return await this.userPermissionRepository.save(userPermission)
+		}
 	}
 }

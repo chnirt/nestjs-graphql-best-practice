@@ -30,6 +30,7 @@ export class CreateUserInput {
     username: string;
     password: string;
     fullName: string;
+    sites: SitesInfoInput[];
 }
 
 export class CreateUserPermissionInput {
@@ -60,6 +61,11 @@ export class PermissionInfoInput {
     code: string;
 }
 
+export class SitesInfoInput {
+    siteId: string;
+    permissions: PermissionInfoInput[];
+}
+
 export class UpdateOrderInput {
     menuId: string;
     dishId: string;
@@ -79,6 +85,7 @@ export class UpdateSiteInput {
 export class UpdateUserInput {
     password: string;
     fullName: string;
+    sites: SitesInfoInput[];
 }
 
 export class UpdateUserPermissionInput {
@@ -352,4 +359,5 @@ export class UserPermissionsInfo {
     siteId: string;
     siteName?: string;
     permissions: PermissionInfo[];
+    sitepermissions: string[];
 }
