@@ -352,4 +352,5 @@ export class UserPermissionsInfo {
     siteId: string;
     siteName?: string;
     permissions: PermissionInfo[];
+    sitepermissions: string[];
 }

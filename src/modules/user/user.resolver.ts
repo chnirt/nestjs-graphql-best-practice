@@ -232,17 +232,15 @@ export class UserResolver {
 
 			const array = ['MENU', 'ORDER', 'USER', 'REPORT']
 
-			userPermissions.map(item => {
-				const newPermissions = array.filter(
+			await userPermissions.map(item => {
+				const sitepermissions = array.filter(
 					item1 =>
 						item.permissions
 							.map(item2 => item2.code.split('_')[0])
 							.indexOf(item1) !== -1
 				)
-				item.newPermissions = newPermissions
+				item.sitepermissions = sitepermissions
 			})
-
-			// console.log(userPermissions)
 
 			return { token, userPermissions }
 		} catch (error) {

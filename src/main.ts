@@ -20,8 +20,6 @@ createConnection(config.orm)
 	.then(connection => Logger.log(`☁️  Database connected`, 'TypeORM'))
 	.catch(error => Logger.log(`❌  Database connect error`, 'TypeORM'))
 
-// PENDING:
-
 declare const module: any
 
 const domain = config.domain

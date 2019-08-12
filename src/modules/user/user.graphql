@@ -25,6 +25,7 @@ type UserPermissionsInfo {
 	siteId: ID!
 	siteName: String
 	permissions: [PermissionInfo!]!
+	sitepermissions: [String!]!
 }
 
 type PermissionInfo {
