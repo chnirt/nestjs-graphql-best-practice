@@ -30,13 +30,15 @@ export class OrderResolver {
 			const userId = currentUser._id
 			const { count, menuId, dishId } = input
 			const order = await this.orderRepository.findOne({ userId, menuId, dishId })
-			let orderId = order._id
+			let orderId = ''
 			if (order) {
 				if (count > 0) {
 					order.count = count
 					await this.orderRepository.save(order)
+					orderId = order._id
 				} else {
 					await this.orderRepository.deleteOne({ _id: order._id })
+					orderId = order._id
 				}
 			} else {
 				const newOrder = new Order()
