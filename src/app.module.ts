@@ -98,19 +98,21 @@ const {
 		LoggerModule
 	]
 })
+
+// COMPLETE:
 export class AppModule {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(
 				helmet(),
 				compression(),
-				csurf(),
-				rateLimit({
-					windowMs: 15 * 60 * 1000, // 15 minutes
-					max: 1, // limit each IP to 100 requests per windowMs
-					message:
-						'Too many request created from this IP, please try again after an hour'
-				}),
+				// csurf(),
+				// rateLimit({
+				// 	windowMs: 15 * 60 * 1000, // 15 minutes
+				// 	max: 1, // limit each IP to 100 requests per windowMs
+				// 	message:
+				// 		'Too many request created from this IP, please try again after an hour'
+				// }),
 				LoggerMiddleware
 			)
 			.forRoutes('/graphqllunch')
