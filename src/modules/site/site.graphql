@@ -21,7 +21,7 @@ type Query {
 
 type Mutation {
 	createSite(input: CreateSiteInput!): Site
-	updateSite(_id: String!, input: UpdateSiteInput!): Boolean
-	deleteSite(_id: String!): Boolean
+	updateSite(_id: ID!, input: UpdateSiteInput!): Boolean
+	deleteSite(_id: ID!): Boolean
 	deleteSites: Boolean
 }

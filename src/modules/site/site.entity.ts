@@ -2,11 +2,9 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	Index,
 	CreateDateColumn,
 	UpdateDateColumn,
-	BeforeInsert,
-	BeforeUpdate
+	BeforeInsert
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty } from 'class-validator'

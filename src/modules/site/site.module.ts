@@ -4,10 +4,8 @@ import { SiteService } from './site.service'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { Site } from './site.entity'
 
-@Global()
 @Module({
 	imports: [TypeOrmModule.forFeature([Site])],
-	providers: [SiteResolver, SiteService],
-	exports: [SiteService]
+	providers: [SiteResolver, SiteService]
 })
 export class SiteModule {}

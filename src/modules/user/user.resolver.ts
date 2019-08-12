@@ -8,7 +8,6 @@ import {
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
-import { getMongoManager } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as jwt from 'jsonwebtoken'
 import {
@@ -79,7 +78,7 @@ export class UserResolver {
 			const code = '409'
 			const additionalProperties = {}
 
-			const { username, password, fullName } = input
+			const { username, password, fullName, sites } = input
 
 			const existedUser = await this.userRepository.findOne({ username })
 
@@ -95,6 +94,18 @@ export class UserResolver {
 			const createdUser = await this.userRepository.save(user)
 
 			pubSub.publish('userCreated', { userCreated: createdUser })
+
+			sites.map(async item => {
+				const { siteId, permissions } = item
+
+				const userPermission = new UserPermission()
+
+				userPermission.userId = createdUser._id
+				userPermission.siteId = siteId
+				userPermission.permissions = permissions
+
+				getMongoRepository(UserPermission).save(userPermission)
+			})
 
 			return createdUser
 		} catch (error) {
@@ -112,13 +123,39 @@ export class UserResolver {
 			const code = '404'
 			const additionalProperties = {}
 
-			const { password, fullName } = input
+			const { password, fullName, sites } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError(message, code, additionalProperties)
 			}
+
+			sites.map(async item => {
+				const { siteId, permissions } = item
+
+				const existedUserPermission = await getMongoRepository(
+					UserPermission
+				).findOne({
+					userId: user._id,
+					siteId
+				})
+
+				if (existedUserPermission) {
+					existedUserPermission.permissions = permissions
+
+					return await getMongoRepository(UserPermission).save(
+						existedUserPermission
+					)
+				} else {
+					const userPermission = new UserPermission()
+					userPermission.userId = user._id
+					userPermission.siteId = siteId
+					userPermission.permissions = permissions
+
+					return await getMongoRepository(UserPermission).save(userPermission)
+				}
+			})
 
 			user.password = password
 			user.fullName = fullName

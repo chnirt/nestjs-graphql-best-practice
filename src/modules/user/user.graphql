@@ -1,14 +1,22 @@
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
+directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
+
+input SitesInfoInput {
+	siteId: ID!
+	permissions: [PermissionInfoInput!]!
+}
 
 input CreateUserInput {
 	username: String!
 	password: String!
 	fullName: String!
+	sites: [SitesInfoInput!]!
 }
 
 input UpdateUserInput {
 	password: String!
 	fullName: String!
+	sites: [SitesInfoInput!]!
 }
 
 input LoginUserInput {

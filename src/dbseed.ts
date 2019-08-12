@@ -134,7 +134,13 @@ async function main() {
 
 		const shops = [
 			{
-				name: 'Deli'
+				name: 'ShopA'
+			},
+			{
+				name: 'ShopB'
+			},
+			{
+				name: 'ShopC'
 			}
 		]
 
