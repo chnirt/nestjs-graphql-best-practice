@@ -4,11 +4,11 @@ import * as uuid from 'uuid'
 async function main() {
 	console.log('🌱  Database seeder is running')
 
-	const url =
-		// 'mongodb://localhost:' + process.env.MONGO_PORT ||
-		'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+	const url = process.env.MONGO_PORT
+		? 'mongodb://localhost:' + process.env.MONGO_PORT
+		: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
 	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
-	const dbName = 'database-test'
+	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'database-test'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })
 

@@ -15,7 +15,7 @@ const config = {
 			// port: process.env.MONGO_PORT,
 			// username: '',
 			// password: '',
-			// database: 'rtalunchapp',
+			// database: 'lunch4',
 			useNewUrlParser: true
 		}
 	},
@@ -29,7 +29,7 @@ const config = {
 			port: 27017,
 			username: '',
 			password: '',
-			database: 'rtalunchapp',
+			database: 'lunch4',
 			useNewUrlParser: true
 		}
 	}
