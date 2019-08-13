@@ -25,11 +25,12 @@ const config = {
 		end_point: 'graphqllunch',
 		orm: {
 			type: 'mongodb',
-			host: 'localhost',
-			port: 27017,
-			username: '',
-			password: '',
-			database: 'lunch4',
+			url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
+			// host: 'localhost',
+			// port: 27017,
+			// username: '',
+			// password: '',
+			// database: 'lunch4',
 			useNewUrlParser: true
 		}
 	}
