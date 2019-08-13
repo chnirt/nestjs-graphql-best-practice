@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
-import { ShopService } from './shop.service'
 import { ShopResolver } from './shop.resolver'
-import { CommonService } from '../common/services/common.service'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { Shop } from './shop.entity'
 
 @Module({
-  providers: [ShopService, ShopResolver, CommonService],
-  exports: [ShopService]
+  imports: [TypeOrmModule.forFeature([Shop])],
+  providers: [ShopResolver]
 })
 export class ShopModule {}
