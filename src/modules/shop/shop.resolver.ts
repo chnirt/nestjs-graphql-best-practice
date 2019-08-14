@@ -1,28 +1,51 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
-import { ShopService } from './shop.service'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository } from 'typeorm'
+import { ApolloError } from 'apollo-server-core'
+import { Shop } from './shop.entity'
 
 @Resolver('Shop')
 export class ShopResolver {
-  constructor(private readonly shopService: ShopService) {}
+  constructor(
+    @InjectRepository(Shop)
+    private readonly shopRepository: MongoRepository<Shop>
+  ) {}
 
   @Query('shops')
-  async shops() {
-    return await this.shopService.getAllShops()
+  async shops(): Promise<Shop[]> {
+    try {
+      return await this.shopRepository.find({ isActive: true })
+    } catch (error) {
+      throw new ApolloError(error)
+    }
   }
 
   @Query('shop')
-  async shop(@Args('id') id: string) {
-    return await this.shopService.getShop(id)
+  async shop(@Args('id') id: string): Promise<Shop> {
+    try {
+      return await this.shopRepository.findOne({ _id: id })
+    } catch (error) {
+      throw new ApolloError(error)
+    }
   }
 
   @Mutation('createShop')
-  async createShop(@Args('name') name: string) {
-    return await this.shopService.createShop(name)
+  async createShop(@Args('name') name: string): Promise<boolean> {
+    try {
+      return await this.shopRepository.save(new Shop({ name })) ? true : false
+    } catch (error) {
+      throw new ApolloError(error)
+    }
   }
 
   @Mutation('deleteShop')
-  async deleteShop(@Args('id') id: string) {
-    return await this.shopService.deleteShop(id)
+  async deleteShop(@Args('id') id: string): Promise<boolean> {
+    try {
+      const deletedShop = await this.shopRepository.findOneAndUpdate({ _id: id }, { $set: { isActive: false } }, { returnOriginal: false })
+      return await this.shopRepository.save(deletedShop.value) ? true : false
+    } catch (error) {
+      throw new ApolloError(error)
+    }
   }
 
 }

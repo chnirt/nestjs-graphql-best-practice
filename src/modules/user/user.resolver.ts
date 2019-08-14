@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as jwt from 'jsonwebtoken'
+import * as uuid from 'uuid'
 import {
 	User,
 	CreateUserInput,
@@ -28,7 +29,7 @@ export class UserResolver {
 
 	@Query(() => String)
 	hello() {
-		return 'world'
+		return uuid.v1()
 	}
 
 	@Query(() => User)
@@ -296,7 +297,10 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async lockAndUnlockUser(@Args('_id') _id: string) {
+	async lockAndUnlockUser(
+		@Args('_id') _id: string,
+		@Args('reason') reason: string
+	) {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -308,6 +312,7 @@ export class UserResolver {
 				throw new ApolloError(message, code, additionalProperties)
 			}
 
+			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
 
 			return (await this.userRepository.save(user)) ? true : false

@@ -44,3 +44,7 @@ input DishInput {
 	name: String
 	count: Int
 }
+
+type Subscription {
+	publishMenuUpdate: Boolean
+}
