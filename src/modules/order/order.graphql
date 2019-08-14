@@ -1,3 +1,9 @@
+input OrderInput {
+	menuId: String!
+	dishId: String!
+	count: Int!
+}
+
 type Order {
 	_id: ID!
 	userId: String!
@@ -8,12 +14,6 @@ type Order {
 	isConfirmed: Boolean!
 	createdAt: String!
 	updatedAt: String!
-}
-
-input OrderInput {
-	menuId: String!
-	dishId: String!
-	count: Int!
 }
 
 type MenuOrder {
@@ -30,49 +30,14 @@ type DishOrder {
 }
 
 type Query {
-	# ordersJ: [Order!]!
-	# menuOrder(siteId: String!): MenuOrder!
+	orders: [Order!]!
+	menuOrder(siteId: String!): MenuOrder!
 }
 
 type Mutation {
-	# orderDishJ(input: OrderInput!): Order!
+	orderDish(input: OrderInput!): Order!
 }
 
 type Subscription {
-	# isUpdated: Boolean!
+	isUpdated: Boolean!
 }
-
-# input CreateOrderInput {
-# 	menuId: String!
-# 	dishId: String!
-# 	note: String
-# 	count: Int!
-# }
-
-# input UpdateOrderInput {
-# 	menuId: String!
-# 	dishId: String!
-# 	note: String
-# 	count: Int
-# }
-
-# type Query {
-# 	order(id: String!): Order @isAuthenticated
-# 	orders: [Order!] @isAuthenticated
-# 	ordersByUser(menuId: String!): [Order] @isAuthenticated
-# 	ordersByMenu(menuId: String!): [Order] @isAuthenticated
-# 	ordersCountByUser(menuId: String!): [OrderCount] @isAuthenticated
-# 	ordersCountByMenu(menuId: String!): [OrderCount] @isAuthenticated
-# 	currentOrder(menuId: String!, dishId: String!): Order @isAuthenticated
-# }
-
-# type Mutation {
-# 	orderDish(input: CreateOrderInput!): String @isAuthenticated
-# 	updateOrder(id: String!, input: UpdateOrderInput!): Boolean @isAuthenticated
-# 	confirmOrder(orderIds: [String]): Boolean @isAuthenticated
-# 	deleteOrder(id: String): Boolean @isAuthenticated
-# }
-
-# type Subscription {
-# 	ordersByMenuCreated: [Order]
-# }
