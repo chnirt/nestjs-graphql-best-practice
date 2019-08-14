@@ -1,0 +1,52 @@
+type Order {
+	_id: ID!
+	userId: String!
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int!
+	isConfirmed: Boolean
+	createdAt: String
+	updatedAt: String
+}
+
+type OrderCount {
+	menuId: String
+	dishId: String
+	count: Int
+}
+
+input CreateOrderInput {
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int!
+}
+
+input UpdateOrderInput {
+	menuId: String!
+	dishId: String!
+	note: String
+	count: Int
+}
+
+type Query {
+	order(id: String!): Order @isAuthenticated
+	orders: [Order!] @isAuthenticated
+	ordersByUser(menuId: String!): [Order] @isAuthenticated
+	ordersByMenu(menuId: String!): [Order] @isAuthenticated
+	ordersCountByUser(menuId: String!): [OrderCount] @isAuthenticated
+	ordersCountByMenu(menuId: String!): [OrderCount] @isAuthenticated
+	currentOrder(menuId: String!, dishId: String!): Order @isAuthenticated
+}
+
+type Mutation {
+	orderDish(input: CreateOrderInput!): String @isAuthenticated
+	updateOrder(id: String!, input: UpdateOrderInput!): Boolean @isAuthenticated
+	confirmOrder(orderIds: [String]): Boolean @isAuthenticated
+	deleteOrder(id: String): Boolean @isAuthenticated
+}
+
+type Subscription {
+	ordersByMenuCreated: [Order]
+}
