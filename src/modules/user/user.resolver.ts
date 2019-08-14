@@ -158,7 +158,7 @@ export class UserResolver {
 				}
 			})
 
-			user.password = password
+			user.password = await user.hashPassword(password)
 			user.fullName = fullName
 
 			return (await this.userRepository.save(user)) ? true : false
@@ -203,97 +203,93 @@ export class UserResolver {
 
 	@Mutation(() => LoginResponse)
 	async login(@Args('input') input: LoginUserInput, @Context('req') req: any) {
-		try {
-			const message = 'Unauthorized'
-			const code = '401'
-			const additionalProperties = {}
+		const message = 'Unauthorized'
+		const code = '401'
+		const additionalProperties = {}
 
-			const { username, password } = input
+		const { username, password } = input
 
-			const user = await this.userRepository.findOne({ username })
+		const user = await this.userRepository.findOne({ username })
 
-			if (!user || !(await user.matchesPassword(password))) {
-				throw new ApolloError(message, code, additionalProperties)
-			}
-
-			const activeMessage = 'Gone'
-			const activeCode = '404'
-			const activeAdditionalProperties = {}
-
-			if (!user.isActive) {
-				throw new ApolloError(
-					activeMessage,
-					activeCode,
-					activeAdditionalProperties
-				)
-			}
-
-			const lockedMessage = 'Locked'
-			const lockedCode = '423'
-			const lockedAdditionalProperties = {}
-
-			if (user.isLocked) {
-				throw new ApolloError(
-					lockedMessage,
-					lockedCode,
-					lockedAdditionalProperties
-				)
-			}
-
-			const token = jwt.sign(
-				{
-					issuer: 'http://lunchapp2.dev.io',
-					subject: user._id,
-					audience: user.username
-				},
-				process.env.SECRET_KEY,
-				{
-					expiresIn: '30d'
-				}
-			)
-
-			const userPermissions = await getMongoRepository(UserPermission)
-				.aggregate([
-					{
-						$match: {
-							userId: user._id
-						}
-					},
-					{
-						$lookup: {
-							from: 'site',
-							localField: 'siteId',
-							foreignField: '_id',
-							as: 'siteName'
-						}
-					},
-					{
-						$unwind: {
-							path: '$siteName',
-							preserveNullAndEmptyArrays: true
-						}
-					}
-				])
-				.toArray()
-
-			userPermissions.map(item => (item.siteName = item.siteName.name))
-
-			const array = ['MENU', 'ORDER', 'USER', 'REPORT']
-
-			await userPermissions.map(item => {
-				const sitepermissions = array.filter(
-					item1 =>
-						item.permissions
-							.map(item2 => item2.code.split('_')[0])
-							.indexOf(item1) !== -1
-				)
-				item.sitepermissions = sitepermissions
-			})
-
-			return { token, userPermissions }
-		} catch (error) {
-			throw new ApolloError(error, '500', {})
+		if (!user || !(await user.matchesPassword(password))) {
+			throw new ApolloError(message, code, additionalProperties)
 		}
+
+		const activeMessage = 'Gone'
+		const activeCode = '404'
+		const activeAdditionalProperties = {}
+
+		if (!user.isActive) {
+			throw new ApolloError(
+				activeMessage,
+				activeCode,
+				activeAdditionalProperties
+			)
+		}
+
+		const lockedMessage = 'Locked'
+		const lockedCode = '423'
+		const lockedAdditionalProperties = {}
+
+		if (user.isLocked) {
+			throw new ApolloError(
+				lockedMessage,
+				lockedCode,
+				lockedAdditionalProperties
+			)
+		}
+
+		const token = jwt.sign(
+			{
+				issuer: 'http://lunchapp2.dev.io',
+				subject: user._id,
+				audience: user.username
+			},
+			process.env.SECRET_KEY,
+			{
+				expiresIn: '30d'
+			}
+		)
+
+		const userPermissions = await getMongoRepository(UserPermission)
+			.aggregate([
+				{
+					$match: {
+						userId: user._id
+					}
+				},
+				{
+					$lookup: {
+						from: 'site',
+						localField: 'siteId',
+						foreignField: '_id',
+						as: 'siteName'
+					}
+				},
+				{
+					$unwind: {
+						path: '$siteName',
+						preserveNullAndEmptyArrays: true
+					}
+				}
+			])
+			.toArray()
+
+		userPermissions.map(item => (item.siteName = item.siteName.name))
+
+		const array = ['MENU', 'ORDER', 'USER', 'REPORT']
+
+		await userPermissions.map(item => {
+			const sitepermissions = array.filter(
+				item1 =>
+					item.permissions
+						.map(item2 => item2.code.split('_')[0])
+						.indexOf(item1) !== -1
+			)
+			item.sitepermissions = sitepermissions
+		})
+
+		return { token, userPermissions }
 	}
 
 	@Mutation(() => Boolean)
