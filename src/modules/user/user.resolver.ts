@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as jwt from 'jsonwebtoken'
+import * as uuid from 'uuid'
 import {
 	User,
 	CreateUserInput,
@@ -28,7 +29,7 @@ export class UserResolver {
 
 	@Query(() => String)
 	hello() {
-		return 'world'
+		return uuid.v1()
 	}
 
 	@Query(() => User)
