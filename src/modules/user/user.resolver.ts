@@ -296,7 +296,10 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async lockAndUnlockUser(@Args('_id') _id: string) {
+	async lockAndUnlockUser(
+		@Args('_id') _id: string,
+		@Args('reason') reason: string
+	) {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -308,6 +311,7 @@ export class UserResolver {
 				throw new ApolloError(message, code, additionalProperties)
 			}
 
+			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
 
 			return (await this.userRepository.save(user)) ? true : false
