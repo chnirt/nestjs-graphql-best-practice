@@ -6,7 +6,7 @@ async function main() {
 
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
-		: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+		: 'mongodb+srv://tuti:B4WgyRXQ3WBOQ86i@cluster0-pvh5w.mongodb.net/lunchapp?retryWrites=true&w=majority'
 	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
 	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'database-test'
 
