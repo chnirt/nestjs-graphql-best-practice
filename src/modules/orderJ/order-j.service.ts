@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { OrderJ, MenuOrderJ, OrderJInput } from './order-j.entity'
+import {
+	OrderJ,
+	MenuOrderJ,
+	OrderJInput,
+	OrderJSubscriptionRespone
+} from './order-j.entity'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { User } from '../user/user.entity'
 import { Menu } from '../menu/menu.entity'
@@ -17,6 +22,29 @@ export class OrderJService {
 
 	async findAll(): Promise<OrderJ[]> {
 		return await this.orderJRepository.find()
+	}
+
+	async getOrderQuantityDish(
+		input: OrderJInput,
+		impactUserId: string,
+		OrderQuantityOfImpactUser: number
+	): Promise<OrderJSubscriptionRespone> {
+		const listOrdersMenu = await this.orderJRepository.find({
+			menuId: input.menuId,
+			dishId: input.dishId
+		}) // list chứa tất cả orders của mọi ng
+
+		const res = new OrderJSubscriptionRespone()
+		res.dishId = input.dishId
+		res.menuId = input.menuId
+		res.impactUserId = impactUserId
+		res.OrderQuantityOfImpactUser = OrderQuantityOfImpactUser
+		res.orderQuantityNow = listOrdersMenu.reduce(
+			(total, order) => total + order.count,
+			0
+		)
+
+		return res
 	}
 
 	async getMenuOrderJ(siteId: string, currentUser: User): Promise<MenuOrderJ> {

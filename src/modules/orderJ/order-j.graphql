@@ -38,6 +38,15 @@ type Mutation {
 	orderJDish(input: OrderJInput!): OrderJ!
 }
 
+type OrderJSubscriptionRespone {
+	menuId: ID!
+	dishId: ID!
+	orderQuantityNow: Int! # Số lượng phần ăn đã đặt trên món dishId
+	impactUserId: ID! # Id của user tác động đến hệ thống (orderDish)
+	OrderQuantityOfImpactUser: Int! #Số lượng phần ăn được đặt bởi người gây ra tác động đến hệ thống (orderDish)
+}
+
 type Subscription {
-	isUpdated: Boolean!
+	# isUpdated: Boolean!
+	isUpdatedOrder: OrderJSubscriptionRespone! #dishesMenu
 }

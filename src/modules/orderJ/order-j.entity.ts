@@ -108,3 +108,22 @@ export class MenuOrderJ {
 	@IsArray()
 	dishes: DishOrderJ[]
 }
+
+export class OrderJSubscriptionRespone {
+	@IsString()
+	@IsNotEmpty()
+	menuId: string
+
+	@IsString()
+	@IsNotEmpty()
+	dishId: string
+
+	@IsNumber()
+	impactUserId: string
+
+	@IsNumber()
+	orderQuantityNow: number
+
+	@IsNumber()
+	OrderQuantityOfImpactUser: number
+}
