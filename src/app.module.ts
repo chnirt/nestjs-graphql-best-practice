@@ -23,7 +23,7 @@ import { ShopModule } from './modules/shop/shop.module'
 import { SiteShopModule } from './modules/siteShop/siteShop.module'
 import { DishModule } from './modules/dish/dish.module'
 import { MenuModule } from './modules/menu/menu.module'
-import { OrderModule } from './modules/order/order.module'
+// import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
@@ -93,7 +93,7 @@ const {
 		SiteShopModule,
 		DishModule,
 		MenuModule,
-		OrderModule,
+		// OrderModule,
 		HistoryModule,
 		LoggerModule
 	]
