@@ -39,8 +39,8 @@ export class OrderResolver {
 		return order
 	}
 
-	// @Subscription()
-	// async isUpdated(@Context('pubSub') pubSub: any) {
-	// 	return await pubSub.asyncIterator('isUpdated')
-	// }
+	@Subscription()
+	async isUpdated(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('isUpdated')
+	}
 }
