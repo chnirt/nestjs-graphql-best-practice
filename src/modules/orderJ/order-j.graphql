@@ -1,10 +1,10 @@
-input OrderInput {
+input OrderJInput {
 	menuId: String!
 	dishId: String!
 	count: Int!
 }
 
-type Order {
+type OrderJ {
 	_id: ID!
 	userId: String!
 	menuId: String!
@@ -16,12 +16,12 @@ type Order {
 	updatedAt: String!
 }
 
-type MenuOrder {
+type MenuOrderJ {
 	menuId: String!
-	dishes: [DishOrder!]!
+	dishes: [DishOrderJ!]!
 }
 
-type DishOrder {
+type DishOrderJ {
 	dishId: String!
 	name: String!
 	MyOrderQuantity: Int!
@@ -30,12 +30,12 @@ type DishOrder {
 }
 
 type Query {
-	orders: [Order!]!
-	menuOrder(siteId: String!): MenuOrder!
+	orderJs: [OrderJ!]!
+	menuOrderJ(siteId: String!): MenuOrderJ!
 }
 
 type Mutation {
-	orderDish(input: OrderInput!): Order!
+	orderJDish(input: OrderJInput!): OrderJ!
 }
 
 type Subscription {

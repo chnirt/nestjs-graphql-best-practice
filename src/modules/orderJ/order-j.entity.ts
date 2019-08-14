@@ -14,7 +14,7 @@ import {
 } from 'class-validator'
 
 @Entity()
-export class Order {
+export class OrderJ {
 	@ObjectIdColumn()
 	@IsString()
 	_id: string
@@ -64,7 +64,7 @@ export class Order {
 	}
 }
 
-export class OrderInput {
+export class OrderJInput {
 	@IsString()
 	@IsNotEmpty()
 	menuId: string
@@ -78,7 +78,7 @@ export class OrderInput {
 	count: number
 }
 
-export class DishOrder {
+export class DishOrderJ {
 	@IsString()
 	@IsNotEmpty()
 	dishId: string
@@ -100,11 +100,11 @@ export class DishOrder {
 	orderQuantityMax: number
 }
 
-export class MenuOrder {
+export class MenuOrderJ {
 	@IsString()
 	@IsNotEmpty()
 	menuId: string
 
 	@IsArray()
-	dishes: DishOrder[]
+	dishes: DishOrderJ[]
 }

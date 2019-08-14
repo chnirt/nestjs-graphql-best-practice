@@ -18,7 +18,7 @@ import { DishModule } from './modules/dish/dish.module'
 import { MenuModule } from './modules/menu/menu.module'
 import { HistoryModule } from './modules/history/history.module'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
-import { OrderModule } from './modules/order/order.module';
+import { OrderJModule } from './modules/orderJ/order-j.module'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -92,7 +92,7 @@ const {
 		MenuModule,
 		HistoryModule,
 		LoggerModule,
-		OrderModule
+		OrderJModule
 	]
 })
 

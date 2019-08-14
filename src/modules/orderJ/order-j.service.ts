@@ -1,35 +1,32 @@
-/*eslint-disable */
-
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Order, MenuOrder, OrderInput } from './order.entity'
+import { OrderJ, MenuOrderJ, OrderJInput } from './order-j.entity'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { User } from '../user/user.entity'
-import { MenuResolver } from '../menu/menu.resolver'
 import { Menu } from '../menu/menu.entity'
 import { DishInfo } from 'src/graphql'
 import { ApolloError } from 'apollo-server-core'
 import * as uuid from 'uuid'
 
 @Injectable()
-export class OrderService {
+export class OrderJService {
 	constructor(
-		@InjectRepository(Order)
-		private readonly orderRepository: MongoRepository<Order>
+		@InjectRepository(OrderJ)
+		private readonly orderJRepository: MongoRepository<OrderJ>
 	) {}
 
-	async findAll(): Promise<Order[]> {
-		return await this.orderRepository.find()
+	async findAll(): Promise<OrderJ[]> {
+		return await this.orderJRepository.find()
 	}
 
-	async getMenuOrder(siteId: string, currentUser: User): Promise<MenuOrder> {
+	async getMenuOrderJ(siteId: string, currentUser: User): Promise<MenuOrderJ> {
 		const menu = await getMongoRepository(Menu).findOne({
 			isPublished: true,
 			siteId,
 			isActive: true
 		})
 
-		const menuOrder = new MenuOrder()
+		const menuOrder = new MenuOrderJ()
 		menuOrder.menuId = ''
 		menuOrder.dishes = []
 
@@ -38,9 +35,8 @@ export class OrderService {
 		}
 
 		menuOrder.menuId = menu._id
-		menuOrder.dishes = []
 
-		const listOrdersMenu = await this.orderRepository.find({
+		const listOrdersMenu = await this.orderJRepository.find({
 			menuId: menu._id
 		}) // list chứa tất cả orders của mọi ng
 
@@ -73,7 +69,7 @@ export class OrderService {
 	}
 
 	async getCountOrdersDishByMenuIdDishId(menuId, dishId): Promise<number> {
-		const orders = await this.orderRepository.find({
+		const orders = await this.orderJRepository.find({
 			menuId,
 			dishId
 		})
@@ -83,8 +79,10 @@ export class OrderService {
 		}, 0)
 	}
 
-	async orderDish(input: OrderInput, userCurrent: User): Promise<Order> {
-		let order = await this.orderRepository.findOne({
+	async orderJDish(input: OrderJInput, userCurrent: User): Promise<OrderJ> {
+		console.log(userCurrent)
+
+		let order = await this.orderJRepository.findOne({
 			// tìm order này trong db
 			userId: userCurrent._id,
 			menuId: input.menuId,
@@ -101,7 +99,7 @@ export class OrderService {
 		if (!order) {
 			// chưa tạo trước đó thì tạo mới
 
-			order = new Order()
+			order = new OrderJ()
 			order._id = uuid.v1()
 			order.userId = userCurrent._id
 			order.menuId = input.menuId
@@ -141,8 +139,6 @@ export class OrderService {
 
 		order.count = input.count
 
-		return await this.orderRepository.save(order)
+		return await this.orderJRepository.save(order)
 	}
 }
-
-/*eslint-enable */
