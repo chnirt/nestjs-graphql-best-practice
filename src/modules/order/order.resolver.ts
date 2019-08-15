@@ -10,9 +10,8 @@ import { Order } from './order.entity'
 import { CreateOrderInput, UpdateOrderInput, OrderCount } from '../../graphql'
 import { User } from '../user/user.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository, getMongoRepository } from 'typeorm'
+import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
-import { Menu } from '../menu/menu.entity';
 
 @Resolver('Order')
 export class OrderResolver {
@@ -50,7 +49,7 @@ export class OrderResolver {
 				await this.orderRepository.save(newOrder).then(res => (orderId = res._id))
 			}
 
-			const ordersByMenu = await this.orderRepository.find({ menuId })
+			const ordersByMenu = await this.ordersCountByMenu(menuId)
 
 			pubSub.publish('ordersByMenuCreated', { ordersByMenuCreated: ordersByMenu })
 
@@ -99,19 +98,6 @@ export class OrderResolver {
 		}
 	}
 
-	@Query('ordersCountByUser')
-	async ordersCountByUser(
-		@Args('menuId') menuId: string,
-		@Context('currentUser') currentUser: User
-	): Promise<OrderCount[]> {
-		try {
-			const orders = await this.orderRepository.find({ userId: currentUser._id, menuId })
-    	return orders.map(order => ({menuId: order.menuId, dishId: order.dishId, count: order.count}))
-		} catch (error) {
-			throw new ApolloError(error)
-		}
-	}
-
 	@Query('ordersByMenu')
 	async ordersByMenu(@Args('menuId') menuId: string): Promise<Order[]> {
 		try {
@@ -127,9 +113,9 @@ export class OrderResolver {
 			const orders = await this.orderRepository.find({ menuId })
 			let list = []
 			await orders.map(order => {
-				const index = list.findIndex(item => item.dishId === order.dishId)
+				const index = list.findIndex(item => item._id === order.dishId)
 				if (index === -1) {
-					list.push({menuId: order.menuId, dishId: order.dishId, count: order.count})
+					list.push({menuId: order.menuId, _id: order.dishId, count: order.count})
 				} else {
 					const obj = list[index]
 					obj.count += order.count

@@ -33,6 +33,11 @@ type Mutation {
 	closeMenu(id: String!): Boolean @isAuthenticated
 }
 
+type Subscription {
+	menuLocked: Boolean
+	menuPublished: Boolean
+}
+
 input MenuInfo {
 	name: String
 	shopId: String
@@ -43,8 +48,4 @@ input DishInput {
 	_id: String
 	name: String
 	count: Int
-}
-
-type Subscription {
-	isUpdatedMenu: String! # 'publish', 'lock'
 }

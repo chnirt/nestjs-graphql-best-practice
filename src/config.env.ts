@@ -4,19 +4,19 @@ dotenv.config()
 // COMPLETE:
 const config = {
 	development: {
-		domain: 'localhost',
+		domain: 'devcloud4.digihcs.com',
 		port: process.env.PORT,
 		end_point: 'graphqllunch',
 		orm: {
-			type: 'mongodb',
-			host: 'localhost',
-			port: process.env.MONGO_PORT,
-			username: '',
-			password: '',
-			database: 'lunch4',
-
 			// type: 'mongodb',
-			// url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
+			// host: 'localhost',
+			// port: process.env.MONGO_PORT,
+			// username: '',
+			// password: '',
+			// database: 'lunch4',
+
+			type: 'mongodb',
+			url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
 			useNewUrlParser: true
 		}
 	},
