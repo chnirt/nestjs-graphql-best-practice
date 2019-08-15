@@ -56,6 +56,11 @@ async function main() {
 				description: 'Tạo người dùng'
 			},
 			{
+				_id: 'ad5a65e0-be4e-11e9-a6ad-c109fb49072b',
+				code: 'USER_UPDATE',
+				description: 'Cập nhật người dùng'
+			},
+			{
 				_id: '6ca4ffb0-be4e-11e9-b75c-d915f7b6e00b',
 				code: 'USER_DELETE',
 				description: 'Xóa người dùng'
@@ -66,14 +71,19 @@ async function main() {
 				description: 'Khóa và mở khóa người dùng'
 			},
 			{
-				_id: 'ad5a65e0-be4e-11e9-a6ad-c109fb49072b',
-				code: 'USER_UPDATE',
-				description: 'Cập nhật người dùng'
+				_id: '19355210-bf04-11e9-83da-09d22932d6d6',
+				code: 'MENU_CREATE',
+				description: 'Tạo menu'
 			},
 			{
-				_id: 'b4592b60-be4e-11e9-a6ad-c109fb49072b',
-				code: 'ORDER_CREATE',
-				description: 'Đặt món'
+				_id: 'f1f12d40-bf04-11e9-a629-29525b452984',
+				code: 'MENU_UPDATE',
+				description: 'Cập nhật menu'
+			},
+			{
+				_id: '08fcd5c0-bf05-11e9-a629-29525b452984',
+				code: 'MENU_DELETE',
+				description: 'Xóa menu'
 			},
 			{
 				_id: 'b9966ac0-be4e-11e9-a6ad-c109fb49072b',
@@ -89,6 +99,11 @@ async function main() {
 				_id: 'c67b32c0-be4e-11e9-a6ad-c109fb49072b',
 				code: 'MENU_CLOSE',
 				description: 'Đóng menu'
+			},
+			{
+				_id: 'b4592b60-be4e-11e9-a6ad-c109fb49072b',
+				code: 'ORDER_CREATE',
+				description: 'Đặt món'
 			},
 			{
 				_id: 'ce33d260-be4e-11e9-a6ad-c109fb49072b',

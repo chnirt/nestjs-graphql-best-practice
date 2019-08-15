@@ -232,8 +232,8 @@ export class Permission {
 }
 
 export class PermissionInfo {
-    _id: string;
-    code: string;
+    _id?: string;
+    code?: string;
 }
 
 export abstract class IQuery {

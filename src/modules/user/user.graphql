@@ -37,8 +37,8 @@ type UserPermissionsInfo {
 }
 
 type PermissionInfo {
-	_id: ID!
-	code: String!
+	_id: ID
+	code: String
 }
 
 type User {
@@ -54,21 +54,23 @@ type User {
 }
 
 type Query {
-	hello: String!
+	hello: String! @hasPermission(permission: "USER_CREATE")
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
-	user(_id: String!): User @isAuthenticated
+	user(_id: ID!): User @isAuthenticated
 }
 
 type Mutation {
 	createUser(input: CreateUserInput!): User
-	updateUser(_id: String!, input: UpdateUserInput!): Boolean @isAuthenticated
-	deleteUser(_id: String!): Boolean @isAuthenticated
+	updateUser(_id: ID!, input: UpdateUserInput!): Boolean
+		@hasPermission(permission: "USER_UPDATE")
+	deleteUser(_id: ID!): Boolean @hasPermission(permission: "USER_DELETE")
 	deleteUsers: Boolean! @isAuthenticated
 	login(input: LoginUserInput!): LoginResponse
-	lockAndUnlockUser(_id: String!, reason: String!): Boolean @isAuthenticated
+	lockAndUnlockUser(_id: ID!, reason: String!): Boolean
+		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
 }
 
 type Subscription {
-	userCreated: User
+	userCreated: User @isAuthenticated
 }
