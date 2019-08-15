@@ -218,8 +218,8 @@ export class Order {
 }
 
 export class OrderCount {
+    _id?: string;
     menuId?: string;
-    dishId?: string;
     count?: number;
 }
 
@@ -258,8 +258,6 @@ export abstract class IQuery {
     abstract ordersByUser(menuId: string): Order[] | Promise<Order[]>;
 
     abstract ordersByMenu(menuId: string): Order[] | Promise<Order[]>;
-
-    abstract ordersCountByUser(menuId: string): OrderCount[] | Promise<OrderCount[]>;
 
     abstract ordersCountByMenu(menuId: string): OrderCount[] | Promise<OrderCount[]>;
 
@@ -328,7 +326,11 @@ export class SiteShopResponse {
 }
 
 export abstract class ISubscription {
-    abstract ordersByMenuCreated(): Order[] | Promise<Order[]>;
+    abstract menuLocked(): boolean | Promise<boolean>;
+
+    abstract menuPublished(): boolean | Promise<boolean>;
+
+    abstract ordersByMenuCreated(): OrderCount[] | Promise<OrderCount[]>;
 
     abstract userCreated(): User | Promise<User>;
 }

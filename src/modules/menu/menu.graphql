@@ -33,6 +33,11 @@ type Mutation {
 	closeMenu(id: String!): Boolean @isAuthenticated
 }
 
+type Subscription {
+	menuLocked: Boolean
+	menuPublished: Boolean
+}
+
 input MenuInfo {
 	name: String
 	shopId: String

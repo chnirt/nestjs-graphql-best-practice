@@ -4,8 +4,7 @@ import {
 	Column,
 	CreateDateColumn,
 	UpdateDateColumn,
-	BeforeInsert,
-	BeforeUpdate
+	BeforeInsert
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty, IsBoolean, IsNumber } from 'class-validator'
@@ -55,10 +54,6 @@ export class Order {
 	async b4create() {
 		this._id = await uuid.v1()
 		this.isConfirmed = false
+		this.note = ''
 	}
-
-	// @BeforeUpdate()
-	// async b4update() {
-	// 	console.log('b4Order')
-	// }
 }

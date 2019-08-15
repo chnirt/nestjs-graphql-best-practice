@@ -11,8 +11,8 @@ type Order {
 }
 
 type OrderCount {
+	_id: String
 	menuId: String
-	dishId: String
 	count: Int
 }
 
@@ -35,7 +35,6 @@ type Query {
 	orders: [Order!] @isAuthenticated
 	ordersByUser(menuId: String!): [Order] @isAuthenticated
 	ordersByMenu(menuId: String!): [Order] @isAuthenticated
-	ordersCountByUser(menuId: String!): [OrderCount] @isAuthenticated
 	ordersCountByMenu(menuId: String!): [OrderCount] @isAuthenticated
 	currentOrder(menuId: String!, dishId: String!): Order @isAuthenticated
 }
@@ -48,5 +47,5 @@ type Mutation {
 }
 
 type Subscription {
-	ordersByMenuCreated: [Order]
+	ordersByMenuCreated: [OrderCount]
 }
