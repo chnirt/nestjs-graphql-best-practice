@@ -194,7 +194,7 @@ export abstract class IMutation {
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
-    abstract lockAndUnlockUser(_id: string): boolean | Promise<boolean>;
+    abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 
@@ -232,8 +232,8 @@ export class Permission {
 }
 
 export class PermissionInfo {
-    _id: string;
-    code: string;
+    _id?: string;
+    code?: string;
 }
 
 export abstract class IQuery {

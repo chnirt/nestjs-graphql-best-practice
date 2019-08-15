@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as jwt from 'jsonwebtoken'
+import * as uuid from 'uuid'
 import {
 	User,
 	CreateUserInput,
@@ -18,17 +19,20 @@ import {
 	LoginUserInput
 } from './user.entity'
 import { UserPermission } from '../userPermission/userPermission.entity'
+import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
+import { CreateUserPermissionInput } from '../../graphql'
 
 @Resolver('User')
 export class UserResolver {
 	constructor(
 		@InjectRepository(User)
-		private readonly userRepository: MongoRepository<User>
+		private readonly userRepository: MongoRepository<User>,
+		private readonly userPermissionResolver: UserPermissionResolver
 	) {}
 
 	@Query(() => String)
 	hello() {
-		return 'world'
+		return uuid.v1()
 	}
 
 	@Query(() => User)
@@ -93,19 +97,21 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(user)
 
-			pubSub.publish('userCreated', { userCreated: createdUser })
-
 			sites.map(async item => {
 				const { siteId, permissions } = item
 
-				const userPermission = new UserPermission()
+				const createUserPermissionInput = new CreateUserPermissionInput()
 
-				userPermission.userId = createdUser._id
-				userPermission.siteId = siteId
-				userPermission.permissions = permissions
+				createUserPermissionInput.userId = createdUser._id
+				createUserPermissionInput.siteId = siteId
+				createUserPermissionInput.permissions = permissions
 
-				getMongoRepository(UserPermission).save(userPermission)
+				this.userPermissionResolver.createUserPermission(
+					createUserPermissionInput
+				)
 			})
+
+			pubSub.publish('userCreated', { userCreated: createdUser })
 
 			return createdUser
 		} catch (error) {
@@ -148,16 +154,19 @@ export class UserResolver {
 						existedUserPermission
 					)
 				} else {
-					const userPermission = new UserPermission()
-					userPermission.userId = user._id
-					userPermission.siteId = siteId
-					userPermission.permissions = permissions
+					const createUserPermissionInput = new CreateUserPermissionInput()
 
-					return await getMongoRepository(UserPermission).save(userPermission)
+					createUserPermissionInput.userId = user._id
+					createUserPermissionInput.siteId = siteId
+					createUserPermissionInput.permissions = permissions
+
+					return await this.userPermissionResolver.createUserPermission(
+						createUserPermissionInput
+					)
 				}
 			})
 
-			user.password = password
+			user.password = await user.hashPassword(password)
 			user.fullName = fullName
 
 			return (await this.userRepository.save(user)) ? true : false
@@ -202,101 +211,100 @@ export class UserResolver {
 
 	@Mutation(() => LoginResponse)
 	async login(@Args('input') input: LoginUserInput, @Context('req') req: any) {
-		try {
-			const message = 'Unauthorized'
-			const code = '401'
-			const additionalProperties = {}
+		const message = 'Unauthorized'
+		const code = '401'
+		const additionalProperties = {}
 
-			const { username, password } = input
+		const { username, password } = input
 
-			const user = await this.userRepository.findOne({ username })
+		const user = await this.userRepository.findOne({ username })
 
-			if (!user || !(await user.matchesPassword(password))) {
-				throw new ApolloError(message, code, additionalProperties)
-			}
-
-			const activeMessage = 'Gone'
-			const activeCode = '404'
-			const activeAdditionalProperties = {}
-
-			if (!user.isActive) {
-				throw new ApolloError(
-					activeMessage,
-					activeCode,
-					activeAdditionalProperties
-				)
-			}
-
-			const lockedMessage = 'Locked'
-			const lockedCode = '423'
-			const lockedAdditionalProperties = {}
-
-			if (user.isLocked) {
-				throw new ApolloError(
-					lockedMessage,
-					lockedCode,
-					lockedAdditionalProperties
-				)
-			}
-
-			const token = jwt.sign(
-				{
-					issuer: 'http://lunchapp2.dev.io',
-					subject: user._id,
-					audience: user.username
-				},
-				process.env.SECRET_KEY,
-				{
-					expiresIn: '30d'
-				}
-			)
-
-			const userPermissions = await getMongoRepository(UserPermission)
-				.aggregate([
-					{
-						$match: {
-							userId: user._id
-						}
-					},
-					{
-						$lookup: {
-							from: 'site',
-							localField: 'siteId',
-							foreignField: '_id',
-							as: 'siteName'
-						}
-					},
-					{
-						$unwind: {
-							path: '$siteName',
-							preserveNullAndEmptyArrays: true
-						}
-					}
-				])
-				.toArray()
-
-			userPermissions.map(item => (item.siteName = item.siteName.name))
-
-			const array = ['MENU', 'ORDER', 'USER', 'REPORT']
-
-			await userPermissions.map(item => {
-				const sitepermissions = array.filter(
-					item1 =>
-						item.permissions
-							.map(item2 => item2.code.split('_')[0])
-							.indexOf(item1) !== -1
-				)
-				item.sitepermissions = sitepermissions
-			})
-
-			return { token, userPermissions }
-		} catch (error) {
-			throw new ApolloError(error, '500', {})
+		if (!user || !(await user.matchesPassword(password))) {
+			throw new ApolloError(message, code, additionalProperties)
 		}
+
+		const activeMessage = 'Gone'
+		const activeCode = '404'
+		const activeAdditionalProperties = {}
+
+		if (!user.isActive) {
+			throw new ApolloError(
+				activeMessage,
+				activeCode,
+				activeAdditionalProperties
+			)
+		}
+
+		const lockedMessage = 'Locked'
+		const lockedCode = '423'
+		const lockedAdditionalProperties = {}
+
+		if (user.isLocked) {
+			throw new ApolloError(
+				lockedMessage,
+				lockedCode,
+				lockedAdditionalProperties
+			)
+		}
+
+		const token = jwt.sign(
+			{
+				issuer: 'http://lunchapp2.dev.io',
+				subject: user._id,
+				audience: user.username
+			},
+			process.env.SECRET_KEY,
+			{
+				expiresIn: '30d'
+			}
+		)
+
+		const userPermissions = await getMongoRepository(UserPermission)
+			.aggregate([
+				{
+					$match: {
+						userId: user._id
+					}
+				},
+				{
+					$lookup: {
+						from: 'site',
+						localField: 'siteId',
+						foreignField: '_id',
+						as: 'siteName'
+					}
+				},
+				{
+					$unwind: {
+						path: '$siteName',
+						preserveNullAndEmptyArrays: true
+					}
+				}
+			])
+			.toArray()
+
+		userPermissions.map(item => (item.siteName = item.siteName.name))
+
+		const array = ['MENU', 'ORDER', 'USER', 'REPORT']
+
+		await userPermissions.map(item => {
+			const sitepermissions = array.filter(
+				item1 =>
+					item.permissions
+						.map(item2 => item2.code.split('_')[0])
+						.indexOf(item1) !== -1
+			)
+			item.sitepermissions = sitepermissions
+		})
+
+		return { token, userPermissions }
 	}
 
 	@Mutation(() => Boolean)
-	async lockAndUnlockUser(@Args('_id') _id: string) {
+	async lockAndUnlockUser(
+		@Args('_id') _id: string,
+		@Args('reason') reason: string
+	) {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -308,6 +316,7 @@ export class UserResolver {
 				throw new ApolloError(message, code, additionalProperties)
 			}
 
+			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
 
 			return (await this.userRepository.save(user)) ? true : false

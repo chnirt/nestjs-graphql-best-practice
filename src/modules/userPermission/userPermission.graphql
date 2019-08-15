@@ -4,18 +4,13 @@ input CreateUserPermissionInput {
 	permissions: [PermissionInfoInput!]!
 }
 
-input UpdateUserPermissionInput {
-	permissions: [PermissionInfoInput!]!
-}
-
 input PermissionInfoInput {
 	_id: String!
 	code: String!
 }
-
 type PermissionInfo {
-	_id: String!
-	code: String!
+	_id: ID
+	code: String
 }
 
 type UserPermission {
@@ -30,14 +25,9 @@ type UserPermission {
 
 type Query {
 	userPermissions: [UserPermission!]
-	findAllByUserId(_id: String!): [UserPermission!]
-	findOneByUserId(_id: String!): UserPermission
-	getPermissionsByUserId(id: String!): [Permission!]
+	findAllByUserId(_id: ID!): [UserPermission!]
 }
 
 type Mutation {
 	createUserPermission(input: CreateUserPermissionInput!): UserPermission
-	updateUserPermission(_id: String!, input: UpdateUserPermissionInput!): Boolean
-	deleteUserPermission(_id: String!): Boolean
-	deleteUserPermissions: Boolean
 }

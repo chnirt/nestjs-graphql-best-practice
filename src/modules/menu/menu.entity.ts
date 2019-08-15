@@ -46,7 +46,7 @@ export class Menu {
 		this._id = await uuidv1()
 		this.dishes = []
 		this.isPublished = false
-		this.isLocked = true
+		this.isLocked = false
 		this.isActive = true
 	}
 
