@@ -10,8 +10,9 @@ import { Order } from './order.entity'
 import { CreateOrderInput, UpdateOrderInput, OrderCount } from '../../graphql'
 import { User } from '../user/user.entity'
 import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository } from 'typeorm'
+import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
+import { Menu } from '../menu/menu.entity';
 
 @Resolver('Order')
 export class OrderResolver {
