@@ -19,12 +19,15 @@ import {
 	LoginUserInput
 } from './user.entity'
 import { UserPermission } from '../userPermission/userPermission.entity'
+import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
+import { CreateUserPermissionInput } from '../../graphql'
 
 @Resolver('User')
 export class UserResolver {
 	constructor(
 		@InjectRepository(User)
-		private readonly userRepository: MongoRepository<User>
+		private readonly userRepository: MongoRepository<User>,
+		private readonly userPermissionResolver: UserPermissionResolver
 	) {}
 
 	@Query(() => String)
@@ -94,19 +97,21 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(user)
 
-			pubSub.publish('userCreated', { userCreated: createdUser })
-
 			sites.map(async item => {
 				const { siteId, permissions } = item
 
-				const userPermission = new UserPermission()
+				const createUserPermissionInput = new CreateUserPermissionInput()
 
-				userPermission.userId = createdUser._id
-				userPermission.siteId = siteId
-				userPermission.permissions = permissions
+				createUserPermissionInput.userId = createdUser._id
+				createUserPermissionInput.siteId = siteId
+				createUserPermissionInput.permissions = permissions
 
-				getMongoRepository(UserPermission).save(userPermission)
+				this.userPermissionResolver.createUserPermission(
+					createUserPermissionInput
+				)
 			})
+
+			pubSub.publish('userCreated', { userCreated: createdUser })
 
 			return createdUser
 		} catch (error) {
@@ -149,12 +154,15 @@ export class UserResolver {
 						existedUserPermission
 					)
 				} else {
-					const userPermission = new UserPermission()
-					userPermission.userId = user._id
-					userPermission.siteId = siteId
-					userPermission.permissions = permissions
+					const createUserPermissionInput = new CreateUserPermissionInput()
 
-					return await getMongoRepository(UserPermission).save(userPermission)
+					createUserPermissionInput.userId = user._id
+					createUserPermissionInput.siteId = siteId
+					createUserPermissionInput.permissions = permissions
+
+					return await this.userPermissionResolver.createUserPermission(
+						createUserPermissionInput
+					)
 				}
 			})
 

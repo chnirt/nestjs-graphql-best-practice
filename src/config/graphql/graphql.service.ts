@@ -9,6 +9,7 @@ import { Logger as winstonLogger } from 'winston'
 import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { User } from '../../modules/user/user.entity'
+import { UserPermission } from '../../modules/userPermission/userPermission.entity'
 import config from '../../config.env'
 
 const pubSub = new PubSub()
@@ -33,6 +34,40 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 
 				return next()
+			},
+			hasPermission: async (next, source, args, ctx) => {
+				const message = 'Token Required'
+				const code = '499'
+				const additionalProperties = {}
+
+				const { currentUser, currentsite } = ctx
+
+				if (!currentUser) {
+					throw new ApolloError(message, code, additionalProperties)
+				}
+
+				const { permission } = args
+
+				console.log(currentUser, currentsite, permission)
+
+				const userpermission = await getMongoRepository(UserPermission).findOne({
+					userId: currentUser._id,
+					siteId: currentsite
+					// permissions: {
+					// 	$elemMatch: {
+					// 		code: { $eq: permission }
+					// 	}
+					// }
+					// permissions: [
+					// 	{
+					// 		code: 'USER_CREATE'
+					// 	}
+					// ]
+				})
+
+				console.log(userpermission)
+
+				return next()
 			}
 		}
 
@@ -54,7 +89,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser
 
-				const { token } = req.headers
+				const { token, currentsite } = req.headers
 				if (token) {
 					const message = 'Invalid Token'
 					const code = '498'
@@ -76,7 +111,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser
+					currentUser,
+					currentsite
 				}
 			},
 			formatError: err => {
