@@ -45,6 +45,3 @@ input DishInput {
 	count: Int
 }
 
-type Subscription {
-	publishMenuUpdate: Boolean
-}

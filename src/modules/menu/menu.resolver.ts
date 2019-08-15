@@ -84,22 +84,12 @@ export class MenuResolver {
 	}
 
 	@Mutation('publishAndUnpublish')
-	async publishAndUnpublish(
-		@Args('id') id: string,
-		@Context('pubSub') pubSub
-	): Promise<boolean> {
+	async publishAndUnpublish(@Args('id') id: string): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
-			const existedMenu = await this.menuRepository.findOne({
-				isPublished: true
-			})
-			if (existedMenu) {
-				throw new ApolloError('Menu da duoc dat san', '404', {})
-			}
+			console.log(menu)
 			menu.isPublished = !menu.isPublished
-			pubSub.publish('publishMenuUpdate', { publishMenuUpdate: true })
-			await this.menuRepository.save(menu)
-			return true
+			return (await this.menuRepository.save(menu)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
