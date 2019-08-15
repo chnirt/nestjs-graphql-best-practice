@@ -9,8 +9,8 @@ const config = {
 		end_point: 'graphqllunch',
 		orm: {
 			type: 'mongodb',
-			// url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
-			url: 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test',
+			url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
+			// url: 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test',
 			// host: 'localhost',
 			// port: process.env.MONGO_PORT,
 			// username: '',
