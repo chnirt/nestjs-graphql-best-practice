@@ -34,7 +34,6 @@ export class OrderJResolver {
 		@Context('currentUser') currentUser: User
 	) {
 		const order = await this.orderJService.orderJDish(input, currentUser)
-		// pubSub.publish('isUpdated', { isUpdated: true })
 
 		const OrderQuantityNow = await this.orderJService.getOrderQuantityDish(
 			input,
@@ -45,11 +44,6 @@ export class OrderJResolver {
 		pubSub.publish('isUpdatedOrder', { isUpdatedOrder: OrderQuantityNow })
 		return order
 	}
-
-	// @Subscription()
-	// async isUpdated(@Context('pubSub') pubSub: any) {
-	// 	return await pubSub.asyncIterator('isUpdated')
-	// }
 
 	@Subscription()
 	async isUpdatedOrder(@Context('pubSub') pubSub: any) {

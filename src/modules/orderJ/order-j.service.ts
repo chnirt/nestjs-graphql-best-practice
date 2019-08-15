@@ -57,12 +57,14 @@ export class OrderJService {
 		const menuOrder = new MenuOrderJ()
 		menuOrder.menuId = ''
 		menuOrder.dishes = []
+		menuOrder.isPublished = false
 
 		if (!menu) {
 			return menuOrder // không có menu nào public trên site này
 		}
 
 		menuOrder.menuId = menu._id
+		menuOrder.isLocked = menu.isLocked
 
 		const listOrdersMenu = await this.orderJRepository.find({
 			menuId: menu._id
@@ -108,7 +110,22 @@ export class OrderJService {
 	}
 
 	async orderJDish(input: OrderJInput, userCurrent: User): Promise<OrderJ> {
-		console.log(userCurrent)
+		const menu = await getMongoRepository(Menu).findOne({
+			_id: input.menuId,
+			isActive: true
+		})
+
+		if (!menu) {
+			throw new ApolloError('Không tìm thấy menu!', '404', {})
+		}
+
+		if (!menu.isPublished) {
+			throw new ApolloError('Menu này không còn công khai!', '500', {})
+		}
+
+		if (menu.isLocked) {
+			throw new ApolloError('Menu này đã bị Lock!', '500', {})
+		}
 
 		let order = await this.orderJRepository.findOne({
 			// tìm order này trong db
@@ -136,18 +153,6 @@ export class OrderJService {
 			order.isConfirmed = false
 			order.createdAt = new Date().toISOString()
 			order.updatedAt = new Date().toISOString()
-		}
-
-		const menu = await getMongoRepository(Menu).findOne({
-			_id: input.menuId,
-			isActive: true
-		})
-
-		if (!menu) {
-			throw new ApolloError('Không tìm thấy menu!', '404', {})
-		}
-		if (!menu.isPublished) {
-			throw new ApolloError('Menu này không còn công khai!', '500', {})
 		}
 
 		const dish = menu.dishes.find(dish => dish._id === input.dishId) // thông tin món ăn hiện tại trong menu

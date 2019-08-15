@@ -19,6 +19,8 @@ type OrderJ {
 type MenuOrderJ {
 	menuId: String!
 	dishes: [DishOrderJ!]!
+	isPublished: Boolean
+	isLocked: Boolean
 }
 
 type DishOrderJ {
@@ -47,6 +49,5 @@ type OrderJSubscriptionRespone {
 }
 
 type Subscription {
-	# isUpdated: Boolean!
 	isUpdatedOrder: OrderJSubscriptionRespone! #dishesMenu
 }

@@ -107,6 +107,12 @@ export class MenuOrderJ {
 
 	@IsArray()
 	dishes: DishOrderJ[]
+
+	@IsBoolean()
+	isPublished: Boolean
+
+	@IsBoolean()
+	isLocked: Boolean
 }
 
 export class OrderJSubscriptionRespone {
