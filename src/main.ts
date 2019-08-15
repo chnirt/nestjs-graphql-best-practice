@@ -40,7 +40,7 @@ async function bootstrap() {
 	}
 
 	// COMPLETE:
-	app.useGlobalInterceptors(new ErrorsInterceptor())
+	// app.useGlobalInterceptors(new ErrorsInterceptor())
 	app.useGlobalInterceptors(new LoggingInterceptor())
 	app.useGlobalInterceptors(new TimeoutInterceptor())
 

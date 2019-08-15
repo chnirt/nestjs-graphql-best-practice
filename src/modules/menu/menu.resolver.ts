@@ -1,4 +1,11 @@
-import { Resolver, Query, Args, Mutation, Context } from '@nestjs/graphql'
+import {
+	Resolver,
+	Query,
+	Args,
+	Mutation,
+	Subscription,
+	Context
+} from '@nestjs/graphql'
 import { MenuInfo } from '../../graphql'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
@@ -84,23 +91,37 @@ export class MenuResolver {
 	}
 
 	@Mutation('publishAndUnpublish')
-	async publishAndUnpublish(@Args('id') id: string): Promise<boolean> {
+	async publishAndUnpublish(
+		@Args('id') id: string,
+		@Context('pubSub') pubSub
+	): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			console.log(menu)
 			menu.isPublished = !menu.isPublished
-			return (await this.menuRepository.save(menu)) ? true : false
+			const isOk = (await this.menuRepository.save(menu)) ? true : false
+			if (isOk) {
+				pubSub.publish('isUpdatedMenu', { isUpdatedMenu: 'publish' })
+			}
+			return isOk
 		} catch (error) {
 			throw new ApolloError(error)
 		}
 	}
 
 	@Mutation('lockAndUnlockMenu')
-	async lockAndUnlockMenu(@Args('id') id: string): Promise<boolean> {
+	async lockAndUnlockMenu(
+		@Args('id') id: string,
+		@Context('pubSub') pubSub
+	): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isLocked = !menu.isLocked
-			return (await this.menuRepository.save(menu)) ? true : false
+			const isOk = (await this.menuRepository.save(menu)) ? true : false
+			if (isOk) {
+				pubSub.publish('isUpdatedMenu', { isUpdatedMenu: 'lock' })
+			}
+			return isOk
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -133,15 +154,36 @@ export class MenuResolver {
 				closedMenu.isLocked = true
 				closedMenu.isPublished = false
 				await this.menuRepository.save(closedMenu)
-				console.log(closedMenu)
 				return (await this.menuRepository.save(
 					new Menu({ name: menu.name, siteId: menu.siteId })
 				))
 					? true
 					: false
+				// const closedMenu = await this.menuRepository.findOneAndUpdate(
+				// 	{ _id: id },
+				// 	{
+				// 		$set: {
+				// 			isActive: false,
+				// 			isLocked: true,
+				// 			isPublished: false
+				// 		}
+				// 	},
+				// 	{ returnOriginal: true }
+				// )
+				// await this.menuRepository.save(closedMenu.value)
+				// return (await this.menuRepository.save(
+				// 	new Menu({ name: menu.name, siteId: menu.siteId })
+				// ))
+				// 	? true
+				// 	: false
 			}
 		} catch (error) {
 			throw new ApolloError(error)
 		}
+	}
+
+	@Subscription()
+	async isUpdatedMenu(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('isUpdatedMenu')
 	}
 }

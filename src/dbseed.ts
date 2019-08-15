@@ -6,10 +6,8 @@ async function main() {
 
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
-		: // : 'mongodb+srv://tuti:B4WgyRXQ3WBOQ86i@cluster0-pvh5w.mongodb.net/lunchapp?retryWrites=true&w=majority'
-		  // 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
-		  // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
-		  'mongodb+srv://kaonashi:pS2p8a4opQzOX363@cluster0-pvh5w.mongodb.net/database-test?retryWrites=true&w=majority'
+		: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
 	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'database-test'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })

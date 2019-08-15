@@ -153,9 +153,8 @@ export class User {
 		this.isActive = true
 	}
 
-	@BeforeUpdate()
-	async b4update() {
-		this.password = await bcrypt.hash(this.password, 10)
+	async hashPassword(password) {
+		return await bcrypt.hash(password, 10)
 	}
 
 	async matchesPassword(password) {

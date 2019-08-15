@@ -45,3 +45,6 @@ input DishInput {
 	count: Int
 }
 
+type Subscription {
+	isUpdatedMenu: String! # 'publish', 'lock'
+}

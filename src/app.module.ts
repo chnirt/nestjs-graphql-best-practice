@@ -2,19 +2,12 @@ import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
-import * as winston from 'winston'
-import * as helmet from 'helmet'
-import * as compression from 'compression'
-import * as csurf from 'csurf'
-import * as rateLimit from 'express-rate-limit'
-
 import { GraphqlModule } from './config/graphql/graphql.module'
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormModule } from './config/typeorm/typeorm.module'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { LoggerModule } from './config/logger/logger.module'
-
 import { UserModule } from './modules/user/user.module'
 import { PermissionModule } from './modules/permission/permission.module'
 import { UserPermissionModule } from './modules/userPermission/userPermission.module'
@@ -23,10 +16,15 @@ import { ShopModule } from './modules/shop/shop.module'
 import { SiteShopModule } from './modules/siteShop/siteShop.module'
 import { DishModule } from './modules/dish/dish.module'
 import { MenuModule } from './modules/menu/menu.module'
-import { OrderModule } from './modules/order/order.module'
 import { HistoryModule } from './modules/history/history.module'
-
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
+import { OrderJModule } from './modules/orderJ/order-j.module'
+import { OrderModule } from './modules/order/order.module'
+import * as winston from 'winston'
+import * as helmet from 'helmet'
+import * as compression from 'compression'
+import * as csurf from 'csurf'
+import * as rateLimit from 'express-rate-limit'
 
 const {
 	combine,
@@ -93,9 +91,10 @@ const {
 		SiteShopModule,
 		DishModule,
 		MenuModule,
-		OrderModule,
 		HistoryModule,
-		LoggerModule
+		LoggerModule,
+		OrderJModule,
+		OrderModule
 	]
 })
 
