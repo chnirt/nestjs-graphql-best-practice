@@ -157,8 +157,6 @@ export abstract class IMutation {
 
     abstract createHistory(input: CreateHistoryInput): History | Promise<History>;
 
-    abstract deleteHistories(): boolean | Promise<boolean>;
-
     abstract createMenu(name: string, siteId: string): boolean | Promise<boolean>;
 
     abstract updateMenu(id: string, menuInfo: MenuInfo): boolean | Promise<boolean>;
