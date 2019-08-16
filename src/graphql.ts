@@ -363,9 +363,7 @@ export class SiteShopResponse {
 }
 
 export abstract class ISubscription {
-    abstract menuLocked(): boolean | Promise<boolean>;
-
-    abstract menuPublished(): boolean | Promise<boolean>;
+    abstract menuSubscription(): Menu | Promise<Menu>;
 
     abstract ordersByMenuCreated(): OrderCount[] | Promise<OrderCount[]>;
 
