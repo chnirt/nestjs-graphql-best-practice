@@ -111,98 +111,119 @@ export class OrderJService {
 	}
 
 	async orderJDish(input: OrderJInput, userCurrent: User): Promise<OrderJ> {
-		const existedUserPermission = await getMongoRepository(
-			UserPermission
-		).findOne({
-			userId: userCurrent._id
-		})
-		const menu = await getMongoRepository(Menu).findOne({
-			_id: input.menuId,
-			isActive: true
-		})
-
-		if (!menu) {
-			throw new ApolloError('Không tìm thấy menu!', '404', {})
-		}
-
-		if (!menu.isPublished) {
-			throw new ApolloError('Menu này không còn công khai!', '500', {})
-		}
-
-		if (menu.isLocked) {
-			if (
-				existedUserPermission.permissions.filter(
-					permission => permission.code === 'REPORT_VIEW'
-				).length > 0
-			) {
-				let order = await this.orderJRepository.findOne({
-					// tìm order này trong db
-					userId: userCurrent._id,
-					menuId: input.menuId,
-					dishId: input.dishId
-				})
-				order.count = input.count
-				return await this.orderJRepository.save(order)
-			}
-			throw new ApolloError('Menu này đã bị Lock!', '500', {})
-		}
-
-		let order = await this.orderJRepository.findOne({
+		const order = await this.orderJRepository.findOne({
 			// tìm order này trong db
 			userId: userCurrent._id,
 			menuId: input.menuId,
 			dishId: input.dishId
 		})
-
-		const countOld = order ? order.count : 0 // count đã order trước đó
-
-		if (!order && input.count < 0) {
-			// tạo mới và count = 0
-			throw new ApolloError('Bạn không thể order 0 phần ăn!')
-		}
-
 		if (!order) {
-			// chưa tạo trước đó thì tạo mới
-
-			order = new OrderJ()
-			order._id = uuid.v1()
-			order.userId = userCurrent._id
-			order.menuId = input.menuId
-			order.dishId = input.dishId
-			order.count = input.count
-			order.isConfirmed = false
-			order.createdAt = new Date().toISOString()
-			order.updatedAt = new Date().toISOString()
-		}
-
-		const dish = menu.dishes.find(dish => dish._id === input.dishId) // thông tin món ăn hiện tại trong menu
-		if (!dish) {
-			throw new ApolloError('Không tìm thấy món ăn này trong menu!', '404', {})
-		}
-
-		const NumberOfOrderDishMax = dish.count
-		const NumberOfOrdersDish = await this.getCountOrdersDishByMenuIdDishId(
-			input.menuId,
-			input.dishId
-		)
-
-		if (
-			existedUserPermission.permissions.filter(
-				permission => permission.code === 'REPORT_VIEW'
-			).length > 0
-		) {
-			order.count = input.count
-			return await this.orderJRepository.save(order)
-		}
-
-		if (!(NumberOfOrderDishMax >= input.count - countOld + NumberOfOrdersDish)) {
-			throw new ApolloError('Món ăn này không còn đủ để order!', '500', {})
+			const newOrder = new OrderJ()
+			newOrder.count = input.count
+			newOrder.dishId = input.dishId
+			newOrder.menuId = input.menuId
+			newOrder.userId = userCurrent._id
+			newOrder._id = uuid.v1()
+			return await this.orderJRepository.save(newOrder)
 		}
 
 		order.count = input.count
-
 		return await this.orderJRepository.save(order)
 	}
+
+	// async orderJDish(input: OrderJInput, userCurrent: User): Promise<OrderJ> {
+	// 	const existedUserPermission = await getMongoRepository(
+	// 		UserPermission
+	// 	).findOne({
+	// 		userId: userCurrent._id
+	// 	})
+	// 	const menu = await getMongoRepository(Menu).findOne({
+	// 		_id: input.menuId,
+	// 		isActive: true
+	// 	})
+
+	// 	if (!menu) {
+	// 		throw new ApolloError('Không tìm thấy menu!', '404', {})
+	// 	}
+
+	// 	if (!menu.isPublished) {
+	// 		throw new ApolloError('Menu này không còn công khai!', '500', {})
+	// 	}
+
+	// 	if (menu.isLocked) {
+	// 		if (
+	// 			existedUserPermission.permissions.filter(
+	// 				permission => permission.code === 'REPORT_VIEW'
+	// 			).length > 0
+	// 		) {
+	// 			let order = await this.orderJRepository.findOne({
+	// 				// tìm order này trong db
+	// 				userId: userCurrent._id,
+	// 				menuId: input.menuId,
+	// 				dishId: input.dishId
+	// 			})
+	// 			order.count = input.count
+	// 			return await this.orderJRepository.save(order)
+	// 		}
+	// 		throw new ApolloError('Menu này đã bị Lock!', '500', {})
+	// 	}
+
+	// 	let order = await this.orderJRepository.findOne({
+	// 		// tìm order này trong db
+	// 		userId: userCurrent._id,
+	// 		menuId: input.menuId,
+	// 		dishId: input.dishId
+	// 	})
+
+	// 	const countOld = order ? order.count : 0 // count đã order trước đó
+
+	// 	if (!order && input.count < 0) {
+	// 		// tạo mới và count = 0
+	// 		throw new ApolloError('Bạn không thể order 0 phần ăn!')
+	// 	}
+
+	// 	if (!order) {
+	// 		// chưa tạo trước đó thì tạo mới
+
+	// 		order = new OrderJ()
+	// 		order._id = uuid.v1()
+	// 		order.userId = userCurrent._id
+	// 		order.menuId = input.menuId
+	// 		order.dishId = input.dishId
+	// 		order.count = input.count
+	// 		order.isConfirmed = false
+	// 		order.createdAt = new Date().toISOString()
+	// 		order.updatedAt = new Date().toISOString()
+	// 	}
+
+	// 	const dish = menu.dishes.find(dish => dish._id === input.dishId) // thông tin món ăn hiện tại trong menu
+	// 	if (!dish) {
+	// 		throw new ApolloError('Không tìm thấy món ăn này trong menu!', '404', {})
+	// 	}
+
+	// 	const NumberOfOrderDishMax = dish.count
+	// 	const NumberOfOrdersDish = await this.getCountOrdersDishByMenuIdDishId(
+	// 		input.menuId,
+	// 		input.dishId
+	// 	)
+
+	// 	if (
+	// 		existedUserPermission.permissions.filter(
+	// 			permission => permission.code === 'REPORT_VIEW'
+	// 		).length > 0
+	// 	) {
+	// 		order.count = input.count
+	// 		return await this.orderJRepository.save(order)
+	// 	}
+
+	// 	if (!(NumberOfOrderDishMax >= input.count - countOld + NumberOfOrdersDish)) {
+	// 		throw new ApolloError('Món ăn này không còn đủ để order!', '500', {})
+	// 	}
+
+	// 	order.count = input.count
+
+	// 	return await this.orderJRepository.save(order)
+	// }
 
 	async findByDish(dishId: string, menuId: string): Promise<OrderJ[]> {
 		const existed = await this.orderJRepository.find({ dishId, menuId })
@@ -223,11 +244,6 @@ export class OrderJService {
 	}
 
 	async updateOrderJ(input: OrderJInput, userId: string): Promise<OrderJ> {
-		const existedUserPermission = await getMongoRepository(
-			UserPermission
-		).findOne({
-			userId
-		})
 		const menu = await getMongoRepository(Menu).findOne({
 			_id: input.menuId,
 			isActive: true
@@ -235,33 +251,6 @@ export class OrderJService {
 
 		if (!menu) {
 			throw new ApolloError('Không tìm thấy menu!', '404', {})
-		}
-
-		if (!menu.isPublished) {
-			throw new ApolloError('Menu này không còn công khai!', '500', {})
-		}
-
-		if (menu.isLocked) {
-			if (
-				existedUserPermission.permissions.filter(
-					permission => permission.code === 'REPORT_VIEW'
-				).length > 0
-			) {
-				console.log(
-					existedUserPermission.permissions.filter(
-						permission => permission.code === 'REPORT_VIEW'
-					)
-				)
-				let order = await this.orderJRepository.findOne({
-					// tìm order này trong db
-					userId,
-					menuId: input.menuId,
-					dishId: input.dishId
-				})
-				order.count = input.count
-				return await this.orderJRepository.save(order)
-			}
-			throw new ApolloError('Menu này đã bị Lock!', '500', {})
 		}
 
 		let order = await this.orderJRepository.findOne({
