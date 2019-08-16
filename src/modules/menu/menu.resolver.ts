@@ -131,7 +131,7 @@ export class MenuResolver {
 					}
 				}, { returnOriginal: false })
 				await this.menuRepository.save(closedMenu.value)
-				pubSub.publish('menuSubscription', { menuSubscription: null })
+				// pubSub.publish('menuSubscription', { menuSubscription: null })
 				return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
 			}
 		} catch (error) {
