@@ -12,7 +12,7 @@ type History {
 }
 
 type Query {
-	histories: [History!]
+	histories(start: Float!, end: Float!): [History!]
 }
 
 type Mutation {

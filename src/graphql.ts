@@ -274,7 +274,7 @@ export abstract class IQuery {
 
     abstract dishesByShop(shopId: string): Dish[] | Promise<Dish[]>;
 
-    abstract histories(): History[] | Promise<History[]>;
+    abstract histories(start: number, end: number): History[] | Promise<History[]>;
 
     abstract menu(id: string): Menu | Promise<Menu>;
 

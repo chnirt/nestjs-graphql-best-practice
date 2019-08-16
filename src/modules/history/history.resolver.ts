@@ -12,8 +12,13 @@ export class HistoryResolver {
 	) {}
 
 	@Query(() => [History])
-	async histories() {
+	async histories(@Args('start') start: number, @Args('end') end: number) {
+		// console.log(start, end)
+		const isoStart = new Date(start)
+		const isoEnd = new Date(end)
+		console.log(isoStart, isoEnd)
 		return await this.historyRepository.find({
+			where: { createdAt: { $gte: isoStart, $lte: isoEnd } },
 			cache: true
 		})
 	}

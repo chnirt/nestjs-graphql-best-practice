@@ -46,7 +46,7 @@ export class UserResolver {
 	@Query(() => [User])
 	async users(@Args('offset') offset: number, @Args('limit') limit: number) {
 		const users = await this.userRepository.find({
-			where: { username: { $ne: 'admin' } },
+			where: { username: { $nin: ['admin', 'mod'] } },
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,

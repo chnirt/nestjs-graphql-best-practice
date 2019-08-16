@@ -6,9 +6,9 @@ async function main() {
 
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
-		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
-		  'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
-	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'database-test'
+		: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
+	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'nest-graphql'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })
 
@@ -23,6 +23,11 @@ async function main() {
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
 				username: 'admin',
 				fullName: 'admin'
+			},
+			{
+				_id: '4a858710-bfed-11e9-ae42-4b976ee8364c',
+				username: 'mod',
+				fullName: 'mod'
 			}
 		]
 
@@ -253,7 +258,7 @@ async function main() {
 			},
 			{
 				_id: 'e56801c0-be5f-11e9-bb59-a71ca301ac7a',
-				siteId: '684077a0-be4f-11e9-acfc-5300d53ade69',
+				siteId: '6f6e1550-be4f-11e9-acfc-5300d53ade69',
 				shopId: 'e6fd3b00-be4f-11e9-9f04-f72d443f7ef2'
 			}
 		]
