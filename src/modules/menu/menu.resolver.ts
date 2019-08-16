@@ -1,4 +1,4 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
+import { Resolver, Query, Args, Mutation, Subscription, Context } from '@nestjs/graphql'
 import { MenuInfo } from '../../graphql'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
@@ -79,10 +79,11 @@ export class MenuResolver {
 	}
 
 	@Mutation('publishAndUnpublish')
-	async publishAndUnpublish(@Args('id') id: string): Promise<boolean> {
+	async publishAndUnpublish(@Args('id') id: string, @Context('pubSub') pubSub: any): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isPublished = !menu.isPublished
+			pubSub.publish('menuPublished', { menuPublished: menu.isPublished })
 			return await this.menuRepository.save(menu) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
@@ -90,10 +91,11 @@ export class MenuResolver {
 	}
 
 	@Mutation('lockAndUnlockMenu')
-	async lockAndUnlockMenu(@Args('id') id: string): Promise<boolean> {
+	async lockAndUnlockMenu(@Args('id') id: string, @Context('pubSub') pubSub: any): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isLocked = !menu.isLocked
+			pubSub.publish('menuLocked', { menuLocked: menu.isLocked })
 			return await this.menuRepository.save(menu) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
@@ -124,12 +126,22 @@ export class MenuResolver {
 						isLocked: true,
 						isPublished: false
 					}
-				}, { returnOriginal: true })
+				}, { returnOriginal: false })
 				await this.menuRepository.save(closedMenu.value)
 				return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
 			}
 		} catch (error) {
 			throw new ApolloError(error)
 		}
+	}
+
+	@Subscription()
+	async menuLocked(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('menuLocked')
+	}
+
+	@Subscription()
+	async menuPublished(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('menuPublished')
 	}
 }
