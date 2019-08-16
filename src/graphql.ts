@@ -56,6 +56,12 @@ export class MenuInfo {
     dishes?: DishInput[];
 }
 
+export class OrderJInput {
+    menuId: string;
+    dishId: string;
+    count: number;
+}
+
 export class PermissionInfoInput {
     _id: string;
     code: string;
@@ -88,10 +94,6 @@ export class UpdateUserInput {
     sites: SitesInfoInput[];
 }
 
-export class UpdateUserPermissionInput {
-    permissions: PermissionInfoInput[];
-}
-
 export class Dish {
     _id?: string;
     name?: string;
@@ -105,6 +107,14 @@ export class DishInfo {
     _id?: string;
     name?: string;
     count?: number;
+}
+
+export class DishOrderJ {
+    dishId: string;
+    name: string;
+    MyOrderQuantity: number;
+    orderQuantityNow: number;
+    orderQuantityMax: number;
 }
 
 export class History {
@@ -131,6 +141,13 @@ export class Menu {
     isActive?: boolean;
     createAt?: string;
     updateAt?: string;
+}
+
+export class MenuOrderJ {
+    menuId: string;
+    dishes: DishOrderJ[];
+    isPublished?: boolean;
+    isLocked?: boolean;
 }
 
 export abstract class IMutation {
@@ -161,6 +178,10 @@ export abstract class IMutation {
     abstract confirmOrder(orderIds?: string[]): boolean | Promise<boolean>;
 
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
+
+    abstract orderJDish(input: OrderJInput): OrderJ | Promise<OrderJ>;
+
+    abstract updateOrderJ(input: OrderJInput, userId: string): OrderJ | Promise<OrderJ>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -197,12 +218,6 @@ export abstract class IMutation {
     abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
-
-    abstract updateUserPermission(_id: string, input: UpdateUserPermissionInput): boolean | Promise<boolean>;
-
-    abstract deleteUserPermission(_id: string): boolean | Promise<boolean>;
-
-    abstract deleteUserPermissions(): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -221,6 +236,26 @@ export class OrderCount {
     _id?: string;
     menuId?: string;
     count?: number;
+}
+
+export class OrderJ {
+    _id: string;
+    userId: string;
+    menuId: string;
+    dishId: string;
+    note?: string;
+    count: number;
+    isConfirmed: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export class OrderJSubscriptionRespone {
+    menuId: string;
+    dishId: string;
+    orderQuantityNow: number;
+    impactUserId: string;
+    OrderQuantityOfImpactUser: number;
 }
 
 export class Permission {
@@ -263,6 +298,14 @@ export abstract class IQuery {
 
     abstract currentOrder(menuId: string, dishId: string): Order | Promise<Order>;
 
+    abstract orderJs(): OrderJ[] | Promise<OrderJ[]>;
+
+    abstract menuOrderJ(siteId: string): MenuOrderJ | Promise<MenuOrderJ>;
+
+    abstract countByDishJ(dishId: string, menuId: string): OrderJ[] | Promise<OrderJ[]>;
+
+    abstract countByMenuJ(menuId: string): OrderJ[] | Promise<OrderJ[]>;
+
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
     abstract permission(_id: string): Permission | Promise<Permission>;
@@ -290,10 +333,6 @@ export abstract class IQuery {
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
     abstract findAllByUserId(_id: string): UserPermission[] | Promise<UserPermission[]>;
-
-    abstract findOneByUserId(_id: string): UserPermission | Promise<UserPermission>;
-
-    abstract getPermissionsByUserId(id: string): Permission[] | Promise<Permission[]>;
 }
 
 export class Shop {
@@ -326,11 +365,11 @@ export class SiteShopResponse {
 }
 
 export abstract class ISubscription {
-    abstract menuLocked(): boolean | Promise<boolean>;
-
-    abstract menuPublished(): boolean | Promise<boolean>;
+    abstract menuSubscription(): Menu | Promise<Menu>;
 
     abstract ordersByMenuCreated(): OrderCount[] | Promise<OrderCount[]>;
+
+    abstract isUpdatedOrder(): OrderJSubscriptionRespone | Promise<OrderJSubscriptionRespone>;
 
     abstract userCreated(): User | Promise<User>;
 }

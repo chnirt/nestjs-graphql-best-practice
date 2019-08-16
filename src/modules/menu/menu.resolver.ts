@@ -83,7 +83,7 @@ export class MenuResolver {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isPublished = !menu.isPublished
-			pubSub.publish('menuPublished', { menuPublished: menu.isPublished })
+			pubSub.publish('menuSubscription', { menuSubscription: menu })
 			return await this.menuRepository.save(menu) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
@@ -95,7 +95,7 @@ export class MenuResolver {
 		try {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isLocked = !menu.isLocked
-			pubSub.publish('menuLocked', { menuLocked: menu.isLocked })
+			pubSub.publish('menuSubscription', { menuSubscription: menu })
 			return await this.menuRepository.save(menu) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
@@ -113,7 +113,7 @@ export class MenuResolver {
 	}
 
 	@Mutation('closeMenu')
-	async closeMenu(@Args('id') id: string): Promise<boolean> {
+	async closeMenu(@Args('id') id: string, @Context('pubSub') pubSub: any): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({
 				_id: id,
@@ -128,6 +128,7 @@ export class MenuResolver {
 					}
 				}, { returnOriginal: false })
 				await this.menuRepository.save(closedMenu.value)
+				pubSub.publish('menuSubscription', { menuSubscription: null })
 				return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
 			}
 		} catch (error) {
@@ -136,12 +137,7 @@ export class MenuResolver {
 	}
 
 	@Subscription()
-	async menuLocked(@Context('pubSub') pubSub: any) {
-		return await pubSub.asyncIterator('menuLocked')
-	}
-
-	@Subscription()
-	async menuPublished(@Context('pubSub') pubSub: any) {
-		return await pubSub.asyncIterator('menuPublished')
+	async menuSubscription(@Context('pubSub') pubSub: any) {
+		return await pubSub.asyncIterator('menuSubscription')
 	}
 }
