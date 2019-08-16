@@ -42,7 +42,7 @@ export class MenuResolver {
 		try {
 			return await this.menuRepository.find({
 				where: { siteId, isActive: true },
-				order: {createAt: 'DESC'}
+				order: { createAt: 'DESC' }
 			})
 		} catch (error) {
 			throw new ApolloError(error)
@@ -102,7 +102,7 @@ export class MenuResolver {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isPublished = !menu.isPublished
 			pubSub.publish('menuSubscription', { menuSubscription: menu })
-			return await this.menuRepository.save(menu) ? true : false
+			return (await this.menuRepository.save(menu)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -117,7 +117,7 @@ export class MenuResolver {
 			const menu = await this.menuRepository.findOne({ _id: id })
 			menu.isLocked = !menu.isLocked
 			pubSub.publish('menuSubscription', { menuSubscription: menu })
-			return await this.menuRepository.save(menu) ? true : false
+			return (await this.menuRepository.save(menu)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -138,7 +138,10 @@ export class MenuResolver {
 	}
 
 	@Mutation('closeMenu')
-	async closeMenu(@Args('id') id: string, @Context('pubSub') pubSub: any): Promise<boolean> {
+	async closeMenu(
+		@Args('id') id: string,
+		@Context('pubSub') pubSub: any
+	): Promise<boolean> {
 		try {
 			const menu = await this.menuRepository.findOne({
 				_id: id,
@@ -154,20 +157,24 @@ export class MenuResolver {
 				// }, { returnOriginal: false })
 				// await this.menuRepository.save(closedMenu.value)
 				// return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
-				menu.isActive = false
-				menu.isLocked = true
-				menu.isPublished = false
-				await this.menuRepository.save(menu)
-				// const closedMenu = await this.menuRepository.findOneAndUpdate({ _id: id }, {
-				// 	$set: {
-				// 		isActive: false,
-				// 		isLocked: true,
-				// 		isPublished: false
-				// 	}
-				// }, { returnOriginal: false })
-				// await this.menuRepository.save(closedMenu.value)
+				const closedMenu = await this.menuRepository.findOneAndUpdate(
+					{ _id: id },
+					{
+						$set: {
+							isActive: false,
+							isLocked: true,
+							isPublished: false
+						}
+					},
+					{ returnOriginal: false }
+				)
+				await this.menuRepository.save(closedMenu.value)
 				// pubSub.publish('menuSubscription', { menuSubscription: null })
-				return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
+				return (await this.menuRepository.save(
+					new Menu({ name: menu.name, siteId: menu.siteId })
+				))
+					? true
+					: false
 			}
 		} catch (error) {
 			throw new ApolloError(error)
