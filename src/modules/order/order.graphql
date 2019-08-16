@@ -1,8 +1,8 @@
 type Order {
 	_id: ID!
-	userId: String!
-	menuId: String!
-	dishId: String!
+	userId: ID!
+	menuId: ID!
+	dishId: ID!
 	note: String
 	count: Int!
 	isConfirmed: Boolean
@@ -11,8 +11,8 @@ type Order {
 }
 
 type OrderCount {
-	_id: String
-	menuId: String
+	_id: ID
+	menuId: ID
 	count: Int
 }
 
