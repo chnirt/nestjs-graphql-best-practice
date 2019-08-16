@@ -23,7 +23,10 @@ export class DishResolver {
   @Query('dishesByShop')
   async dishesByShop(@Args('shopId') shopId: string): Promise<Dish[]> {
     try {
-      return await this.dishRepository.find({ shopId, isActive: true })
+      return await this.dishRepository.find({
+        where: { shopId, isActive: true },
+        order: {createdAt: 'DESC'}
+      })
     } catch (error) {
       throw new ApolloError(error)
     }

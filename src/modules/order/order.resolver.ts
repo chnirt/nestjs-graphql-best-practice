@@ -62,7 +62,10 @@ export class OrderResolver {
 	@Query(() => [Order])
 	async orders(): Promise<Order[]> {
 		try {
-			return await this.orderRepository.find({ cache: true })
+			return await this.orderRepository.find({
+				order: {createdAt: 'DESC'},
+				cache: true 
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -92,7 +95,10 @@ export class OrderResolver {
 		@Context('currentUser') currentUser: User
 	): Promise<Order[]> {
 		try {
-			return await this.orderRepository.find({ userId: currentUser._id, menuId })
+			return await this.orderRepository.find({
+				where: { userId: currentUser._id, menuId },
+				order: { createdAt: 'DESC' }
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -101,7 +107,10 @@ export class OrderResolver {
 	@Query('ordersByMenu')
 	async ordersByMenu(@Args('menuId') menuId: string): Promise<Order[]> {
 		try {
-			return await this.orderRepository.find({ menuId })
+			return await this.orderRepository.find({
+				where: { menuId },
+				order: { createdAt: 'DESC' }
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -110,7 +119,10 @@ export class OrderResolver {
 	@Query('ordersCountByMenu')
 	async ordersCountByMenu(@Args('menuId') menuId: string): Promise<OrderCount[]> {
 		try {
-			const orders = await this.orderRepository.find({ menuId })
+			const orders = await this.orderRepository.find({
+				where: { menuId },
+				order: { createdAt: 'DESC' }
+			})
 			let list = []
 			await orders.map(order => {
 				const index = list.findIndex(item => item._id === order.dishId)

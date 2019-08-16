@@ -22,7 +22,10 @@ export class MenuResolver {
 	@Query('menus')
 	async getMenus(): Promise<Menu[]> {
 		try {
-			return await this.menuRepository.find({ isActive: true })
+			return await this.menuRepository.find({
+				where: { isActive: true },
+				order: {createAt: 'DESC'}
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -160,7 +163,7 @@ export class MenuResolver {
 					{ returnOriginal: false }
 				)
 				await this.menuRepository.save(closedMenu.value)
-				// pubSub.publish('menuSubscription', { menuSubscription: null })
+				pubSub.publish('menuSubscription', { menuSubscription: closedMenu.value })
 				return (await this.menuRepository.save(
 					new Menu({ name: menu.name, siteId: menu.siteId })
 				))

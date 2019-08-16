@@ -14,7 +14,10 @@ export class ShopResolver {
   @Query('shops')
   async shops(): Promise<Shop[]> {
     try {
-      return await this.shopRepository.find({ isActive: true })
+      return await this.shopRepository.find({
+        where: { isActive: true },
+        order: { createAt: 'DESC' }
+      })
     } catch (error) {
       throw new ApolloError(error)
     }
