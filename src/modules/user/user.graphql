@@ -54,7 +54,7 @@ type User {
 }
 
 type Query {
-	hello: String! @hasPermission(permission: "USER_CREATE")
+	hello: String!
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
@@ -62,6 +62,7 @@ type Query {
 
 type Mutation {
 	createUser(input: CreateUserInput!): User
+		@hasPermission(permission: "USER_CREATE")
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean
 		@hasPermission(permission: "USER_UPDATE")
 	deleteUser(_id: ID!): Boolean @hasPermission(permission: "USER_DELETE")
