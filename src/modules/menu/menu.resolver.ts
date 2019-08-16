@@ -148,15 +148,6 @@ export class MenuResolver {
 				isActive: true
 			})
 			if (menu) {
-				// const closedMenu = await this.menuRepository.findOneAndUpdate({ _id: id }, {
-				// 	$set: {
-				// 		isActive: false,
-				// 		isLocked: true,
-				// 		isPublished: false
-				// 	}
-				// }, { returnOriginal: false })
-				// await this.menuRepository.save(closedMenu.value)
-				// return await this.menuRepository.save(new Menu({ name: menu.name, siteId: menu.siteId })) ? true : false
 				const closedMenu = await this.menuRepository.findOneAndUpdate(
 					{ _id: id },
 					{

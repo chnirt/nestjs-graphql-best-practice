@@ -40,10 +40,18 @@ export class GraphqlService implements GqlOptionsFactory {
 				const code = '499'
 				const additionalProperties = {}
 
+				const siteMessage = 'Site Required'
+				const siteCode = '499'
+				const siteAdditionalProperties = {}
+
 				const { currentUser, currentsite } = ctx
 
 				if (!currentUser) {
 					throw new ApolloError(message, code, additionalProperties)
+				}
+
+				if (!currentsite) {
+					throw new ApolloError(siteMessage, siteCode, siteAdditionalProperties)
 				}
 
 				const { permission } = args
