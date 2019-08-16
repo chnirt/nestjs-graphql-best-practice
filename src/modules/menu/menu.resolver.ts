@@ -34,7 +34,10 @@ export class MenuResolver {
 	@Query('menusBySite')
 	async getMenusBySite(@Args('siteId') siteId: string): Promise<Menu[]> {
 		try {
-			return await this.menuRepository.find({ siteId, isActive: true })
+			return await this.menuRepository.find({
+				where: { siteId, isActive: true },
+				order: {createAt: 'DESC'}
+			})
 		} catch (error) {
 			throw new ApolloError(error)
 		}
