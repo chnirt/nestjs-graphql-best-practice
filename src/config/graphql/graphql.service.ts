@@ -55,6 +55,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					siteId: currentsite
 				})
 
+				// console.log(userpermission)
+
 				const { permissions } = userpermission
 
 				const index = permissions.map(item => item.code).indexOf(permission)

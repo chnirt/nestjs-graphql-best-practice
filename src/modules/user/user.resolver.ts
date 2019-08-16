@@ -20,14 +20,17 @@ import {
 } from './user.entity'
 import { UserPermission } from '../userPermission/userPermission.entity'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
+import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
+import { History } from '../history/history.entity'
 
 @Resolver('User')
 export class UserResolver {
 	constructor(
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
-		private readonly userPermissionResolver: UserPermissionResolver
+		private readonly userPermissionResolver: UserPermissionResolver,
+		private readonly historyResolver: HistoryResolver
 	) {}
 
 	@Query(() => String)
@@ -303,7 +306,8 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
-		@Args('reason') reason: string
+		@Args('reason') reason: string,
+		@Context('currentUser') currentUser: User
 	) {
 		try {
 			const message = 'Not Found: User'
@@ -318,6 +322,16 @@ export class UserResolver {
 
 			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
+
+			// console.log(currentUser)
+
+			const history = new History()
+			history.userId = currentUser._id
+			history.description = user.isLocked
+				? `${currentUser.fullName} locked ${user.fullName} because ${reason}`
+				: `${currentUser.fullName} unlocked ${user.fullName}`
+
+			this.historyResolver.createHistory(history)
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
