@@ -13,7 +13,7 @@ export class UserPermissionResolver {
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
-		return await await this.userPermissionRepository.find({
+		return await this.userPermissionRepository.find({
 			cache: true
 		})
 	}

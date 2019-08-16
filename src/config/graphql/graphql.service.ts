@@ -48,24 +48,30 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				const { permission } = args
 
-				console.log(currentUser, currentsite, permission)
+				// console.log(currentUser, currentsite, permission)
 
 				const userpermission = await getMongoRepository(UserPermission).findOne({
 					userId: currentUser._id,
 					siteId: currentsite
-					// permissions: {
-					// 	$elemMatch: {
-					// 		code: { $eq: permission }
-					// 	}
-					// }
-					// permissions: [
-					// 	{
-					// 		code: 'USER_CREATE'
-					// 	}
-					// ]
 				})
 
-				console.log(userpermission)
+				// console.log(userpermission)
+
+				const { permissions } = userpermission
+
+				const index = permissions.map(item => item.code).indexOf(permission)
+
+				const unauthorizedMessage = 'Unauthorized'
+				const unauthorizedCode = '401'
+				const unauthorizedAdditionalProperties = {}
+
+				if (index === -1) {
+					throw new ApolloError(
+						unauthorizedMessage,
+						unauthorizedCode,
+						unauthorizedAdditionalProperties
+					)
+				}
 
 				return next()
 			}

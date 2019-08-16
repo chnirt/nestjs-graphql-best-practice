@@ -5,17 +5,16 @@ input CreateHistoryInput {
 
 type History {
 	_id: ID!
-	userId: String!
+	userId: ID!
 	description: String!
 	createdAt: String
 	updatedAt: String
 }
 
 type Query {
-	histories: [History!]
+	histories(start: Float!, end: Float!): [History!]
 }
 
 type Mutation {
 	createHistory(input: CreateHistoryInput!): History
-	deleteHistories: Boolean
 }

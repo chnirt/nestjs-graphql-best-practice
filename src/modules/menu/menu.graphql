@@ -34,8 +34,7 @@ type Mutation {
 }
 
 type Subscription {
-	menuLocked: Boolean
-	menuPublished: Boolean
+	menuSubscription: Menu
 }
 
 input MenuInfo {

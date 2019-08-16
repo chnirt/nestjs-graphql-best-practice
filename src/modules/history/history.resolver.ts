@@ -1,24 +1,36 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { HistoryService } from './history.service'
+import { InjectRepository } from '@nestjs/typeorm'
+import { MongoRepository } from 'typeorm'
 import { History } from './history.entity'
 import { CreateHistoryInput } from '../../graphql'
 
 @Resolver('History')
 export class HistoryResolver {
-	constructor(private readonly historyService: HistoryService) {}
+	constructor(
+		@InjectRepository(History)
+		private readonly historyRepository: MongoRepository<History>
+	) {}
 
 	@Query(() => [History])
-	async histories() {
-		return await this.historyService.findAll()
+	async histories(@Args('start') start: number, @Args('end') end: number) {
+		// console.log(start, end)
+		const isoStart = new Date(start)
+		const isoEnd = new Date(end)
+		console.log(isoStart, isoEnd)
+		return await this.historyRepository.find({
+			where: { createdAt: { $gte: isoStart, $lte: isoEnd } },
+			cache: true
+		})
 	}
 
 	@Mutation(() => History)
 	async createHistory(@Args('input') input: CreateHistoryInput) {
-		return await this.historyService.create(input)
-	}
+		const { userId, description } = input
 
-	@Mutation(() => Boolean)
-	async deleteHistories() {
-		return await this.historyService.deleteAll()
+		const history = new History()
+		history.userId = userId
+		history.description = description
+
+		return await this.historyRepository.save(history)
 	}
 }
