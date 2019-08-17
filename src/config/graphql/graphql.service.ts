@@ -8,12 +8,15 @@ import { Logger } from '@nestjs/common'
 import { Logger as winstonLogger } from 'winston'
 import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
+import * as dotenv from 'dotenv'
 import { User } from '../../modules/user/user.entity'
 import { UserPermission } from '../../modules/userPermission/userPermission.entity'
 import config from '../../config.env'
 
+dotenv.config()
 const pubSub = new PubSub()
-const end_point = config.end_point
+const end_point =
+	process.env.NODE_ENV === 'testing' ? 'graphqllunch' : config.end_point
 
 // COMPLETE:
 @Injectable()

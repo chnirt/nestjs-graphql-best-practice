@@ -32,11 +32,19 @@ async function bootstrap() {
 		logger: false
 	})
 
+	// COMPLETE: for e2e testing
+	const httpAdapter = app.getHttpAdapter()
+
 	app.useLogger(app.get(LoggerService))
 
 	// COMPLETE:
 	if (process.env.NODE_ENV !== 'production') {
-		app.use('/voyager', voyagerMiddleware({ endpointUrl: `/${end_point}` }))
+		app.use(
+			'/voyager',
+			voyagerMiddleware({
+				endpointUrl: `/${end_point}`
+			})
+		)
 	}
 
 	// COMPLETE:

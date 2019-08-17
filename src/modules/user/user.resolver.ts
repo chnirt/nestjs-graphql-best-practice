@@ -34,8 +34,9 @@ export class UserResolver {
 	) {}
 
 	@Query(() => String)
-	hello() {
-		return uuid.v1()
+	async hello(): Promise<string> {
+		// return uuid.v1()
+		return await 'world'
 	}
 
 	@Query(() => User)
@@ -44,7 +45,10 @@ export class UserResolver {
 	}
 
 	@Query(() => [User])
-	async users(@Args('offset') offset: number, @Args('limit') limit: number) {
+	async users(
+		@Args('offset') offset: number,
+		@Args('limit') limit: number
+	): Promise<User[]> {
 		const users = await this.userRepository.find({
 			where: { username: { $nin: ['admin', 'mod'] } },
 			order: { createdAt: 'DESC' },
@@ -126,7 +130,7 @@ export class UserResolver {
 	async updateUser(
 		@Args('_id') _id: string,
 		@Args('input') input: UpdateUserInput
-	) {
+	): Promise<boolean> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'

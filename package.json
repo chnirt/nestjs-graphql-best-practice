@@ -17,7 +17,7 @@
 		"test:watch": "jest --watch",
 		"test:cov": "jest --coverage",
 		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-		"test:e2e": "jest --config ./test/jest-e2e.json",
+		"test:e2e": "NODE_ENV=testing jest --config ./test/jest-e2e.json",
 		"webpack": "rimraf dist && webpack --config webpack.config.js",
 		"start:webpack": "SECRET_KEY='chnirt1803' node dist/main.js",
 		"generate": "ts-node src/generate-typings.ts",
@@ -57,7 +57,7 @@
 	},
 	"devDependencies": {
 		"@compodoc/compodoc": "^1.1.10",
-		"@nestjs/testing": "^6.0.0",
+		"@nestjs/testing": "^6.5.3",
 		"@types/express": "^4.16.0",
 		"@types/jest": "^23.3.13",
 		"@types/node": "^10.12.18",
