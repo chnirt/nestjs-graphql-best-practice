@@ -8,32 +8,22 @@ import { LoggerService } from './config/logger/logger.service'
 
 import { ValidationPipe } from './common/pipes/validation.pipe'
 
-import { ErrorsInterceptor } from './common/interceptors/exception.interceptor'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 
-import { HttpExceptionFilter } from './common/filters/http-exception.filter'
-
 import config from './config.env'
 
-createConnection(config.orm)
+const { domain, port, end_point, orm } = config
+
+createConnection(orm)
 	.then(connection => Logger.log(`☁️  Database connected`, 'TypeORM'))
 	.catch(error => Logger.log(`❌  Database connect error`, 'TypeORM'))
 
 declare const module: any
 
-const domain = config.domain
-const port = config.port
-const end_point = config.end_point
-
-const corsOptions = {
-	// origin: 'http://localhost:11041',
-	credentials: true // <-- REQUIRED backend setting
-}
-
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
-		cors: corsOptions,
+		cors: true,
 		logger: false
 	})
 
@@ -53,14 +43,8 @@ async function bootstrap() {
 	}
 
 	// COMPLETE:
-	// app.useGlobalInterceptors(new ErrorsInterceptor())
 	app.useGlobalInterceptors(new LoggingInterceptor())
 	app.useGlobalInterceptors(new TimeoutInterceptor())
-
-	// PENDING:
-	/* App filters. */
-	// app.useGlobalFilters(new HttpExceptionFilter())
-	/* End of app filters. */
 
 	// COMPLETE:
 	app.useGlobalPipes(new ValidationPipe())

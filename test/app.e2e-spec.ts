@@ -14,7 +14,7 @@ describe('AppModule (e2e)', () => {
 		await app.init()
 	})
 
-	it('QUERY » hello', () => {
+	it('QUERY › hello', () => {
 		return request(app.getHttpServer())
 			.post('/graphqllunch')
 			.send({
@@ -23,7 +23,11 @@ describe('AppModule (e2e)', () => {
 				query: '{ hello }'
 			})
 			.expect(200)
-		// .expect([{ title: 'Great item', price: 10 }])
+			.expect({
+				data: {
+					hello: 'world'
+				}
+			})
 	})
 
 	afterAll(async () => {

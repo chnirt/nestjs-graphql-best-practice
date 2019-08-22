@@ -1,6 +1,9 @@
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
 directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 
+scalar JSON
+scalar Date
+
 input SitesInfoInput {
 	siteId: ID!
 	permissions: [PermissionInfoInput!]!

@@ -215,6 +215,8 @@ export abstract class IMutation {
 
     abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
+    abstract forgotPassword(email: string): boolean | Promise<boolean>;
+
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 }
 
@@ -400,3 +402,5 @@ export class UserPermissionsInfo {
     permissions: PermissionInfo[];
     sitepermissions: string[];
 }
+
+export type JSON = any;

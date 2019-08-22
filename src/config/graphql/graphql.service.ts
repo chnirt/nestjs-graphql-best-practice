@@ -9,6 +9,7 @@ import { Logger as winstonLogger } from 'winston'
 import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
+import * as GraphQLJSON from 'graphql-type-json'
 import { User } from '../../modules/user/user.entity'
 import { UserPermission } from '../../modules/userPermission/userPermission.entity'
 import config from '../../config.env'
@@ -90,6 +91,17 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
+			resolvers: { JSON: GraphQLJSON },
+			onHealthCheck: () => {
+				return new Promise((resolve, reject) => {
+					// Replace the `true` in this conditional with more specific checks!
+					if (true) {
+						resolve()
+					} else {
+						reject()
+					}
+				})
+			},
 			path: `/${end_point}`,
 			// definitions: {
 			// 	path: join(process.cwd(), 'src/graphql.ts'),
