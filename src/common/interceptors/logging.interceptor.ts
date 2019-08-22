@@ -17,7 +17,7 @@ export class LoggingInterceptor implements NestInterceptor {
 		return next.handle().pipe(
 			tap(() => {
 				console.log(
-					`🎟️ `,
+					`🧨 `,
 					chalk.hex('#eb2f96').bold(context.getArgs()[3].parentType),
 					'»',
 					context.getArgs()[3].fieldName,

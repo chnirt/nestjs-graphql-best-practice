@@ -23,6 +23,7 @@ describe('AppModule (e2e)', () => {
 				query: '{ hello }'
 			})
 			.expect(200)
+		// .expect([{ title: 'Great item', price: 10 }])
 	})
 
 	afterAll(async () => {

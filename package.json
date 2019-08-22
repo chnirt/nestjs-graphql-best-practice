@@ -1,5 +1,5 @@
 {
-	"name": "Training-Backend-Boilerplate",
+	"name": "Chnirt-Lunchapp-Backend",
 	"version": "0.0.1",
 	"description": "",
 	"author": "",
@@ -47,6 +47,8 @@
 		"mongodb": "^3.3.0-beta2",
 		"morgan": "^1.9.1",
 		"nest-winston": "^1.0.4",
+		"nodemailer": "^6.3.0",
+		"nodemailer-express-handlebars": "^3.1.0",
 		"reflect-metadata": "^0.1.12",
 		"rimraf": "^2.6.2",
 		"rxjs": "^6.3.3",
@@ -61,6 +63,7 @@
 		"@types/express": "^4.16.0",
 		"@types/jest": "^23.3.13",
 		"@types/node": "^10.12.18",
+		"@types/nodemailer": "^6.2.1",
 		"@types/supertest": "^2.0.7",
 		"concurrently": "^4.1.0",
 		"jest": "^23.6.0",

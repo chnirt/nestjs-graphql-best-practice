@@ -26,9 +26,14 @@ const domain = config.domain
 const port = config.port
 const end_point = config.end_point
 
+const corsOptions = {
+	// origin: 'http://localhost:11041',
+	credentials: true // <-- REQUIRED backend setting
+}
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
-		cors: true,
+		cors: corsOptions,
 		logger: false
 	})
 

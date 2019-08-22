@@ -11,6 +11,10 @@ import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as jwt from 'jsonwebtoken'
 import * as uuid from 'uuid'
+import * as nodemailer from 'nodemailer'
+// import * as hbs from 'nodemailer-express-handlebars'
+// import * as path from 'path'
+
 import {
 	User,
 	CreateUserInput,
@@ -40,8 +44,8 @@ export class UserResolver {
 	}
 
 	@Query(() => User)
-	me(@Context('currentUser') currentUser: User) {
-		return currentUser
+	async me(@Context('currentUser') currentUser: User) {
+		return await currentUser
 	}
 
 	@Query(() => [User])
@@ -61,7 +65,7 @@ export class UserResolver {
 	}
 
 	@Query(() => User)
-	async user(@Args('_id') _id: string) {
+	async user(@Args('_id') _id: string): Promise<User> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -83,7 +87,7 @@ export class UserResolver {
 	async createUser(
 		@Args('input') input: CreateUserInput,
 		@Context('pubSub') pubSub
-	) {
+	): Promise<User> {
 		try {
 			const message = 'Conflict: Username'
 			const code = '409'
@@ -183,7 +187,7 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async deleteUser(@Args('_id') _id: string) {
+	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -204,10 +208,10 @@ export class UserResolver {
 	}
 
 	@Mutation(() => Boolean)
-	async deleteUsers() {
+	async deleteUsers(): Promise<boolean> {
 		try {
 			return (await this.userRepository.deleteMany({
-				username: { $ne: 'admin' }
+				username: { $nin: ['admin', 'mod'] }
 			}))
 				? true
 				: false
@@ -217,7 +221,10 @@ export class UserResolver {
 	}
 
 	@Mutation(() => LoginResponse)
-	async login(@Args('input') input: LoginUserInput, @Context('req') req: any) {
+	async login(
+		@Args('input') input: LoginUserInput,
+		@Context('req') req: any
+	): Promise<LoginResponse> {
 		const message = 'Unauthorized'
 		const code = '401'
 		const additionalProperties = {}
@@ -256,7 +263,7 @@ export class UserResolver {
 
 		const token = jwt.sign(
 			{
-				issuer: 'http://lunchapp2.dev.io',
+				issuer: 'http://lunchapp4.dev.io',
 				subject: user._id,
 				audience: user.username
 			},
@@ -312,7 +319,7 @@ export class UserResolver {
 		@Args('_id') _id: string,
 		@Args('reason') reason: string,
 		@Context('currentUser') currentUser: User
-	) {
+	): Promise<boolean> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
@@ -343,8 +350,67 @@ export class UserResolver {
 		}
 	}
 
-	@Subscription()
-	async userCreated(@Context('pubSub') pubSub: any) {
+	@Mutation(() => Boolean)
+	async forgotPassword(
+		@Args('email') email: string,
+		@Context('req') req: any
+	): Promise<any> {
+		const message = 'Not Found: Email'
+		const code = '404'
+		const additionalProperties = {}
+
+		const existedUser = await this.userRepository.findOne({ username: email })
+
+		if (!existedUser) {
+			throw new ApolloError(message, code, additionalProperties)
+		}
+
+		const token = '$2y$12$2SJ7/SwsMq4St5EPqRdh5OMm.sfAkchcXSFJn9SEqL/ekmGusAXhm'
+
+		const transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'trinhchin.innos@gmail.com',
+				pass: 'Matkhaula1!'
+			}
+		})
+
+		// const handlebarsOptions = {
+		// 	viewEngine: 'handlebars',
+		// 	viewPath: path.resolve('src/assets/templates'),
+		// 	extName: '.html'
+		// }
+
+		// transporter.use('compile', hbs(handlebarsOptions))
+
+		const mailOptions = {
+			from: 'Acexis 📧 trinhchin.innos@gmail.com', // sender address
+			to: 'nhocpo.juzo@gmail.com', // list of receivers
+			subject: 'Reset your password by e-mail',
+			text:
+				'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+				'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+				'http://' +
+				req.headers.host +
+				'/reset/' +
+				token +
+				'\n\n' +
+				'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+		}
+
+		transporter.sendMail(mailOptions, (err, info) => {
+			if (err) {
+				// console.log(err)
+				throw new ApolloError(err.message, '500', {})
+			} else {
+				// console.log(info)
+			}
+		})
+		return true
+	}
+
+	@Subscription(() => User)
+	async userCreated(@Context('pubSub') pubSub: any): Promise<User> {
 		return await pubSub.asyncIterator('userCreated')
 	}
 }

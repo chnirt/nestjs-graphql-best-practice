@@ -70,6 +70,7 @@ type Mutation {
 	login(input: LoginUserInput!): LoginResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean
 		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
+	forgotPassword(email: String!): Boolean
 }
 
 type Subscription {

@@ -51,7 +51,7 @@ const {
 			useFactory: () => ({
 				// options
 				format: combine(
-					label({ label: '🥢 Lunchapp2!' }),
+					label({ label: '🥢 Lunchapp4!' }),
 					json(),
 					timestamp(),
 					// prettyPrint(),
