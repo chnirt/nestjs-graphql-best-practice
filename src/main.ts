@@ -21,9 +21,14 @@ createConnection(orm)
 
 declare const module: any
 
+const corsOptions = {
+	origin: process.env.FE_URL,
+	credentials: true // <-- REQUIRED backend setting
+}
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
-		cors: true,
+		cors: corsOptions,
 		logger: false
 	})
 
