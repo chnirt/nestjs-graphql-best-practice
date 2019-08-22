@@ -25,6 +25,9 @@ import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
+import { UploadModule } from './modules/upload/upload.module';
+import { DateScalar } from './common/scalars/date.scalar';
+import { Upload } from './common/scalars/upload.scalar';
 
 const {
 	combine,
@@ -94,8 +97,11 @@ const {
 		HistoryModule,
 		LoggerModule,
 		OrderJModule,
-		OrderModule
-	]
+		OrderModule, 
+		UploadModule
+	],
+
+	providers: [DateScalar, Upload]
 })
 
 // COMPLETE:
