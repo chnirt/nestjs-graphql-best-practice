@@ -30,7 +30,7 @@ const corsOptions = process.env.FE_URL
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
-		cors: true,
+		cors: corsOptions,
 		logger: false
 	})
 
