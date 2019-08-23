@@ -25,9 +25,11 @@ import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-import { UploadModule } from './modules/upload/upload.module';
-import { DateScalar } from './common/scalars/date.scalar';
-import { Upload } from './common/scalars/upload.scalar';
+import { UploadModule } from './modules/upload/upload.module'
+import { DateScalar } from './common/scalars/date.scalar'
+import { Upload } from './common/scalars/upload.scalar'
+import { MulterModule } from '@nestjs/platform-express'
+import { MulterService } from './config/multer/multer.service'
 
 const {
 	combine,
@@ -49,6 +51,9 @@ const {
 		}),
 		CacheModule.registerAsync({
 			useClass: CacheService
+		}),
+		MulterModule.registerAsync({
+			useClass: MulterService
 		}),
 		WinstonModule.forRootAsync({
 			useFactory: () => ({
@@ -97,7 +102,7 @@ const {
 		HistoryModule,
 		LoggerModule,
 		OrderJModule,
-		OrderModule, 
+		OrderModule,
 		UploadModule
 	],
 

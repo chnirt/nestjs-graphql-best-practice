@@ -10,3 +10,7 @@ type File {
 type Mutation {
 	singleUpload(file: Upload!): String
 }
+
+type Query {
+	files: [File]
+}
