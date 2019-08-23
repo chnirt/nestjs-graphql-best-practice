@@ -8,5 +8,5 @@ type File {
 }
 
 type Mutation {
-	singleUpload(file: Upload!): String
+	singleUpload(file: Upload!): Boolean
 }
