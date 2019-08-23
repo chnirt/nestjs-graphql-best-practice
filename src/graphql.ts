@@ -117,6 +117,13 @@ export class DishOrderJ {
     orderQuantityMax: number;
 }
 
+export class File {
+    _id: string;
+    filename: string;
+    mimetype: string;
+    encoding: string;
+}
+
 export class History {
     _id: string;
     userId: string;
@@ -218,6 +225,8 @@ export abstract class IMutation {
     abstract forgotPassword(email: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
+
+    abstract singleUpload(file: Upload): string | Promise<string>;
 }
 
 export class Order {
@@ -404,3 +413,4 @@ export class UserPermissionsInfo {
 }
 
 export type JSON = any;
+export type Upload = any;
