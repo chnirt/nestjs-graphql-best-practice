@@ -53,6 +53,9 @@ const {
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
+		// MulterModule.registerAsync({
+		// 	useClass: MulterService
+		// }),
 		WinstonModule.forRootAsync({
 			useFactory: () => ({
 				// options

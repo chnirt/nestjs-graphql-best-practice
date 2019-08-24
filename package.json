@@ -25,10 +25,10 @@
 		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && npm run build"
 	},
 	"dependencies": {
-		"@nestjs/common": "^6.0.0",
+		"@nestjs/common": "^6.5.3",
 		"@nestjs/core": "^6.0.0",
 		"@nestjs/graphql": "^6.4.2",
-		"@nestjs/platform-express": "^6.0.0",
+		"@nestjs/platform-express": "^6.5.3",
 		"@nestjs/typeorm": "^6.1.3",
 		"apollo-server-cache-memcached": "^0.6.1",
 		"apollo-server-express": "^2.8.1",
@@ -44,7 +44,9 @@
 		"graphql-tools": "^4.0.5",
 		"graphql-type-json": "^0.3.0",
 		"graphql-voyager": "^1.0.0-rc.27",
+		"handlebars": "^4.1.2",
 		"helmet": "^3.20.0",
+		"ioredis": "^4.14.0",
 		"jsonwebtoken": "^8.5.1",
 		"mongodb": "^3.3.0-beta2",
 		"morgan": "^1.9.1",

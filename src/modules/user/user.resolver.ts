@@ -25,6 +25,7 @@ import { UserPermissionResolver } from '../userPermission/userPermission.resolve
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
 import { History } from '../history/history.entity'
+import { ForgotPasswordService } from '../../utils/forgotPassword/forgotPassword.service';
 
 @Resolver('User')
 export class UserResolver {
@@ -34,7 +35,8 @@ export class UserResolver {
 		private readonly authService: AuthService,
 		private readonly mailService: MailService,
 		private readonly userPermissionResolver: UserPermissionResolver,
-		private readonly historyResolver: HistoryResolver
+		private readonly historyResolver: HistoryResolver,
+		private readonly forgotpasswordService: ForgotPasswordService
 	) {}
 
 	@Query(() => String)
@@ -271,9 +273,9 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async forgotPassword(
 		@Args('email') email: string,
-		@Context('req') req: any
+		// @Context('req') req: any
 	): Promise<boolean> {
-		await this.mailService.sendMail(email, req)
+		await this.forgotpasswordService.forgotPassword(email)
 		return true
 	}
 

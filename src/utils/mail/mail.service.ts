@@ -40,8 +40,8 @@ export class MailService {
 		// transporter.use('compile', hbs(handlebarsOptions))
 
 		const mailOptions = {
-			from: 'Acexis 📧 trinhchin.innos@gmail.com', // sender address
-			to: 'nhocpo.juzo@gmail.com', // list of receivers
+			from: 'Acexis 📧 phanngocly164@gmail.com', // sender address
+			to: 'thangkhung164@gmail.com', // list of receivers
 			subject: 'Reset your password by e-mail',
 			text:
 				'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
