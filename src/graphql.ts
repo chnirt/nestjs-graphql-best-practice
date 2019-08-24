@@ -27,9 +27,10 @@ export class CreateSiteInput {
 }
 
 export class CreateUserInput {
-    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
     password: string;
-    fullName: string;
     sites: SitesInfoInput[];
 }
 
@@ -46,7 +47,7 @@ export class DishInput {
 }
 
 export class LoginUserInput {
-    username: string;
+    email: string;
     password: string;
 }
 
@@ -89,8 +90,9 @@ export class UpdateSiteInput {
 }
 
 export class UpdateUserInput {
+    firstName: string;
+    lastName: string;
     password: string;
-    fullName: string;
     sites: SitesInfoInput[];
 }
 
@@ -120,8 +122,7 @@ export class DishOrderJ {
 export class File {
     _id: string;
     filename: string;
-    mimetype: string;
-    encoding: string;
+    path: string;
 }
 
 export class History {
@@ -223,6 +224,8 @@ export abstract class IMutation {
     abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
     abstract forgotPassword(email: string): boolean | Promise<boolean>;
+
+    abstract resetPassword(resetPasswordToken: string, password: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 
@@ -342,6 +345,8 @@ export abstract class IQuery {
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
     abstract findAllByUserId(_id: string): UserPermission[] | Promise<UserPermission[]>;
+
+    abstract files(): File[] | Promise<File[]>;
 }
 
 export class Shop {
@@ -385,9 +390,13 @@ export abstract class ISubscription {
 
 export class User {
     _id: string;
-    username: string;
+    firstName: string;
+    lastName: string;
+    email: string;
     password: string;
-    fullName: string;
+    resetPasswordToken: string;
+    resetPasswordExpires: number;
+    fullName?: string;
     isLocked: boolean;
     reason: string;
     isActive: boolean;

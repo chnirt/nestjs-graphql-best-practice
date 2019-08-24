@@ -2,10 +2,7 @@ import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
-import { MulterModule } from '@nestjs/platform-express'
-import { GraphqlModule } from './config/graphql/graphql.module'
 import { GraphqlService } from './config/graphql/graphql.service'
-import { TypeormModule } from './config/typeorm/typeorm.module'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { LoggerModule } from './config/logger/logger.module'
@@ -45,6 +42,7 @@ const {
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
+			imports: [AuthModule],
 			useClass: GraphqlService
 		}),
 		TypeOrmModule.forRootAsync({
@@ -53,9 +51,6 @@ const {
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
-		// MulterModule.registerAsync({
-		// 	useClass: MulterService
-		// }),
 		WinstonModule.forRootAsync({
 			useFactory: () => ({
 				// options
@@ -90,11 +85,10 @@ const {
 			}),
 			inject: []
 		}),
-		GraphqlModule,
-		TypeormModule,
 		UserModule,
 		PermissionModule,
 		UserPermissionModule,
+		AuthModule,
 		SiteModule,
 		ShopModule,
 		SiteShopModule,
@@ -105,9 +99,7 @@ const {
 		OrderJModule,
 		OrderModule,
 		UploadModule,
-		AuthModule,
-		MailModule,
-		MulterModule
+		MailModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

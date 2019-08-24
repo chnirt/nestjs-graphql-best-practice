@@ -15,7 +15,8 @@ import {
 	Length,
 	MinLength,
 	IsBoolean,
-	IsArray
+	IsArray,
+	IsEmail
 } from 'class-validator'
 import { UserPermissionsInfo, PermissionInfoInput } from '../../graphql'
 
@@ -33,12 +34,9 @@ export class SitesInfoInput {
 }
 
 export class LoginUserInput {
-	@MinLength(4, {
-		message: 'Your username must be at least 4 characters'
-	})
-	@IsString()
-	@IsNotEmpty()
-	username: string
+	@IsEmail(undefined, { message: 'Your email can not be blank' })
+	@IsNotEmpty({ message: 'Your email can not be blank' })
+	email: string
 
 	@Length(1, 8, {
 		message: 'Your password must be between 1 and 8 characters'
@@ -49,26 +47,29 @@ export class LoginUserInput {
 }
 
 export class CreateUserInput {
-	@MinLength(4, {
-		message: 'Your username must be at least 4 characters'
+	@Length(3, 20, {
+		message: 'Your fullName must be between 3 and 20 characters'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your username can not be blank' })
-	username: string
-
-	@Length(1, 8, {
-		message: 'Your password must be between 1 and 8 characters'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your password can not be blank' })
-	password: string
+	@IsNotEmpty({ message: 'Your firstName can not be blank' })
+	firstName: string
 
 	@Length(3, 20, {
 		message: 'Your fullName must be between 3 and 20 characters'
 	})
 	@IsString()
-	@IsNotEmpty({ message: 'Your fullName can not be blank' })
-	fullName: string
+	@IsNotEmpty({ message: 'Your lastName can not be blank' })
+	lastName: string
+
+	@IsEmail(undefined, { message: 'Your email can not be blank' })
+	@IsNotEmpty({ message: 'Your email can not be blank' })
+	email: string
+
+	@Length(1, 8, {
+		message: 'Your password must be between 1 and 8 characters'
+	})
+	@IsNotEmpty({ message: 'Your password can not be blank' })
+	password: string
 
 	@IsArray()
 	@IsNotEmpty({ message: 'Your sites can not be blank' })
@@ -76,19 +77,23 @@ export class CreateUserInput {
 }
 
 export class UpdateUserInput {
+	@Length(3, 20, {
+		message: 'Your fullName must be between 3 and 20 characters'
+	})
+	@IsString()
+	firstName: string
+
+	@Length(3, 20, {
+		message: 'Your fullName must be between 3 and 20 characters'
+	})
+	@IsString()
+	lastName: string
+
 	@Length(1, 8, {
 		message: 'Your password must be between 1 and 8 characters.'
 	})
 	@IsString()
-	// @IsNotEmpty({ message: 'Your password can not be blank.' })
 	password: string
-
-	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters.'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your fullName can not be blank.' })
-	fullName: string
 
 	@IsArray()
 	@IsNotEmpty({ message: 'Your sites can not be blank' })
@@ -113,7 +118,17 @@ export class User {
 	@Column()
 	@IsString()
 	@IsNotEmpty()
-	username: string
+	firstName: string
+
+	@Column()
+	@IsString()
+	@IsNotEmpty()
+	lastName: string
+
+	@Column()
+	@IsEmail()
+	@IsNotEmpty()
+	email: string
 
 	@Column()
 	@IsString()
@@ -122,8 +137,11 @@ export class User {
 
 	@Column()
 	@IsString()
-	@IsNotEmpty()
-	fullName: string
+	resetPasswordToken: string
+
+	@Column()
+	@IsString()
+	resetPasswordExpires: number
 
 	@Column()
 	@IsBoolean()

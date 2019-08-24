@@ -14,7 +14,7 @@ export class AuthService {
 			{
 				issuer: 'http://lunchapp4.dev.io',
 				subject: user._id,
-				audience: user.username
+				audience: user.email
 			},
 			process.env.SECRET_KEY,
 			{
@@ -66,12 +66,12 @@ export class AuthService {
 		}
 	}
 
-	async tradeToken(username: string, password: string): Promise<LoginResponse> {
+	async tradeToken(email: string, password: string): Promise<LoginResponse> {
 		const message = 'Unauthorized'
 		const code = '401'
 		const additionalProperties = {}
 
-		const user = await getMongoRepository(User).findOne({ username })
+		const user = await getMongoRepository(User).findOne({ email })
 
 		if (!user || !(await user.matchesPassword(password))) {
 			throw new ApolloError(message, code, additionalProperties)

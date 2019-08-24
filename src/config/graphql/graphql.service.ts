@@ -24,9 +24,9 @@ const end_point =
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
 	constructor(
-		@Inject('winston') private readonly logger: winstonLogger
-	) // private readonly authService: AuthService
-	{}
+		@Inject('winston') private readonly logger: winstonLogger,
+		private readonly authService: AuthService
+	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -164,27 +164,11 @@ export class GraphqlService implements GqlOptionsFactory {
 					const message = 'Invalid Token'
 					const code = '500'
 					const additionalProperties = {}
-					if (connectionParams['token']) {
-						// return await this.authService.verifyToken(
-						// 	"connectionParams['token']"
-						// )
-						const message = 'Invalid Token'
-						const code = '498'
-						const additionalProperties = {}
-						try {
-							let decodeToken
-							let currentUser
-							decodeToken = await jwt.verify(
-								connectionParams['token'],
-								process.env.SECRET_KEY
-							)
-							currentUser = await getMongoRepository(User).findOne({
-								_id: decodeToken.subject
-							})
-							return { currentUser }
-						} catch (error) {
-							throw new ApolloError(message, code, additionalProperties)
-						}
+
+					const token = connectionParams['token']
+
+					if (token) {
+						return await this.authService.verifyToken(token)
 					}
 					throw new ApolloError(message, code, additionalProperties)
 				},

@@ -6,9 +6,12 @@ async function main() {
 
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
-		: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
-	// 'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
-	const dbName = process.env.MONGO_PORT ? 'lunch4' : 'nest-graphql'
+		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
+		  'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
+	const dbName = process.env.MONGO_PORT
+		? 'lunch4'
+		: // 'nest-graphql'
+		  'database-test'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })
 
@@ -21,28 +24,25 @@ async function main() {
 		const users = [
 			{
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
-				username: 'admin',
-				fullName: 'admin'
-			},
-			{
-				_id: '4a858710-bfed-11e9-ae42-4b976ee8364c',
-				username: 'mod',
-				fullName: 'mod'
+				firstName: 'chin',
+				lastName: 'trinh',
+				email: 'nhocpo.juzo@gmail.com'
 			}
 		]
 
 		users.map(async item => {
 			await db.collection('user').findOneAndUpdate(
-				{ username: item.username },
+				{ email: item.email },
 				{
 					$setOnInsert: {
 						_id: item._id
 					},
 					$set: {
-						username: item.username,
+						firstName: item.firstName,
+						lastName: item.lastName,
+						email: item.email,
 						password:
 							'$2b$10$zZlBfV2IMrXPnbtHd1Bwqus97HvLE28N9.rCvNSUURFQdDD945fXK',
-						fullName: item.fullName,
 						isLocked: false,
 						reason: '',
 						isActive: true,

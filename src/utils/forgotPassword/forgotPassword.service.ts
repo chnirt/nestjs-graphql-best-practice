@@ -14,7 +14,7 @@ import * as handlebars from 'handlebars'
 @Injectable()
 export class ForgotPasswordService {
 	async forgotPassword(email: string): Promise<any> {
-		const user = await getMongoRepository(User).findOne({ username: email })
+		const user = await getMongoRepository(User).findOne({ email })
 
 		if (!user) {
 			return true
@@ -24,7 +24,7 @@ export class ForgotPasswordService {
 			{
 				issuer: 'http://lunchapp4.dev.io',
 				subject: user._id,
-				audience: user.username
+				audience: user.email
 			},
 			process.env.SECRET_KEY,
 			{
@@ -57,11 +57,11 @@ export class ForgotPasswordService {
 		})
 
 		readHTMLFile(`src/utils/template/index.html`, function(err, html) {
-            const template = handlebars.compile(html)
-            const replacements = {
-                username: email
-            }
-            const htmlToSend = template(replacements)
+			const template = handlebars.compile(html)
+			const replacements = {
+				username: email
+			}
+			const htmlToSend = template(replacements)
 			const mailOptions = {
 				from: 'Acexis 📧 trinhchin.innos@gmail.com', // sender address
 				to: 'thangkhung164@gmail.com', // list of receivers
@@ -71,8 +71,8 @@ export class ForgotPasswordService {
 				// 	'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
 				// 	url +
 				// 	'\n\n' +
-                // 	'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-                html: htmlToSend
+				// 	'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+				html: htmlToSend
 			}
 
 			transporter.sendMail(mailOptions, (err, info) => {

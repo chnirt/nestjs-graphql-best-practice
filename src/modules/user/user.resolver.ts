@@ -4,7 +4,9 @@ import {
 	Mutation,
 	Args,
 	Subscription,
-	Context
+	Context,
+	ResolveProperty,
+	Parent
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
@@ -25,7 +27,7 @@ import { UserPermissionResolver } from '../userPermission/userPermission.resolve
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
 import { History } from '../history/history.entity'
-import { ForgotPasswordService } from '../../utils/forgotPassword/forgotPassword.service';
+import { ForgotPasswordService } from '../../utils/forgotPassword/forgotPassword.service'
 
 @Resolver('User')
 export class UserResolver {
@@ -45,18 +47,20 @@ export class UserResolver {
 		// return await 'world'
 	}
 
+	// COMPLETE:
 	@Query(() => User)
 	async me(@Context('currentUser') currentUser: User) {
 		return await currentUser
 	}
 
+	// COMPLETE:
 	@Query(() => [User])
 	async users(
 		@Args('offset') offset: number,
 		@Args('limit') limit: number
 	): Promise<User[]> {
 		const users = await this.userRepository.find({
-			where: { username: { $nin: ['admin', 'mod'] } },
+			where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,
@@ -66,17 +70,17 @@ export class UserResolver {
 		return await users
 	}
 
+	// COMPLETE:
 	@Query(() => User)
 	async user(@Args('_id') _id: string): Promise<User> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
-			const additionalProperties = {}
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, additionalProperties)
+				throw new ApolloError(message, code, {})
 			}
 
 			return user
@@ -85,6 +89,7 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => User)
 	async createUser(
 		@Args('input') input: CreateUserInput,
@@ -93,20 +98,20 @@ export class UserResolver {
 		try {
 			const message = 'Conflict: Username'
 			const code = '409'
-			const additionalProperties = {}
 
-			const { username, password, fullName, sites } = input
+			const { firstName, lastName, email, password, sites } = input
 
-			const existedUser = await this.userRepository.findOne({ username })
+			const existedUser = await this.userRepository.findOne({ email })
 
 			if (existedUser) {
-				throw new ApolloError(message, code, additionalProperties)
+				throw new ApolloError(message, code, {})
 			}
 
 			const user = new User()
-			user.username = username
+			user.firstName = firstName
+			user.lastName = lastName
+			user.email = email
 			user.password = password
-			user.fullName = fullName
 
 			const createdUser = await this.userRepository.save(user)
 
@@ -132,6 +137,7 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => Boolean)
 	async updateUser(
 		@Args('_id') _id: string,
@@ -140,14 +146,13 @@ export class UserResolver {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
-			const additionalProperties = {}
 
-			const { password, fullName, sites } = input
+			const { firstName, lastName, password, sites } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, additionalProperties)
+				throw new ApolloError(message, code, {})
 			}
 
 			sites.map(async item => {
@@ -179,8 +184,9 @@ export class UserResolver {
 				}
 			})
 
+			user.firstName = firstName
+			user.lastName = lastName
 			user.password = await user.hashPassword(password)
-			user.fullName = fullName
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
@@ -188,17 +194,17 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => Boolean)
 	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
-			const additionalProperties = {}
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, additionalProperties)
+				throw new ApolloError(message, code, {})
 			}
 
 			user.isActive = false
@@ -209,6 +215,7 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => Boolean)
 	async deleteUsers(): Promise<boolean> {
 		try {
@@ -222,18 +229,20 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => LoginResponse)
 	async login(
 		@Args('input') input: LoginUserInput,
 		@Context('req') req: any
 	): Promise<LoginResponse> {
-		const { username, password } = input
+		const { email, password } = input
 
-		const loginResponse = await this.authService.tradeToken(username, password)
+		const loginResponse = await this.authService.tradeToken(email, password)
 
 		return loginResponse
 	}
 
+	// COMPLETE:
 	@Mutation(() => Boolean)
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
@@ -243,12 +252,11 @@ export class UserResolver {
 		try {
 			const message = 'Not Found: User'
 			const code = '404'
-			const additionalProperties = {}
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, additionalProperties)
+				throw new ApolloError(message, code, {})
 			}
 
 			user.reason = !user.isLocked ? reason : ''
@@ -259,8 +267,8 @@ export class UserResolver {
 			const history = new History()
 			history.userId = currentUser._id
 			history.description = user.isLocked
-				? `${currentUser.fullName} locked ${user.fullName} because ${reason}`
-				: `${currentUser.fullName} unlocked ${user.fullName}`
+				? `${currentUser.email} locked ${user.email} because ${reason}`
+				: `${currentUser.email} unlocked ${user.email}`
 
 			this.historyResolver.createHistory(history)
 
@@ -270,17 +278,80 @@ export class UserResolver {
 		}
 	}
 
+	// COMPLETE:
 	@Mutation(() => Boolean)
 	async forgotPassword(
 		@Args('email') email: string,
-		// @Context('req') req: any
+		@Context('req') req: any
 	): Promise<boolean> {
-		await this.forgotpasswordService.forgotPassword(email)
-		return true
+		const message = 'Not Found: User'
+		const code = '404'
+
+		const user = await this.userRepository.findOne({
+			email
+		})
+
+		if (!user) {
+			throw new ApolloError(message, code, {})
+		}
+
+		const date = new Date()
+
+		user.resetPasswordToken = uuid.v1()
+		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
+
+		await this.userRepository.save(user)
+
+		return (await this.mailService.sendMail(
+			user.email,
+			req,
+			user.resetPasswordToken
+		))
+			? true
+			: false
 	}
 
+	// COMPLETE:
+	@Mutation(() => Boolean)
+	async resetPassword(
+		@Args('resetPasswordToken') resetPasswordToken: string,
+		@Args('password') password: string
+	) {
+		const message = 'Not Found: User'
+		const code = '404'
+
+		const trpMessage = 'Invalid ResetPasswordToken'
+		const trpCode = '498'
+
+		const user = await this.userRepository.findOne({
+			resetPasswordToken
+		})
+
+		if (!user) {
+			throw new ApolloError(message, code, {})
+		}
+
+		if (user.resetPasswordExpires < Date.now()) {
+			throw new ApolloError(trpMessage, trpCode, {})
+		}
+
+		user.password = await user.hashPassword(password)
+		user.resetPasswordToken = null
+		user.resetPasswordExpires = null
+
+		return (await this.userRepository.save(user)) ? true : false
+	}
+
+	// COMPLETE:
 	@Subscription(() => User)
 	async userCreated(@Context('pubSub') pubSub: any): Promise<User> {
 		return await pubSub.asyncIterator('userCreated')
+	}
+
+	// COMPLETE:
+	@ResolveProperty(() => String)
+	async fullName(@Parent() user: User): Promise<string> {
+		const { firstName, lastName } = user
+		return await `${firstName} ${lastName}`
 	}
 }

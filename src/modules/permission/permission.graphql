@@ -18,12 +18,12 @@ type Permission {
 
 type Query {
 	permissions: [Permission!]
-	permission(_id: String!): Permission
+	permission(_id: ID!): Permission
 }
 
 type Mutation {
 	createPermission(input: CreatePermissionInput!): Permission
-	updatePermission(_id: String!, input: UpdatePermissionInput!): Boolean
-	deletePermission(_id: String!): Boolean
+	updatePermission(_id: ID!, input: UpdatePermissionInput!): Boolean
+	deletePermission(_id: ID!): Boolean
 	deletePermissions: Boolean
 }

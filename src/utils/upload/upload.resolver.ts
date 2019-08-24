@@ -3,6 +3,7 @@ import { createWriteStream } from 'fs'
 import { MongoRepository } from 'typeorm'
 import { File } from './upload.entity'
 import { InjectRepository } from '@nestjs/typeorm'
+import * as path from 'path'
 
 @Resolver('Upload')
 export class UploadResolver {
@@ -16,16 +17,17 @@ export class UploadResolver {
 		const { filename, createReadStream } = file
 		return new Promise(async (resolve, reject) =>
 			createReadStream()
-				.pipe(createWriteStream(`uploads/${filename}`))
+				.pipe(
+					createWriteStream(path.join(__dirname, '/../../../images/', filename))
+				)
 				.on('close', () => {
-					const newFile = new File()
-					newFile.filename = filename
-					newFile.path = `uploads/${filename}`
-					this.uploadRepository.save(newFile)
+					// const newFile = new File()
+					// newFile.filename = filename
+					// newFile.path = `uploads/${filename}`
+					// this.uploadRepository.save(newFile)
 					resolve(true)
 				})
 				.on('error', () => reject(false))
 		)
 	}
-
 }
