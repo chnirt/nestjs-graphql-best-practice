@@ -3,12 +3,11 @@ scalar Upload
 type File {
 	_id: ID!
 	filename: String!
-	mimetype: String!
-	encoding: String!
+	path: String!
 }
 
 type Mutation {
-	singleUpload(file: Upload!): String
+	singleUpload(file: Upload!): Boolean
 }
 
 type Query {

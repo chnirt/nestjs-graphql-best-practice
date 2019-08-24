@@ -20,16 +20,20 @@ import { HistoryModule } from './modules/history/history.module'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
 import { OrderJModule } from './modules/orderJ/order-j.module'
 import { OrderModule } from './modules/order/order.module'
+import { DateScalar } from './common/scalars/date.scalar'
+import { UploadScalar } from './common/scalars/upload.scalar'
+import { UploadModule } from './utils/upload/upload.module'
+import { AuthModule } from './auth/auth.module'
+import { MailModule } from './utils/mail/mail.module';
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-import { UploadModule } from './modules/upload/upload.module'
-import { DateScalar } from './common/scalars/date.scalar'
-import { Upload } from './common/scalars/upload.scalar'
-import { MulterModule } from '@nestjs/platform-express'
-import { MulterService } from './config/multer/multer.service'
+// config
+// modules
+// scalars
+// utils
 
 const {
 	combine,
@@ -52,9 +56,9 @@ const {
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
-		MulterModule.registerAsync({
-			useClass: MulterService
-		}),
+		// MulterModule.registerAsync({
+		// 	useClass: MulterService
+		// }),
 		WinstonModule.forRootAsync({
 			useFactory: () => ({
 				// options
@@ -103,10 +107,12 @@ const {
 		LoggerModule,
 		OrderJModule,
 		OrderModule,
-		UploadModule
+		UploadModule,
+		AuthModule,
+		MailModule
 	],
 
-	providers: [DateScalar, Upload]
+	providers: [DateScalar, UploadScalar]
 })
 
 // COMPLETE:

@@ -11,6 +11,7 @@ import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 import * as GraphQLJSON from 'graphql-type-json'
 import { User } from '../../modules/user/user.entity'
+import { AuthService } from '../../auth/auth.service'
 import { UserPermission } from '../../modules/userPermission/userPermission.entity'
 import config from '../../config.env'
 
@@ -22,7 +23,10 @@ const end_point =
 // COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(@Inject('winston') private readonly logger: winstonLogger) {}
+	constructor(
+		@Inject('winston') private readonly logger: winstonLogger
+	) // private readonly authService: AuthService
+	{}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
@@ -161,23 +165,22 @@ export class GraphqlService implements GqlOptionsFactory {
 					const code = '500'
 					const additionalProperties = {}
 					if (connectionParams['token']) {
+						// return await this.authService.verifyToken(
+						// 	"connectionParams['token']"
+						// )
 						const message = 'Invalid Token'
 						const code = '498'
 						const additionalProperties = {}
-
 						try {
 							let decodeToken
 							let currentUser
-
 							decodeToken = await jwt.verify(
 								connectionParams['token'],
 								process.env.SECRET_KEY
 							)
-
 							currentUser = await getMongoRepository(User).findOne({
 								_id: decodeToken.subject
 							})
-
 							return { currentUser }
 						} catch (error) {
 							throw new ApolloError(message, code, additionalProperties)

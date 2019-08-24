@@ -9,11 +9,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
-import * as jwt from 'jsonwebtoken'
 import * as uuid from 'uuid'
-import * as nodemailer from 'nodemailer'
-// import * as hbs from 'nodemailer-express-handlebars'
-// import * as path from 'path'
 
 import {
 	User,
@@ -22,25 +18,31 @@ import {
 	LoginResponse,
 	LoginUserInput
 } from './user.entity'
+import { AuthService } from '../../auth/auth.service'
+import { MailService } from '../../utils/mail/mail.service'
 import { UserPermission } from '../userPermission/userPermission.entity'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
 import { History } from '../history/history.entity'
+import { ForgotPasswordService } from '../../utils/forgotPassword/forgotPassword.service';
 
 @Resolver('User')
 export class UserResolver {
 	constructor(
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
+		private readonly authService: AuthService,
+		private readonly mailService: MailService,
 		private readonly userPermissionResolver: UserPermissionResolver,
-		private readonly historyResolver: HistoryResolver
+		private readonly historyResolver: HistoryResolver,
+		private readonly forgotpasswordService: ForgotPasswordService
 	) {}
 
 	@Query(() => String)
 	async hello(): Promise<string> {
-		// return uuid.v1()
-		return await 'world'
+		return await uuid.v1()
+		// return await 'world'
 	}
 
 	@Query(() => User)
@@ -225,93 +227,11 @@ export class UserResolver {
 		@Args('input') input: LoginUserInput,
 		@Context('req') req: any
 	): Promise<LoginResponse> {
-		const message = 'Unauthorized'
-		const code = '401'
-		const additionalProperties = {}
-
 		const { username, password } = input
 
-		const user = await this.userRepository.findOne({ username })
+		const loginResponse = await this.authService.tradeToken(username, password)
 
-		if (!user || !(await user.matchesPassword(password))) {
-			throw new ApolloError(message, code, additionalProperties)
-		}
-
-		const activeMessage = 'Gone'
-		const activeCode = '404'
-		const activeAdditionalProperties = {}
-
-		if (!user.isActive) {
-			throw new ApolloError(
-				activeMessage,
-				activeCode,
-				activeAdditionalProperties
-			)
-		}
-
-		const lockedMessage = 'Locked'
-		const lockedCode = '423'
-		const lockedAdditionalProperties = {}
-
-		if (user.isLocked) {
-			throw new ApolloError(
-				lockedMessage,
-				lockedCode,
-				lockedAdditionalProperties
-			)
-		}
-
-		const token = jwt.sign(
-			{
-				issuer: 'http://lunchapp4.dev.io',
-				subject: user._id,
-				audience: user.username
-			},
-			process.env.SECRET_KEY,
-			{
-				expiresIn: '30d'
-			}
-		)
-
-		const userPermissions = await getMongoRepository(UserPermission)
-			.aggregate([
-				{
-					$match: {
-						userId: user._id
-					}
-				},
-				{
-					$lookup: {
-						from: 'site',
-						localField: 'siteId',
-						foreignField: '_id',
-						as: 'siteName'
-					}
-				},
-				{
-					$unwind: {
-						path: '$siteName',
-						preserveNullAndEmptyArrays: true
-					}
-				}
-			])
-			.toArray()
-
-		userPermissions.map(item => (item.siteName = item.siteName.name))
-
-		const array = ['MENU', 'ORDER', 'USER', 'REPORT']
-
-		await userPermissions.map(item => {
-			const sitepermissions = array.filter(
-				item1 =>
-					item.permissions
-						.map(item2 => item2.code.split('_')[0])
-						.indexOf(item1) !== -1
-			)
-			item.sitepermissions = sitepermissions
-		})
-
-		return { token, userPermissions }
+		return loginResponse
 	}
 
 	@Mutation(() => Boolean)
@@ -353,59 +273,9 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async forgotPassword(
 		@Args('email') email: string,
-		@Context('req') req: any
-	): Promise<any> {
-		const message = 'Not Found: Email'
-		const code = '404'
-		const additionalProperties = {}
-
-		const existedUser = await this.userRepository.findOne({ username: email })
-
-		if (!existedUser) {
-			throw new ApolloError(message, code, additionalProperties)
-		}
-
-		const token = '$2y$12$2SJ7/SwsMq4St5EPqRdh5OMm.sfAkchcXSFJn9SEqL/ekmGusAXhm'
-
-		const transporter = nodemailer.createTransport({
-			service: 'gmail',
-			auth: {
-				user: 'trinhchin.innos@gmail.com',
-				pass: 'Matkhaula1!'
-			}
-		})
-
-		// const handlebarsOptions = {
-		// 	viewEngine: 'handlebars',
-		// 	viewPath: path.resolve('src/assets/templates'),
-		// 	extName: '.html'
-		// }
-
-		// transporter.use('compile', hbs(handlebarsOptions))
-
-		const mailOptions = {
-			from: 'Acexis 📧 trinhchin.innos@gmail.com', // sender address
-			to: 'nhocpo.juzo@gmail.com', // list of receivers
-			subject: 'Reset your password by e-mail',
-			text:
-				'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-				'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-				'http://' +
-				req.headers.host +
-				'/reset/' +
-				token +
-				'\n\n' +
-				'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-		}
-
-		transporter.sendMail(mailOptions, (err, info) => {
-			if (err) {
-				// console.log(err)
-				throw new ApolloError(err.message, '500', {})
-			} else {
-				// console.log(info)
-			}
-		})
+		// @Context('req') req: any
+	): Promise<boolean> {
+		await this.forgotpasswordService.forgotPassword(email)
 		return true
 	}
 
