@@ -226,7 +226,7 @@ export abstract class IMutation {
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
 
-    abstract singleUpload(file: Upload): string | Promise<string>;
+    abstract singleUpload(file: Upload): boolean | Promise<boolean>;
 }
 
 export class Order {

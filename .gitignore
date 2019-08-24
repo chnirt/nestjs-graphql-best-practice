@@ -3,6 +3,7 @@
 /node_modules
 /documentation
 /uploads
+/photos
 .env
 
 # ts

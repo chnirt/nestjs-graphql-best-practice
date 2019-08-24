@@ -28,8 +28,4 @@ export class UploadResolver {
 		)
 	}
 
-	@Query(() => [File])
-	async files(): Promise<File[]> {
-		return await this.uploadRepository.find()
-	}
 }

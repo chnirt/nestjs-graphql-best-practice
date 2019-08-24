@@ -2,6 +2,7 @@ import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
+import { MulterModule } from '@nestjs/platform-express'
 import { GraphqlModule } from './config/graphql/graphql.module'
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormModule } from './config/typeorm/typeorm.module'
@@ -24,16 +25,12 @@ import { DateScalar } from './common/scalars/date.scalar'
 import { UploadScalar } from './common/scalars/upload.scalar'
 import { UploadModule } from './utils/upload/upload.module'
 import { AuthModule } from './auth/auth.module'
-import { MailModule } from './utils/mail/mail.module';
+import { MailModule } from './utils/mail/mail.module'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-// config
-// modules
-// scalars
-// utils
 
 const {
 	combine,
@@ -109,9 +106,9 @@ const {
 		OrderModule,
 		UploadModule,
 		AuthModule,
-		MailModule
+		MailModule,
+		MulterModule
 	],
-
 	providers: [DateScalar, UploadScalar]
 })
 

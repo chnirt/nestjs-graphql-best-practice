@@ -39,6 +39,7 @@
 		"csurf": "^1.10.0",
 		"dotenv": "^8.0.0",
 		"express-rate-limit": "^5.0.0",
+		"fs": "0.0.1-security",
 		"graphql": "^14.4.2",
 		"graphql-tools": "^4.0.5",
 		"graphql-type-json": "^0.3.0",
