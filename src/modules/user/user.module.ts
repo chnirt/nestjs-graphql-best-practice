@@ -6,7 +6,6 @@ import { AuthModule } from '../../auth/auth.module'
 import { MailModule } from '../../utils/mail/mail.module'
 import { UserPermissionModule } from '../userPermission/userPermission.module'
 import { HistoryModule } from '../history/history.module'
-import { ForgotPasswordModule } from '../../utils/forgotPassword/forgotPassword.module';
 
 @Module({
 	imports: [
@@ -14,8 +13,7 @@ import { ForgotPasswordModule } from '../../utils/forgotPassword/forgotPassword.
 		AuthModule,
 		MailModule,
 		UserPermissionModule,
-		HistoryModule,
-		ForgotPasswordModule
+		HistoryModule
 	],
 	providers: [UserResolver]
 })

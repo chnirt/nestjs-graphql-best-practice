@@ -4,8 +4,8 @@ dotenv.config()
 // COMPLETE:
 const config = {
 	development: {
-		domain: 'devcloud4.digihcs.com',
-		// domain: 'localhost',
+		// domain: 'devcloud4.digihcs.com',
+		domain: 'localhost',
 		port: process.env.PORT,
 		end_point: 'graphqllunch',
 		orm: {

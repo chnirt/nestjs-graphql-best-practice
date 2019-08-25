@@ -27,7 +27,6 @@ import { UserPermissionResolver } from '../userPermission/userPermission.resolve
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
 import { History } from '../history/history.entity'
-import { ForgotPasswordService } from '../../utils/forgotPassword/forgotPassword.service'
 
 @Resolver('User')
 export class UserResolver {
@@ -37,8 +36,7 @@ export class UserResolver {
 		private readonly authService: AuthService,
 		private readonly mailService: MailService,
 		private readonly userPermissionResolver: UserPermissionResolver,
-		private readonly historyResolver: HistoryResolver,
-		private readonly forgotpasswordService: ForgotPasswordService
+		private readonly historyResolver: HistoryResolver
 	) {}
 
 	@Query(() => String)

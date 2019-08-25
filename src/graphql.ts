@@ -96,6 +96,13 @@ export class UpdateUserInput {
     sites: SitesInfoInput[];
 }
 
+export class Dashboard {
+    _id: string;
+    data: JSON;
+    createdAt: string;
+    updatedAt: string;
+}
+
 export class Dish {
     _id?: string;
     name?: string;
@@ -123,14 +130,16 @@ export class File {
     _id: string;
     filename: string;
     path: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export class History {
     _id: string;
     userId: string;
     description: string;
-    createdAt?: string;
-    updatedAt?: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export class LoginResponse {
@@ -159,9 +168,13 @@ export class MenuOrderJ {
 }
 
 export abstract class IMutation {
+    abstract createDashboard(data: JSON): Dashboard | Promise<Dashboard>;
+
     abstract createDish(name: string, shopId: string): boolean | Promise<boolean>;
 
     abstract deleteDish(id: string): boolean | Promise<boolean>;
+
+    abstract uploadFile(file: Upload): boolean | Promise<boolean>;
 
     abstract createHistory(input: CreateHistoryInput): History | Promise<History>;
 
@@ -228,8 +241,6 @@ export abstract class IMutation {
     abstract resetPassword(resetPasswordToken: string, password: string): boolean | Promise<boolean>;
 
     abstract createUserPermission(input: CreateUserPermissionInput): UserPermission | Promise<UserPermission>;
-
-    abstract singleUpload(file: Upload): boolean | Promise<boolean>;
 }
 
 export class Order {
@@ -284,9 +295,13 @@ export class PermissionInfo {
 }
 
 export abstract class IQuery {
+    abstract dashboards(): Dashboard[] | Promise<Dashboard[]>;
+
     abstract dish(id: string): Dish | Promise<Dish>;
 
     abstract dishesByShop(shopId: string): Dish[] | Promise<Dish[]>;
+
+    abstract files(): File[] | Promise<File[]>;
 
     abstract histories(start: number, end: number): History[] | Promise<History[]>;
 
@@ -345,8 +360,6 @@ export abstract class IQuery {
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
     abstract findAllByUserId(_id: string): UserPermission[] | Promise<UserPermission[]>;
-
-    abstract files(): File[] | Promise<File[]>;
 }
 
 export class Shop {

@@ -11,14 +11,17 @@ import * as uuid from 'uuid'
 
 @Entity()
 export class File {
-
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	filename: string
 
 	@Column()
+	@IsString()
+	@IsNotEmpty()
 	path: string
 
 	@CreateDateColumn()

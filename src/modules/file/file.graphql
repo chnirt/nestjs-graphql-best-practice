@@ -4,10 +4,12 @@ type File {
 	_id: ID!
 	filename: String!
 	path: String!
+	createdAt: String!
+	updatedAt: String!
 }
 
 type Mutation {
-	singleUpload(file: Upload!): Boolean
+	uploadFile(file: Upload!): Boolean
 }
 
 type Query {

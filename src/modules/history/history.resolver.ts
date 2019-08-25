@@ -12,7 +12,10 @@ export class HistoryResolver {
 	) {}
 
 	@Query(() => [History])
-	async histories(@Args('start') start: number, @Args('end') end: number) {
+	async histories(
+		@Args('start') start: number,
+		@Args('end') end: number
+	): Promise<History[]> {
 		// console.log(start, end)
 		const isoStart = new Date(start)
 		const isoEnd = new Date(end)
@@ -24,7 +27,9 @@ export class HistoryResolver {
 	}
 
 	@Mutation(() => History)
-	async createHistory(@Args('input') input: CreateHistoryInput) {
+	async createHistory(
+		@Args('input') input: CreateHistoryInput
+	): Promise<History> {
 		const { userId, description } = input
 
 		const history = new History()

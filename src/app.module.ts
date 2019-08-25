@@ -23,6 +23,8 @@ import { UploadScalar } from './common/scalars/upload.scalar'
 import { UploadModule } from './utils/upload/upload.module'
 import { AuthModule } from './auth/auth.module'
 import { MailModule } from './utils/mail/mail.module'
+import { FileModule } from './modules/file/file.module'
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -98,8 +100,10 @@ const {
 		LoggerModule,
 		OrderJModule,
 		OrderModule,
+		MailModule,
+		FileModule,
 		UploadModule,
-		MailModule
+		DashboardModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

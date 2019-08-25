@@ -16,7 +16,8 @@ import {
 	MinLength,
 	IsBoolean,
 	IsArray,
-	IsEmail
+	IsEmail,
+	IsNumber
 } from 'class-validator'
 import { UserPermissionsInfo, PermissionInfoInput } from '../../graphql'
 
@@ -140,7 +141,7 @@ export class User {
 	resetPasswordToken: string
 
 	@Column()
-	@IsString()
+	@IsNumber()
 	resetPasswordExpires: number
 
 	@Column()

@@ -36,6 +36,7 @@
 		"bcrypt": "^3.0.6",
 		"cache-manager": "^2.10.0",
 		"class-transformer": "^0.2.3",
+		"cloudinary": "^1.14.0",
 		"compression": "^1.7.4",
 		"csurf": "^1.10.0",
 		"dotenv": "^8.0.0",

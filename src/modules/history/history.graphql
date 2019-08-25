@@ -7,12 +7,12 @@ type History {
 	_id: ID!
 	userId: ID!
 	description: String!
-	createdAt: String
-	updatedAt: String
+	createdAt: String!
+	updatedAt: String!
 }
 
 type Query {
-	histories(start: Float!, end: Float!): [History!]
+	histories(start: Float!, end: Float!): [History]
 }
 
 type Mutation {

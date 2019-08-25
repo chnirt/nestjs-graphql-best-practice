@@ -1,0 +1,14 @@
+type Dashboard {
+	_id: ID!
+	data: JSON!
+	createdAt: String!
+	updatedAt: String!
+}
+
+type Mutation {
+	createDashboard(data: JSON!): Dashboard
+}
+
+type Query {
+	dashboards: [Dashboard]
+}
