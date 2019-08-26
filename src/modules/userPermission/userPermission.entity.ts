@@ -16,23 +16,15 @@ export class UserPermission {
 	_id: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	userId: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	siteId: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	siteName: string
 
 	@Column()
-	@IsArray()
-	@IsNotEmpty()
 	permissions: PermissionInfo[]
 
 	@CreateDateColumn()

@@ -117,36 +117,24 @@ export class User {
 	_id: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	firstName: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	lastName: string
 
 	@Column()
-	@IsEmail()
-	@IsNotEmpty()
 	email: string
 
 	@Column()
-	@IsString()
-	@IsNotEmpty()
 	password: string
 
 	@Column()
-	@IsString()
 	resetPasswordToken: string
 
 	@Column()
-	@IsNumber()
 	resetPasswordExpires: number
 
 	@Column()
-	@IsBoolean()
-	@IsNotEmpty()
 	isLocked: boolean
 
 	@Column()
@@ -154,8 +142,6 @@ export class User {
 	reason: string
 
 	@Column()
-	@IsBoolean()
-	@IsNotEmpty()
 	isActive: boolean
 
 	@CreateDateColumn()

@@ -1,5 +1,6 @@
 type Dashboard {
 	_id: ID!
+	userId: String!
 	data: JSON!
 	createdAt: String!
 	updatedAt: String!

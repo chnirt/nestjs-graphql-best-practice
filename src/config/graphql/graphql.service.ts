@@ -10,7 +10,6 @@ import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import * as dotenv from 'dotenv'
 import * as GraphQLJSON from 'graphql-type-json'
-import { User } from '../../modules/user/user.entity'
 import { AuthService } from '../../auth/auth.service'
 import { UserPermission } from '../../modules/userPermission/userPermission.entity'
 import config from '../../config.env'
@@ -123,21 +122,9 @@ export class GraphqlService implements GqlOptionsFactory {
 				let currentUser
 
 				const { token, currentsite } = req.headers
+
 				if (token) {
-					const message = 'Invalid Token'
-					const code = '498'
-					const additionalProperties = {}
-					try {
-						let decodeToken
-
-						decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
-
-						currentUser = await getMongoRepository(User).findOne({
-							_id: decodeToken.subject
-						})
-					} catch (error) {
-						throw new ApolloError(message, code, additionalProperties)
-					}
+					currentUser = await this.authService.verifyToken(token)
 				}
 
 				return {
@@ -170,6 +157,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					if (token) {
 						return await this.authService.verifyToken(token)
 					}
+
 					throw new ApolloError(message, code, additionalProperties)
 				},
 				onDisconnect: (webSocket, context) => {

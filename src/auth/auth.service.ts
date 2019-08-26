@@ -118,6 +118,14 @@ export class AuthService {
 				_id: decodeToken.subject
 			})
 
+			if (!currentUser.isActive) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
+			if (currentUser.isLocked) {
+				throw new ApolloError(message, code, additionalProperties)
+			}
+
 			return currentUser
 		} catch (error) {
 			throw new ApolloError(message, code, additionalProperties)
