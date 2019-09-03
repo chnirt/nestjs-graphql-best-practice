@@ -13,10 +13,10 @@
 		"prestart:prod": "rimraf dist && npm run build",
 		"start:prod": "NODE_ENV=production SECRET_KEY='chnirt1803' node dist/main.js",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
-		"test": "jest",
-		"test:watch": "jest --watch",
-		"test:cov": "jest --coverage",
-		"test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+		"test": "NODE_ENV=testing jest",
+		"test:watch": "NODE_ENV=testing jest --watch",
+		"test:cov": "NODE_ENV=testing jest --coverage",
+		"test:debug": "NODE_ENV=testing node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
 		"test:e2e": "NODE_ENV=testing jest --config ./test/jest-e2e.json",
 		"webpack": "rimraf dist && webpack --config webpack.config.js",
 		"start:webpack": "SECRET_KEY='chnirt1803' node dist/main.js",
@@ -95,7 +95,7 @@
 			"json",
 			"ts"
 		],
-		"rootDir": "src",
+		"rootDir": "test",
 		"testRegex": ".spec.ts$",
 		"transform": {
 			"^.+\\.(t|j)s$": "ts-jest"
