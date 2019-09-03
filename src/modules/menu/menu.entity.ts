@@ -24,7 +24,7 @@ export class Menu {
 	shopId: string
 
 	@Column()
-	dishes: [DishInfo] | []
+	dishes: DishInfo[]
 
 	@Column()
 	isPublished: boolean

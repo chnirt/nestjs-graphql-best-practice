@@ -234,7 +234,7 @@ export abstract class IMutation {
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
-    abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
+    abstract lockAndUnlockUser(_id: string, reason?: string): boolean | Promise<boolean>;
 
     abstract forgotPassword(email: string): boolean | Promise<boolean>;
 
@@ -407,14 +407,14 @@ export class User {
     lastName: string;
     email: string;
     password: string;
-    resetPasswordToken: string;
-    resetPasswordExpires: number;
+    resetPasswordToken?: string;
+    resetPasswordExpires?: number;
     fullName?: string;
     isLocked: boolean;
     reason: string;
     isActive: boolean;
-    createdAt: string;
-    updatedAt: string;
+    createdAt: number;
+    updatedAt: number;
 }
 
 export class UserPermission {

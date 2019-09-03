@@ -1,8 +1,7 @@
 import { MongoClient } from 'mongodb'
-import * as uuid from 'uuid'
 
 async function main() {
-	console.log('🌱  Database seeder is running')
+	console.log('🚀  Server ready')
 
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
@@ -17,7 +16,8 @@ async function main() {
 
 	try {
 		await client.connect()
-		console.log('🚀  Server ready')
+
+		console.log('🌱  Database seeder is running')
 
 		const db = client.db(dbName)
 
@@ -25,7 +25,7 @@ async function main() {
 			{
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
 				firstName: 'chin',
-				lastName: 'trinh',
+				lastName: 'trinhchin',
 				email: 'nhocpo.juzo@gmail.com'
 			}
 		]
@@ -46,8 +46,8 @@ async function main() {
 						isLocked: false,
 						reason: '',
 						isActive: true,
-						createdAt: new Date(),
-						updatedAt: new Date()
+						createdAt: new Date().getTime(),
+						updatedAt: new Date().getTime()
 					}
 				},
 				{ upsert: true }
@@ -106,6 +106,16 @@ async function main() {
 				description: 'Đóng menu'
 			},
 			{
+				_id: 'eb177330-cafd-11e9-8389-8fd36807fa82',
+				code: 'DISH_CREATE',
+				description: 'Tạo món'
+			},
+			{
+				_id: 'a058d130-cafe-11e9-b620-855caad9b76c',
+				code: 'DISH_DELETE',
+				description: 'Xóa món'
+			},
+			{
 				_id: 'b4592b60-be4e-11e9-a6ad-c109fb49072b',
 				code: 'ORDER_CREATE',
 				description: 'Đặt món'
@@ -119,6 +129,11 @@ async function main() {
 				_id: 'de68afc0-be4e-11e9-a7b3-2bff9d9c9d9e',
 				code: 'REPORT_VIEW',
 				description: 'Xem báo cáo'
+			},
+			{
+				_id: '26e3c040-ca08-11e9-a0e3-03ba43afe780',
+				code: 'HISTORY_VIEW',
+				description: 'Xem lịch sử'
 			}
 		]
 

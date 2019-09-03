@@ -117,59 +117,57 @@ export class User {
 	_id: string
 
 	@Column()
-	@IsString()
 	@IsNotEmpty()
 	firstName: string
 
 	@Column()
-	@IsString()
 	@IsNotEmpty()
 	lastName: string
 
 	@Column()
-	@IsEmail()
 	@IsNotEmpty()
 	email: string
 
 	@Column()
-	@IsString()
 	@IsNotEmpty()
 	password: string
 
 	@Column()
-	@IsString()
 	resetPasswordToken: string
 
 	@Column()
-	@IsNumber()
 	resetPasswordExpires: number
 
 	@Column()
-	@IsBoolean()
 	@IsNotEmpty()
 	isLocked: boolean
 
 	@Column()
-	@IsString()
 	reason: string
 
 	@Column()
-	@IsBoolean()
 	@IsNotEmpty()
 	isActive: boolean
 
-	@CreateDateColumn()
-	createdAt: string
-	@UpdateDateColumn()
-	updatedAt: string
+	@Column()
+	createdAt: number
+	@Column()
+	updatedAt: number
 
 	@BeforeInsert()
-	async b4register() {
+	async save() {
 		this._id = await uuid.v1()
 		this.password = await bcrypt.hash(this.password, 10)
 		this.isLocked = false
-		this.reason = ''
 		this.isActive = true
+		this.reason = ''
+		this.createdAt = new Date().getTime()
+		this.updatedAt = new Date().getTime()
+	}
+
+	@BeforeUpdate()
+	async update() {
+		this.updatedAt = new Date().getTime()
 	}
 
 	async hashPassword(password) {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { MongoRepository, getMongoRepository } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 import * as jwt from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
 import { User, LoginResponse } from '../modules/user/user.entity'
@@ -48,7 +48,7 @@ export class AuthService {
 
 		userPermissions.map(item => (item.siteName = item.siteName.name))
 
-		const array = ['MENU', 'ORDER', 'USER', 'REPORT']
+		const array = ['MENU', 'ORDER', 'USER', 'REPORT', 'HISTORY']
 
 		await userPermissions.map(item => {
 			const sitepermissions = array.filter(
@@ -67,48 +67,24 @@ export class AuthService {
 	}
 
 	async tradeToken(email: string, password: string): Promise<LoginResponse> {
-		const message = 'Unauthorized'
-		const code = '401'
-		const additionalProperties = {}
-
 		const user = await getMongoRepository(User).findOne({ email })
 
 		if (!user || !(await user.matchesPassword(password))) {
-			throw new ApolloError(message, code, additionalProperties)
+			throw new ApolloError('Unauthorized', '401', {})
 		}
-
-		const activeMessage = 'Gone'
-		const activeCode = '404'
-		const activeAdditionalProperties = {}
 
 		if (!user.isActive) {
-			throw new ApolloError(
-				activeMessage,
-				activeCode,
-				activeAdditionalProperties
-			)
+			throw new ApolloError('Gone', '404', {})
 		}
 
-		const lockedMessage = 'Locked'
-		const lockedCode = '423'
-		const lockedAdditionalProperties = {}
-
 		if (user.isLocked) {
-			throw new ApolloError(
-				lockedMessage,
-				lockedCode,
-				lockedAdditionalProperties
-			)
+			throw new ApolloError('Locked', '423', {})
 		}
 
 		return await this.generateTokenAndUserPermissions(user)
 	}
 
 	async verifyToken(token: string): Promise<User> {
-		const message = 'Invalid Token'
-		const code = '498'
-		const additionalProperties = {}
-
 		try {
 			let currentUser
 
@@ -118,9 +94,17 @@ export class AuthService {
 				_id: decodeToken.subject
 			})
 
+			if (!currentUser.isActive) {
+				throw new ApolloError('Invalid Token', '498', {})
+			}
+
+			if (currentUser.isLocked) {
+				throw new ApolloError('Invalid Token', '498', {})
+			}
+
 			return currentUser
 		} catch (error) {
-			throw new ApolloError(message, code, additionalProperties)
+			throw new ApolloError('Invalid Token', '498', {})
 		}
 	}
 }

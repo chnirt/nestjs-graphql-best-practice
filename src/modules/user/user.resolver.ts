@@ -72,13 +72,10 @@ export class UserResolver {
 	@Query(() => User)
 	async user(@Args('_id') _id: string): Promise<User> {
 		try {
-			const message = 'Not Found: User'
-			const code = '404'
-
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, {})
+				throw new ApolloError('Not Found: User', '404', {})
 			}
 
 			return user
@@ -94,15 +91,12 @@ export class UserResolver {
 		@Context('pubSub') pubSub
 	): Promise<User> {
 		try {
-			const message = 'Conflict: Username'
-			const code = '409'
-
 			const { firstName, lastName, email, password, sites } = input
 
 			const existedUser = await this.userRepository.findOne({ email })
 
 			if (existedUser) {
-				throw new ApolloError(message, code, {})
+				throw new ApolloError('Conflict: Username', '409', {})
 			}
 
 			const user = new User()
@@ -142,15 +136,12 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const message = 'Not Found: User'
-			const code = '404'
-
 			const { firstName, lastName, password, sites } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, {})
+				throw new ApolloError('Not Found: User', '404', {})
 			}
 
 			sites.map(async item => {
@@ -196,13 +187,10 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
-			const message = 'Not Found: User'
-			const code = '404'
-
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, {})
+				throw new ApolloError('Not Found: User', '404', {})
 			}
 
 			user.isActive = false
@@ -218,7 +206,7 @@ export class UserResolver {
 	async deleteUsers(): Promise<boolean> {
 		try {
 			return (await this.userRepository.deleteMany({
-				username: { $nin: ['admin', 'mod'] }
+				email: { $nin: ['nhocpo.juzo@gmail.com'] }
 			}))
 				? true
 				: false
@@ -248,13 +236,10 @@ export class UserResolver {
 		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
 		try {
-			const message = 'Not Found: User'
-			const code = '404'
-
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError(message, code, {})
+				throw new ApolloError('Not Found: User', '404', {})
 			}
 
 			user.reason = !user.isLocked ? reason : ''
@@ -282,15 +267,12 @@ export class UserResolver {
 		@Args('email') email: string,
 		@Context('req') req: any
 	): Promise<boolean> {
-		const message = 'Not Found: User'
-		const code = '404'
-
 		const user = await this.userRepository.findOne({
 			email
 		})
 
 		if (!user) {
-			throw new ApolloError(message, code, {})
+			throw new ApolloError('Not Found: User', '404', {})
 		}
 
 		const date = new Date()
@@ -315,22 +297,16 @@ export class UserResolver {
 		@Args('resetPasswordToken') resetPasswordToken: string,
 		@Args('password') password: string
 	) {
-		const message = 'Not Found: User'
-		const code = '404'
-
-		const trpMessage = 'Invalid ResetPasswordToken'
-		const trpCode = '498'
-
 		const user = await this.userRepository.findOne({
 			resetPasswordToken
 		})
 
 		if (!user) {
-			throw new ApolloError(message, code, {})
+			throw new ApolloError('Not Found: User', '404', {})
 		}
 
 		if (user.resetPasswordExpires < Date.now()) {
-			throw new ApolloError(trpMessage, trpCode, {})
+			throw new ApolloError('Invalid ResetPasswordToken', '498', {})
 		}
 
 		user.password = await user.hashPassword(password)
