@@ -16,6 +16,9 @@ export class Dashboard {
 	_id: string
 
 	@Column()
+	userId: string
+
+	@Column()
 	@IsJSON()
 	@IsNotEmpty()
 	data: GraphQLJSON
