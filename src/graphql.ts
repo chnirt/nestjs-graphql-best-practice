@@ -57,12 +57,6 @@ export class MenuInfo {
     dishes?: DishInput[];
 }
 
-export class OrderJInput {
-    menuId: string;
-    dishId: string;
-    count: number;
-}
-
 export class PermissionInfoInput {
     _id: string;
     code: string;
@@ -98,6 +92,7 @@ export class UpdateUserInput {
 
 export class Dashboard {
     _id: string;
+    userId: string;
     data: JSON;
     createdAt: string;
     updatedAt: string;
@@ -116,14 +111,6 @@ export class DishInfo {
     _id?: string;
     name?: string;
     count?: number;
-}
-
-export class DishOrderJ {
-    dishId: string;
-    name: string;
-    MyOrderQuantity: number;
-    orderQuantityNow: number;
-    orderQuantityMax: number;
 }
 
 export class File {
@@ -160,13 +147,6 @@ export class Menu {
     updateAt?: string;
 }
 
-export class MenuOrderJ {
-    menuId: string;
-    dishes: DishOrderJ[];
-    isPublished?: boolean;
-    isLocked?: boolean;
-}
-
 export abstract class IMutation {
     abstract createDashboard(data: JSON): Dashboard | Promise<Dashboard>;
 
@@ -197,10 +177,6 @@ export abstract class IMutation {
     abstract confirmOrder(orderIds?: string[]): boolean | Promise<boolean>;
 
     abstract deleteOrder(id?: string): boolean | Promise<boolean>;
-
-    abstract orderJDish(input: OrderJInput): OrderJ | Promise<OrderJ>;
-
-    abstract updateOrderJ(input: OrderJInput, userId: string): OrderJ | Promise<OrderJ>;
 
     abstract createPermission(input: CreatePermissionInput): Permission | Promise<Permission>;
 
@@ -234,7 +210,7 @@ export abstract class IMutation {
 
     abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>;
 
-    abstract lockAndUnlockUser(_id: string, reason?: string): boolean | Promise<boolean>;
+    abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
     abstract forgotPassword(email: string): boolean | Promise<boolean>;
 
@@ -259,26 +235,6 @@ export class OrderCount {
     _id?: string;
     menuId?: string;
     count?: number;
-}
-
-export class OrderJ {
-    _id: string;
-    userId: string;
-    menuId: string;
-    dishId: string;
-    note?: string;
-    count: number;
-    isConfirmed: boolean;
-    createdAt: string;
-    updatedAt: string;
-}
-
-export class OrderJSubscriptionRespone {
-    menuId: string;
-    dishId: string;
-    orderQuantityNow: number;
-    impactUserId: string;
-    OrderQuantityOfImpactUser: number;
 }
 
 export class Permission {
@@ -324,14 +280,6 @@ export abstract class IQuery {
     abstract ordersCountByMenu(menuId: string): OrderCount[] | Promise<OrderCount[]>;
 
     abstract currentOrder(menuId: string, dishId: string): Order | Promise<Order>;
-
-    abstract orderJs(): OrderJ[] | Promise<OrderJ[]>;
-
-    abstract menuOrderJ(siteId: string): MenuOrderJ | Promise<MenuOrderJ>;
-
-    abstract countByDishJ(dishId: string, menuId: string): OrderJ[] | Promise<OrderJ[]>;
-
-    abstract countByMenuJ(menuId: string): OrderJ[] | Promise<OrderJ[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
@@ -395,8 +343,6 @@ export abstract class ISubscription {
     abstract menuSubscription(): Menu | Promise<Menu>;
 
     abstract ordersByMenuCreated(): OrderCount[] | Promise<OrderCount[]>;
-
-    abstract isUpdatedOrder(): OrderJSubscriptionRespone | Promise<OrderJSubscriptionRespone>;
 
     abstract userCreated(): User | Promise<User>;
 }

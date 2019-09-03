@@ -3,18 +3,19 @@ import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { UserModule } from '../../src/modules/user/user.module'
-import { User } from '../../src/modules/user/user.entity'
-import { UserResolver } from '../../src/modules/user/user.resolver'
-import { UserPermission } from '../../src/modules/userPermission/userPermission.entity'
-import { History } from '../../src/modules/history/history.entity'
-import { UserPermissionResolver } from '../../src/modules/userPermission/userPermission.resolver'
-import { HistoryResolver } from '../../src/modules/history/history.resolver'
+import { User } from '../../src/models/user.entity'
+import { UserResolver } from '../../src/resolvers/user/user.resolver'
+import { UserPermission } from '../../src/models/userPermission.entity'
+import { History } from '../../src/models/history.entity'
+import { UserPermissionResolver } from '../../src/resolvers/userPermission/userPermission.resolver'
+import { HistoryResolver } from '../../src/resolvers/history/history.resolver'
 import { AppModule } from '../../src/app.module'
+import { AuthService } from '../../src/auth/auth.service'
+import { MailService } from '../../src/utils/mail/mail.service'
 
 describe('UserModule (e2e)', () => {
 	let app: INestApplication
-	let resolver: UserResolver
+	let userResolver: UserResolver
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -25,6 +26,8 @@ describe('UserModule (e2e)', () => {
 					provide: getRepositoryToken(User),
 					useClass: Repository
 				},
+				AuthService,
+				MailService,
 				UserPermissionResolver,
 				{
 					provide: getRepositoryToken(UserPermission),
@@ -38,7 +41,7 @@ describe('UserModule (e2e)', () => {
 			]
 		}).compile()
 
-		resolver = module.get<UserResolver>(UserResolver)
+		userResolver = module.get<UserResolver>(UserResolver)
 
 		app = module.createNestApplication()
 		await app.init()
@@ -50,7 +53,9 @@ describe('UserModule (e2e)', () => {
 			.send({
 				operationName: null,
 				variables: {},
-				query: '{ users { _id username createdAt updatedAt } }'
+				query:
+					// tslint:disable-next-line:max-line-length
+					'{ users { _id firstName lastName email password resetPasswordToken resetPasswordExpires fullName isLocked reason isActive createdAt updatedAt } }'
 			})
 			.expect(200)
 	})

@@ -6,25 +6,24 @@ import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { LoggerModule } from './config/logger/logger.module'
-import { UserModule } from './modules/user/user.module'
-import { PermissionModule } from './modules/permission/permission.module'
-import { UserPermissionModule } from './modules/userPermission/userPermission.module'
-import { SiteModule } from './modules/site/site.module'
-import { ShopModule } from './modules/shop/shop.module'
-import { SiteShopModule } from './modules/siteShop/siteShop.module'
-import { DishModule } from './modules/dish/dish.module'
-import { MenuModule } from './modules/menu/menu.module'
-import { HistoryModule } from './modules/history/history.module'
+import { UserModule } from './resolvers/user/user.module'
+import { PermissionModule } from './resolvers/permission/permission.module'
+import { UserPermissionModule } from './resolvers/userPermission/userPermission.module'
+import { SiteModule } from './resolvers/site/site.module'
+import { ShopModule } from './resolvers/shop/shop.module'
+import { SiteShopModule } from './resolvers/siteShop/siteShop.module'
+import { DishModule } from './resolvers/dish/dish.module'
+import { MenuModule } from './resolvers/menu/menu.module'
+import { HistoryModule } from './resolvers/history/history.module'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
-import { OrderJModule } from './modules/orderJ/order-j.module'
-import { OrderModule } from './modules/order/order.module'
+import { OrderModule } from './resolvers/order/order.module'
 import { DateScalar } from './common/scalars/date.scalar'
 import { UploadScalar } from './common/scalars/upload.scalar'
 import { UploadModule } from './utils/upload/upload.module'
 import { AuthModule } from './auth/auth.module'
 import { MailModule } from './utils/mail/mail.module'
-import { FileModule } from './modules/file/file.module'
-import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { FileModule } from './resolvers/file/file.module'
+import { DashboardModule } from './resolvers/dashboard/dashboard.module'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -98,7 +97,7 @@ const {
 		MenuModule,
 		HistoryModule,
 		LoggerModule,
-		OrderJModule,
+		// OrderJModule,
 		OrderModule,
 		MailModule,
 		FileModule,
@@ -122,7 +121,7 @@ export class AppModule {
 				// 	message:
 				// 		'Too many request created from this IP, please try again after an hour'
 				// }),
-				LoggerMiddleware
+				process.env.NODE_ENV !== 'testing' && LoggerMiddleware
 			)
 			.forRoutes('/graphqllunch')
 	}

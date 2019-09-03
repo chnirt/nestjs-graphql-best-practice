@@ -10,7 +10,7 @@ import { getMongoRepository } from 'typeorm'
 import * as dotenv from 'dotenv'
 import * as GraphQLJSON from 'graphql-type-json'
 import { AuthService } from '../../auth/auth.service'
-import { UserPermission } from '../../modules/userPermission/userPermission.entity'
+import { UserPermission } from '../../models/userPermission.entity'
 import config from '../../config.env'
 
 dotenv.config()
