@@ -159,8 +159,8 @@ export class User {
 		this._id = await uuid.v1()
 		this.password = await bcrypt.hash(this.password, 10)
 		this.isLocked = false
-		this.isActive = true
 		this.reason = ''
+		this.isActive = true
 		this.createdAt = new Date().getTime()
 		this.updatedAt = new Date().getTime()
 	}

@@ -62,8 +62,4 @@ describe('HistoryModule (e2e)', () => {
 				}
 			})
 	})
-
-	afterAll(async () => {
-		await app.close()
-	})
 })

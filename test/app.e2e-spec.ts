@@ -30,7 +30,7 @@ describe('AppModule (e2e)', () => {
 			})
 	})
 
-	afterAll(async () => {
-		await app.close()
-	})
+	// afterAll(async () => {
+	// 	await app.close()
+	// })
 })
