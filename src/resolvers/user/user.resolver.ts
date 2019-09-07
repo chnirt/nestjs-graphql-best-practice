@@ -27,6 +27,7 @@ import { UserPermissionResolver } from '../userPermission/userPermission.resolve
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput } from '../../graphql'
 import { History } from '../../models/history.entity'
+import { Site } from '../../models/site.entity'
 
 @Resolver('User')
 export class UserResolver {
@@ -49,6 +50,13 @@ export class UserResolver {
 	@Query(() => User)
 	async me(@Context('currentUser') currentUser: User) {
 		return await currentUser
+	}
+
+	@Query(() => [])
+	async search(@Args('text') text: string) {
+		const user = await getMongoRepository(User).findOne({ email: text })
+		const site = await getMongoRepository(Site).findOne({ name: text })
+		return [user, site]
 	}
 
 	// COMPLETE:

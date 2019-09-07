@@ -148,11 +148,11 @@ export class Menu {
 }
 
 export abstract class IMutation {
-    abstract createDashboard(data: JSON): Dashboard | Promise<Dashboard>;
-
     abstract createDish(name: string, shopId: string): boolean | Promise<boolean>;
 
     abstract deleteDish(id: string): boolean | Promise<boolean>;
+
+    abstract createDashboard(data: JSON): Dashboard | Promise<Dashboard>;
 
     abstract uploadFile(file: Upload): boolean | Promise<boolean>;
 
@@ -251,11 +251,11 @@ export class PermissionInfo {
 }
 
 export abstract class IQuery {
-    abstract dashboards(): Dashboard[] | Promise<Dashboard[]>;
-
     abstract dish(id: string): Dish | Promise<Dish>;
 
     abstract dishesByShop(shopId: string): Dish[] | Promise<Dish[]>;
+
+    abstract dashboards(): Dashboard[] | Promise<Dashboard[]>;
 
     abstract files(): File[] | Promise<File[]>;
 
@@ -291,7 +291,7 @@ export abstract class IQuery {
 
     abstract sites(): Site[] | Promise<Site[]>;
 
-    abstract sitesByIds(ids?: string[]): Site[] | Promise<Site[]>;
+    abstract sitesByIds(ids: string[]): Site[] | Promise<Site[]>;
 
     abstract site(_id: string): Site | Promise<Site>;
 
@@ -304,6 +304,8 @@ export abstract class IQuery {
     abstract users(offset?: number, limit?: number): User[] | Promise<User[]>;
 
     abstract user(_id: string): User | Promise<User>;
+
+    abstract search(text: string): Result[] | Promise<Result[]>;
 
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
@@ -380,5 +382,7 @@ export class UserPermissionsInfo {
     sitepermissions: string[];
 }
 
+export type Date = any;
 export type JSON = any;
 export type Upload = any;
+export type Result = User | Site;
