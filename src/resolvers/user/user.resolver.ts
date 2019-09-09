@@ -59,7 +59,7 @@ export class UserResolver {
 				email: text
 			})
 
-			if (!result) {
+			if (result.length === 0) {
 				throw new ApolloError('Not Found: User', '404', {})
 			}
 		}
@@ -69,7 +69,9 @@ export class UserResolver {
 				name: text
 			})
 
-			if (!result) {
+			console.log(result)
+
+			if (result.length === 0) {
 				throw new ApolloError('Not Found: Site', '404', {})
 			}
 		}
