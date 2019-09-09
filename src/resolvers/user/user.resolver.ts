@@ -25,8 +25,9 @@ import { MailService } from '../../utils/mail/mail.service'
 import { UserPermission } from '../../models/userPermission.entity'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
-import { CreateUserPermissionInput } from '../../graphql'
+import { CreateUserPermissionInput, Result } from '../../graphql'
 import { History } from '../../models/history.entity'
+import { Site } from '../../models/site.entity'
 
 @Resolver('User')
 export class UserResolver {
@@ -39,10 +40,41 @@ export class UserResolver {
 		private readonly historyResolver: HistoryResolver
 	) {}
 
+	// COMPLETE:
 	@Query(() => String)
 	async hello(): Promise<string> {
-		// return await uuid.v1()
-		return await 'world'
+		return await uuid.v1()
+		// return await 'world'
+	}
+
+	// PENDING:
+	@Query()
+	async search(
+		@Args('text') text: string,
+		@Args('type') type: string
+	): Promise<Result[]> {
+		let result
+		if (type === 'User') {
+			result = await getMongoRepository(User).find({
+				email: text
+			})
+
+			if (!result) {
+				throw new ApolloError('Not Found: User', '404', {})
+			}
+		}
+
+		if (type === 'Site') {
+			result = await getMongoRepository(Site).find({
+				name: text
+			})
+
+			if (!result) {
+				throw new ApolloError('Not Found: Site', '404', {})
+			}
+		}
+
+		return result
 	}
 
 	// COMPLETE:
@@ -91,7 +123,7 @@ export class UserResolver {
 		@Context('pubSub') pubSub
 	): Promise<User> {
 		try {
-			const { firstName, lastName, email, password, sites } = input
+			const { firstName, lastName, email, password, gender, sites } = input
 
 			const existedUser = await this.userRepository.findOne({ email })
 
@@ -104,6 +136,7 @@ export class UserResolver {
 			user.lastName = lastName
 			user.email = email
 			user.password = password
+			user.gender = gender
 
 			const createdUser = await this.userRepository.save(user)
 
@@ -136,7 +169,7 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const { firstName, lastName, password, sites } = input
+			const { firstName, lastName, password, gender, sites } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
@@ -176,6 +209,7 @@ export class UserResolver {
 			user.firstName = firstName
 			user.lastName = lastName
 			user.password = await user.hashPassword(password)
+			user.gender = gender
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
@@ -335,4 +369,23 @@ export class UserResolver {
 		const { firstName, lastName } = user
 		return await `${firstName} ${lastName}`
 	}
+
+	// @ResolveProperty('SearchResult')
+	// __resolveType(obj) {
+	// 	if (obj.username) {
+	// 		return 'User'
+	// 	}
+	// 	return 'Site'
+	// }
+
+	// @ResolveType('SearchResult')
+	// async resolveType(obj) {
+	// 	if (obj.height) {
+	// 		return 'Human'
+	// 	}
+
+	// 	if (obj.length) {
+	// 		return 'Starship'
+	// 	}
+	// }
 }

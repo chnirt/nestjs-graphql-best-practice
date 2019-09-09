@@ -26,6 +26,7 @@ async function main() {
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
 				firstName: 'chin',
 				lastName: 'trinhchin',
+				gender: 'MALE',
 				email: 'nhocpo.juzo@gmail.com'
 			}
 		]
@@ -43,6 +44,7 @@ async function main() {
 						email: item.email,
 						password:
 							'$2b$10$zZlBfV2IMrXPnbtHd1Bwqus97HvLE28N9.rCvNSUURFQdDD945fXK',
+						gender: item.gender,
 						isLocked: false,
 						reason: '',
 						isActive: true,

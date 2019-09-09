@@ -2,8 +2,6 @@ import {
 	Entity,
 	ObjectIdColumn,
 	Column,
-	CreateDateColumn,
-	UpdateDateColumn,
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
@@ -13,13 +11,18 @@ import {
 	IsString,
 	IsNotEmpty,
 	Length,
-	MinLength,
-	IsBoolean,
+	// MinLength,
+	// IsBoolean,
 	IsArray,
-	IsEmail,
-	IsNumber
+	IsEmail
+	// IsNumber
 } from 'class-validator'
 import { UserPermissionsInfo, PermissionInfoInput } from '../graphql'
+
+enum Gender {
+	MALE,
+	FEMALE
+}
 
 export class SitesInfoInput {
 	@Length(36, 36, {
@@ -72,6 +75,9 @@ export class CreateUserInput {
 	@IsNotEmpty({ message: 'Your password can not be blank' })
 	password: string
 
+	@IsNotEmpty({ message: 'Your gender can not be blank' })
+	gender: Gender
+
 	@IsArray()
 	@IsNotEmpty({ message: 'Your sites can not be blank' })
 	sites: SitesInfoInput[]
@@ -95,6 +101,9 @@ export class UpdateUserInput {
 	})
 	@IsString()
 	password: string
+
+	@IsNotEmpty({ message: 'Your gender can not be blank' })
+	gender: Gender
 
 	@IsArray()
 	@IsNotEmpty({ message: 'Your sites can not be blank' })
@@ -137,6 +146,10 @@ export class User {
 
 	@Column()
 	resetPasswordExpires: number
+
+	@Column()
+	@IsNotEmpty()
+	gender: Gender
 
 	@Column()
 	@IsNotEmpty()

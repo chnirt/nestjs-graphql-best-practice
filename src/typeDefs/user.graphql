@@ -5,6 +5,8 @@ directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 scalar JSON
 scalar Date
 
+union Result = User | Site
+
 input SitesInfoInput {
 	siteId: ID!
 	permissions: [PermissionInfoInput!]!
@@ -68,6 +70,7 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
+	search(text: String!, type: String!): [Result]!
 }
 
 type Mutation {

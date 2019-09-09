@@ -305,6 +305,8 @@ export abstract class IQuery {
 
     abstract user(_id: string): User | Promise<User>;
 
+    abstract search(text: string, type: string): Result[] | Promise<Result[]>;
+
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 
     abstract findAllByUserId(_id: string): UserPermission[] | Promise<UserPermission[]>;
@@ -382,3 +384,4 @@ export class UserPermissionsInfo {
 
 export type JSON = any;
 export type Upload = any;
+export type Result = User | Site;

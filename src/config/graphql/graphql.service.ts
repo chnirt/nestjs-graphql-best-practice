@@ -70,6 +70,9 @@ export class GraphqlService implements GqlOptionsFactory {
 		return {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON },
+			resolverValidationOptions: {
+				requireResolversForResolveType: false
+			},
 			onHealthCheck: () => {
 				return new Promise((resolve, reject) => {
 					// Replace the `true` in this conditional with more specific checks!
