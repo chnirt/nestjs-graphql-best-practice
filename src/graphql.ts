@@ -5,6 +5,11 @@
  */
 
 /* tslint:disable */
+export enum Gender {
+    MALE = "MALE",
+    FEMALE = "FEMALE"
+}
+
 export class CreateHistoryInput {
     userId: string;
     description: string;
@@ -31,6 +36,7 @@ export class CreateUserInput {
     lastName: string;
     email: string;
     password: string;
+    gender: Gender;
     sites: SitesInfoInput[];
 }
 
@@ -87,6 +93,7 @@ export class UpdateUserInput {
     firstName: string;
     lastName: string;
     password: string;
+    gender: Gender;
     sites: SitesInfoInput[];
 }
 
@@ -355,6 +362,7 @@ export class User {
     lastName: string;
     email: string;
     password: string;
+    gender: Gender;
     resetPasswordToken?: string;
     resetPasswordExpires?: number;
     fullName?: string;

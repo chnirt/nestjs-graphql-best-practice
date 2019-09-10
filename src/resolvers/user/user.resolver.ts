@@ -14,20 +14,17 @@ import { ApolloError } from 'apollo-server-core'
 import * as uuid from 'uuid'
 
 import {
-	User,
 	CreateUserInput,
 	UpdateUserInput,
 	LoginResponse,
 	LoginUserInput
 } from '../../models/user.entity'
+import { User, UserPermission, History, Site } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
-import { UserPermission } from '../../models/userPermission.entity'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput, Result } from '../../graphql'
-import { History } from '../../models/history.entity'
-import { Site } from '../../models/site.entity'
 
 @Resolver('User')
 export class UserResolver {
@@ -54,9 +51,20 @@ export class UserResolver {
 		@Args('type') type: string
 	): Promise<Result[]> {
 		let result
+
+		const createdAt = { $gte: 0, $lte: new Date().getTime() }
+
 		if (type === 'User') {
 			result = await getMongoRepository(User).find({
-				email: text
+				select: ['email', 'gender'],
+				where: {
+					email: `${text}`,
+					createdAt
+				},
+				order: { createdAt: 'DESC' },
+				skip: 0,
+				take: 10,
+				cache: true
 			})
 
 			if (result.length === 0) {
@@ -68,8 +76,6 @@ export class UserResolver {
 			result = await getMongoRepository(Site).find({
 				name: text
 			})
-
-			console.log(result)
 
 			if (result.length === 0) {
 				throw new ApolloError('Not Found: Site', '404', {})
@@ -96,7 +102,7 @@ export class UserResolver {
 			order: { createdAt: 'DESC' },
 			skip: offset,
 			take: limit,
-			cache: true
+			cache: true // 1000: 60000 / 1 minute
 		})
 
 		return await users
@@ -371,23 +377,4 @@ export class UserResolver {
 		const { firstName, lastName } = user
 		return await `${firstName} ${lastName}`
 	}
-
-	// @ResolveProperty('SearchResult')
-	// __resolveType(obj) {
-	// 	if (obj.username) {
-	// 		return 'User'
-	// 	}
-	// 	return 'Site'
-	// }
-
-	// @ResolveType('SearchResult')
-	// async resolveType(obj) {
-	// 	if (obj.height) {
-	// 		return 'Human'
-	// 	}
-
-	// 	if (obj.length) {
-	// 		return 'Starship'
-	// 	}
-	// }
 }

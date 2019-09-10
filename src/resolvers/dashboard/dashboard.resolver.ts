@@ -8,10 +8,9 @@ import {
 	Context
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Dashboard } from '../../models/dashboard.entity'
 import { MongoRepository } from 'typeorm'
 import * as GraphQLJSON from 'graphql-type-json'
-import { User } from '../../models/user.entity'
+import { Dashboard, User } from '../../models'
 
 @Resolver('Dashboard')
 export class DashboardResolver {

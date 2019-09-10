@@ -2,7 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
-import { SiteShop } from '../../models/siteShop.entity'
+import { SiteShop } from '../../models'
 import { SiteShopResponse } from '../../graphql'
 
 @Resolver('siteShop')

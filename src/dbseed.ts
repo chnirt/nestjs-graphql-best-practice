@@ -21,6 +21,16 @@ async function main() {
 
 		const db = client.db(dbName)
 
+		const tests = [...Array(10000).keys()].map(item => ({
+			_id: item,
+			userId: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
+			description: 'test' + item,
+			createdAt: new Date(),
+			updatedAt: new Date()
+		}))
+
+		await db.collection('history').insertMany(tests)
+
 		const users = [
 			{
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',

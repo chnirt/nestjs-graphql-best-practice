@@ -10,7 +10,7 @@ import { MenuInfo } from '../../graphql'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import { InjectRepository } from '@nestjs/typeorm'
-import { Menu } from '../../models/menu.entity'
+import { Menu } from '../../models'
 
 @Resolver('menu')
 export class MenuResolver {

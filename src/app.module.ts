@@ -97,7 +97,6 @@ const {
 		MenuModule,
 		HistoryModule,
 		LoggerModule,
-		// OrderJModule,
 		OrderModule,
 		MailModule,
 		FileModule,

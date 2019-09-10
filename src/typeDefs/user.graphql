@@ -5,6 +5,11 @@ directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 scalar JSON
 scalar Date
 
+enum Gender {
+	MALE
+	FEMALE
+}
+
 union Result = User | Site
 
 input SitesInfoInput {
@@ -17,6 +22,7 @@ input CreateUserInput {
 	lastName: String!
 	email: String!
 	password: String!
+	gender: Gender!
 	sites: [SitesInfoInput!]!
 }
 
@@ -24,6 +30,7 @@ input UpdateUserInput {
 	firstName: String!
 	lastName: String!
 	password: String!
+	gender: Gender!
 	sites: [SitesInfoInput!]!
 }
 
@@ -55,6 +62,7 @@ type User {
 	lastName: String!
 	email: String!
 	password: String!
+	gender: Gender!
 	resetPasswordToken: String
 	resetPasswordExpires: Float
 	fullName: String

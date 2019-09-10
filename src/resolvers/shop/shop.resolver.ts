@@ -2,7 +2,7 @@ import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
-import { Shop } from '../../models/shop.entity'
+import { Shop } from '../../models'
 
 @Resolver('Shop')
 export class ShopResolver {

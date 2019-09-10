@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
-import { UserPermission } from '../../models/userPermission.entity'
+import { UserPermission } from '../../models'
 import { CreateUserPermissionInput } from '../../graphql'
 
 @Resolver('UserPermission')

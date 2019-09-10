@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { Site } from '../../models/site.entity'
+import { Site } from '../../models'
 import { CreateSiteInput, UpdateSiteInput } from '../../graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'

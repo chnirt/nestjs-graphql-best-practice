@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
-import { History } from '../../models/history.entity'
+import { History } from '../../models'
 import { CreateHistoryInput } from '../../graphql'
 
 @Resolver('History')
@@ -19,9 +19,10 @@ export class HistoryResolver {
 		// console.log(start, end)
 		const isoStart = new Date(start)
 		const isoEnd = new Date(end)
-		console.log(isoStart, isoEnd)
+
 		return await this.historyRepository.find({
 			where: { createdAt: { $gte: isoStart, $lte: isoEnd } },
+			order: { createdAt: 'DESC' },
 			cache: true
 		})
 	}

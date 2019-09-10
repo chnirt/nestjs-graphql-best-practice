@@ -1,7 +1,7 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
-import { Dish } from '../../models/dish.entity'
+import { Dish } from '../../models'
 import { ApolloError } from 'apollo-server-core'
 
 @Resolver('Dish')

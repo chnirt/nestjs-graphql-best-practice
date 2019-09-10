@@ -6,9 +6,8 @@ import {
 	Context,
 	Subscription
 } from '@nestjs/graphql'
-import { Order } from '../../models/order.entity'
 import { CreateOrderInput, UpdateOrderInput, OrderCount } from '../../graphql'
-import { User } from '../../models/user.entity'
+import { Order, User } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'

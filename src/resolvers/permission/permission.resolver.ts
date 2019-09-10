@@ -1,7 +1,7 @@
 import { Resolver, Query } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
-import { Permission } from '../../models/permission.entity'
+import { Permission } from '../../models'
 
 @Resolver('Permission')
 export class PermissionResolver {
