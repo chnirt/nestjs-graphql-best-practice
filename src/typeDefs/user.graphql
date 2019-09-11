@@ -1,16 +1,31 @@
-directive @isAuthenticated on FIELD | FIELD_DEFINITION
-# directive @hasRole(role: Role!) on FIELD_DEFINITIONenum Role { ADMIN USER }
-directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
-
-scalar JSON
-scalar Date
-
 enum Gender {
 	MALE
 	FEMALE
 }
 
+enum RecordType {
+	User
+	Site
+}
+
 union Result = User | Site
+
+input UserInput {
+	firstName: String
+	lastName: String
+	email: String
+	password: String
+	gender: Gender
+}
+
+input SiteInput {
+	name: String
+}
+
+input RecordInput {
+	User: UserInput
+	Site: SiteInput
+}
 
 input SitesInfoInput {
 	siteId: ID!
@@ -39,6 +54,16 @@ input LoginUserInput {
 	password: String!
 }
 
+input SearchInput {
+	select: [String!]
+	where: RecordInput
+	start: Float
+	end: Float
+	order: JSON
+	skip: Int
+	take: Int
+}
+
 type LoginResponse {
 	token: String!
 	userPermissions: [UserPermissionsInfo!]!
@@ -65,10 +90,11 @@ type User {
 	gender: Gender!
 	resetPasswordToken: String
 	resetPasswordExpires: Float
-	fullName: String
+	fullName: String @upper @concat(value: "Chnirt")
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!
+	# createdAt: Float! @date(format: "mmmm d, yyyy")
 	createdAt: Float!
 	updatedAt: Float!
 }
@@ -78,7 +104,7 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
-	search(text: String!, type: String!): [Result]!
+	search(conditions: SearchInput!, type: RecordType!): [Result]!
 }
 
 type Mutation {

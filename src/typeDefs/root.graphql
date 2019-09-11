@@ -1,0 +1,9 @@
+directive @isAuthenticated on FIELD | FIELD_DEFINITION
+# directive @hasRole(role: Role!) on FIELD_DEFINITIONenum Role { ADMIN USER }
+directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
+directive @upper on FIELD_DEFINITION
+directive @concat(value: String!) on FIELD_DEFINITION
+directive @date(format: String) on FIELD_DEFINITION
+
+scalar JSON
+scalar Date

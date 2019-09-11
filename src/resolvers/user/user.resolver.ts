@@ -24,7 +24,8 @@ import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
-import { CreateUserPermissionInput, Result } from '../../graphql'
+import { CreateUserPermissionInput, Result, SearchInput } from '../../graphql'
+import * as GraphQLJSON from 'graphql-type-json'
 
 @Resolver('User')
 export class UserResolver {
@@ -47,39 +48,27 @@ export class UserResolver {
 	// PENDING:
 	@Query()
 	async search(
-		@Args('text') text: string,
+		@Args('conditions') conditions: SearchInput,
 		@Args('type') type: string
 	): Promise<Result[]> {
 		let result
 
+		const { select, where, order, skip, take } = conditions
+
+		console.log(where)
+
 		const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
-		if (type === 'User') {
-			result = await getMongoRepository(User).find({
-				select: ['email', 'gender'],
-				where: {
-					email: `${text}`,
-					createdAt
-				},
-				order: { createdAt: 'DESC' },
-				skip: 0,
-				take: 10,
-				cache: true
-			})
+		result = await getMongoRepository(type).find({
+			// where: JSON.parse(JSON.stringify(where)),
+			order: JSON.parse(JSON.stringify(order)),
+			where: where[type],
+			skip,
+			take
+		})
 
-			if (result.length === 0) {
-				throw new ApolloError('Not Found: User', '404', {})
-			}
-		}
-
-		if (type === 'Site') {
-			result = await getMongoRepository(Site).find({
-				name: text
-			})
-
-			if (result.length === 0) {
-				throw new ApolloError('Not Found: Site', '404', {})
-			}
+		if (result.length === 0) {
+			throw new ApolloError('Not Found', '404', {})
 		}
 
 		return result
@@ -99,7 +88,7 @@ export class UserResolver {
 	): Promise<User[]> {
 		const users = await this.userRepository.find({
 			where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
-			order: { createdAt: 'DESC' },
+			order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
 			cache: true // 1000: 60000 / 1 minute

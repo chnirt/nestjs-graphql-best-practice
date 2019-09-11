@@ -10,6 +10,11 @@ export enum Gender {
     FEMALE = "FEMALE"
 }
 
+export enum RecordType {
+    User = "User",
+    Site = "Site"
+}
+
 export class CreateHistoryInput {
     userId: string;
     description: string;
@@ -68,6 +73,25 @@ export class PermissionInfoInput {
     code: string;
 }
 
+export class RecordInput {
+    User?: UserInput;
+    Site?: SiteInput;
+}
+
+export class SearchInput {
+    select?: string[];
+    where?: RecordInput;
+    start?: number;
+    end?: number;
+    order?: JSON;
+    skip?: number;
+    take?: number;
+}
+
+export class SiteInput {
+    name?: string;
+}
+
 export class SitesInfoInput {
     siteId: string;
     permissions: PermissionInfoInput[];
@@ -95,6 +119,14 @@ export class UpdateUserInput {
     password: string;
     gender: Gender;
     sites: SitesInfoInput[];
+}
+
+export class UserInput {
+    firstName?: string;
+    lastName?: string;
+    email?: string;
+    password?: string;
+    gender?: Gender;
 }
 
 export class Dashboard {
@@ -312,7 +344,7 @@ export abstract class IQuery {
 
     abstract user(_id: string): User | Promise<User>;
 
-    abstract search(text: string, type: string): Result[] | Promise<Result[]>;
+    abstract search(conditions: SearchInput, type: RecordType): Result[] | Promise<Result[]>;
 
     abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>;
 

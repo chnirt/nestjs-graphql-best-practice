@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common'
+import { Injectable, Inject, Next } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
@@ -9,8 +9,9 @@ import { Logger as winstonLogger } from 'winston'
 import { getMongoRepository } from 'typeorm'
 import * as dotenv from 'dotenv'
 import * as GraphQLJSON from 'graphql-type-json'
+import * as formatDate from 'dateformat'
 import { AuthService } from '../../auth/auth.service'
-import { UserPermission } from '../../models/userPermission.entity'
+import { UserPermission } from '../../models'
 import config from '../../config.env'
 
 dotenv.config()
@@ -28,7 +29,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		const directiveResolvers = {
-			isAuthenticated: (next, source, args, ctx) => {
+			isAuthenticated: (next, src, args, ctx) => {
 				const { currentUser, currentsite } = ctx
 
 				if (!currentUser || !currentsite) {
@@ -37,7 +38,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				return next()
 			},
-			hasPermission: async (next, source, args, ctx) => {
+			hasPermission: async (next, src, args, ctx) => {
 				const { currentUser, currentsite } = ctx
 
 				if (!currentUser) {
@@ -64,6 +65,28 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 
 				return next()
+			},
+			upper: async (next, src, args, ctx) => {
+				return next().then(str => {
+					if (typeof str === 'string') {
+						return str.toUpperCase()
+					}
+					return str
+				})
+			},
+			concat: async (next, src, args, ctx) => {
+				return next().then(str => {
+					if (typeof str !== 'undefined') {
+						return `${str}${args.value}`
+					}
+					return str
+				})
+			},
+			date: async (next, src, args, ctx) => {
+				const { format } = args
+				return next().then(date => {
+					return formatDate(new Date(date), format)
+				})
 			}
 		}
 
