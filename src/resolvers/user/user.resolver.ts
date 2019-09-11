@@ -55,12 +55,11 @@ export class UserResolver {
 
 		const { select, where, order, skip, take } = conditions
 
-		console.log(where)
+		// console.log(where)
 
 		const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
 		result = await getMongoRepository(type).find({
-			// where: JSON.parse(JSON.stringify(where)),
 			order: JSON.parse(JSON.stringify(order)),
 			where: where[type],
 			skip,

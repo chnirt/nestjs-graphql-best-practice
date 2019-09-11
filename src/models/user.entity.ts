@@ -168,9 +168,9 @@ export class User {
 	updatedAt: number
 
 	@BeforeInsert()
-	async save() {
-		this._id = await uuid.v1()
-		this.password = await bcrypt.hash(this.password, 10)
+	save() {
+		this._id = uuid.v1()
+		this.password = bcrypt.hash(this.password, 10)
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true
@@ -179,15 +179,15 @@ export class User {
 	}
 
 	@BeforeUpdate()
-	async update() {
+	update() {
 		this.updatedAt = new Date().getTime()
 	}
 
-	async hashPassword(password) {
-		return await bcrypt.hash(password, 10)
+	hashPassword(password) {
+		return bcrypt.hash(password, 10)
 	}
 
-	async matchesPassword(password) {
-		return await bcrypt.compare(password, this.password)
+	matchesPassword(password) {
+		return bcrypt.compare(password, this.password)
 	}
 }
