@@ -8,8 +8,9 @@ import { Logger } from '@nestjs/common'
 import { Logger as winstonLogger } from 'winston'
 import { getMongoRepository } from 'typeorm'
 import * as dotenv from 'dotenv'
-import * as GraphQLJSON from 'graphql-type-json'
+import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import * as formatDate from 'dateformat'
+import { createRateLimitDirective } from 'graphql-rate-limit'
 import { AuthService } from '../../auth/auth.service'
 import { UserPermission } from '../../models'
 import config from '../../config.env'
@@ -28,6 +29,11 @@ export class GraphqlService implements GqlOptionsFactory {
 	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
+		const schemaDirectives = {
+			rateLimit: createRateLimitDirective({
+				identifyContext: ctx => ctx.currentUser._id
+			})
+		}
 		const directiveResolvers = {
 			isAuthenticated: (next, src, args, ctx) => {
 				const { currentUser, currentsite } = ctx
@@ -92,7 +98,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 		return {
 			typePaths: ['./**/*.graphql'],
-			resolvers: { JSON: GraphQLJSON },
+			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
 			resolverValidationOptions: {
 				requireResolversForResolveType: false
 			},
@@ -111,6 +117,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			// 	path: join(process.cwd(), 'src/graphql.ts'),
 			// 	outputAs: 'class'
 			// },
+			schemaDirectives,
 			directiveResolvers,
 			context: async ({ req, res, connection }) => {
 				if (connection) {

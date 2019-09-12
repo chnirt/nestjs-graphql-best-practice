@@ -44,6 +44,7 @@
 		"express-rate-limit": "^5.0.0",
 		"fs": "0.0.1-security",
 		"graphql": "^14.4.2",
+		"graphql-rate-limit": "^2.0.1",
 		"graphql-tools": "^4.0.5",
 		"graphql-type-json": "^0.3.0",
 		"graphql-voyager": "^1.0.0-rc.27",

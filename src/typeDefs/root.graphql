@@ -4,6 +4,14 @@ directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 directive @upper on FIELD_DEFINITION
 directive @concat(value: String!) on FIELD_DEFINITION
 directive @date(format: String) on FIELD_DEFINITION
+directive @rateLimit(
+	max: Int
+	window: String
+	message: String
+	identityArgs: [String]
+	arrayLengthField: String
+) on FIELD_DEFINITION
 
 scalar JSON
+scalar JSONObject
 scalar Date

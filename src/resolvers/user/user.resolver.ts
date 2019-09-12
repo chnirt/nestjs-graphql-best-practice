@@ -55,16 +55,18 @@ export class UserResolver {
 
 		const { select, where, order, skip, take } = conditions
 
-		// console.log(where)
+		console.log(conditions, order)
 
-		const createdAt = { $gte: 0, $lte: new Date().getTime() }
+		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
 		result = await getMongoRepository(type).find({
-			order: JSON.parse(JSON.stringify(order)),
-			where: where[type],
+			where: where[type] && JSON.parse(JSON.stringify(where[type])),
+			order: order && JSON.parse(JSON.stringify(order)),
 			skip,
 			take
 		})
+
+		// console.log(result)
 
 		if (result.length === 0) {
 			throw new ApolloError('Not Found', '404', {})

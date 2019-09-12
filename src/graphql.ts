@@ -83,7 +83,7 @@ export class SearchInput {
     where?: RecordInput;
     start?: number;
     end?: number;
-    order?: JSON;
+    order?: JSONObject;
     skip?: number;
     take?: number;
 }
@@ -423,5 +423,6 @@ export class UserPermissionsInfo {
 }
 
 export type JSON = any;
+export type JSONObject = any;
 export type Upload = any;
 export type Result = User | Site;
