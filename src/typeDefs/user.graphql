@@ -118,6 +118,8 @@ type Mutation {
 	login(input: LoginUserInput!): LoginResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean
 		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
+	changePassword(_id: ID!, currentpassword: String!, password: String!): Boolean
+		@isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
 }

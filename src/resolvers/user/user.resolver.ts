@@ -55,7 +55,7 @@ export class UserResolver {
 
 		const { select, where, order, skip, take } = conditions
 
-		console.log(conditions, order)
+		// console.log(conditions, order)
 
 		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
@@ -291,6 +291,38 @@ export class UserResolver {
 		} catch (error) {
 			throw new ApolloError(error, '500', {})
 		}
+	}
+
+	// COMPLETE:
+	@Mutation(() => Boolean)
+	async changePassword(
+		@Args('_id') _id: string,
+		@Args('currentpassword') currentpassword: string,
+		@Args('password') password: string
+	): Promise<boolean> {
+		const user = await this.userRepository.findOne({ _id })
+
+		console.log(currentpassword, password)
+
+		if (!user) {
+			throw new ApolloError('Not Found: User', '404', {})
+		}
+
+		if (!(await user.matchesPassword(currentpassword))) {
+			throw new ApolloError('missingCurrentPassword', '400', {})
+		}
+
+		if (await user.matchesPassword(password)) {
+			throw new ApolloError(
+				'Your new password must be different from your previous password.',
+				'400',
+				{}
+			)
+		}
+
+		user.password = await user.hashPassword(password)
+
+		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	// COMPLETE:
