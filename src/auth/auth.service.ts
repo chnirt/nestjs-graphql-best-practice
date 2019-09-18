@@ -60,7 +60,7 @@ export class AuthService {
 			item.sitepermissions = sitepermissions
 		})
 
-		return await {
+		return {
 			token,
 			userPermissions
 		}
@@ -81,7 +81,7 @@ export class AuthService {
 			throw new ApolloError('Locked', '423', {})
 		}
 
-		return await this.generateTokenAndUserPermissions(user)
+		return this.generateTokenAndUserPermissions(user)
 	}
 
 	async verifyToken(token: string): Promise<User> {

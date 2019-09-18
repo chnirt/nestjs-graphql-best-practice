@@ -20,7 +20,24 @@
 		"variable-name": false,
 		"no-shadowed-variable": false,
 		"no-string-literal": false,
-		"max-classes-per-file": true
+		"max-classes-per-file": true,
+
+		"eofline": false,
+		"no-implicit-dependencies": false,
+		"no-unnecessary-initializer": false,
+		"unified-signatures": false,
+		"callable-types": false,
+		"curly": false,
+		"array-type": [false],
+		"no-empty-interface": false,
+		"no-empty": false,
+		"no-unused-expression": false,
+		"ban-types": false,
+		"one-line": [false],
+		"one-variable-per-declaration": [false],
+		"no-return-await": true,
+		"match-default-export-name": true,
+		"prefer-readonly": true
 	},
 	"rulesDirectory": []
 }

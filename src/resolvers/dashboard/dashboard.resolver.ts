@@ -21,7 +21,7 @@ export class DashboardResolver {
 
 	@Query(() => [Dashboard])
 	async dashboards(): Promise<Dashboard[]> {
-		return await this.dashboardRepository.find({
+		return this.dashboardRepository.find({
 			order: { createdAt: 'DESC' },
 			cache: true
 		})
@@ -37,12 +37,12 @@ export class DashboardResolver {
 		dashboard.userId = currentUser._id
 		dashboard.data = JSON.stringify(data)
 
-		return await this.dashboardRepository.save(dashboard)
+		return this.dashboardRepository.save(dashboard)
 	}
 
 	@ResolveProperty(() => GraphQLJSON)
 	async data(@Parent() dashboard: Dashboard): Promise<GraphQLJSON> {
 		const { data } = dashboard
-		return await JSON.parse(data)
+		return JSON.parse(data)
 	}
 }

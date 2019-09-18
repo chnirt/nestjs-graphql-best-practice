@@ -13,7 +13,7 @@ export class UserPermissionResolver {
 
 	@Query(() => [UserPermission])
 	async userPermissions() {
-		return await this.userPermissionRepository.find({
+		return this.userPermissionRepository.find({
 			cache: true
 		})
 	}
@@ -45,14 +45,14 @@ export class UserPermissionResolver {
 		if (existedUserPermission) {
 			existedUserPermission.permissions = permissions
 
-			return await this.userPermissionRepository.save(existedUserPermission)
+			return this.userPermissionRepository.save(existedUserPermission)
 		} else {
 			const userPermission = new UserPermission()
 			userPermission.userId = userId
 			userPermission.siteId = siteId
 			userPermission.permissions = permissions
 
-			return await this.userPermissionRepository.save(userPermission)
+			return this.userPermissionRepository.save(userPermission)
 		}
 	}
 }

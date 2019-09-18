@@ -41,7 +41,7 @@ export class UserResolver {
 	// COMPLETE:
 	@Query(() => String)
 	async hello(): Promise<string> {
-		return await uuid.v1()
+		return uuid.v1()
 		// return await 'world'
 	}
 
@@ -78,7 +78,7 @@ export class UserResolver {
 	// COMPLETE:
 	@Query(() => User)
 	async me(@Context('currentUser') currentUser: User) {
-		return await currentUser
+		return currentUser
 	}
 
 	// COMPLETE:
@@ -95,7 +95,7 @@ export class UserResolver {
 			cache: true // 1000: 60000 / 1 minute
 		})
 
-		return await users
+		return users
 	}
 
 	// COMPLETE:
@@ -188,9 +188,7 @@ export class UserResolver {
 				if (existedUserPermission) {
 					existedUserPermission.permissions = permissions
 
-					return await getMongoRepository(UserPermission).save(
-						existedUserPermission
-					)
+					return getMongoRepository(UserPermission).save(existedUserPermission)
 				} else {
 					const createUserPermissionInput = new CreateUserPermissionInput()
 
@@ -198,7 +196,7 @@ export class UserResolver {
 					createUserPermissionInput.siteId = siteId
 					createUserPermissionInput.permissions = permissions
 
-					return await this.userPermissionResolver.createUserPermission(
+					return this.userPermissionResolver.createUserPermission(
 						createUserPermissionInput
 					)
 				}
@@ -390,13 +388,13 @@ export class UserResolver {
 		}
 	})
 	async userCreated(@Context('pubSub') pubSub: any): Promise<User> {
-		return await pubSub.asyncIterator('userCreated')
+		return pubSub.asyncIterator('userCreated')
 	}
 
 	// COMPLETE:
 	@ResolveProperty(() => String)
 	async fullName(@Parent() user: User): Promise<string> {
 		const { firstName, lastName } = user
-		return await `${firstName} ${lastName}`
+		return `${firstName} ${lastName}`
 	}
 }

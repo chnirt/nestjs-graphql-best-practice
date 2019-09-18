@@ -12,7 +12,7 @@ export class PermissionResolver {
 
 	@Query(() => [Permission])
 	async permissions(): Promise<Permission[]> {
-		return await this.permissionRepository.find({
+		return this.permissionRepository.find({
 			cache: true
 		})
 	}

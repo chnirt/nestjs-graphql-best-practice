@@ -20,7 +20,7 @@ export class HistoryResolver {
 		const isoStart = new Date(start)
 		const isoEnd = new Date(end)
 
-		return await this.historyRepository.find({
+		return this.historyRepository.find({
 			where: { createdAt: { $gte: isoStart, $lte: isoEnd } },
 			order: { createdAt: 'DESC' },
 			cache: true
@@ -37,6 +37,6 @@ export class HistoryResolver {
 		history.userId = userId
 		history.description = description
 
-		return await this.historyRepository.save(history)
+		return this.historyRepository.save(history)
 	}
 }

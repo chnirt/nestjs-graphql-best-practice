@@ -14,7 +14,7 @@ export class FileResolver {
 
 	@Query(() => [File])
 	async files(): Promise<File[]> {
-		return await this.fileRepository.find({
+		return this.fileRepository.find({
 			order: { createdAt: 'DESC' },
 			cache: true
 		})

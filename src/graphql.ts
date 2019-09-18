@@ -251,6 +251,8 @@ export abstract class IMutation {
 
     abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>;
 
+    abstract changePassword(_id: string, currentpassword: string, password: string): boolean | Promise<boolean>;
+
     abstract forgotPassword(email: string): boolean | Promise<boolean>;
 
     abstract resetPassword(resetPasswordToken: string, password: string): boolean | Promise<boolean>;

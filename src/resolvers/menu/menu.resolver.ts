@@ -179,6 +179,6 @@ export class MenuResolver {
 
 	@Subscription()
 	async menuSubscription(@Context('pubSub') pubSub: any) {
-		return await pubSub.asyncIterator('menuSubscription')
+		return pubSub.asyncIterator('menuSubscription')
 	}
 }

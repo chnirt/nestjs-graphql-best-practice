@@ -208,6 +208,6 @@ export class OrderResolver {
 
 	@Subscription()
 	async ordersByMenuCreated(@Context('pubSub') pubSub: any) {
-		return await pubSub.asyncIterator('ordersByMenuCreated')
+		return pubSub.asyncIterator('ordersByMenuCreated')
 	}
 }

@@ -14,7 +14,7 @@ export class SiteResolver {
 
 	@Query(() => [Site])
 	async sites(): Promise<Site[]> {
-		return await this.siteRepository.find({
+		return this.siteRepository.find({
 			cache: true
 		})
 	}
@@ -27,7 +27,7 @@ export class SiteResolver {
 			}
 		})
 
-		return await this.siteRepository.find({
+		return this.siteRepository.find({
 			where: { $or: convertIds }
 		})
 	}
@@ -50,7 +50,7 @@ export class SiteResolver {
 		const site = new Site()
 		site.name = name
 
-		return await this.siteRepository.save(site)
+		return this.siteRepository.save(site)
 	}
 
 	@Mutation(() => Site)
