@@ -23,8 +23,7 @@
 		"generate": "ts-node src/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
 		"compodoc": "npx compodoc --port 11045 -p tsconfig.json -s",
-		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && npm run build",
-		"precommit": "npm run lint"
+		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && npm run build"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.5.3",
