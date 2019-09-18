@@ -12,6 +12,16 @@
 		"incremental": true,
 		"allowSyntheticDefaultImports": true,
 		"noLib": false
+		// "baseUrl": "src",
+		// "paths": {
+		// 	"@auth/*": ["auth/*"],
+		// 	"@common/*": ["common/*"],
+		// 	"@config/*": ["config/*"],
+		// 	"@utils/*": ["utils/*"],
+		// 	"@models/*": ["models/*"],
+		// 	"@resolvers/*": ["resolvers/*"]
+		// }
 	},
-	"exclude": ["node_modules"]
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist", "coverage", "asset"]
 }
