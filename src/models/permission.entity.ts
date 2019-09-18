@@ -4,10 +4,9 @@ import {
 	Column,
 	CreateDateColumn,
 	UpdateDateColumn,
-	BeforeInsert,
-	BeforeUpdate
+	BeforeInsert
 } from 'typeorm'
-import { IsString, IsNotEmpty, Length } from 'class-validator'
+import { IsString } from 'class-validator'
 import uuid = require('uuid')
 
 export class CreatePermissionInput {
@@ -26,7 +25,6 @@ export class Permission {
 
 	@Column()
 	@IsString()
-	@IsNotEmpty()
 	code: string
 
 	@Column()
@@ -39,13 +37,7 @@ export class Permission {
 	updatedAt: string
 
 	@BeforeInsert()
-	async b4create() {
-		this._id = await uuid.v1()
-	}
-
-	@BeforeUpdate()
-	async b4update() {
-		console.log('b4Permission')
-		// this.password = await bcrypt.hash(this.password, 10)
+	save() {
+		this._id = uuid.v1()
 	}
 }

@@ -6,7 +6,6 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn
 } from 'typeorm'
-import { IsString, IsNotEmpty, IsArray } from 'class-validator'
 import * as uuid from 'uuid'
 import { PermissionInfo } from '../graphql'
 
@@ -33,7 +32,7 @@ export class UserPermission {
 	updatedAt: string
 
 	@BeforeInsert()
-	async b4create() {
-		this._id = await uuid.v1()
+	save() {
+		this._id = uuid.v1()
 	}
 }

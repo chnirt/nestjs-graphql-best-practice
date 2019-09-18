@@ -6,7 +6,7 @@ import {
 	UpdateDateColumn,
 	BeforeInsert
 } from 'typeorm'
-import { IsString, IsNotEmpty } from 'class-validator'
+import { IsString } from 'class-validator'
 import * as uuid from 'uuid'
 
 @Entity()
@@ -16,12 +16,10 @@ export class History {
 
 	@Column()
 	@IsString()
-	@IsNotEmpty()
 	userId: string
 
 	@Column()
 	@IsString()
-	@IsNotEmpty()
 	description: string
 
 	@CreateDateColumn()
@@ -30,7 +28,7 @@ export class History {
 	updatedAt: string
 
 	@BeforeInsert()
-	async b4create() {
-		this._id = await uuid.v1()
+	save() {
+		this._id = uuid.v1()
 	}
 }

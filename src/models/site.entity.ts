@@ -26,7 +26,7 @@ export class Site {
 	updatedAt: string
 
 	@BeforeInsert()
-	async b4create() {
-		this._id = await uuid.v1()
+	save() {
+		this._id = uuid.v1()
 	}
 }

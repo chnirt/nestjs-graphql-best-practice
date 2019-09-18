@@ -6,7 +6,7 @@ import {
 	UpdateDateColumn,
 	BeforeInsert
 } from 'typeorm'
-import { IsNotEmpty, IsJSON } from 'class-validator'
+import { IsString, IsJSON } from 'class-validator'
 import * as uuid from 'uuid'
 import * as GraphQLJSON from 'graphql-type-json'
 
@@ -16,11 +16,11 @@ export class Dashboard {
 	_id: string
 
 	@Column()
+	@IsString()
 	userId: string
 
 	@Column()
 	@IsJSON()
-	@IsNotEmpty()
 	data: GraphQLJSON
 
 	@CreateDateColumn()
@@ -29,7 +29,7 @@ export class Dashboard {
 	updatedAt: string
 
 	@BeforeInsert()
-	async b4create() {
-		this._id = await uuid.v1()
+	save() {
+		this._id = uuid.v1()
 	}
 }
