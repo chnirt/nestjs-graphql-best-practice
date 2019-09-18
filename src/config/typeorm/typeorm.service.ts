@@ -17,6 +17,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 					entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 					synchronize: true,
 					useNewUrlParser: true,
+					useUnifiedTopology: true,
 					logging: true
 			  }
 			: {
@@ -25,6 +26,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 					entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 					synchronize: true,
 					useNewUrlParser: true,
+					useUnifiedTopology: true,
 					logging: true
 			  }
 	}
