@@ -12,6 +12,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 
 import config from './config.env'
+import chalk from 'chalk'
 
 const { domain, port, end_point, orm } = config
 
@@ -67,11 +68,15 @@ async function bootstrap() {
 	}
 
 	Logger.log(
-		`🚀  Server ready at http://${domain}:${port}/${end_point}`,
+		`🚀  Server ready at http://${domain}:` +
+			chalk.hex('#87e8de').bold(port) +
+			`/${end_point}`,
 		'Bootstrap'
 	)
 	Logger.log(
-		`🚀  Subscriptions ready at ws://${domain}:${port}/${end_point}`,
+		`🚀  Subscriptions ready at ws://${domain}:` +
+			chalk.hex('#87e8de').bold(port) +
+			`/${end_point}`,
 		'Bootstrap'
 	)
 }
