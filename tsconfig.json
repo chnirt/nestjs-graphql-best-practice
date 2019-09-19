@@ -11,7 +11,8 @@
 		"baseUrl": "./",
 		"incremental": true,
 		"allowSyntheticDefaultImports": true,
-		"noLib": false
+		"noLib": false,
+		"noImplicitAny": false
 		// "baseUrl": "src",
 		// "paths": {
 		// 	"@auth/*": ["auth/*"],
@@ -23,5 +24,12 @@
 		// }
 	},
 	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "coverage", "asset"]
+	"exclude": [
+		"node_modules",
+		"dist",
+		"coverage",
+		"assets",
+		"**/*.spec.ts",
+		"**/*.test.ts"
+	]
 }

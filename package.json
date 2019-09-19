@@ -10,7 +10,7 @@
 		"start": "ts-node -r tsconfig-paths/register src/main.ts",
 		"start:dev": "concurrently --handle-input \"wait-on dist/main.js && SECRET_KEY='chnirt1803' nodemon\" \"tsc -w -p tsconfig.build.json\" ",
 		"start:debug": "nodemon --config nodemon-debug.json",
-		"prestart:prod": "rimraf dist && npm run build",
+		"prestart:prod": "rimraf dist && yarn build",
 		"start:prod": "NODE_ENV=production SECRET_KEY='chnirt1803' node -r ./tsconfig-paths-bootstrap.js dist/main.js",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
 		"test": "SECRET_KEY='chnirt1803' NODE_ENV=testing jest",
@@ -23,7 +23,7 @@
 		"generate": "ts-node src/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
 		"compodoc": "npx compodoc --port 11045 -p tsconfig.json -s",
-		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && npm run build"
+		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.7.1",
@@ -89,7 +89,8 @@
 		"wait-on": "^3.2.0",
 		"webpack": "^4.40.2",
 		"webpack-cli": "^3.3.9",
-		"webpack-node-externals": "^1.7.2"
+		"webpack-node-externals": "^1.7.2",
+		"yarn": "^1.17.3"
 	},
 	"jest": {
 		"moduleFileExtensions": [

@@ -37,10 +37,10 @@ describe('AuthResolver', () => {
 		expect(authService).toBeDefined()
 	})
 
-	// it('generateTokenAndUserPermissions should be defined', () => {
-	// 	const user = new User()
-	// 	expect(authService.generateTokenAndUserPermissions(user))
-	// })
+	it('generateTokenAndUserPermissions should be defined', () => {
+		const user = new User()
+		expect(authService.generateTokenAndUserPermissions(user))
+	})
 
 	// it('tradeToken should be defined', () => {
 	// 	const user = new User()
