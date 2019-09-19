@@ -1,9 +1,11 @@
+# auth
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
-# directive @hasRole(role: Role!) on FIELD_DEFINITIONenum Role { ADMIN USER }
 directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
-directive @upper on FIELD_DEFINITION
-directive @concat(value: String!) on FIELD_DEFINITION
-directive @date(format: String) on FIELD_DEFINITION
+# function
+directive @deprecated(
+	reason: String = "No longer supported"
+) on FIELD_DEFINITION | ENUM_VALUE
+# limit
 directive @rateLimit(
 	max: Int
 	window: String
@@ -11,6 +13,12 @@ directive @rateLimit(
 	identityArgs: [String]
 	arrayLengthField: String
 ) on FIELD_DEFINITION
+# validate
+directive @length(max: Int) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+# format
+directive @date(format: String) on FIELD_DEFINITION
+directive @upper on FIELD_DEFINITION
+directive @concat(value: String!) on FIELD_DEFINITION
 
 scalar JSON
 scalar JSONObject

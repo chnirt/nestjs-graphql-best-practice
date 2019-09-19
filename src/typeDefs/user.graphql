@@ -101,7 +101,7 @@ type User {
 
 type Query {
 	hello: String!
-		@rateLimit(window: "2s", max: 1, message: "You are doing that too often.")
+		@rateLimit(window: "3s", max: 1, message: "You are doing that too often.")
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
@@ -111,6 +111,7 @@ type Query {
 type Mutation {
 	createUser(input: CreateUserInput!): User
 		@hasPermission(permission: "USER_CREATE")
+		@rateLimit(window: "5s", max: 1, message: "You are doing that too often.")
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean
 		@hasPermission(permission: "USER_UPDATE")
 	deleteUser(_id: ID!): Boolean @hasPermission(permission: "USER_DELETE")

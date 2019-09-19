@@ -11,6 +11,7 @@ import * as dotenv from 'dotenv'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import * as formatDate from 'dateformat'
 import { createRateLimitDirective } from 'graphql-rate-limit'
+import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
 import { UserPermission } from '../../models'
 import config from '../../config.env'
@@ -29,73 +30,11 @@ export class GraphqlService implements GqlOptionsFactory {
 	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
-		const schemaDirectives = {
-			rateLimit: createRateLimitDirective({
-				identifyContext: ctx => ctx.currentUser._id
-			})
-		}
-		const directiveResolvers = {
-			isAuthenticated: (next, src, args, ctx) => {
-				const { currentUser, currentsite } = ctx
-
-				if (!currentUser || !currentsite) {
-					throw new ApolloError('currentUser & currentsite Required', '499', {})
-				}
-
-				return next()
-			},
-			hasPermission: async (next, src, args, ctx) => {
-				const { currentUser, currentsite } = ctx
-
-				if (!currentUser) {
-					throw new ApolloError('Invalid Token', '498', {})
-				}
-
-				const { permission } = args
-
-				// console.log(currentUser, currentsite, permission)
-
-				const userpermission = await getMongoRepository(UserPermission).findOne({
-					userId: currentUser._id,
-					siteId: currentsite
-				})
-
-				// console.log(userpermission)
-
-				const { permissions } = userpermission
-
-				const index = permissions.map(item => item.code).indexOf(permission)
-
-				if (index === -1) {
-					throw new ApolloError('Unauthorized', '401', {})
-				}
-
-				return next()
-			},
-			upper: async (next, src, args, ctx) => {
-				return next().then(str => {
-					if (typeof str === 'string') {
-						return str.toUpperCase()
-					}
-					return str
-				})
-			},
-			concat: async (next, src, args, ctx) => {
-				return next().then(str => {
-					if (typeof str !== 'undefined') {
-						return `${str}${args.value}`
-					}
-					return str
-				})
-			},
-			date: async (next, src, args, ctx) => {
-				const { format } = args
-				return next().then(date => {
-					return formatDate(new Date(date), format)
-				})
-			}
-		}
-
+		// const schemaDirectives = {
+		// 	rateLimit: createRateLimitDirective({
+		// 		identifyContext: ctx => ctx.currentUser._id
+		// 	})
+		// }
 		return {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
@@ -118,7 +57,6 @@ export class GraphqlService implements GqlOptionsFactory {
 			// 	outputAs: 'class'
 			// },
 			schemaDirectives,
-			directiveResolvers,
 			context: async ({ req, res, connection }) => {
 				if (connection) {
 					return {
