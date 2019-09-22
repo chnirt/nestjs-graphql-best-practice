@@ -6,6 +6,7 @@ import LengthDirective from './length'
 import DateFormatDirective from './date'
 import UpperCaseDirective from './upper'
 import ConcatDirective from './concat'
+import RestDirective from './rest'
 
 export default {
 	isAuthenticated: AuthDirective,
@@ -15,5 +16,6 @@ export default {
 	rateLimit: createRateLimitDirective({ identifyContext: ctx => ctx.id }),
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,
-	concat: ConcatDirective
+	concat: ConcatDirective,
+	rest: RestDirective
 }

@@ -132,7 +132,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
 					'tracing.hideTracingResponse': true
 				}
-			}
+			},
+			uploads: false
 		}
 	}
 }

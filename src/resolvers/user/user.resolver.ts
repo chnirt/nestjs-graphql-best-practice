@@ -19,13 +19,12 @@ import {
 	LoginResponse,
 	LoginUserInput
 } from '../../models/user.entity'
-import { User, UserPermission, History, Site } from '../../models'
+import { User, UserPermission, History } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput, Result, SearchInput } from '../../graphql'
-import * as GraphQLJSON from 'graphql-type-json'
 
 @Resolver('User')
 export class UserResolver {
