@@ -19,9 +19,9 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware'
 import { OrderModule } from './resolvers/order/order.module'
 import { DateScalar } from './common/scalars/date.scalar'
 import { UploadScalar } from './common/scalars/upload.scalar'
-import { UploadModule } from '@utils/upload/upload.module'
-import { AuthModule } from '@auth/auth.module'
-import { MailModule } from '@utils/mail/mail.module'
+import { UploadModule } from './utils/upload/upload.module'
+import { AuthModule } from './auth/auth.module'
+import { MailModule } from './utils/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
 import { DashboardModule } from './resolvers/dashboard/dashboard.module'
 import * as winston from 'winston'
@@ -29,7 +29,7 @@ import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-import config from './config.env'
+// import config from './config.env'
 
 const {
 	combine,
@@ -41,7 +41,7 @@ const {
 	colorize
 } = winston.format
 
-const { end_point } = config
+// const { end_point } = config
 
 @Module({
 	imports: [
@@ -125,6 +125,6 @@ export class AppModule {
 				// }),
 				process.env.NODE_ENV !== 'testing' && LoggerMiddleware
 			)
-			.forRoutes(`/${end_point}`)
+			.forRoutes('/graphql')
 	}
 }

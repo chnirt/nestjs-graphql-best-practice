@@ -49,7 +49,7 @@ describe('UserModule (e2e)', () => {
 
 	it('QUERY › users', () => {
 		return request(app.getHttpServer())
-			.post('/graphqllunch')
+			.post('/graphql')
 			.send({
 				operationName: null,
 				variables: {},

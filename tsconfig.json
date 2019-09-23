@@ -15,11 +15,8 @@
 		"baseUrl": "./",
 		"paths": {
 			"@auth/*": ["src/auth/*"],
-			// "@common/*": ["common/*"],
-			// "@config/*": ["config/*"],
 			"@utils/*": ["src/utils/*"],
 			"@models/*": ["src/models/*"]
-			// "@resolvers/*": ["resolvers/*"]
 		}
 	},
 	"include": ["src/**/*"],

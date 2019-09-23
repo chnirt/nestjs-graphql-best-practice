@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { SiteShopResolver } from './siteShop.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { SiteShop } from '@models/siteShop.entity'
+import { SiteShop } from '../../models/siteShop.entity'
 
 @Module({
 	imports: [TypeOrmModule.forFeature([SiteShop])],

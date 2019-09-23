@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
-import { User, LoginResponse } from '@models/user.entity'
-import { UserPermission } from '@models/userPermission.entity'
+import { User, LoginResponse } from '../models/user.entity'
+import { UserPermission } from '../models/userPermission.entity'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
@@ -12,7 +12,7 @@ export class AuthService {
 	async generateTokenAndUserPermissions(user: User): Promise<LoginResponse> {
 		const token = await sign(
 			{
-				issuer: 'http://lunchapp4.dev.io',
+				issuer: 'http://chnirt.dev.io',
 				subject: user._id,
 				audience: user.email
 			},

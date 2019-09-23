@@ -16,18 +16,13 @@ describe('AppModule (e2e)', () => {
 
 	it('QUERY › hello', () => {
 		return request(app.getHttpServer())
-			.post('/graphqllunch')
+			.post('/graphql')
 			.send({
 				operationName: null,
 				variables: {},
 				query: '{ hello }'
 			})
 			.expect(200)
-			.expect({
-				data: {
-					hello: 'world'
-				}
-			})
 	})
 
 	// afterAll(async () => {

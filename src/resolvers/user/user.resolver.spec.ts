@@ -9,7 +9,7 @@ import { History } from '../../models/history.entity'
 import { UserPermission } from '../../models/userPermission.entity'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
-import { LoginResponse } from '../../models/user.entity'
+// import { LoginResponse } from '../../models/user.entity'
 import * as uuid from 'uuid'
 
 // const userArray = [

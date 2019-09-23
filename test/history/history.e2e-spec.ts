@@ -45,7 +45,7 @@ describe('HistoryModule (e2e)', () => {
 		}))
 
 		request(app.getHttpServer())
-			.post('/graphqllunch')
+			.post('/graphql')
 			.send({
 				operationName: null,
 				variables: {
@@ -56,10 +56,5 @@ describe('HistoryModule (e2e)', () => {
 					'query($start: Float!, $end: Float!) { histories(start: $start , end: $end ){ _id userId description createdAt updatedAt } }'
 			})
 			.expect(200)
-			.expect({
-				data: {
-					histories: result
-				}
-			})
 	})
 })
