@@ -109,8 +109,9 @@
 		"testEnvironment": "node"
 	},
 	"lint-staged": {
-		"**/*.{ts,tsx}": [
+		"/**/*.{ts,tsx}": [
 			"npm run format",
+			"npm run lint",
 			"git add"
 		]
 	},
