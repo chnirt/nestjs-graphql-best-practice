@@ -4,6 +4,7 @@
 /documentation
 /uploads
 /photos
+/logs
 .env
 
 # ts

@@ -19,6 +19,8 @@ directive @length(max: Int) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 directive @date(format: String) on FIELD_DEFINITION
 directive @upper on FIELD_DEFINITION
 directive @concat(value: String!) on FIELD_DEFINITION
+# rest
+directive @rest(url: String) on FIELD_DEFINITION
 
 scalar JSON
 scalar JSONObject

@@ -6,7 +6,7 @@ import {
 	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
-import * as bcrypt from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import {
 	IsString,
 	IsNotEmpty,
@@ -170,7 +170,7 @@ export class User {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.password = bcrypt.hash(this.password, 10)
+		this.password = hash(this.password, 10)
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true
@@ -184,10 +184,10 @@ export class User {
 	}
 
 	hashPassword(password) {
-		return bcrypt.hash(password, 10)
+		return hash(password, 10)
 	}
 
 	matchesPassword(password) {
-		return bcrypt.compare(password, this.password)
+		return compare(password, this.password)
 	}
 }

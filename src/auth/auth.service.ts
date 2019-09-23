@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
-import * as jwt from 'jsonwebtoken'
+import { sign, verify } from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
 import { User, LoginResponse } from '../models/user.entity'
 import { UserPermission } from '../models/userPermission.entity'
@@ -10,13 +10,13 @@ dotenv.config()
 @Injectable()
 export class AuthService {
 	async generateTokenAndUserPermissions(user: User): Promise<LoginResponse> {
-		const token = await jwt.sign(
+		const token = await sign(
 			{
 				issuer: 'http://lunchapp4.dev.io',
 				subject: user._id,
 				audience: user.email
 			},
-			process.env.SECRET_KEY,
+			process.env.SECRET_KEY!,
 			{
 				expiresIn: '30d'
 			}
@@ -88,7 +88,7 @@ export class AuthService {
 		try {
 			let currentUser
 
-			const decodeToken = await jwt.verify(token, process.env.SECRET_KEY)
+			const decodeToken = await verify(token, process.env.SECRET_KEY!)
 
 			currentUser = await getMongoRepository(User).findOne({
 				_id: decodeToken.subject
