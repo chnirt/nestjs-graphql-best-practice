@@ -1,15 +1,22 @@
-import { Entity, ObjectIdColumn, Column, CreateDateColumn, UpdateDateColumn, BeforeInsert } from 'typeorm'
+import {
+	Entity,
+	ObjectIdColumn,
+	Column,
+	CreateDateColumn,
+	UpdateDateColumn,
+	BeforeInsert
+} from 'typeorm'
 import { v1 as uuidv1 } from 'uuid'
 
 @Entity()
 export class Shop {
-  @ObjectIdColumn()
-  _id: string
+	@ObjectIdColumn()
+	_id: string
 
 	@Column()
 	name: string
 
-  @Column()
+	@Column()
 	isActive: boolean
 
 	@CreateDateColumn()
