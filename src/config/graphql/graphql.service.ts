@@ -1,4 +1,4 @@
-import { Injectable, Inject, Next } from '@nestjs/common'
+import { Injectable, Inject } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
@@ -6,14 +6,10 @@ import { PubSub } from 'graphql-subscriptions'
 import { ApolloError } from 'apollo-server-core'
 import { Logger } from '@nestjs/common'
 import { Logger as winstonLogger } from 'winston'
-import { getMongoRepository } from 'typeorm'
 import * as dotenv from 'dotenv'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
-import * as formatDate from 'dateformat'
-import { createRateLimitDirective } from 'graphql-rate-limit'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
-import { UserPermission } from '../../models'
 import config from '../../config.env'
 
 dotenv.config()
@@ -30,11 +26,6 @@ export class GraphqlService implements GqlOptionsFactory {
 	) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
-		// const schemaDirectives = {
-		// 	rateLimit: createRateLimitDirective({
-		// 		identifyContext: ctx => ctx.currentUser._id
-		// 	})
-		// }
 		return {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
@@ -122,15 +113,15 @@ export class GraphqlService implements GqlOptionsFactory {
 			introspection: true,
 			playground: process.env.NODE_ENV !== 'production' && {
 				settings: {
-					'editor.cursorShape': 'line', // possible values: 'line', 'block', 'underline'
+					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
 					'editor.fontSize': 14,
 					'editor.reuseHeaders': true, // new tab reuses headers from last tab
 					'editor.theme': 'dark', // possible values: 'dark', 'light'
-					'general.betaUpdates': false,
+					'general.betaUpdates': true,
 					'queryPlan.hideQueryPlanResponse': false,
 					'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
-					'tracing.hideTracingResponse': true
+					'tracing.hideTracingResponse': false
 				}
 			}
 		}
