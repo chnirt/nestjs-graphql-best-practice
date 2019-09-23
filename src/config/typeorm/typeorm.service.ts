@@ -13,7 +13,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 		return process.env.NODE_ENV === 'testing'
 			? {
 					type: 'mongodb',
-					url: 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql',
+					url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest',
 					entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 					synchronize: true,
 					useNewUrlParser: true,

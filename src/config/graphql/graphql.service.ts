@@ -9,13 +9,13 @@ import { Logger as winstonLogger } from 'winston'
 import * as dotenv from 'dotenv'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
-import { AuthService } from '../../auth/auth.service'
+import { AuthService } from '@auth/auth.service'
 import config from '../../config.env'
 
 dotenv.config()
 const pubSub = new PubSub()
 const end_point =
-	process.env.NODE_ENV === 'testing' ? 'graphqllunch' : config.end_point
+	process.env.NODE_ENV === 'testing' ? 'graphql' : config.end_point
 
 // COMPLETE:
 @Injectable()

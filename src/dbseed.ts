@@ -6,11 +6,11 @@ async function main() {
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
 		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
-		  'mongodb://admin:chnirt1803@ds161397.mlab.com:61397/database-test'
+		  'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
 	const dbName = process.env.MONGO_PORT
-		? 'lunch4'
+		? 'demo'
 		: // 'nest-graphql'
-		  'database-test'
+		  'chnirt-nest'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })
 

@@ -34,6 +34,11 @@ module.exports = {
 	},
 	mode: 'development',
 	resolve: {
+		alias: {
+			'@auth': path.resolve('src/auth'),
+			'@utils': path.resolve('src/utils'),
+			'@models': path.resolve('src/models')
+		},
 		extensions: ['.tsx', '.ts', '.js']
 	},
 	plugins: [

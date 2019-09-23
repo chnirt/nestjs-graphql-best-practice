@@ -18,10 +18,10 @@ import {
 	UpdateUserInput,
 	LoginResponse,
 	LoginUserInput
-} from '../../models/user.entity'
+} from '@models/user.entity'
 import { User, UserPermission, History } from '../../models'
-import { AuthService } from '../../auth/auth.service'
-import { MailService } from '../../utils/mail/mail.service'
+import { AuthService } from '@auth/auth.service'
+import { MailService } from '@utils/mail/mail.service'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput, Result, SearchInput } from '../../graphql'

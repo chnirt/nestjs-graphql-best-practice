@@ -7,21 +7,20 @@
 		"experimentalDecorators": true,
 		"target": "es6",
 		"sourceMap": true,
-		"outDir": "./dist",
-		"baseUrl": "./",
 		"incremental": true,
 		"allowSyntheticDefaultImports": true,
 		"noLib": false,
-		"noImplicitAny": false
-		// "baseUrl": "src",
-		// "paths": {
-		// 	"@auth/*": ["auth/*"],
-		// 	"@common/*": ["common/*"],
-		// 	"@config/*": ["config/*"],
-		// 	"@utils/*": ["utils/*"],
-		// 	"@models/*": ["models/*"],
-		// 	"@resolvers/*": ["resolvers/*"]
-		// }
+		"noImplicitAny": false,
+		"outDir": "./dist",
+		"baseUrl": "./",
+		"paths": {
+			"@auth/*": ["src/auth/*"],
+			// "@common/*": ["common/*"],
+			// "@config/*": ["config/*"],
+			"@utils/*": ["src/utils/*"],
+			"@models/*": ["src/models/*"]
+			// "@resolvers/*": ["resolvers/*"]
+		}
 	},
 	"include": ["src/**/*"],
 	"exclude": [

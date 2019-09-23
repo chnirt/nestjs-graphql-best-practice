@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
 import { ApolloError } from 'apollo-server-core'
-import { User, LoginResponse } from '../models/user.entity'
-import { UserPermission } from '../models/userPermission.entity'
+import { User, LoginResponse } from '@models/user.entity'
+import { UserPermission } from '@models/userPermission.entity'
 import * as dotenv from 'dotenv'
 dotenv.config()
 
