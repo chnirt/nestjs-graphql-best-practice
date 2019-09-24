@@ -105,7 +105,7 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
-	search(conditions: SearchInput!, type: RecordType!): [Result]!
+	search(conditions: SearchInput!): [Result]!
 }
 
 type Mutation {

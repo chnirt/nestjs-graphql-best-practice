@@ -378,10 +378,7 @@ export abstract class IQuery {
 
 	abstract user(_id: string): User | Promise<User>
 
-	abstract search(
-		conditions: SearchInput,
-		type: RecordType
-	): Result[] | Promise<Result[]>
+	abstract search(conditions: SearchInput): Result[] | Promise<Result[]>
 
 	abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>
 

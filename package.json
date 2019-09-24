@@ -22,7 +22,8 @@
 		"start:hmr": "SECRET_KEY='chnirt1803' node dist/main.js",
 		"gen": "ts-node src/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
-		"compodoc": "npx compodoc --port 11045 -p tsconfig.json -s",
+		"doc": "npx compodoc --port 11045 -p tsconfig.json -s",
+		"doc:serve": "npm run doc && npx compodoc -s",
 		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {

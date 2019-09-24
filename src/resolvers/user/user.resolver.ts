@@ -6,7 +6,8 @@ import {
 	Subscription,
 	Context,
 	ResolveProperty,
-	Parent
+	Parent,
+	Info
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
@@ -25,6 +26,7 @@ import { MailService } from '../../utils/mail/mail.service'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
 import { CreateUserPermissionInput, Result, SearchInput } from '../../graphql'
+import { ConstructSignatureDeclaration } from 'ts-morph'
 
 @Resolver('User')
 export class UserResolver {
@@ -48,13 +50,18 @@ export class UserResolver {
 	@Query()
 	async search(
 		@Args('conditions') conditions: SearchInput,
-		@Args('type') type: string
+		@Context('models') models: any,
+		@Info() info: any
 	): Promise<Result[]> {
 		let result
 
 		const { select, where, order, skip, take } = conditions
 
-		// console.log(conditions, order)
+		if (Object.keys(where).length > 1) {
+			throw new ApolloError('Your where must be 1 collection', '400', {})
+		}
+
+		const type = Object.keys(where)[0]
 
 		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
