@@ -46,7 +46,7 @@ export class UserResolver {
 		// return await 'world'
 	}
 
-	// PENDING:
+	// COMPLETE:
 	@Query()
 	async search(
 		@Args('conditions') conditions: SearchInput,
