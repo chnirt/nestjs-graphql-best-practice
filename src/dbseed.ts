@@ -9,7 +9,7 @@ async function main() {
 		  'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
 	const dbName = process.env.MONGO_PORT
 		? 'demo'
-		: // 'nest-graphql'
+		: // 'nest-graphql1'
 		  'chnirt-nest'
 
 	const client = new MongoClient(url, { useNewUrlParser: true })
