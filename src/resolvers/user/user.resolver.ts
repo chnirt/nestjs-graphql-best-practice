@@ -82,7 +82,7 @@ export class UserResolver {
 		return result
 	}
 
-	// PENDING:
+	// COMPLETE:
 	@Query()
 	async searchUser(@Args('userIds') userIds: string[]): Promise<UserResult> {
 		let result
