@@ -8,7 +8,13 @@ enum RecordType {
 	Site
 }
 
+type Users {
+	users: [User!]
+}
+
 union Result = User | Site
+
+union UserResult = User | Users
 
 input UserInput {
 	firstName: String
@@ -106,6 +112,7 @@ type Query {
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
 	search(conditions: SearchInput!): [Result]!
+	searchUser(userIds: [String!]): UserResult!
 }
 
 type Mutation {

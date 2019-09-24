@@ -380,6 +380,8 @@ export abstract class IQuery {
 
 	abstract search(conditions: SearchInput): Result[] | Promise<Result[]>
 
+	abstract searchUser(userIds?: string[]): UserResult | Promise<UserResult>
+
 	abstract userPermissions(): UserPermission[] | Promise<UserPermission[]>
 
 	abstract findAllByUserId(
@@ -458,7 +460,12 @@ export class UserPermissionsInfo {
 	sitepermissions: string[]
 }
 
+export class Users {
+	users?: User[]
+}
+
 export type JSON = any
 export type JSONObject = any
 export type Upload = any
 export type Result = User | Site
+export type UserResult = User | Users

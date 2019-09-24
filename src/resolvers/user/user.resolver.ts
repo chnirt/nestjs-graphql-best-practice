@@ -25,7 +25,12 @@ import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
 import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
 import { HistoryResolver } from '../history/history.resolver'
-import { CreateUserPermissionInput, Result, SearchInput } from '../../graphql'
+import {
+	CreateUserPermissionInput,
+	Result,
+	SearchInput,
+	UserResult
+} from '../../graphql'
 import { ConstructSignatureDeclaration } from 'ts-morph'
 
 @Resolver('User')
@@ -48,11 +53,7 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Query()
-	async search(
-		@Args('conditions') conditions: SearchInput,
-		@Context('models') models: any,
-		@Info() info: any
-	): Promise<Result[]> {
+	async search(@Args('conditions') conditions: SearchInput): Promise<Result[]> {
 		let result
 
 		const { select, where, order, skip, take } = conditions
@@ -76,6 +77,30 @@ export class UserResolver {
 
 		if (result.length === 0) {
 			throw new ApolloError('Not Found', '404', {})
+		}
+
+		return result
+	}
+
+	// PENDING:
+	@Query()
+	async searchUser(@Args('userIds') userIds: string[]): Promise<UserResult> {
+		let result
+
+		if (userIds.length === 0) {
+			throw new ApolloError('userIds can not be blank', '400', {})
+		}
+
+		result = await this.userRepository.find({
+			where: {
+				_id: { $in: userIds }
+			}
+		})
+
+		if (result.length > 1) {
+			result = { users: result }
+		} else {
+			result = result[0]
 		}
 
 		return result

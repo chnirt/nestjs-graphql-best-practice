@@ -7,6 +7,7 @@ import { MailModule } from '../../utils/mail/mail.module'
 import { UserPermissionModule } from '../userPermission/userPermission.module'
 import { HistoryModule } from '../history/history.module'
 import { ResultResolver } from './result.resolver'
+import { UserResultResolver } from './userResult.resolver'
 
 @Module({
 	imports: [
@@ -16,6 +17,6 @@ import { ResultResolver } from './result.resolver'
 		UserPermissionModule,
 		HistoryModule
 	],
-	providers: [UserResolver, ResultResolver]
+	providers: [UserResolver, ResultResolver, UserResultResolver]
 })
 export class UserModule {}
