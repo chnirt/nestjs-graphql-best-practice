@@ -26,6 +26,7 @@
 		"coverage",
 		"assets",
 		"**/*.spec.ts",
-		"**/*.test.ts"
+		"**/*.test.ts",
+		"**/graphql.ts"
 	]
 }
