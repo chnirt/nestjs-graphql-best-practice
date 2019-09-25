@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AuthService } from './auth.service'
 import { User, UserPermission } from '../models'
-import { LoginResponse } from '../graphql'
+import { LoginResponse } from '../graphql.schema'
 
 describe('AuthResolver', () => {
 	let authService: AuthService
