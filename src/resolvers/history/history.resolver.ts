@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { History } from '../../models'
-import { CreateHistoryInput } from '../../graphql'
+import { CreateHistoryInput } from '../../graphql.schema'
 
 @Resolver('History')
 export class HistoryResolver {

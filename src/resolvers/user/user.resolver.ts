@@ -30,7 +30,7 @@ import {
 	Result,
 	SearchInput,
 	UserResult
-} from '../../graphql'
+} from '../../graphql.schema'
 import { ConstructSignatureDeclaration } from 'ts-morph'
 
 @Resolver('User')

@@ -2,23 +2,27 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
-import { createConnection } from 'typeorm'
-
+import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import { LoggerService } from './config/logger/logger.service'
-
 import { ValidationPipe } from './common/pipes/validation.pipe'
-
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
-
 import config from './config.env'
 import chalk from 'chalk'
 
 const { domain, port, end_point, orm } = config
 
-createConnection(orm)
-	.then(connection => Logger.log(`☁️  Database connected`, 'TypeORM'))
-	.catch(error => Logger.log(`❌  Database connect error`, 'TypeORM'))
+createConnection({
+	...config.orm,
+	type: 'mongodb',
+	entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
+	synchronize: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	logging: true
+})
+	.then(cn => Logger.log(`☁️  Database connected, ${cn}`, 'TypeORM'))
+	.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
 
 declare const module: any
 
@@ -41,7 +45,7 @@ async function bootstrap() {
 	app.useLogger(app.get(LoggerService))
 
 	// COMPLETE:
-	if (process.env.NODE_ENV !== 'production') {
+	if (process.env.NODE_ENV === 'development') {
 		app.use(
 			'/voyager',
 			voyagerMiddleware({

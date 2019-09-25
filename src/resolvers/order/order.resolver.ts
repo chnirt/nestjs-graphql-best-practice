@@ -6,7 +6,11 @@ import {
 	Context,
 	Subscription
 } from '@nestjs/graphql'
-import { CreateOrderInput, UpdateOrderInput, OrderCount } from '../../graphql'
+import {
+	CreateOrderInput,
+	UpdateOrderInput,
+	OrderCount
+} from '../../graphql.schema'
 import { Order, User } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'

@@ -10,11 +10,10 @@ import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
 import config from '../../config.env'
-
 dotenv.config()
+
 const pubSub = new PubSub()
-const end_point =
-	process.env.NODE_ENV === 'testing' ? 'graphql' : config.end_point
+const { end_point } = config
 
 // COMPLETE:
 @Injectable()
@@ -57,7 +56,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser
 
-				const { token, currentsite } = req.headers
+				const { token } = req.headers
 
 				if (token) {
 					currentUser = await this.authService.verifyToken(token)
@@ -67,8 +66,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser,
-					currentsite
+					currentUser
 				}
 			},
 			formatError: err => {
@@ -88,15 +86,14 @@ export class GraphqlService implements GqlOptionsFactory {
 					let currentUser
 
 					const token = connectionParams['token']
-					const currentsite = connectionParams['currentsite']
 
 					if (token) {
 						currentUser = await this.authService.verifyToken(token)
 
-						return { currentUser, currentsite }
+						return { currentUser }
 					}
 
-					throw new ApolloError('currentUser & currentsite Required', '499', {})
+					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
 					Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
@@ -110,7 +107,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			installSubscriptionHandlers: true,
 			introspection: true,
-			playground: process.env.NODE_ENV !== 'production' && {
+			playground: process.env.NODE_ENV === 'development' && {
 				settings: {
 					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,

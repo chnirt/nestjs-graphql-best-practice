@@ -7,7 +7,7 @@ import {
 	UpdateDateColumn
 } from 'typeorm'
 import * as uuid from 'uuid'
-import { PermissionInfo } from '../graphql'
+import { PermissionInfo } from '../graphql.schema'
 
 @Entity()
 export class UserPermission {

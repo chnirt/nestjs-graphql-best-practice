@@ -17,7 +17,7 @@ import {
 	IsEmail
 	// IsNumber
 } from 'class-validator'
-import { UserPermissionsInfo, PermissionInfoInput } from '../graphql'
+import { UserPermissionsInfo, PermissionInfoInput } from '../graphql.schema'
 
 enum Gender {
 	MALE,

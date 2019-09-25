@@ -6,7 +6,7 @@ import {
 	Subscription,
 	Context
 } from '@nestjs/graphql'
-import { MenuInfo } from '../../graphql'
+import { MenuInfo } from '../../graphql.schema'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import { InjectRepository } from '@nestjs/typeorm'

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import { SiteShop } from '../../models'
-import { SiteShopResponse } from '../../graphql'
+import { SiteShopResponse } from '../../graphql.schema'
 
 @Resolver('siteShop')
 export class SiteShopResolver {

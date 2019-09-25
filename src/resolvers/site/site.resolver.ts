@@ -1,6 +1,6 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { Site } from '../../models'
-import { CreateSiteInput, UpdateSiteInput } from '../../graphql'
+import { CreateSiteInput, UpdateSiteInput } from '../../graphql.schema'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'

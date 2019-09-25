@@ -29,7 +29,7 @@ import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-// import config from './config.env'
+import config from './config.env'
 
 const {
 	combine,
@@ -41,7 +41,7 @@ const {
 	colorize
 } = winston.format
 
-// const { end_point } = config
+const { end_point } = config
 
 @Module({
 	imports: [
@@ -59,7 +59,7 @@ const {
 			useFactory: () => ({
 				// options
 				format: combine(
-					label({ label: '🥢 Lunchapp4!' }),
+					label({ label: '🥢 Chnirt!' }),
 					json(),
 					timestamp(),
 					// prettyPrint(),
@@ -125,6 +125,6 @@ export class AppModule {
 				// }),
 				process.env.NODE_ENV !== 'testing' && LoggerMiddleware
 			)
-			.forRoutes('/graphql')
+			.forRoutes(`/${end_point}`)
 	}
 }

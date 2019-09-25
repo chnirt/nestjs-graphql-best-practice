@@ -7,7 +7,7 @@ import {
 	UpdateDateColumn
 } from 'typeorm'
 import { v1 as uuidv1 } from 'uuid'
-import { DishInfo } from '../graphql'
+import { DishInfo } from '../graphql.schema'
 
 @Entity()
 export class Menu {
