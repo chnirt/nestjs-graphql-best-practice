@@ -1,11 +1,9 @@
-scalar Upload
-
 type File {
 	_id: ID!
 	filename: String!
 	path: String!
-	createdAt: String!
-	updatedAt: String!
+	createdAt: Float!
+	updatedAt: Float!
 }
 
 type Mutation {

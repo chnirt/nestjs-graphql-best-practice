@@ -3,15 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { User } from '../../src/models/user.entity'
+import config from '../../src/config.env'
+import { User } from '../../src/models'
 import { UserResolver } from '../../src/resolvers/user/user.resolver'
-import { UserPermission } from '../../src/models/userPermission.entity'
-import { History } from '../../src/models/history.entity'
-import { UserPermissionResolver } from '../../src/resolvers/userPermission/userPermission.resolver'
-import { HistoryResolver } from '../../src/resolvers/history/history.resolver'
 import { AppModule } from '../../src/app.module'
 import { AuthService } from '../../src/auth/auth.service'
 import { MailService } from '../../src/utils/mail/mail.service'
+
+const { end_point } = config
 
 describe('UserModule (e2e)', () => {
 	let app: INestApplication
@@ -27,17 +26,7 @@ describe('UserModule (e2e)', () => {
 					useClass: Repository
 				},
 				AuthService,
-				MailService,
-				UserPermissionResolver,
-				{
-					provide: getRepositoryToken(UserPermission),
-					useClass: Repository
-				},
-				HistoryResolver,
-				{
-					provide: getRepositoryToken(History),
-					useClass: Repository
-				}
+				MailService
 			]
 		}).compile()
 
@@ -49,7 +38,7 @@ describe('UserModule (e2e)', () => {
 
 	it('QUERY › users', () => {
 		return request(app.getHttpServer())
-			.post('/graphql')
+			.post(`/${end_point}`)
 			.send({
 				operationName: null,
 				variables: {},

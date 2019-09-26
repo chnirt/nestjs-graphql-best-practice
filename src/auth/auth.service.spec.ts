@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AuthService } from './auth.service'
-import { User, UserPermission } from '../models'
+import { User } from '../models'
 import { LoginResponse } from '../graphql.schema'
 
 describe('AuthResolver', () => {
@@ -39,7 +39,7 @@ describe('AuthResolver', () => {
 
 	it('generateTokenAndUserPermissions should be defined', () => {
 		const user = new User()
-		expect(authService.generateTokenAndUserPermissions(user))
+		expect(authService.generateToken(user))
 	})
 
 	// it('tradeToken should be defined', () => {
@@ -52,20 +52,5 @@ describe('AuthResolver', () => {
 	// it('verifyToken should be defined', () => {
 	// 	const token = ''
 	// 	expect(authService.verifyToken(token))
-	// })
-
-	// it('generateTokenAndUserPermissions should return { token, userPermissions }', () => {
-	// 	const user = new User()
-	// 	user._id = 'c30c0730-be4f-11e9-9f04-f72d443f7ef2'
-	// 	user.email = 'nhocpo.juzo@gmail.com'
-	// 	user.password = '12345678'
-
-	// 	const loginResponse = new LoginResponse()
-
-	// 	const result = Promise.resolve(loginResponse)
-	// 	jest
-	// 		.spyOn(authService, 'generateTokenAndUserPermissions')
-	// 		.mockImplementation(() => result)
-	// 	expect(authService.generateTokenAndUserPermissions(user)).toBe(result)
 	// })
 })

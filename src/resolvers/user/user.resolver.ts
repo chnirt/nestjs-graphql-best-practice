@@ -6,32 +6,22 @@ import {
 	Subscription,
 	Context,
 	ResolveProperty,
-	Parent,
-	Info
+	Parent
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 import * as uuid from 'uuid'
-
 import {
 	CreateUserInput,
 	UpdateUserInput,
 	LoginResponse,
 	LoginUserInput
 } from '../../models/user.entity'
-import { User, UserPermission, History } from '../../models'
+import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
-import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
-import { HistoryResolver } from '../history/history.resolver'
-import {
-	CreateUserPermissionInput,
-	Result,
-	SearchInput,
-	UserResult
-} from '../../graphql.schema'
-import { ConstructSignatureDeclaration } from 'ts-morph'
+import { Result, SearchInput, UserResult } from '../../graphql.schema'
 
 @Resolver('User')
 export class UserResolver {
@@ -39,9 +29,7 @@ export class UserResolver {
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
 		private readonly authService: AuthService,
-		private readonly mailService: MailService,
-		private readonly userPermissionResolver: UserPermissionResolver,
-		private readonly historyResolver: HistoryResolver
+		private readonly mailService: MailService
 	) {}
 
 	// COMPLETE:
@@ -97,6 +85,7 @@ export class UserResolver {
 			}
 		})
 
+		// tslint:disable-next-line:prefer-conditional-expression
 		if (result.length > 1) {
 			result = { users: result }
 		} else {
@@ -152,7 +141,7 @@ export class UserResolver {
 		@Context('pubSub') pubSub
 	): Promise<User> {
 		try {
-			const { firstName, lastName, email, password, gender, sites } = input
+			const { firstName, lastName, email, password, gender } = input
 
 			const existedUser = await this.userRepository.findOne({ email })
 
@@ -169,20 +158,6 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(user)
 
-			sites.map(async item => {
-				const { siteId, permissions } = item
-
-				const createUserPermissionInput = new CreateUserPermissionInput()
-
-				createUserPermissionInput.userId = createdUser._id
-				createUserPermissionInput.siteId = siteId
-				createUserPermissionInput.permissions = permissions
-
-				this.userPermissionResolver.createUserPermission(
-					createUserPermissionInput
-				)
-			})
-
 			pubSub.publish('userCreated', { userCreated: createdUser })
 
 			return createdUser
@@ -198,40 +173,13 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const { firstName, lastName, password, gender, sites } = input
+			const { firstName, lastName, password, gender } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
 				throw new ApolloError('Not Found: User', '404', {})
 			}
-
-			sites.map(async item => {
-				const { siteId, permissions } = item
-
-				const existedUserPermission = await getMongoRepository(
-					UserPermission
-				).findOne({
-					userId: user._id,
-					siteId
-				})
-
-				if (existedUserPermission) {
-					existedUserPermission.permissions = permissions
-
-					return getMongoRepository(UserPermission).save(existedUserPermission)
-				} else {
-					const createUserPermissionInput = new CreateUserPermissionInput()
-
-					createUserPermissionInput.userId = user._id
-					createUserPermissionInput.siteId = siteId
-					createUserPermissionInput.permissions = permissions
-
-					return this.userPermissionResolver.createUserPermission(
-						createUserPermissionInput
-					)
-				}
-			})
 
 			user.firstName = firstName
 			user.lastName = lastName
@@ -284,9 +232,9 @@ export class UserResolver {
 	): Promise<LoginResponse> {
 		const { email, password } = input
 
-		const loginResponse = await this.authService.tradeToken(email, password)
+		const token = await this.authService.tradeToken(email, password)
 
-		return loginResponse
+		return { token }
 	}
 
 	// COMPLETE:
@@ -305,16 +253,6 @@ export class UserResolver {
 
 			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
-
-			// console.log(currentUser)
-
-			const history = new History()
-			history.userId = currentUser._id
-			history.description = user.isLocked
-				? `${currentUser.email} locked ${user.email} because ${reason}`
-				: `${currentUser.email} unlocked ${user.email}`
-
-			this.historyResolver.createHistory(history)
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {

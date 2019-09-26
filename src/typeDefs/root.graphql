@@ -1,6 +1,5 @@
 # auth
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
-directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
 # function
 directive @deprecated(
 	reason: String = "No longer supported"
@@ -25,3 +24,4 @@ directive @rest(url: String) on FIELD_DEFINITION
 scalar JSON
 scalar JSONObject
 scalar Date
+scalar Upload

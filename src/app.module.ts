@@ -7,23 +7,13 @@ import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { LoggerModule } from './config/logger/logger.module'
 import { UserModule } from './resolvers/user/user.module'
-import { PermissionModule } from './resolvers/permission/permission.module'
-import { UserPermissionModule } from './resolvers/userPermission/userPermission.module'
-import { SiteModule } from './resolvers/site/site.module'
-import { ShopModule } from './resolvers/shop/shop.module'
-import { SiteShopModule } from './resolvers/siteShop/siteShop.module'
-import { DishModule } from './resolvers/dish/dish.module'
-import { MenuModule } from './resolvers/menu/menu.module'
-import { HistoryModule } from './resolvers/history/history.module'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
-import { OrderModule } from './resolvers/order/order.module'
 import { DateScalar } from './common/scalars/date.scalar'
 import { UploadScalar } from './common/scalars/upload.scalar'
 import { UploadModule } from './utils/upload/upload.module'
 import { AuthModule } from './auth/auth.module'
 import { MailModule } from './utils/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
-import { DashboardModule } from './resolvers/dashboard/dashboard.module'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -90,21 +80,11 @@ const { end_point } = config
 			inject: []
 		}),
 		UserModule,
-		PermissionModule,
-		UserPermissionModule,
 		AuthModule,
-		SiteModule,
-		ShopModule,
-		SiteShopModule,
-		DishModule,
-		MenuModule,
-		HistoryModule,
 		LoggerModule,
-		OrderModule,
 		MailModule,
 		FileModule,
-		UploadModule,
-		DashboardModule
+		UploadModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

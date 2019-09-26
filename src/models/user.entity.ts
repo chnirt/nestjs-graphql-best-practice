@@ -17,24 +17,10 @@ import {
 	IsEmail
 	// IsNumber
 } from 'class-validator'
-import { UserPermissionsInfo, PermissionInfoInput } from '../graphql.schema'
 
 enum Gender {
 	MALE,
 	FEMALE
-}
-
-export class SitesInfoInput {
-	@Length(36, 36, {
-		message: 'Your siteId must be 36 characters'
-	})
-	@IsString()
-	@IsNotEmpty({ message: 'Your siteId can not be blank' })
-	siteId: string
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your permissions can not be blank' })
-	permissions: PermissionInfoInput[]
 }
 
 export class LoginUserInput {
@@ -77,10 +63,6 @@ export class CreateUserInput {
 
 	@IsNotEmpty({ message: 'Your gender can not be blank' })
 	gender: Gender
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your sites can not be blank' })
-	sites: SitesInfoInput[]
 }
 
 export class UpdateUserInput {
@@ -104,20 +86,12 @@ export class UpdateUserInput {
 
 	@IsNotEmpty({ message: 'Your gender can not be blank' })
 	gender: Gender
-
-	@IsArray()
-	@IsNotEmpty({ message: 'Your sites can not be blank' })
-	sites: SitesInfoInput[]
 }
 
 export class LoginResponse {
 	@IsString()
 	@IsNotEmpty()
 	token: string
-
-	@IsArray()
-	@IsNotEmpty()
-	userPermissions: UserPermissionsInfo[]
 }
 
 @Entity()

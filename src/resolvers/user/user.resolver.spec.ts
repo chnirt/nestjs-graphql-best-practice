@@ -2,11 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
-import { UserPermissionResolver } from '../userPermission/userPermission.resolver'
-import { HistoryResolver } from '../history/history.resolver'
 import { User } from '../../models/user.entity'
-import { History } from '../../models/history.entity'
-import { UserPermission } from '../../models/userPermission.entity'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
 // import { LoginResponse } from '../../models/user.entity'
@@ -35,17 +31,7 @@ describe('UserResolver', () => {
 					useClass: Repository
 				},
 				AuthService,
-				MailService,
-				UserPermissionResolver,
-				{
-					provide: getRepositoryToken(UserPermission),
-					useClass: Repository
-				},
-				HistoryResolver,
-				{
-					provide: getRepositoryToken(History),
-					useClass: Repository
-				}
+				MailService
 			]
 		}).compile()
 

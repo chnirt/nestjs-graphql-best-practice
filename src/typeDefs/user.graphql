@@ -5,15 +5,14 @@ enum Gender {
 
 enum RecordType {
 	User
-	Site
+	File
 }
 
 type Users {
 	users: [User!]
 }
 
-union Result = User | Site
-
+union Result = User | File
 union UserResult = User | Users
 
 input UserInput {
@@ -24,18 +23,13 @@ input UserInput {
 	gender: Gender
 }
 
-input SiteInput {
-	name: String
+input FileInput {
+	filename: String
 }
 
 input RecordInput {
 	User: UserInput
-	Site: SiteInput
-}
-
-input SitesInfoInput {
-	siteId: ID!
-	permissions: [PermissionInfoInput!]!
+	File: FileInput
 }
 
 input CreateUserInput {
@@ -44,7 +38,6 @@ input CreateUserInput {
 	email: String!
 	password: String!
 	gender: Gender!
-	sites: [SitesInfoInput!]!
 }
 
 input UpdateUserInput {
@@ -52,7 +45,6 @@ input UpdateUserInput {
 	lastName: String!
 	password: String!
 	gender: Gender!
-	sites: [SitesInfoInput!]!
 }
 
 input LoginUserInput {
@@ -72,19 +64,6 @@ input SearchInput {
 
 type LoginResponse {
 	token: String!
-	userPermissions: [UserPermissionsInfo!]!
-}
-
-type UserPermissionsInfo {
-	siteId: ID!
-	siteName: String
-	permissions: [PermissionInfo!]!
-	sitepermissions: [String!]!
-}
-
-type PermissionInfo {
-	_id: ID
-	code: String
 }
 
 type User {
@@ -111,21 +90,19 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
-	search(conditions: SearchInput!): [Result]!
+	search(conditions: SearchInput!, type: RecordType!): [Result]! @isAuthenticated
 	searchUser(userIds: [String!]): UserResult!
 }
 
 type Mutation {
 	createUser(input: CreateUserInput!): User
-		@hasPermission(permission: "USER_CREATE")
+		@isAuthenticated
 		@rateLimit(window: "5s", max: 1, message: "You are doing that too often.")
-	updateUser(_id: ID!, input: UpdateUserInput!): Boolean
-		@hasPermission(permission: "USER_UPDATE")
-	deleteUser(_id: ID!): Boolean @hasPermission(permission: "USER_DELETE")
+	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
+	deleteUser(_id: ID!): Boolean @isAuthenticated
 	deleteUsers: Boolean! @isAuthenticated
 	login(input: LoginUserInput!): LoginResponse
-	lockAndUnlockUser(_id: ID!, reason: String!): Boolean
-		@hasPermission(permission: "USER_LOCK_AND_UNLOCK")
+	lockAndUnlockUser(_id: ID!, reason: String!): Boolean @isAuthenticated
 	changePassword(_id: ID!, currentpassword: String!, password: String!): Boolean
 		@isAuthenticated
 	forgotPassword(email: String!): Boolean
