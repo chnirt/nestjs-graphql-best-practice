@@ -9,6 +9,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import config from './config.env';
 import chalk from 'chalk';
+import { TasksService } from '@utils/tasks/tasks.service';
 
 const { domain, port, end_point, orm } = config;
 
@@ -64,18 +65,13 @@ async function bootstrap() {
 
   await app.listen(port);
 
+  // const appService = app.get(TasksService);
+
   // COMPLETE:
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());
   }
-
-  const cron = require('cron');
-  const cronJob = cron.job('*/1 * * * * *', () => {
-    // perform operation e.g. GET request http.get() etc.
-    console.info('cron job completed');
-  });
-  cronJob.start();
 
   process.env.NODE_ENV !== 'production' &&
     Logger.log(

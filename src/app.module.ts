@@ -1,4 +1,9 @@
-import { Module, CacheModule, MiddlewareConsumer } from '@nestjs/common';
+import {
+  Module,
+  CacheModule,
+  MiddlewareConsumer,
+  OnModuleInit,
+} from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GraphQLModule } from '@nestjs/graphql';
 import { WinstonModule } from 'nest-winston';
@@ -93,7 +98,7 @@ const { end_point } = config;
 })
 
 // COMPLETE:
-export class AppModule {
+export class AppModule implements OnModuleInit {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(
@@ -110,5 +115,11 @@ export class AppModule {
       )
       .forRoutes(`/${end_point}`);
   }
-  constructor(private readonly tasksService: TasksService) {}
+
+  constructor(private tasksService: TasksService) {}
+
+  onModuleInit() {
+    console.log(`Initialization...`);
+    this.tasksService.cron();
+  }
 }
