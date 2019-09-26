@@ -28,7 +28,7 @@ export class GraphqlService implements GqlOptionsFactory {
     return {
       typePaths: ['./**/*.graphql'],
       resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
-      mocks: process.env.NODE_ENV !== 'testing' && {
+      mocks: process.env.NODE_ENV === 'testing' && {
         // String: () => 'Chnirt',
         Query: () => ({
           users: () => new MockList([2, 6]),
