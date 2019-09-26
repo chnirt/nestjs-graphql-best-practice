@@ -1,32 +1,32 @@
 {
-	"compilerOptions": {
-		"module": "commonjs",
-		"declaration": true,
-		"removeComments": true,
-		"emitDecoratorMetadata": true,
-		"experimentalDecorators": true,
-		"target": "es6",
-		"sourceMap": true,
-		"incremental": true,
-		"allowSyntheticDefaultImports": true,
-		"noLib": false,
-		"noImplicitAny": false,
-		"outDir": "./dist",
-		"baseUrl": "./",
-		"paths": {
-			"@auth/*": ["src/auth/*"],
-			"@utils/*": ["src/utils/*"],
-			"@models/*": ["src/models/*"]
-		}
-	},
-	"include": ["src/**/*"],
-	"exclude": [
-		"node_modules",
-		"dist",
-		"coverage",
-		"assets",
-		"**/*.spec.ts",
-		"**/*.test.ts",
-		"**/graphql.ts"
-	]
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "incremental": true,
+    "allowSyntheticDefaultImports": true,
+    "noLib": false,
+    "noImplicitAny": false,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@auth/*": ["src/auth/*"],
+      "@utils/*": ["src/utils/*"],
+      "@models/*": ["src/models/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "assets",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "**/graphql.ts"
+  ]
 }
