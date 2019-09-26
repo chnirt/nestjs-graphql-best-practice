@@ -45,14 +45,13 @@ async function bootstrap() {
 	app.useLogger(app.get(LoggerService))
 
 	// COMPLETE:
-	if (process.env.NODE_ENV === 'development') {
+	process.env.NODE_ENV !== 'production' &&
 		app.use(
 			'/voyager',
 			voyagerMiddleware({
 				endpointUrl: `/${end_point}`
 			})
 		)
-	}
 
 	// COMPLETE:
 	app.useGlobalInterceptors(new LoggingInterceptor())
@@ -71,17 +70,19 @@ async function bootstrap() {
 		module.hot.dispose(() => app.close())
 	}
 
-	Logger.log(
-		`🚀  Server ready at http://${domain}:` +
-			chalk.hex('#87e8de').bold(port) +
-			`/${end_point}`,
-		'Bootstrap'
-	)
-	Logger.log(
-		`🚀  Subscriptions ready at ws://${domain}:` +
-			chalk.hex('#87e8de').bold(port) +
-			`/${end_point}`,
-		'Bootstrap'
-	)
+	process.env.NODE_ENV !== 'production' &&
+		Logger.log(
+			`🚀  Server ready at http://${domain}:` +
+				chalk.hex('#87e8de').bold(port) +
+				`/${end_point}`,
+			'Bootstrap'
+		)
+	process.env.NODE_ENV !== 'production' &&
+		Logger.log(
+			`🚀  Subscriptions ready at ws://${domain}:` +
+				chalk.hex('#87e8de').bold(port) +
+				`/${end_point}`,
+			'Bootstrap'
+		)
 }
 bootstrap()

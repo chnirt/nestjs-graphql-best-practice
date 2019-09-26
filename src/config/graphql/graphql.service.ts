@@ -10,6 +10,7 @@ import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
 import config from '../../config.env'
+import { MockList } from 'graphql-tools'
 dotenv.config()
 
 const pubSub = new PubSub()
@@ -27,6 +28,12 @@ export class GraphqlService implements GqlOptionsFactory {
 		return {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
+			mocks: process.env.NODE_ENV === 'testing' && {
+				Query: () => ({
+					users: () => new MockList([0, 2])
+				})
+			},
+			mockEntireSchema: process.env.NODE_ENV === 'testing' && false,
 			resolverValidationOptions: {
 				requireResolversForResolveType: false
 			},
@@ -46,6 +53,32 @@ export class GraphqlService implements GqlOptionsFactory {
 			// 	outputAs: 'class'
 			// },
 			schemaDirectives,
+			introspection: true,
+			playground: process.env.NODE_ENV !== 'production' && {
+				settings: {
+					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
+					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
+					'editor.fontSize': 14,
+					'editor.reuseHeaders': true, // new tab reuses headers from last tab
+					'editor.theme': 'dark', // possible values: 'dark', 'light'
+					'general.betaUpdates': true,
+					'queryPlan.hideQueryPlanResponse': false,
+					'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
+					'tracing.hideTracingResponse': false
+				}
+				// tabs: [
+				// 	{
+				// 		endpoint: end_point,
+				// 		query: '{ hello }'
+				// 	}
+				// ]
+			},
+			tracing: process.env.NODE_ENV === 'production' && true,
+			cacheControl: process.env.NODE_ENV === 'production' && {
+				defaultMaxAge: 5,
+				stripFormattedExtensions: false,
+				calculateHttpHeaders: false
+			},
 			context: async ({ req, res, connection }) => {
 				if (connection) {
 					return {
@@ -69,19 +102,20 @@ export class GraphqlService implements GqlOptionsFactory {
 					currentUser
 				}
 			},
-			formatError: err => {
+			formatError: error => {
 				// this.logger.error('✖️ ' + JSON.stringify(err.message), 'Error')
-				return err
+				return error
 			},
-			formatResponse: err => {
-				// console.log(err)
-				return err
+			formatResponse: response => {
+				// console.log(response)
+				return response
 			},
-			debug: true,
 			subscriptions: {
 				path: `/${end_point}`,
+				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
-					Logger.log(`🔗  Connected to websocket`, 'GraphQL')
+					process.env.NODE_ENV !== 'production' &&
+						Logger.log(`🔗  Connected to websocket`, 'GraphQL')
 
 					let currentUser
 
@@ -96,7 +130,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
-					Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
+					process.env.NODE_ENV !== 'production' &&
+						Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},
 			persistedQueries: {
@@ -106,20 +141,6 @@ export class GraphqlService implements GqlOptionsFactory {
 				)
 			},
 			installSubscriptionHandlers: true,
-			introspection: true,
-			playground: process.env.NODE_ENV === 'development' && {
-				settings: {
-					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
-					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
-					'editor.fontSize': 14,
-					'editor.reuseHeaders': true, // new tab reuses headers from last tab
-					'editor.theme': 'dark', // possible values: 'dark', 'light'
-					'general.betaUpdates': true,
-					'queryPlan.hideQueryPlanResponse': false,
-					'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
-					'tracing.hideTracingResponse': false
-				}
-			},
 			uploads: false
 		}
 	}
