@@ -70,6 +70,13 @@ async function bootstrap() {
     module.hot.dispose(() => app.close());
   }
 
+  const cron = require('cron');
+  const cronJob = cron.job('*/1 * * * * *', () => {
+    // perform operation e.g. GET request http.get() etc.
+    console.info('cron job completed');
+  });
+  cronJob.start();
+
   process.env.NODE_ENV !== 'production' &&
     Logger.log(
       `🚀  Server ready at http://${domain}:` +

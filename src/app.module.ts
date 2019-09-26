@@ -14,12 +14,14 @@ import { UploadModule } from './utils/upload/upload.module';
 import { AuthModule } from './auth/auth.module';
 import { MailModule } from './utils/mail/mail.module';
 import { FileModule } from './resolvers/file/file.module';
+import { TasksModule } from './utils/tasks/tasks.module';
 import * as winston from 'winston';
 import * as helmet from 'helmet';
 import * as compression from 'compression';
 import * as csurf from 'csurf';
 import * as rateLimit from 'express-rate-limit';
 import config from './config.env';
+import { TasksService } from '@utils/tasks/tasks.service';
 
 const {
   combine,
@@ -85,6 +87,7 @@ const { end_point } = config;
     MailModule,
     FileModule,
     UploadModule,
+    TasksModule,
   ],
   providers: [DateScalar, UploadScalar],
 })
@@ -107,4 +110,5 @@ export class AppModule {
       )
       .forRoutes(`/${end_point}`);
   }
+  constructor(private readonly tasksService: TasksService) {}
 }
