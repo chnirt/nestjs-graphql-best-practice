@@ -1,27 +1,21 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+const cron = require('cron');
 
 @Injectable()
-export class TasksService implements OnModuleInit {
-  onModuleInit() {
-    console.log(`Initialization...`);
-    this.cron();
-  }
-
-  async timeout() {
+export class TasksService {
+  async Timeout() {
     const taskID = setTimeout(() => console.log('Task completed'), 2000);
-    clearTimeout(taskID);
+    // clearTimeout(taskID);
   }
 
-  async interval() {
+  async Interval() {
     const intervalID = setInterval(() => console.log('Task executed'), 2000);
-    clearInterval(intervalID);
+    // clearInterval(intervalID);
   }
 
-  async cron() {
-    const cron = require('cron');
+  async Cron() {
     const cronJob = cron.job('*/1 * * * * *', () => {
-      // perform operation e.g. GET request http.get() etc.
-      console.info('cron job completed');
+      console.info('Cron job completed');
     });
     cronJob.start();
   }

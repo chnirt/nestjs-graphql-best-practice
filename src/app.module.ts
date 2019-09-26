@@ -119,7 +119,8 @@ export class AppModule implements OnModuleInit {
   constructor(private tasksService: TasksService) {}
 
   onModuleInit() {
-    console.log(`Initialization...`);
-    this.tasksService.cron();
+    this.tasksService.Timeout();
+    this.tasksService.Interval();
+    this.tasksService.Cron();
   }
 }
