@@ -1,45 +1,77 @@
-{
-  "defaultSeverity": "error",
-  "extends": ["tslint:recommended", "tslint:latest", "tslint-config-prettier"],
-  "jsRules": {
-    "no-unused-expression": true
-  },
-  "rules": {
-    "quotemark": [true, "single"],
-    "member-access": [false],
-    "ordered-imports": [false],
-    "max-line-length": [true, 150],
-    "member-ordering": [false],
-    "interface-name": [false],
-    "arrow-parens": false,
-    "object-literal-sort-keys": false,
-    "indent": false,
-    "trailing-comma": false,
-    "semicolon": false,
-    "no-console": false,
-    "variable-name": false,
-    "no-shadowed-variable": false,
-    "no-string-literal": false,
-    "max-classes-per-file": true,
+// {
+//   "defaultSeverity": "error",
+//   "extends": ["tslint:recommended", "tslint:latest", "tslint-config-prettier"],
+//   "jsRules": {
+//     "no-unused-expression": true
+//   },
+//   "rules": {
+//     "quotemark": [true, "single"],
+//     "member-access": [false],
+//     "ordered-imports": [false],
+//     "max-line-length": [true, 150],
+//     "member-ordering": [false],
+//     "interface-name": [false],
+//     "arrow-parens": false,
+//     "object-literal-sort-keys": false,
+//     "indent": false,
+//     "trailing-comma": false,
+//     "semicolon": false,
+//     "no-console": false,
+//     "variable-name": false,
+//     "no-shadowed-variable": false,
+//     "no-string-literal": false,
+//     "max-classes-per-file": true,
 
-    "eofline": false,
-    "no-implicit-dependencies": false,
-    "no-unnecessary-initializer": false,
-    "unified-signatures": false,
-    "callable-types": false,
-    "curly": false,
-    "array-type": [false],
-    "no-empty-interface": false,
-    "no-empty": false,
-    "no-unused-expression": false,
-    "ban-types": false,
-    "one-line": [false],
-    "one-variable-per-declaration": [false],
-    "no-return-await": true,
-    "match-default-export-name": true,
-    "prefer-readonly": true,
-    "no-submodule-imports": false,
-    "jsdoc-format": false
-  },
-  "rulesDirectory": []
+//     "eofline": false,
+//     "no-implicit-dependencies": false,
+//     "no-unnecessary-initializer": false,
+//     "unified-signatures": false,
+//     "callable-types": false,
+//     "curly": false,
+//     "array-type": [false],
+//     "no-empty-interface": false,
+//     "no-empty": false,
+//     "no-unused-expression": false,
+//     "ban-types": false,
+//     "one-line": [false],
+//     "one-variable-per-declaration": [false],
+//     "no-return-await": true,
+//     "match-default-export-name": true,
+//     "prefer-readonly": true,
+//     "no-submodule-imports": false,
+//     "jsdoc-format": false
+//   },
+//   "rulesDirectory": []
+// }
+
+{
+	"defaultSeverity": "error",
+	"extends": ["tslint:recommended"],
+	"jsRules": {
+		"no-unused-expression": true
+	},
+	"rules": {
+		"quotemark": [true, "single"],
+		"member-access": [false],
+		"ordered-imports": [false],
+		"max-line-length": [true, 150],
+		"member-ordering": [false],
+		"interface-name": [false],
+		"arrow-parens": false,
+		"object-literal-sort-keys": false,
+		"indent": false,
+		"trailing-comma": false,
+		"semicolon": false,
+		"no-console": false,
+		"variable-name": false,
+		"no-shadowed-variable": false,
+		"no-string-literal": false,
+		"max-classes-per-file": true,
+
+		"no-unused-expression": false
+	},
+	"rulesDirectory": [],
+	"lintOptions": {
+		"typeCheck": true
+	}
 }
