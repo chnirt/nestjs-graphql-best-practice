@@ -107,7 +107,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				return error
 			},
 			formatResponse: response => {
-				// console.log(response1)
+				// console.log(response)
 				return response
 			},
 			subscriptions: {

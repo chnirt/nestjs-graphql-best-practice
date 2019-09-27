@@ -14,7 +14,7 @@
 		"start:prod": "NODE_ENV=production SECRET_KEY='chnirt1803' node -r ./tsconfig-paths-bootstrap.js dist/main.js",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
 		"lint:fix": "tslint --fix -p tsconfig.json -c tslint.json",
-		"test": "SECRET_KEY='chnirt1803' NODE_ENV=testing jest",
+		"test": "NODE_ENV=testing SECRET_KEY='chnirt1803' jest",
 		"test:watch": "NODE_ENV=testing jest --watch",
 		"test:cov": "NODE_ENV=testing jest --coverage",
 		"test:debug": "NODE_ENV=testing node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
