@@ -1,0 +1,15 @@
+{
+	"moduleDirectories": ["node_modules", "src"],
+	"moduleFileExtensions": ["js", "json", "ts"],
+	"testRegex": ".(spec|test).ts$",
+	"transform": {
+		"^.+\\.ts$": "ts-jest"
+	},
+	"coverageDirectory": "../coverage",
+	"testEnvironment": "node",
+	"moduleNameMapper": {
+		"^@auth(.*)$": "<rootDir>/src/auth$1",
+		"^@utils(.*)$": "<rootDir>/src/utils$1",
+		"^@models(.*)$": "<rootDir>/src/models$1"
+	}
+}

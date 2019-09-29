@@ -4,6 +4,11 @@
 	"testEnvironment": "node",
 	"testRegex": ".e2e-spec.ts$",
 	"transform": {
-		"^.+\\.(t|j)s$": "ts-jest"
+		"^.+\\.ts$": "ts-jest"
+	},
+	"moduleNameMapper": {
+		"^@auth(.*)$": "<rootDir>/../src/auth$1",
+		"^@utils(.*)$": "<rootDir>/../src/utils$1",
+		"^@models(.*)$": "<rootDir>/../src/models$1"
 	}
 }
