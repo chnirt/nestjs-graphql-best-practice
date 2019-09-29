@@ -5,4 +5,8 @@ describe('File class', () => {
 	it('save should be defined', () => {
 		expect(file.save())
 	})
+
+	it('save should be defined', () => {
+		expect(file.update())
+	})
 })

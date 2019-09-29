@@ -21,7 +21,7 @@ createConnection({
 	useUnifiedTopology: true,
 	logging: true
 })
-	.then(cn => Logger.log(`☁️  Database connected, ${cn}`, 'TypeORM'))
+	.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
 	.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
 
 declare const module: any

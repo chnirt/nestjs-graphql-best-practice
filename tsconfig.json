@@ -12,11 +12,11 @@
 		"noLib": false,
 		"noImplicitAny": false,
 		"outDir": "./dist",
-		"baseUrl": "./",
+		"baseUrl": "src",
 		"paths": {
-			"@auth/*": ["src/auth/*"],
-			"@utils/*": ["src/utils/*"],
-			"@models/*": ["src/models/*"]
+			"@auth/*": ["auth/*"],
+			"@utils/*": ["utils/*"],
+			"@models/*": ["models/*"]
 		}
 	},
 	"include": ["src/**/*"],
@@ -25,8 +25,7 @@
 		"dist",
 		"coverage",
 		"assets",
-		"**/*.spec.ts",
-		"**/*.test.ts",
+		"**/*.(spec|test).ts",
 		"**/graphql.schema.ts"
 	]
 }

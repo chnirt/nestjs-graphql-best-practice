@@ -8,9 +8,9 @@
 		"build": "tsc -p tsconfig.build.json",
 		"format": "prettier --write \"src/**/*.ts\"",
 		"start": "ts-node -r tsconfig-paths/register src/main.ts",
-		"start:dev": "concurrently --handle-input \"wait-on dist/main.js && SECRET_KEY='chnirt1803' nodemon\" \"tsc -w -p tsconfig.build.json\" ",
+		"start:dev": "SECRET_KEY='chnirt1803' nodemon",
 		"start:debug": "nodemon --config nodemon-debug.json",
-		"prestart:prod": "rimraf dist && yarn build",
+		"prestart:prod": "rm -rf dist && tsc",
 		"start:prod": "NODE_ENV=production SECRET_KEY='chnirt1803' node -r ./tsconfig-paths-bootstrap.js dist/main.js",
 		"lint": "tslint -p tsconfig.json -c tslint.json",
 		"lint:fix": "tslint --fix -p tsconfig.json -c tslint.json",
@@ -99,18 +99,26 @@
 		"yarn": "^1.17.3"
 	},
 	"jest": {
+		"moduleDirectories": [
+			"node_modules",
+			"src"
+		],
 		"moduleFileExtensions": [
 			"js",
 			"json",
 			"ts"
 		],
-		"rootDir": "src",
-		"testRegex": ".spec.ts$",
+		"testRegex": ".(spec|test).ts$",
 		"transform": {
-			"^.+\\.(t|j)s$": "ts-jest"
+			"^.+\\.ts$": "ts-jest"
 		},
 		"coverageDirectory": "../coverage",
-		"testEnvironment": "node"
+		"testEnvironment": "node",
+		"moduleNameMapper": {
+			"^@auth(.*)$": "<rootDir>/src/auth$1",
+			"^@utils(.*)$": "<rootDir>/src/utils$1",
+			"^@models(.*)$": "<rootDir>/src/models$1"
+		}
 	},
 	"lint-staged": {
 		"*.{ts}": [

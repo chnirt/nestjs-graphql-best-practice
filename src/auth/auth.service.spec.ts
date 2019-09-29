@@ -4,7 +4,7 @@ import { User } from '../models'
 import { LoginResponse } from '../graphql.schema'
 
 describe('AuthResolver', () => {
-	let authService: AuthService
+	let service: AuthService
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
@@ -30,16 +30,16 @@ describe('AuthResolver', () => {
 			]
 		}).compile()
 
-		authService = module.get<AuthService>(AuthService)
+		service = module.get<AuthService>(AuthService)
 	})
 
 	it('should be defined', () => {
-		expect(authService).toBeDefined()
+		expect(service).toBeDefined()
 	})
 
 	it('generateTokenAndUserPermissions should be defined', () => {
 		const user = new User()
-		expect(authService.generateToken(user))
+		expect(service.generateToken(user))
 	})
 
 	// it('tradeToken should be defined', () => {

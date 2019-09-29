@@ -16,6 +16,7 @@ import {
 	IsEmail
 	// IsNumber
 } from 'class-validator'
+import { Exclude, Expose } from 'class-transformer'
 
 enum Gender {
 	MALE,
@@ -112,6 +113,7 @@ export class User {
 
 	@Column()
 	@IsNotEmpty()
+	@Exclude()
 	password: string
 
 	@Column()
@@ -119,6 +121,14 @@ export class User {
 
 	@Column()
 	resetPasswordExpires: number
+
+	// @Expose()
+	// get fullName(): string {
+	// 	return `${this.firstName} ${this.lastName}`;
+	// }
+
+	// @Transform(role => role.name)
+	// role: RoleEntity;
 
 	@Column()
 	@IsNotEmpty()
@@ -139,6 +149,10 @@ export class User {
 	createdAt: number
 	@Column()
 	updatedAt: number
+
+	// constructor(partial: Partial<User>) {
+	// 	Object.assign(this, partial)
+	// }
 
 	@BeforeInsert()
 	save() {
