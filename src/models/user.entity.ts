@@ -13,7 +13,6 @@ import {
 	Length,
 	// MinLength,
 	// IsBoolean,
-	IsArray,
 	IsEmail
 	// IsNumber
 } from 'class-validator'
