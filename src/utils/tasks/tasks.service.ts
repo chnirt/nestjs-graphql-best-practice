@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common'
+import { CronJob } from 'cron'
 
 @Injectable()
 export class TasksService {
@@ -13,11 +14,14 @@ export class TasksService {
 	}
 
 	async Cron() {
-		const cron = require('cron')
-
-		const cronJob = cron.job('* * 15 * * MON-FRI', () => {
-			console.info('Cron job completed')
+		const job = new CronJob({
+			cronTime: '0 0 12 * * MON-FRI',
+			onTick: () => {
+				console.info('Cron job completed')
+			},
+			start: false,
+			timeZone: 'Asia/Ho_Chi_Minh'
 		})
-		cronJob.start()
+		job.start()
 	}
 }
