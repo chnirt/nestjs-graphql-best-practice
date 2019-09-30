@@ -1,15 +1,29 @@
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { defaultFieldResolver, GraphQLString } from 'graphql'
+import * as formatDate from 'dateformat'
 
 class DateFormatDirective extends SchemaDirectiveVisitor {
 	visitFieldDefinition(field) {
 		const { resolve = defaultFieldResolver } = field
-		const { format } = this.args
-		field.resolve = async function(...args) {
-			const date = await resolve.apply(this, args)
-			return require('dateformat')(date, format)
+		const { defaultFormat } = this.args
+
+		field.args.push({
+			name: 'format',
+			type: GraphQLString
+		})
+
+		field.resolve = async function(
+			source,
+			{ format, ...otherArgs },
+			context,
+			info
+		) {
+			const date = await resolve.call(this, source, otherArgs, context, info)
+			// If a format argument was not provided, default to the optional
+			// defaultFormat argument taken by the @date directive:
+			return formatDate(date, format || defaultFormat)
 		}
-		// The formatted Date becomes a String, so the field type must change:
+
 		field.type = GraphQLString
 	}
 }

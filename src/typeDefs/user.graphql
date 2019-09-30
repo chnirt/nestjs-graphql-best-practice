@@ -79,7 +79,6 @@ type User {
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!
-	# createdAt: Float! @date(format: "mmmm d, yyyy")
 	createdAt: Float!
 	updatedAt: Float!
 }
@@ -92,6 +91,7 @@ type Query {
 	user(_id: ID!): User @isAuthenticated
 	search(conditions: SearchInput!, type: RecordType!): [Result]! @isAuthenticated
 	searchUser(userIds: [String!]): UserResult!
+	today: Date @date
 }
 
 type Mutation {

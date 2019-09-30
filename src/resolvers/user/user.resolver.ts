@@ -40,6 +40,13 @@ export class UserResolver {
 	}
 
 	// COMPLETE:
+	@Query(() => Date)
+	async today(): Promise<Date> {
+		console.log(new Date())
+		return new Date()
+	}
+
+	// COMPLETE:
 	@Query()
 	async search(@Args('conditions') conditions: SearchInput): Promise<Result[]> {
 		let result

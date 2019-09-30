@@ -125,6 +125,8 @@ export abstract class IQuery {
 	): Result[] | Promise<Result[]>
 
 	abstract searchUser(userIds?: string[]): UserResult | Promise<UserResult>
+
+	abstract today(): Date | Promise<Date>
 }
 
 export abstract class ISubscription {
