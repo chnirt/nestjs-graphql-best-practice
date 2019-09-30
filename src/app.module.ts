@@ -20,6 +20,7 @@ import { AuthModule } from '@auth/auth.module'
 import { MailModule } from './utils/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
 import { TasksModule } from './utils/tasks/tasks.module'
+import * as bodyParser from 'body-parser'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -102,6 +103,12 @@ export class AppModule implements OnModuleInit {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(
+				bodyParser.json({ limit: '50mb' }),
+				bodyParser.urlencoded({
+					limit: '50mb',
+					extended: true,
+					parameterLimit: 50000
+				}),
 				helmet(),
 				compression(),
 				// csurf(),
