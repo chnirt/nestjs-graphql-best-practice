@@ -1,8 +1,12 @@
-# Nestjs Graphql Best Practice
+# Nestjs Best Practices
 
 <h1 align="center">
   <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 </h1>
+
+## Nestjs Graphql Best Practice
+
+---
 
 ## Installation
 
@@ -45,6 +49,10 @@ touch .env
 ---
 
 # Node.js Best Practices
+
+<h1 align="center">
+  <img src="src/assets/images/banner-2.jpg" alt="Node.js Best Practices">
+</h1>
 
 ### Table of Contents
 
