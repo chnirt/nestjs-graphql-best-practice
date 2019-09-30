@@ -58,7 +58,7 @@ async function bootstrap() {
 	app.useGlobalInterceptors(new TimeoutInterceptor())
 
 	// COMPLETE:
-	app.useGlobalPipes(new ValidationPipe())
+	// app.useGlobalPipes(new ValidationPipe())
 
 	app.enableShutdownHooks()
 

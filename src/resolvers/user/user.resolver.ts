@@ -42,7 +42,6 @@ export class UserResolver {
 	// COMPLETE:
 	@Query(() => Date)
 	async today(): Promise<Date> {
-		console.log(new Date())
 		return new Date()
 	}
 

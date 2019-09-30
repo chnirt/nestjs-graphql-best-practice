@@ -89,7 +89,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser
 
-				const { token } = req.headers
+				const { token } = req.headers || ''
 
 				if (token) {
 					currentUser = await this.authService.verifyToken(token)

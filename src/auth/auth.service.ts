@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
-import { ApolloError } from 'apollo-server-core'
+import { ApolloError, AuthenticationError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
 import * as dotenv from 'dotenv'
 dotenv.config()
@@ -11,7 +11,7 @@ export class AuthService {
 	async generateToken(user: User): Promise<string> {
 		const token = await sign(
 			{
-				issuer: 'http://acexis.dev.io',
+				issuer: 'http://chnirt.dev.io',
 				subject: user._id,
 				audience: user.email
 			},
@@ -28,25 +28,31 @@ export class AuthService {
 		const user = await getMongoRepository(User).findOne({ email })
 
 		if (!user || !(await user.matchesPassword(password))) {
-			throw new ApolloError('Unauthorized', '401', {})
+			throw new AuthenticationError('you must be logged in')
 		}
 
 		return this.generateToken(user)
 	}
 
 	async verifyToken(token: string): Promise<User> {
-		try {
-			let currentUser
+		let currentUser
+		let decodeToken
 
-			const decodeToken = await verify(token, process.env.SECRET_KEY!)
+		await verify(token, process.env.SECRET_KEY!, (err, decodedToken) => {
+			decodeToken = decodedToken
+			if (err || !decodedToken) {
+				throw new AuthenticationError('you must be logged in')
+			}
+		})
 
-			currentUser = await getMongoRepository(User).findOne({
-				_id: decodeToken.subject
-			})
+		currentUser = await getMongoRepository(User).findOne({
+			_id: decodeToken.subject
+		})
 
-			return currentUser
-		} catch (error) {
-			throw new ApolloError('Invalid Token', '498', {})
+		if (!currentUser) {
+			throw new AuthenticationError('you must be logged in')
 		}
+
+		return currentUser
 	}
 }

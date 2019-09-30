@@ -1,6 +1,6 @@
-import { SchemaDirectiveVisitor, ApolloError } from 'apollo-server-express'
+import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { GraphQLScalarType, GraphQLNonNull } from 'graphql'
-// import { assert } from 'chai'
+import { assert } from 'chai'
 
 class LengthDirective extends SchemaDirectiveVisitor {
 	visitInputFieldDefinition(field) {
@@ -40,7 +40,7 @@ class LimitedLengthType extends GraphQLScalarType {
 
 			serialize(value) {
 				value = type.serialize(value)
-				// assert.isAtMost(value.length, maxLength)
+				assert.isAtMost(value.length, maxLength)
 				return value
 			},
 
