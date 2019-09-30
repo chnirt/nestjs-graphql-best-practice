@@ -1,11 +1,10 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
+import { PORT, NODE_ENV } from './environments'
 
 // COMPLETE:
 const config = {
 	development: {
 		domain: 'devcloud4.digihcs.com',
-		port: process.env.PORT,
+		port: PORT,
 		end_point: 'graphql',
 		orm: {
 			url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
@@ -18,7 +17,7 @@ const config = {
 	},
 	testing: {
 		domain: 'devcloud4.digihcs.com',
-		port: process.env.PORT,
+		port: PORT,
 		end_point: 'graphql',
 		orm: {
 			url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
@@ -26,7 +25,7 @@ const config = {
 	},
 	staging: {
 		domain: 'devcloud4.digihcs.com',
-		port: process.env.PORT,
+		port: PORT,
 		end_point: 'graphql',
 		orm: {
 			url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
@@ -34,7 +33,7 @@ const config = {
 	},
 	production: {
 		domain: 'devcloud4.digihcs.com',
-		port: process.env.PORT,
+		port: PORT,
 		end_point: 'graphql',
 		orm: {
 			url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
@@ -47,4 +46,5 @@ const config = {
 	}
 }
 
-export default config[process.env.NODE_ENV || 'development']
+// export default config[process.env.NODE_ENV || 'development']
+export default config[NODE_ENV]

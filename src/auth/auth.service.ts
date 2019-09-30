@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
-import { ApolloError, AuthenticationError } from 'apollo-server-core'
+import { AuthenticationError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
-import * as dotenv from 'dotenv'
-dotenv.config()
+import { SECRET_KEY } from '../environments'
 
 @Injectable()
 export class AuthService {
@@ -15,7 +14,7 @@ export class AuthService {
 				subject: user._id,
 				audience: user.email
 			},
-			process.env.SECRET_KEY!,
+			SECRET_KEY!,
 			{
 				expiresIn: '30d'
 			}
@@ -38,7 +37,7 @@ export class AuthService {
 		let currentUser
 		let decodeToken
 
-		await verify(token, process.env.SECRET_KEY!, (err, decodedToken) => {
+		await verify(token, SECRET_KEY!, (err, decodedToken) => {
 			decodeToken = decodedToken
 			if (err || !decodedToken) {
 				throw new AuthenticationError('you must be logged in')
