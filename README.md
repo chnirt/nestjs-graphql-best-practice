@@ -1,8 +1,50 @@
-# Node.js Best Practices
+# Nestjs Graphql Best Practice
 
 <h1 align="center">
-  <img src="assets/images/banner-2.jpg" alt="Node.js Best Practices">
+  <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 </h1>
+
+## Installation
+
+1. Clone repository
+
+```
+  git clone https://github.com/chnirt/nestjs-graphql-best-**practice**.git
+```
+
+2. Cd into directory
+
+```
+  cd nestjs-graphql-best-practice/
+```
+
+3. Create .env
+
+```
+touch .env
+```
+
+4. Add to .env
+
+```
+  PORT=<yourport>
+```
+
+5. Install dependencies using npm
+
+```
+  npm i
+```
+
+## Starting the Server
+
+```
+  npm run start:dev
+```
+
+---
+
+# Node.js Best Practices
 
 ### Table of Contents
 
@@ -12,7 +54,7 @@
 4.  [Testing And Overall Quality Practices (12) ](#4-testing-and-overall-quality-practices)
 5.  [Going To Production Practices (18) ](#5-going-to-production-practices)
 6.  [Security Practices (25)](#6-security-best-practices)
-7.  [Performance Practices (1) (In Progress️ ✍️)](#7-performance-best-practices)
+7.  [Performance Practices (1) (In Progress️ ✍️)](#7-performance-**best**-practices)
 
 ## `1. Project Structure Practices`
 
