@@ -9,6 +9,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import config from './config.env'
 import chalk from 'chalk'
+import fs from 'fs'
 
 const { domain, port, end_point, orm } = config
 
@@ -28,13 +29,17 @@ declare const module: any
 
 const corsOptions = process.env.FE_URL
 	? {
-			origin: process.env.FE_URL
-			// credentials: true // <-- REQUIRED backend setting
+			origin: process.env.FE_URL,
+			credentials: true // <-- REQUIRED backend setting
 	  }
 	: true
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
+		// httpsOptions: {
+		// 	key: fs.readFileSync(`./ssl/product/server.key`),
+		// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
+		// },
 		cors: corsOptions,
 		logger: false
 	})

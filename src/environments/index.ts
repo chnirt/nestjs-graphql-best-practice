@@ -6,7 +6,8 @@ const NODE_ENV: string = process.env.NODE_ENV || 'development'
 
 // app
 const PORT: string = process.env.PORT || '11048'
-const SECRET_KEY: string = process.env.SECRET_KEY || 'chnirt1803'
+const SECRET_KEY: string = process.env.SECRET_KEY || ''
+const FE_URL: string = process.env.FE_URL || ''
 
 // mail
 const MAIL_USER: string = process.env.MAIL_USER || ''
@@ -21,6 +22,7 @@ export {
 	NODE_ENV,
 	PORT,
 	SECRET_KEY,
+	FE_URL,
 	MAIL_USER,
 	MAIL_PASS,
 	CLOUD_NAME,

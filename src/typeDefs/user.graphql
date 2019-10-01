@@ -96,7 +96,6 @@ type Query {
 
 type Mutation {
 	createUser(input: CreateUserInput!): User
-		@isAuthenticated
 		@rateLimit(window: "5s", max: 1, message: "You are doing that too often.")
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
 	deleteUser(_id: ID!): Boolean @isAuthenticated

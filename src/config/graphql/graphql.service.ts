@@ -140,6 +140,10 @@ export class GraphqlService implements GqlOptionsFactory {
 					{ retries: 10, retry: 10000 } // Options
 				)
 			},
+			// cors: process.env.FE_URL && {
+			// 	origin: process.env.FE_URL
+			// 	// credentials: true // <-- REQUIRED backend setting
+			// },
 			installSubscriptionHandlers: true,
 			uploads: false
 		}
