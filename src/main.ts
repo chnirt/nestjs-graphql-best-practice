@@ -11,6 +11,9 @@ import config from './config.env'
 import chalk from 'chalk'
 import fs from 'fs'
 
+import * as dotenv from 'dotenv'
+dotenv.config()
+
 const { domain, port, end_point, orm } = config
 
 createConnection({
@@ -27,20 +30,12 @@ createConnection({
 
 declare const module: any
 
-const corsOptions = process.env.FE_URL
-	? {
-			origin: process.env.FE_URL,
-			credentials: true // <-- REQUIRED backend setting
-	  }
-	: true
-
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule, {
 		// httpsOptions: {
 		// 	key: fs.readFileSync(`./ssl/product/server.key`),
 		// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
 		// },
-		cors: corsOptions,
 		logger: false
 	})
 
