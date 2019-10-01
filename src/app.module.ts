@@ -103,9 +103,9 @@ export class AppModule implements OnModuleInit {
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(
-				bodyParser.json({ limit: '25mb' }),
+				// bodyParser.json({ limit: '50mb' }),
 				bodyParser.urlencoded({
-					limit: '25mb',
+					limit: '50mb',
 					extended: true,
 					parameterLimit: 50000
 				}),

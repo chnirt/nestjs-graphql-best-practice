@@ -13,8 +13,12 @@ class AuthDirective extends SchemaDirectiveVisitor {
 			const { currentUser } = args[2]
 
 			if (!currentUser) {
-				throw new AuthenticationError('you must be logged in')
+				throw new Error('You are not authenticated!')
 			}
+
+			// if (!currentUser.is_admin) {
+			// 	throw new Error('This is above your pay grade!')
+			// }
 
 			return resolve.apply(this, args)
 		}
