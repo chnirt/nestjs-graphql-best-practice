@@ -37,6 +37,15 @@ export class GraphqlService implements GqlOptionsFactory {
 			resolverValidationOptions: {
 				requireResolversForResolveType: false
 			},
+			path: `/${end_point}`,
+			cors:
+				process.env.NODE_ENV === 'production'
+					? {
+							origin: process.env.FE_URL,
+							credentials: true // <-- REQUIRED backend setting
+					  }
+					: true,
+			bodyParserConfig: { limit: '50mb' },
 			onHealthCheck: () => {
 				return new Promise((resolve, reject) => {
 					// Replace the `true` in this conditional with more specific checks!
@@ -47,7 +56,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					}
 				})
 			},
-			path: `/${end_point}`,
+
 			// definitions: {
 			// 	path: join(process.cwd(), 'src/graphql.ts'),
 			// 	outputAs: 'class'
@@ -140,13 +149,6 @@ export class GraphqlService implements GqlOptionsFactory {
 					{ retries: 10, retry: 10000 } // Options
 				)
 			},
-			cors:
-				process.env.NODE_ENV === 'production'
-					? {
-							origin: process.env.FE_URL,
-							credentials: true // <-- REQUIRED backend setting
-					  }
-					: true,
 			installSubscriptionHandlers: true,
 			uploads: false
 		}

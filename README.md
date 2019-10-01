@@ -56,6 +56,14 @@ touch .env
 
 ## Starting the Server
 
+1. Generate graphql.schema.ts
+
+```
+  npm run gen
+```
+
+2. Start in development
+
 ```
   npm run start:dev
 ```

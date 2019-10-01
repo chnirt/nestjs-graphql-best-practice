@@ -1,4 +1,8 @@
-import { SchemaDirectiveVisitor, ApolloError } from 'apollo-server-express'
+import {
+	SchemaDirectiveVisitor,
+	ApolloError,
+	AuthenticationError
+} from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 
 class AuthDirective extends SchemaDirectiveVisitor {
@@ -9,7 +13,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
 			const { currentUser } = args[2]
 
 			if (!currentUser) {
-				throw new ApolloError('currentUser Required', '499', {})
+				throw new AuthenticationError('you must be logged in')
 			}
 
 			return resolve.apply(this, args)
