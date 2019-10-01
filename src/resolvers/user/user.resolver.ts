@@ -159,7 +159,7 @@ export class UserResolver {
 			user.firstName = firstName
 			user.lastName = lastName
 			user.email = email
-			user.password = password
+			user.password = await user.hashPassword(password)
 			user.gender = gender
 
 			const createdUser = await this.userRepository.save(user)
@@ -275,7 +275,7 @@ export class UserResolver {
 	): Promise<boolean> {
 		const user = await this.userRepository.findOne({ _id })
 
-		console.log(currentpassword, password)
+		// console.log(currentpassword, password)
 
 		if (!user) {
 			throw new ApolloError('Not Found: User', '404', {})

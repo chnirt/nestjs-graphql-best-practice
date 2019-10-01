@@ -157,7 +157,6 @@ export class User {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.password = hash(this.password, 10)
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true
