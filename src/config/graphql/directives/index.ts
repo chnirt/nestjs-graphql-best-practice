@@ -2,7 +2,7 @@ import { createRateLimitDirective } from 'graphql-rate-limit'
 import AuthDirective from './auth'
 import PermissionDirective from './permission'
 import DeprecatedDirective from './deprecated'
-import LengthDirective from './length'
+// import LengthDirective from './length'
 import DateFormatDirective from './date'
 import UpperCaseDirective from './upper'
 import ConcatDirective from './concat'
@@ -12,7 +12,7 @@ export default {
 	isAuthenticated: AuthDirective,
 	hasPermission: PermissionDirective,
 	deprecated: DeprecatedDirective,
-	length: LengthDirective,
+	// length: LengthDirective,
 	rateLimit: createRateLimitDirective({ identifyContext: ctx => ctx.id }),
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,

@@ -49,7 +49,7 @@ input UpdateUserInput {
 
 input LoginUserInput {
 	email: String!
-	password: String! @length(max: 7)
+	password: String!
 }
 
 input SearchInput {
@@ -84,7 +84,7 @@ type User {
 }
 
 type Query {
-	hello: String! @length(max: 7)
+	hello: String!
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
