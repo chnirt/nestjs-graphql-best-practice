@@ -9,7 +9,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import config from './config.env'
 import chalk from 'chalk'
-import fs from 'fs'
+import * as fs from 'fs'
 
 import * as dotenv from 'dotenv'
 dotenv.config()

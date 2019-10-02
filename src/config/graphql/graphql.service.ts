@@ -56,7 +56,6 @@ export class GraphqlService implements GqlOptionsFactory {
 					}
 				})
 			},
-
 			// definitions: {
 			// 	path: join(process.cwd(), 'src/graphql.ts'),
 			// 	outputAs: 'class'

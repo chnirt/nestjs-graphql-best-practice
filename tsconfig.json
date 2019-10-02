@@ -12,11 +12,12 @@
 		"noLib": false,
 		"noImplicitAny": false,
 		"outDir": "./dist",
-		"baseUrl": "src",
+		"baseUrl": "./",
 		"paths": {
-			"@auth/*": ["auth/*"],
-			"@utils/*": ["utils/*"],
-			"@models/*": ["models/*"]
+			"@auth/*": ["src/auth/*"],
+			"@utils/*": ["src/utils/*"],
+			"@models/*": ["src/models/*"],
+			"@environments/*": ["src/environments/*"]
 		}
 	},
 	"include": ["src/**/*"],

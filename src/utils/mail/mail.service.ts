@@ -4,6 +4,8 @@ import { ApolloError } from 'apollo-server-core'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
 
+import { MAIL_USER, MAIL_PASS } from '../../environments'
+
 @Injectable()
 export class MailService {
 	async sendMail(
@@ -14,8 +16,8 @@ export class MailService {
 		const transporter = await nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
-				user: process.env.MAIL_USER,
-				pass: process.env.MAIL_PASS
+				user: MAIL_USER,
+				pass: MAIL_PASS
 			}
 		})
 
@@ -41,7 +43,7 @@ export class MailService {
 				const htmlToSend = template(replacements)
 
 				const mailOptions = {
-					from: 'Acexis 📧 ' + process.env.MAIL_USER, // sender address
+					from: 'Acexis 📧 ' + MAIL_USER, // sender address
 					to: email, // list of receivers
 					subject: 'Reset Password',
 					html: htmlToSend

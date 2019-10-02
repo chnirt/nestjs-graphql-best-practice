@@ -35,9 +35,11 @@ module.exports = {
 	mode: 'development',
 	resolve: {
 		alias: {
+			'@src': path.resolve(__dirname, './src'),
 			'@auth': path.resolve(__dirname, './src/auth'),
 			'@utils': path.resolve(__dirname, './src/utils'),
-			'@models': path.resolve(__dirname, './src/models')
+			'@models': path.resolve(__dirname, './src/models'),
+			'@environments': path.resolve(__dirname, './src/environments')
 		},
 		extensions: ['.tsx', '.ts', '.js']
 	},
