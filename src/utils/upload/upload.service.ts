@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common'
 import * as cloudinary from 'cloudinary'
-
 import { CLOUD_NAME, API_KEY, API_SECRET } from '../../environments'
 
 @Injectable()

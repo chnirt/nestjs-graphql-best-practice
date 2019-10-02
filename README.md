@@ -39,7 +39,7 @@
 3. Create .env
 
 ```
-touch .env
+  touch .env
 ```
 
 4. Add to .env

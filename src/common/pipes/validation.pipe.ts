@@ -8,7 +8,7 @@ import {
 } from '@nestjs/common'
 import { validate } from 'class-validator'
 import { plainToClass } from 'class-transformer'
-import { ApolloError } from 'apollo-server-core'
+import { ApolloError, UserInputError } from 'apollo-server-core'
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -20,11 +20,14 @@ export class ValidationPipe implements PipeTransform<any> {
 		const object = plainToClass(metatype, value)
 		const errors = await validate(object)
 		if (errors.length > 0) {
-			throw new ApolloError(
-				`Bad Request: ${this.formatErrors(errors)}`,
-				'400',
-				{}
+			throw new UserInputError(
+				`Form Arguments invalid ${this.formatErrors(errors)}`
 			)
+			// throw new ApolloError(
+			// 	`Bad Request: ${this.formatErrors(errors)}`,
+			// 	'400',
+			// 	{}
+			// )
 		}
 		return value
 	}

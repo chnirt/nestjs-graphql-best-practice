@@ -3,7 +3,11 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import { ApolloError } from 'apollo-server-core'
+import {
+	ApolloError,
+	GraphQLExtension,
+	AuthenticationError
+} from 'apollo-server-core'
 import { Logger as winstonLogger } from 'winston'
 import * as dotenv from 'dotenv'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
@@ -15,6 +19,22 @@ dotenv.config()
 
 const pubSub = new PubSub()
 const { end_point } = config
+
+class MyErrorTrackingExtension extends GraphQLExtension {
+	willSendResponse(o) {
+		const { context, graphqlResponse } = o
+
+		context.trackErrors(graphqlResponse.errors)
+
+		return o
+	}
+	// Other lifecycle methods include
+	// requestDidStart
+	// parsingDidStart
+	// validationDidStart
+	// executionDidStart
+	// willSendResponse
+}
 
 // COMPLETE:
 @Injectable()
@@ -28,6 +48,7 @@ export class GraphqlService implements GqlOptionsFactory {
 		return {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
+			extensions: [() => new MyErrorTrackingExtension()],
 			mocks: process.env.NODE_ENV === 'testing' && {
 				// String: () => 'Chnirt',
 				Query: () => ({
@@ -107,11 +128,19 @@ export class GraphqlService implements GqlOptionsFactory {
 					req,
 					res,
 					pubSub,
-					currentUser
+					currentUser,
+					trackErrors(errors) {
+						// Track the errors
+						console.log(errors)
+					}
 				}
 			},
 			formatError: error => {
 				// this.logger.error('✖️ ' + JSON.stringify(err.message), 'Error')
+				if (error.originalError instanceof AuthenticationError) {
+					return new Error('Different authentication error message!')
+				}
+
 				return error
 			},
 			formatResponse: response => {
