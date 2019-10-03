@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common'
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { getMetadataArgsStorage } from 'typeorm'
-import config from '../../config.env'
+import { ConfigService } from '../../config/envConfig/config.service'
 
 // COMPLETE:
 @Injectable()
 export class TypeormService implements TypeOrmOptionsFactory {
+	constructor(private readonly configService: ConfigService) {}
 	async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
 		return {
-			...config.orm,
+			...this.configService.get('orm'),
 			type: 'mongodb',
 			entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 			synchronize: true,

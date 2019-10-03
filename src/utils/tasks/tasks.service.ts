@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common'
 import { CronJob } from 'cron'
+import { Logger } from '@nestjs/common'
+import chalk from 'chalk'
+import { ConfigService } from '../../config/envConfig/config.service'
 
 @Injectable()
 export class TasksService {
+	constructor(private readonly configService: ConfigService) {}
 	async Timeout() {
 		const taskID = setTimeout(() => console.log('Task completed'), 2000)
 		// clearTimeout(taskID);

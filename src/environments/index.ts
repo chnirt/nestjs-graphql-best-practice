@@ -18,17 +18,17 @@ const MAIL_PASS: string = process.env.MAIL_PASS || ''
 
 // cloudary
 const CLOUD_NAME: string = process.env.CLOUD_NAME || ''
-const API_KEY: string = process.env.API_KEY || ''
+const API_KEY: string = process.env.API_KEY || 'API key test'
 const API_SECRET: string = process.env.API_SECRET || ''
 
 export {
 	NODE_ENV,
-	PORT,
-	SECRET_KEY,
-	FE_URL,
 	DOMAIN,
+	PORT,
 	END_POINT,
 	VOYAGER,
+	SECRET_KEY,
+	FE_URL,
 	MAIL_USER,
 	MAIL_PASS,
 	CLOUD_NAME,
