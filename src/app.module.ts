@@ -7,6 +7,7 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
+
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
@@ -20,14 +21,17 @@ import { AuthModule } from '@auth/auth.module'
 import { MailModule } from './utils/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
 import { TasksModule } from './utils/tasks/tasks.module'
+import { TasksService } from './utils/tasks/tasks.service'
+import { ConfigModule } from './config/envConfig/config.module'
+import { ConfigService } from './config/envConfig/config.service'
+import { createConnection, getMetadataArgsStorage } from 'typeorm'
+
 import * as bodyParser from 'body-parser'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-import config from './config.env'
-import { TasksService } from './utils/tasks/tasks.service'
 
 const {
 	combine,
@@ -39,15 +43,14 @@ const {
 	colorize
 } = winston.format
 
-const { end_point } = config
-
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
-			imports: [AuthModule],
+			imports: [AuthModule, ConfigModule],
 			useClass: GraphqlService
 		}),
 		TypeOrmModule.forRootAsync({
+			imports: [AuthModule, ConfigModule],
 			useClass: TypeormService
 		}),
 		CacheModule.registerAsync({
@@ -93,13 +96,19 @@ const { end_point } = config
 		MailModule,
 		FileModule,
 		UploadModule,
-		TasksModule
+		TasksModule,
+		ConfigModule
 	],
 	providers: [DateScalar, UploadScalar]
 })
 
 // COMPLETE:
 export class AppModule implements OnModuleInit {
+	constructor(
+		private readonly tasksService: TasksService,
+		private readonly configService: ConfigService
+	) {}
+
 	configure(consumer: MiddlewareConsumer) {
 		consumer
 			.apply(
@@ -120,12 +129,11 @@ export class AppModule implements OnModuleInit {
 				// }),
 				process.env.NODE_ENV !== 'testing' && LoggerMiddleware
 			)
-			.forRoutes(`/${end_point}`)
+			.forRoutes(`/${this.configService.get('END_POINT')}`)
 	}
 
-	constructor(private readonly tasksService: TasksService) {}
-
 	onModuleInit() {
+		this.tasksService.Timeout()
 		this.tasksService.Cron()
 	}
 }
