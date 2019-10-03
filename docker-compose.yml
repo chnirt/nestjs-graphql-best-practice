@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  nest:
+    build: .
+    volumes:
+      - .:/nest
+    ports:
+      - 11048:11048
+    tty: true

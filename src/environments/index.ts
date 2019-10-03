@@ -9,6 +9,9 @@ const PORT: string = process.env.PORT || '11048'
 const SECRET_KEY: string = process.env.SECRET_KEY || ''
 const FE_URL: string = process.env.FE_URL || ''
 
+// graphql
+const END_POINT: string = process.env.END_POINT || 'graphql'
+
 // mail
 const MAIL_USER: string = process.env.MAIL_USER || ''
 const MAIL_PASS: string = process.env.MAIL_PASS || ''
@@ -23,6 +26,7 @@ export {
 	PORT,
 	SECRET_KEY,
 	FE_URL,
+	END_POINT,
 	MAIL_USER,
 	MAIL_PASS,
 	CLOUD_NAME,

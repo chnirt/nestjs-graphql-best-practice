@@ -9,17 +9,14 @@ import {
 	AuthenticationError
 } from 'apollo-server-core'
 import { Logger as winstonLogger } from 'winston'
-import * as dotenv from 'dotenv'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
-import config from '../../config.env'
 import { MockList } from 'graphql-tools'
-dotenv.config()
+
+import { NODE_ENV, FE_URL, END_POINT } from '../../environments'
 
 const pubSub = new PubSub()
-const { end_point } = config
-
 class MyErrorTrackingExtension extends GraphQLExtension {
 	willSendResponse(o) {
 		const { context, graphqlResponse } = o
@@ -49,7 +46,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			typePaths: ['./**/*.graphql'],
 			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
 			extensions: [() => new MyErrorTrackingExtension()],
-			mocks: process.env.NODE_ENV === 'testing' && {
+			mocks: NODE_ENV === 'testing' && {
 				// String: () => 'Chnirt',
 				Query: () => ({
 					users: () => new MockList([2, 6])
@@ -58,11 +55,11 @@ export class GraphqlService implements GqlOptionsFactory {
 			resolverValidationOptions: {
 				requireResolversForResolveType: false
 			},
-			path: `/${end_point}`,
+			path: `/${END_POINT}`,
 			cors:
-				process.env.NODE_ENV === 'production'
+				NODE_ENV === 'production'
 					? {
-							origin: process.env.FE_URL,
+							origin: FE_URL,
 							credentials: true // <-- REQUIRED backend setting
 					  }
 					: true,
@@ -83,7 +80,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			// },
 			schemaDirectives,
 			introspection: true,
-			playground: process.env.NODE_ENV !== 'production' && {
+			playground: NODE_ENV !== 'production' && {
 				settings: {
 					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
@@ -97,13 +94,13 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 				// tabs: [
 				// 	{
-				// 		endpoint: end_point,
+				// 		endpoint: END_POINT,
 				// 		query: '{ hello }'
 				// 	}
 				// ]
 			},
-			tracing: process.env.NODE_ENV === 'production' && true,
-			cacheControl: process.env.NODE_ENV === 'production' && {
+			tracing: NODE_ENV === 'production' && true,
+			cacheControl: NODE_ENV === 'production' && {
 				defaultMaxAge: 5,
 				stripFormattedExtensions: false,
 				calculateHttpHeaders: false
@@ -131,7 +128,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					currentUser,
 					trackErrors(errors) {
 						// Track the errors
-						console.log(errors)
+						// console.log(errors)
 					}
 				}
 			},
@@ -148,10 +145,10 @@ export class GraphqlService implements GqlOptionsFactory {
 				return response
 			},
 			subscriptions: {
-				path: `/${end_point}`,
+				path: `/${END_POINT}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
-					process.env.NODE_ENV !== 'production' &&
+					NODE_ENV !== 'production' &&
 						Logger.log(`🔗  Connected to websocket`, 'GraphQL')
 
 					let currentUser
@@ -167,7 +164,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
-					process.env.NODE_ENV !== 'production' &&
+					NODE_ENV !== 'production' &&
 						Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},

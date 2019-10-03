@@ -4,15 +4,14 @@ import { Logger } from '@nestjs/common'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import { LoggerService } from './config/logger/logger.service'
-import { ValidationPipe } from './common/pipes/validation.pipe'
+// import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import config from './config.env'
 import chalk from 'chalk'
-import * as fs from 'fs'
+// import * as fs from 'fs'
 
-import * as dotenv from 'dotenv'
-dotenv.config()
+import { NODE_ENV } from './environments'
 
 const { domain, port, end_point, orm } = config
 
@@ -45,7 +44,7 @@ async function bootstrap() {
 	app.useLogger(app.get(LoggerService))
 
 	// COMPLETE:
-	process.env.NODE_ENV !== 'production' &&
+	NODE_ENV !== 'production' &&
 		app.use(
 			'/voyager',
 			voyagerMiddleware({
@@ -70,7 +69,7 @@ async function bootstrap() {
 		module.hot.dispose(() => app.close())
 	}
 
-	process.env.NODE_ENV !== 'production' &&
+	NODE_ENV !== 'production' &&
 		Logger.log(
 			`🚀  Server ready at http://${domain}:` +
 				chalk.hex('#87e8de').bold(port) +
@@ -78,7 +77,7 @@ async function bootstrap() {
 			'Bootstrap'
 		)
 
-	process.env.NODE_ENV !== 'production' &&
+	NODE_ENV !== 'production' &&
 		Logger.log(
 			`🚀  Subscriptions ready at ws://${domain}:` +
 				chalk.hex('#87e8de').bold(port) +

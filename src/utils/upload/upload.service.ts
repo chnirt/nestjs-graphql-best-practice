@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import * as cloudinary from 'cloudinary'
+
 import { CLOUD_NAME, API_KEY, API_SECRET } from '../../environments'
 
 @Injectable()
@@ -18,9 +19,9 @@ export class UploadService {
 				.pipe(
 					cloudinary.v2.uploader.upload_stream(
 						{
-							folder: 'acexis',
+							folder: 'chnirt',
 							public_id: uniqueFilename,
-							tags: `acexis`
+							tags: `chnirt`
 						}, // directory and tags are optional
 						(err, image) => {
 							if (err) {
