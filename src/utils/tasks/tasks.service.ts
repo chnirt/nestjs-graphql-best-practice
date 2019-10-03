@@ -1,10 +1,33 @@
 import { Injectable } from '@nestjs/common'
 import { CronJob } from 'cron'
+import { Logger } from '@nestjs/common'
+import chalk from 'chalk'
+import { ConfigService } from '../../config/envConfig/config.service'
 
 @Injectable()
 export class TasksService {
+	constructor(private readonly configService: ConfigService) {}
 	async Timeout() {
-		const taskID = setTimeout(() => console.log('Task completed'), 2000)
+		const taskID = setTimeout(() => {
+			process.env.NODE_ENV !== 'production' &&
+				Logger.log(
+					`🚀  Server ready at http://${this.configService.get('DOMAIN')}:` +
+						chalk.hex('#87e8de').bold(this.configService.get('PORT')) +
+						`/${this.configService.get('END_POINT')}`,
+					'Bootstrap'
+				)
+
+			process.env.NODE_ENV !== 'production' &&
+				Logger.log(
+					`🚀  Subscriptions ready at ws://${this.configService.get(
+						'DOMAIN'
+					)}:` +
+						chalk.hex('#87e8de').bold(this.configService.get('PORT')) +
+						`/${this.configService.get('END_POINT')}`,
+					'Bootstrap'
+				)
+			console.log('Task completed')
+		}, 0)
 		// clearTimeout(taskID);
 	}
 
