@@ -34,6 +34,7 @@
 3. Upload file with cloudinary
 4. Send mail with nodemailer
 5. Task scheduler with timeout, interval, cron
+6. Unit, e2e, coverage testing
 
 ## Usage
 
