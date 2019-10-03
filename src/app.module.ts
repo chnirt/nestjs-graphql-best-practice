@@ -7,6 +7,7 @@ import {
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
@@ -26,8 +27,9 @@ import * as helmet from 'helmet'
 import * as compression from 'compression'
 import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-import config from './config.env'
 import { TasksService } from './utils/tasks/tasks.service'
+
+import { END_POINT, VOYAGER } from './environments'
 
 const {
 	combine,
@@ -38,8 +40,6 @@ const {
 	prettyPrint,
 	colorize
 } = winston.format
-
-const { end_point } = config
 
 @Module({
 	imports: [
@@ -120,7 +120,15 @@ export class AppModule implements OnModuleInit {
 				// }),
 				process.env.NODE_ENV !== 'testing' && LoggerMiddleware
 			)
-			.forRoutes(`/${end_point}`)
+			.forRoutes(`/${END_POINT}`)
+
+		consumer
+			.apply(
+				voyagerMiddleware({
+					endpointUrl: `/${END_POINT}`
+				})
+			)
+			.forRoutes(`/${VOYAGER}`)
 	}
 
 	constructor(private readonly tasksService: TasksService) {}

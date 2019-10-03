@@ -1,22 +1,22 @@
 import * as dotenv from 'dotenv'
 dotenv.config()
 
-// env
+// environment
 const NODE_ENV: string = process.env.NODE_ENV || 'development'
 
-// app
+// application
+const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
 const PORT: string = process.env.PORT || '11048'
+const END_POINT: string = process.env.END_POINT || 'graphql'
+const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const SECRET_KEY: string = process.env.SECRET_KEY || ''
 const FE_URL: string = process.env.FE_URL || ''
 
-// graphql
-const END_POINT: string = process.env.END_POINT || 'graphql'
-
-// mail
+// nodemailer
 const MAIL_USER: string = process.env.MAIL_USER || ''
 const MAIL_PASS: string = process.env.MAIL_PASS || ''
 
-// cloud
+// cloudary
 const CLOUD_NAME: string = process.env.CLOUD_NAME || ''
 const API_KEY: string = process.env.API_KEY || ''
 const API_SECRET: string = process.env.API_SECRET || ''
@@ -26,7 +26,9 @@ export {
 	PORT,
 	SECRET_KEY,
 	FE_URL,
+	DOMAIN,
 	END_POINT,
+	VOYAGER,
 	MAIL_USER,
 	MAIL_PASS,
 	CLOUD_NAME,

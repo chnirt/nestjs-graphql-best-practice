@@ -11,21 +11,9 @@ import config from './config.env'
 import chalk from 'chalk'
 // import * as fs from 'fs'
 
-import { NODE_ENV } from './environments'
+import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 
-const { domain, port, end_point, orm } = config
-
-createConnection({
-	...orm,
-	type: 'mongodb',
-	entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-	synchronize: true,
-	useNewUrlParser: true,
-	useUnifiedTopology: true,
-	logging: true
-})
-	.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
-	.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
+const { orm } = config
 
 declare const module: any
 
@@ -37,20 +25,23 @@ async function bootstrap() {
 		// },
 		logger: false
 	})
+	// COMPLETE: connect db
+	createConnection({
+		...orm,
+		type: 'mongodb',
+		entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
+		synchronize: true,
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		logging: true
+	})
+		.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
+		.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
 
 	// COMPLETE: for e2e testing
 	const httpAdapter = app.getHttpAdapter()
 
 	app.useLogger(app.get(LoggerService))
-
-	// COMPLETE:
-	NODE_ENV !== 'production' &&
-		app.use(
-			'/voyager',
-			voyagerMiddleware({
-				endpointUrl: `/${end_point}`
-			})
-		)
 
 	// COMPLETE:
 	app.useGlobalInterceptors(new LoggingInterceptor())
@@ -61,7 +52,7 @@ async function bootstrap() {
 
 	app.enableShutdownHooks()
 
-	await app.listen(port)
+	await app.listen(PORT)
 
 	// COMPLETE:
 	if (module.hot) {
@@ -71,17 +62,17 @@ async function bootstrap() {
 
 	NODE_ENV !== 'production' &&
 		Logger.log(
-			`🚀  Server ready at http://${domain}:` +
-				chalk.hex('#87e8de').bold(port) +
-				`/${end_point}`,
+			`🚀  Server ready at http://${DOMAIN}:` +
+				chalk.hex('#87e8de').bold(PORT) +
+				`/${END_POINT}`,
 			'Bootstrap'
 		)
 
 	NODE_ENV !== 'production' &&
 		Logger.log(
-			`🚀  Subscriptions ready at ws://${domain}:` +
-				chalk.hex('#87e8de').bold(port) +
-				`/${end_point}`,
+			`🚀  Subscriptions ready at ws://${DOMAIN}:` +
+				chalk.hex('#87e8de').bold(PORT) +
+				`/${END_POINT}`,
 			'Bootstrap'
 		)
 }
