@@ -1,17 +1,22 @@
 # Nestjs Best Practices
 
+[![Coverage Status](https://coveralls.io/repos/github/chnirt/nestjs-graphql-best-practice/badge.svg?branch=cicd)](https://coveralls.io/github/chnirt/nestjs-graphql-best-practice?branch=cicd)
+
 <h1 align="center">
   <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 </h1>
 
 ## Nestjs Graphql Best Practice
 
+> ### NestJS (Express + Typeorm) codebase containing real world examples (CRUD, auth, advanced patterns, etc).
+
 ## Table of Contents
 
 - [Nestjs Best Practices](#nestjs-best-practices)
   - [Nestjs Graphql Best Practice](#nestjs-graphql-best-practice)
   - [Table of Contents](#table-of-contents)
-  - [Installation](#installation)
+  - [Function](#function)
+  - [Usage](#usage)
   - [Starting the Server](#starting-the-server)
 - [Node.js Best Practices](#nodejs-best-practices)
       - [1. Project Structure Practices](#1-project-structure-practices)
@@ -22,12 +27,20 @@
       - [6. Security Best Practices](#6-security-best-practices)
       - [7. Performance Best Practices](#7-performance-best-practices)
 
-## Installation
+## Function
+
+1. Dynamic import
+2. Authenticate with jsonwebtoken
+3. Upload file with cloudinary
+4. Send mail with nodemailer
+5. Task scheduler with timeout, interval, cron
+
+## Usage
 
 1. Clone repository
 
 ```
-  git clone https://github.com/chnirt/nestjs-graphql-best-**practice**.git
+  https://github.com/chnirt/nestjs-graphql-best-practice.git
 ```
 
 2. Cd into directory
