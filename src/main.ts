@@ -3,6 +3,7 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import chalk from 'chalk'
+import * as winston from 'winston'
 import { LoggerService } from './config/logger/logger.service'
 // import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
@@ -12,17 +13,29 @@ import config from './config.env'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 
+// import { LoggerService } from '@nestjs/common'
+
+// export class MyLogger implements LoggerService {
+// 	log(level: string, message: string) {
+// 		winston.log(level, message)
+// 	}
+// 	error(message: string, trace: string) {
+// 		winston.error(message)
+// 	}
+// 	warn(message: string) {
+// 		winston.warn(message)
+// 	}
+// 	debug(message: string) {
+// 		winston.debug(message)
+// 	}
+// 	verbose(message: string) {
+// 		winston.verbose(message)
+// 	}
+// }
+
 declare const module: any
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, {
-		// httpsOptions: {
-		// 	key: fs.readFileSync(`./ssl/product/server.key`),
-		// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
-		// },
-		logger: false
-	})
-
 	// COMPLETE: connect db
 	createConnection({
 		...config.orm,
@@ -35,6 +48,15 @@ async function bootstrap() {
 	})
 		.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
 		.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
+
+	const app = await NestFactory.create(AppModule, {
+		// httpsOptions: {
+		// 	key: fs.readFileSync(`./ssl/product/server.key`),
+		// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
+		// },
+		logger: false
+		// logger: new LoggerService()
+	})
 
 	// COMPLETE: for e2e testing
 	const httpAdapter = app.getHttpAdapter()

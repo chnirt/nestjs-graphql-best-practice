@@ -60,17 +60,17 @@ import { NODE_ENV, END_POINT, VOYAGER } from './environments'
 		// WinstonModule.forRootAsync({
 		// 	useFactory: () => ({
 		// 		// options
-		// 		format: combine(
-		// 			label({ label: '🥢 Chnirt!' }),
-		// 			json(),
-		// 			timestamp(),
-		// 			// prettyPrint(),
-		// 			// colorize(),
-		// 			printf(({ level, message, label, timestamp }) => {
-		// 				console.log(level)
-		// 				return `{\n\tlabel: ${label},\n\ttimestamp: ${timestamp},\n\tlevel: ${level},\n\tmessage: ${message}\n},`
-		// 			})
-		// 		),
+		// format: combine(
+		// 	label({ label: '🥢 Chnirt!' }),
+		// 	json(),
+		// 	timestamp(),
+		// 	// prettyPrint(),
+		// 	// colorize(),
+		// 	printf(({ level, message, label, timestamp }) => {
+		// 		console.log(level)
+		// 		return `{\n\tlabel: ${label},\n\ttimestamp: ${timestamp},\n\tlevel: ${level},\n\tmessage: ${message}\n},`
+		// 	})
+		// ),
 		// 		transports: [
 		// 			new winston.transports.Console(),
 		// 			new winston.transports.File({
