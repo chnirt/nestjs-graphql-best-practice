@@ -26,7 +26,7 @@ import { TasksModule } from './utils/tasks/tasks.module'
 import { TasksService } from './utils/tasks/tasks.service'
 
 import * as bodyParser from 'body-parser'
-import * as winston from 'winston'
+// import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
 // import * as csurf from 'csurf'
@@ -34,15 +34,15 @@ import * as compression from 'compression'
 
 import { NODE_ENV, END_POINT, VOYAGER } from './environments'
 
-const {
-	combine,
-	json,
-	timestamp,
-	label,
-	printf,
-	prettyPrint,
-	colorize
-} = winston.format
+// const {
+// 	combine,
+// 	json,
+// 	timestamp,
+// 	label,
+// 	printf,
+// 	prettyPrint,
+// 	colorize
+// } = winston.format
 
 @Module({
 	imports: [
@@ -57,40 +57,40 @@ const {
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
-		WinstonModule.forRootAsync({
-			useFactory: () => ({
-				// options
-				format: combine(
-					label({ label: '🥢 Chnirt!' }),
-					json(),
-					timestamp(),
-					// prettyPrint(),
-					// colorize(),
-					printf(({ level, message, label, timestamp }) => {
-						console.log(level)
-						return `{\n\tlabel: ${label},\n\ttimestamp: ${timestamp},\n\tlevel: ${level},\n\tmessage: ${message}\n},`
-					})
-				),
-				transports: [
-					new winston.transports.Console(),
-					new winston.transports.File({
-						filename: 'src/logs/combined.log',
-						level: 'info'
-					}),
-					new winston.transports.File({
-						filename: 'src/logs/errors.log',
-						level: 'error'
-					})
-				],
-				exceptionHandlers: [
-					new winston.transports.Console(),
-					new winston.transports.File({
-						filename: 'src/logs/exceptions.log'
-					})
-				]
-			}),
-			inject: []
-		}),
+		// WinstonModule.forRootAsync({
+		// 	useFactory: () => ({
+		// 		// options
+		// 		format: combine(
+		// 			label({ label: '🥢 Chnirt!' }),
+		// 			json(),
+		// 			timestamp(),
+		// 			// prettyPrint(),
+		// 			// colorize(),
+		// 			printf(({ level, message, label, timestamp }) => {
+		// 				console.log(level)
+		// 				return `{\n\tlabel: ${label},\n\ttimestamp: ${timestamp},\n\tlevel: ${level},\n\tmessage: ${message}\n},`
+		// 			})
+		// 		),
+		// 		transports: [
+		// 			new winston.transports.Console(),
+		// 			new winston.transports.File({
+		// 				filename: 'src/logs/combined.log',
+		// 				level: 'info'
+		// 			}),
+		// 			new winston.transports.File({
+		// 				filename: 'src/logs/errors.log',
+		// 				level: 'error'
+		// 			})
+		// 		],
+		// 		exceptionHandlers: [
+		// 			new winston.transports.Console(),
+		// 			new winston.transports.File({
+		// 				filename: 'src/logs/exceptions.log'
+		// 			})
+		// 		]
+		// 	}),
+		// 	inject: []
+		// }),
 		UserModule,
 		AuthModule,
 		LoggerModule,

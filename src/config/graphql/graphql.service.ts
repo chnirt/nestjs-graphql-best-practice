@@ -8,7 +8,7 @@ import {
 	GraphQLExtension,
 	AuthenticationError
 } from 'apollo-server-core'
-import { Logger as winstonLogger } from 'winston'
+// import { Logger as winstonLogger } from 'winston'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
@@ -37,7 +37,7 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
 	constructor(
-		@Inject('winston') private readonly logger: winstonLogger,
+		// @Inject('winston') private readonly logger: winstonLogger,
 		private readonly authService: AuthService
 	) {}
 
@@ -99,7 +99,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				// 	}
 				// ]
 			},
-			tracing: NODE_ENV === 'production' && true,
+			tracing: NODE_ENV !== 'production',
 			cacheControl: NODE_ENV === 'production' && {
 				defaultMaxAge: 5,
 				stripFormattedExtensions: false,

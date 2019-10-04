@@ -12,7 +12,7 @@ const config = {
 			// port: process.env.MONGO_PORT,
 			// username: '',
 			// password: '',
-			// database: 'lunch4',
+			// database: 'process.env.DB_NAME',
 		}
 	},
 	testing: {

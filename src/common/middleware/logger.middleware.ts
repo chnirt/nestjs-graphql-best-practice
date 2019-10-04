@@ -6,6 +6,7 @@ import chalk from 'chalk'
 export class LoggerMiddleware implements NestMiddleware {
 	// tslint:disable-next-line:ban-types
 	use(req: Request, res: Response, next: Function) {
+		// console.log(req.headers['user-agent'])
 		console.log(
 			'📢 ',
 			chalk.hex('#69c0ff').bold('Request'),
