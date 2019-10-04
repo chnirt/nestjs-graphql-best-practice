@@ -9,8 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
-import { createConnection, getMetadataArgsStorage } from 'typeorm'
-import chalk from 'chalk'
+
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
@@ -25,15 +24,15 @@ import { MailModule } from './utils/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
 import { TasksModule } from './utils/tasks/tasks.module'
 import { TasksService } from './utils/tasks/tasks.service'
-import { ConfigModule } from './config/envConfig/config.module'
-import { ConfigService } from './config/envConfig/config.service'
 
 import * as bodyParser from 'body-parser'
 import * as winston from 'winston'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
-import * as csurf from 'csurf'
-import * as rateLimit from 'express-rate-limit'
+// import * as csurf from 'csurf'
+// import * as rateLimit from 'express-rate-limit'
+
+import { NODE_ENV, END_POINT, VOYAGER } from './environments'
 
 const {
 	combine,
@@ -48,11 +47,11 @@ const {
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
-			imports: [AuthModule, ConfigModule],
+			imports: [AuthModule],
 			useClass: GraphqlService
 		}),
 		TypeOrmModule.forRootAsync({
-			imports: [AuthModule, ConfigModule],
+			imports: [AuthModule],
 			useClass: TypeormService
 		}),
 		CacheModule.registerAsync({
@@ -98,18 +97,14 @@ const {
 		MailModule,
 		FileModule,
 		UploadModule,
-		TasksModule,
-		ConfigModule
+		TasksModule
 	],
 	providers: [DateScalar, UploadScalar]
 })
 
 // COMPLETE:
 export class AppModule implements OnModuleInit {
-	constructor(
-		private readonly tasksService: TasksService,
-		private readonly configService: ConfigService
-	) {}
+	constructor(private readonly tasksService: TasksService) {}
 
 	configure(consumer: MiddlewareConsumer) {
 		consumer
@@ -129,37 +124,21 @@ export class AppModule implements OnModuleInit {
 				// 	message:
 				// 		'Too many request created from this IP, please try again after an hour'
 				// }),
-				this.configService.get('NODE_ENV') !== 'testing' && LoggerMiddleware
+				NODE_ENV !== 'testing' && LoggerMiddleware
 			)
-			.forRoutes(`/${this.configService.get('END_POINT')}`)
+			.forRoutes(`/${END_POINT}`)
 
-		this.configService.get('NODE_ENV') !== 'production' &&
+		NODE_ENV !== 'production' &&
 			consumer
 				.apply(
 					voyagerMiddleware({
-						endpointUrl: `/${this.configService.get('END_POINT')}`
+						endpointUrl: `/${END_POINT}`
 					})
 				)
-				.forRoutes(`/${this.configService.get('VOYAGER')}`)
+				.forRoutes(`/${VOYAGER}`)
 	}
 
 	onModuleInit() {
 		this.tasksService.Cron()
-
-		this.configService.get('NODE_ENV') !== 'production' &&
-			Logger.log(
-				`🚀  Server ready at http://${this.configService.get('DOMAIN')}:` +
-					chalk.hex('#87e8de').bold(this.configService.get('PORT')) +
-					`/${this.configService.get('END_POINT')}`,
-				'Bootstrap'
-			)
-
-		process.env.NODE_ENV !== 'production' &&
-			Logger.log(
-				`🚀  Subscriptions ready at ws://${this.configService.get('DOMAIN')}:` +
-					chalk.hex('#87e8de').bold(this.configService.get('PORT')) +
-					`/${this.configService.get('END_POINT')}`,
-				'Bootstrap'
-			)
 	}
 }
