@@ -11,6 +11,8 @@ import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import config from './config.env'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
+import { TasksModule } from '@utils/tasks/tasks.module'
+import { TasksService } from '@utils/tasks/tasks.service'
 
 declare const module: any
 
@@ -36,6 +38,14 @@ async function bootstrap() {
 		logger: false
 		// logger: new LoggerService()
 	})
+
+	// Application context
+	const tasksService = app.select(TasksModule).get(TasksService, { strict: true })
+
+	// COMPLETE: tasks
+	// tasksService.Timeout()
+	// tasksService.Interval()
+	tasksService.Cron()
 
 	// COMPLETE: for e2e testing
 	const httpAdapter = app.getHttpAdapter()

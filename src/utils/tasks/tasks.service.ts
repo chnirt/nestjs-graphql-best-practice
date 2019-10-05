@@ -9,7 +9,7 @@ export class TasksService {
 	}
 
 	async Interval() {
-		const intervalID = setInterval(() => console.log('Task executed'), 2000)
+		const intervalID = setInterval(() => console.log('Task executed'), 4000)
 		// clearInterval(intervalID);
 	}
 

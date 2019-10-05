@@ -31,7 +31,7 @@ const logger = createLogger({
 	level: 'error',
 	levels: config.levels,
 	format: format.combine(
-		label({ label: '🥢 Chnirt!' }),
+		label({ label: '👻  Chnirt!' }),
 		json(),
 		timestamp(),
 		// prettyPrint(),

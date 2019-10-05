@@ -97,7 +97,7 @@ import { NODE_ENV, END_POINT, VOYAGER } from './environments'
 })
 
 // COMPLETE:
-export class AppModule implements OnModuleInit {
+export class AppModule {
 	constructor(private readonly tasksService: TasksService) {}
 
 	configure(consumer: MiddlewareConsumer) {
@@ -130,9 +130,5 @@ export class AppModule implements OnModuleInit {
 					})
 				)
 				.forRoutes(`/${VOYAGER}`)
-	}
-
-	onModuleInit() {
-		this.tasksService.Cron()
 	}
 }
