@@ -1,28 +1,22 @@
-import { NODE_ENV } from './environments'
+import { NODE_ENV, MONGO_URL, MONGO_PORT, MONGO_DB } from './environments'
 
 // COMPLETE:
 const orm = {
 	development: {
-		url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
-		// host: 'localhost',
-		// port: process.env.MONGO_PORT,
-		// username: '',
-		// password: '',
-		// database: 'process.env.DB_NAME',
+		url: MONGO_URL
 	},
 	testing: {
-		url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+		url: MONGO_URL
 	},
 	staging: {
-		url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+		host: 'localhost',
+		port: MONGO_PORT,
+		username: '',
+		password: '',
+		database: MONGO_DB
 	},
 	production: {
-		url: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
-		// host: 'localhost',
-		// port: 11049,
-		// username: '',
-		// password: '',
-		// database: 'test'
+		url: MONGO_URL
 	}
 }
 

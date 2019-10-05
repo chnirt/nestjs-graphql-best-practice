@@ -9,10 +9,16 @@ const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
 const DOMAIN: string = process.env.DOMAIN || 'localhost'
-const PORT: string = process.env.PORT || '11048'
+const PORT: number = +process.env.PORT || 11048
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''
+
+// mongodb
+const MONGO_URL: string =
+	process.env.MONGO_URL || 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+const MONGO_PORT: number = +process.env.MONGO_PORT || 11049
+const MONGO_DB: string = process.env.MONGO_DB || 'chnirt-nest'
 
 // jsonwebtoken
 const ISSUER: string = process.env.ISSUER || 'http://chnirt.dev.io'
@@ -41,6 +47,9 @@ export {
 	END_POINT,
 	VOYAGER,
 	FE_URL,
+	MONGO_URL,
+	MONGO_PORT,
+	MONGO_DB,
 	ISSUER,
 	ACCESS_TOKEN,
 	REFRESH_TOKEN,

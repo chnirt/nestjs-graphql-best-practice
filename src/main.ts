@@ -3,7 +3,7 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
-// import fs from 'fs'
+// import * as fs from 'fs'
 import chalk from 'chalk'
 
 import { LoggerService } from './config/logger/logger.service'
@@ -20,7 +20,7 @@ import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 declare const module: any
 
 async function bootstrap() {
-	// COMPLETE: connect db
+	// COMPLETE: connect database
 	createConnection({
 		...config,
 		type: 'mongodb',
