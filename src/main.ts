@@ -3,7 +3,6 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import chalk from 'chalk'
-import * as winston from 'winston'
 import { LoggerService } from './config/logger/logger.service'
 // import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
@@ -12,26 +11,6 @@ import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import config from './config.env'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
-
-// import { LoggerService } from '@nestjs/common'
-
-// export class MyLogger implements LoggerService {
-// 	log(level: string, message: string) {
-// 		winston.log(level, message)
-// 	}
-// 	error(message: string, trace: string) {
-// 		winston.error(message)
-// 	}
-// 	warn(message: string) {
-// 		winston.warn(message)
-// 	}
-// 	debug(message: string) {
-// 		winston.debug(message)
-// 	}
-// 	verbose(message: string) {
-// 		winston.verbose(message)
-// 	}
-// }
 
 declare const module: any
 
@@ -47,7 +26,7 @@ async function bootstrap() {
 		logging: true
 	})
 		.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
-		.catch(err => Logger.log(`❌  Database connect error, ${err}`, 'TypeORM'))
+		.catch(err => Logger.error(`❌  Database connect error, ${err}`, 'TypeORM'))
 
 	const app = await NestFactory.create(AppModule, {
 		// httpsOptions: {
@@ -82,9 +61,7 @@ async function bootstrap() {
 
 	NODE_ENV !== 'production' &&
 		Logger.log(
-			`🚀  Server ready at http://${DOMAIN}:` +
-				chalk.hex('#87e8de').bold(PORT) +
-				`/${END_POINT}`,
+			`🚀  Server ready at http://${DOMAIN}:` + chalk.hex('#87e8de').bold(PORT) + `/${END_POINT}`,
 			'Bootstrap'
 		)
 

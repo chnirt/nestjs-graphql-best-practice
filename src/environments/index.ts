@@ -9,12 +9,12 @@ const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
 const PORT: string = process.env.PORT || '11048'
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
-const SECRET_KEY: string = process.env.SECRET_KEY || ''
+const SECRET_KEY: string = process.env.SECRET_KEY || 'chnirt1803'
 const FE_URL: string = process.env.FE_URL || ''
 
 // nodemailer
-const MAIL_USER: string = process.env.MAIL_USER || ''
-const MAIL_PASS: string = process.env.MAIL_PASS || ''
+const MAIL_USER: string = process.env.MAIL_USER || 'trinhchin.innos@gmail.com'
+const MAIL_PASS: string = process.env.MAIL_PASS || 'Matkhaula1!'
 
 // cloudary
 const CLOUD_NAME: string = process.env.CLOUD_NAME || ''

@@ -8,11 +8,7 @@ import { MAIL_USER, MAIL_PASS } from '../../environments'
 
 @Injectable()
 export class MailService {
-	async sendMail(
-		email: string,
-		req: any,
-		resetPasswordToken: string
-	): Promise<any> {
+	async sendMail(email: string, req: any, resetPasswordToken: string): Promise<any> {
 		const transporter = await nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
@@ -32,34 +28,31 @@ export class MailService {
 			})
 		}
 
-		readHTMLFile(
-			__dirname + '/../../../assets/templates/index.html',
-			(err, html) => {
-				const template = handlebars.compile(html)
+		readHTMLFile('./src/assets/templates/index.html', (err, html) => {
+			const template = handlebars.compile(html)
 
-				const replacements = {
-					link: 'http//' + req.headers.host + '/reset/' + resetPasswordToken
-				}
-				const htmlToSend = template(replacements)
-
-				const mailOptions = {
-					from: 'Acexis 📧 ' + MAIL_USER, // sender address
-					to: email, // list of receivers
-					subject: 'Reset Password',
-					html: htmlToSend
-				}
-
-				transporter.sendMail(mailOptions, (err, info) => {
-					if (err) {
-						// console.log(err)
-						throw new ApolloError(err.message, '500', {})
-					} else {
-						// console.log("Message sent: " + info.response.message)
-					}
-				})
-
-				transporter.close()
+			const replacements = {
+				link: 'http//' + req.headers.host + '/reset/' + resetPasswordToken
 			}
-		)
+			const htmlToSend = template(replacements)
+
+			const mailOptions = {
+				from: 'Acexis 📧 ' + MAIL_USER, // sender address
+				to: email, // list of receivers
+				subject: 'Reset Password',
+				html: htmlToSend
+			}
+
+			transporter.sendMail(mailOptions, (err, info) => {
+				if (err) {
+					// console.log(err)
+					throw new ApolloError(err.message, '500', {})
+				} else {
+					// console.log("Message sent: " + info.response.message)
+				}
+			})
+
+			transporter.close()
+		})
 	}
 }

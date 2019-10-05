@@ -78,10 +78,7 @@ export abstract class IMutation {
 
 	abstract createUser(input: CreateUserInput): User | Promise<User>
 
-	abstract updateUser(
-		_id: string,
-		input: UpdateUserInput
-	): boolean | Promise<boolean>
+	abstract updateUser(_id: string, input: UpdateUserInput): boolean | Promise<boolean>
 
 	abstract deleteUser(_id: string): boolean | Promise<boolean>
 
@@ -89,10 +86,7 @@ export abstract class IMutation {
 
 	abstract login(input: LoginUserInput): LoginResponse | Promise<LoginResponse>
 
-	abstract lockAndUnlockUser(
-		_id: string,
-		reason: string
-	): boolean | Promise<boolean>
+	abstract lockAndUnlockUser(_id: string, reason: string): boolean | Promise<boolean>
 
 	abstract changePassword(
 		_id: string,
@@ -102,10 +96,7 @@ export abstract class IMutation {
 
 	abstract forgotPassword(email: string): boolean | Promise<boolean>
 
-	abstract resetPassword(
-		resetPasswordToken: string,
-		password: string
-	): boolean | Promise<boolean>
+	abstract resetPassword(resetPasswordToken: string, password: string): boolean | Promise<boolean>
 }
 
 export abstract class IQuery {
@@ -119,10 +110,7 @@ export abstract class IQuery {
 
 	abstract user(_id: string): User | Promise<User>
 
-	abstract search(
-		conditions: SearchInput,
-		type: RecordType
-	): Result[] | Promise<Result[]>
+	abstract search(conditions: SearchInput, type: RecordType): Result[] | Promise<Result[]>
 
 	abstract searchUser(userIds?: string[]): UserResult | Promise<UserResult>
 
