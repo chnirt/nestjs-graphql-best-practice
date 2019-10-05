@@ -1,10 +1,4 @@
-import {
-	Entity,
-	ObjectIdColumn,
-	Column,
-	BeforeInsert,
-	BeforeUpdate
-} from 'typeorm'
+import { Entity, ObjectIdColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm'
 import * as uuid from 'uuid'
 import { hash, compare } from 'bcrypt'
 import {

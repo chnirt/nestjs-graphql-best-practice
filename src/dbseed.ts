@@ -52,8 +52,7 @@ async function main() {
 						firstName: item.firstName,
 						lastName: item.lastName,
 						email: item.email,
-						password:
-							'$2b$10$zZlBfV2IMrXPnbtHd1Bwqus97HvLE28N9.rCvNSUURFQdDD945fXK',
+						password: '$2b$10$zZlBfV2IMrXPnbtHd1Bwqus97HvLE28N9.rCvNSUURFQdDD945fXK',
 						gender: item.gender,
 						isLocked: false,
 						reason: '',

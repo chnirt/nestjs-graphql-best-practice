@@ -1,10 +1,4 @@
-import {
-	Entity,
-	ObjectIdColumn,
-	Column,
-	BeforeInsert,
-	BeforeUpdate
-} from 'typeorm'
+import { Entity, ObjectIdColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm'
 import { IsString } from 'class-validator'
 import * as uuid from 'uuid'
 

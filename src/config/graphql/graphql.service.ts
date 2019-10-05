@@ -3,11 +3,7 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import {
-	ApolloError,
-	GraphQLExtension,
-	AuthenticationError
-} from 'apollo-server-core'
+import { ApolloError, GraphQLExtension, AuthenticationError } from 'apollo-server-core'
 // import { Logger as winstonLogger } from 'winston'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
@@ -148,8 +144,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				path: `/${END_POINT}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
-					NODE_ENV !== 'production' &&
-						Logger.log(`🔗  Connected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' && Logger.log(`🔗  Connected to websocket`, 'GraphQL')
 
 					let currentUser
 
@@ -164,8 +159,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
-					NODE_ENV !== 'production' &&
-						Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' && Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},
 			persistedQueries: {

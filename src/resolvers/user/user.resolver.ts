@@ -109,10 +109,7 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Query(() => [User])
-	async users(
-		@Args('offset') offset: number,
-		@Args('limit') limit: number
-	): Promise<User[]> {
+	async users(@Args('offset') offset: number, @Args('limit') limit: number): Promise<User[]> {
 		const users = await this.userRepository.find({
 			where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
 			order: { createdAt: -1 },
@@ -300,10 +297,7 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Mutation(() => Boolean)
-	async forgotPassword(
-		@Args('email') email: string,
-		@Context('req') req: any
-	): Promise<boolean> {
+	async forgotPassword(@Args('email') email: string, @Context('req') req: any): Promise<boolean> {
 		const user = await this.userRepository.findOne({
 			email
 		})
@@ -319,11 +313,7 @@ export class UserResolver {
 
 		await this.userRepository.save(user)
 
-		return (await this.mailService.sendMail(
-			user.email,
-			req,
-			user.resetPasswordToken
-		))
+		return (await this.mailService.sendMail(user.email, req, user.resetPasswordToken))
 			? true
 			: false
 	}

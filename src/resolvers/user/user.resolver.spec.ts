@@ -51,9 +51,7 @@ describe('UserResolver', () => {
 
 	it('should return users', async () => {
 		const result = [new User()]
-		jest
-			.spyOn(userResolver, 'users')
-			.mockImplementation(() => Promise.resolve(result))
+		jest.spyOn(userResolver, 'users').mockImplementation(() => Promise.resolve(result))
 
 		expect(await userResolver.users(0, 100)).toBe(result)
 	})

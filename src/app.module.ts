@@ -1,10 +1,4 @@
-import {
-	Module,
-	CacheModule,
-	MiddlewareConsumer,
-	OnModuleInit,
-	Logger
-} from '@nestjs/common'
+import { Module, CacheModule, MiddlewareConsumer, OnModuleInit, Logger } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 import { WinstonModule } from 'nest-winston'
