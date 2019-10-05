@@ -1,14 +1,12 @@
-# Nestjs Best Practices
+# Nestjs GraphQL Best Practice
+
+> ### NestJS (Express + Typeorm) codebase containing real world examples (CRUD, auth, advanced patterns, etc).
 
 [![Coverage Status](https://coveralls.io/repos/github/chnirt/nestjs-graphql-best-practice/badge.svg?branch=cicd)](https://coveralls.io/github/chnirt/nestjs-graphql-best-practice?branch=cicd)
 
 <h1 align="center">
   <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 </h1>
-
-## Nestjs Graphql Best Practice
-
-> ### NestJS (Express + Typeorm) codebase containing real world examples (CRUD, auth, advanced patterns, etc).
 
 ## Table of Contents
 
@@ -18,14 +16,7 @@
   - [Function](#function)
   - [Usage](#usage)
   - [Starting the Server](#starting-the-server)
-- [Node.js Best Practices](#nodejs-best-practices)
-      - [1. Project Structure Practices](#1-project-structure-practices)
-      - [2. Error Handling Practices](#2-error-handling-practices)
-      - [3. Code Style Practices](#3-code-style-practices)
-          - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
-      - [5. Going To Production Practices](#5-going-to-production-practices)
-      - [6. Security Best Practices](#6-security-best-practices)
-      - [7. Performance Best Practices](#7-performance-best-practices)
+- [Node.js Best Practices](#nodejs-best-practices) - [1. Project Structure Practices](#1-project-structure-practices) - [2. Error Handling Practices](#2-error-handling-practices) - [3. Code Style Practices](#3-code-style-practices) - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices) - [5. Going To Production Practices](#5-going-to-production-practices) - [6. Security Best Practices](#6-security-best-practices) - [7. Performance Best Practices](#7-performance-best-practices)
 
 ## Function
 
@@ -35,13 +26,14 @@
 4. Send mail with nodemailer
 5. Task scheduler with timeout, interval, cron
 6. Unit, e2e, coverage testing
+7. Logger
 
 ## Usage
 
 1. Clone repository
 
 ```
-  https://github.com/chnirt/nestjs-graphql-best-practice.git
+  git clone https://github.com/chnirt/nestjs-graphql-best-practice.git
 ```
 
 2. Cd into directory

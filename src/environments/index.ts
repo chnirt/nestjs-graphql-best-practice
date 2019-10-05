@@ -16,7 +16,7 @@ const FE_URL: string = process.env.FE_URL || ''
 const MAIL_USER: string = process.env.MAIL_USER || ''
 const MAIL_PASS: string = process.env.MAIL_PASS || ''
 
-// cloudary
+// cloudinary
 const CLOUD_NAME: string = process.env.CLOUD_NAME || ''
 const API_KEY: string = process.env.API_KEY || ''
 const API_SECRET: string = process.env.API_SECRET || ''

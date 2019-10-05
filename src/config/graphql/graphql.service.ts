@@ -144,7 +144,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				path: `/${END_POINT}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
-					NODE_ENV !== 'production' && Logger.log(`🔗  Connected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' && Logger.debug(`🔗  Connected to websocket`, 'GraphQL')
 
 					let currentUser
 
@@ -159,7 +159,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
-					NODE_ENV !== 'production' && Logger.log(`❌  Disconnected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' && Logger.error(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},
 			persistedQueries: {
