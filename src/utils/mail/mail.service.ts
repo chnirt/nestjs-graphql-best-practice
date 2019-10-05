@@ -2,12 +2,18 @@ import { Injectable, Logger } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
+import { User } from '../../graphql.schema'
 
 import { AUTHOR, ISSUER, MAIL_USER, MAIL_PASS } from '../../environments'
 
 @Injectable()
 export class MailService {
-	async sendMail(emails: string[], req: any, resetPasswordToken: string): Promise<any> {
+	async sendMail(
+		type: string,
+		user: User,
+		req: any,
+		token: string
+	): Promise<any> {
 		const transporter = await nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
@@ -26,33 +32,64 @@ export class MailService {
 			})
 		}
 
-		readHTMLFile('./src/assets/templates/verifyemail-udacity.html', (err, html) => {
+		readHTMLFile('./src/assets/templates/udacity-index.html', (err, html) => {
 			const template = handlebars.compile(html)
 
 			const replacements = {
-				link: 'http//' + req.headers.host + '/reset/' + resetPasswordToken,
-				author: AUTHOR,
-				issuer: ISSUER,
-				ios: 'https://itunes.apple.com/us/app/chnirt',
-				android: 'https://play.google.com/store/apps/chnirt',
-				twitter: 'https://twitter.com/chnirt',
-				facebook: 'https://www.facebook.com/trinhchinchinn',
-				googleplus: 'https://plus.google.com/chnirt',
-				linkedin:
-					'https://www.linkedin.com/authwall?trk=gf&trkInfo=AQFSlEdMz0wy8AAAAW2cEMIYqabj7d0O-w7EMMY5W1BFRDacs5fcAbu4akPG8jrJQPG5-cNbLf-kaBHIfmW-f6a3WgaqAEjIG6reC_mLvY9n-mzZwZbcFf0q9XmrlkFVdVUH2I4=&originalReferer=https://www.facebook.com/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fchin-tr%25E1%25BB%258Bnh-62200215a%3Ffbclid%3DIwAR289POrXez8UY6k2RQNEnNAjrtOto8H6zhFABlQ7HHCvpIS0afgQHxGGic',
-				number: '1803',
-				street: 'Su Van Hanh',
-				city: 'Ho Chi Minh',
-				country: 'Viet Nam',
-				to: 'Maria',
-				button: 'VERIFY EMAIL'
+				verifyEmail: {
+					link: `http//${req.headers.host}/confirmation/${token}`,
+					author: AUTHOR!,
+					issuer: ISSUER!,
+					ios: 'https://itunes.apple.com/us/app/chnirt',
+					android: 'https://play.google.com/store/apps/chnirt',
+					twitter: 'https://twitter.com/chnirt',
+					facebook: 'https://www.facebook.com/trinhchinchinn',
+					googleplus: 'https://plus.google.com/chnirt',
+					linkedin:
+						'https://www.linkedin.com/authwall?trk=gf&trkInfo=AQFSlEdMz0wy8AAAAW2cEMIYqabj7d0O-w7EMMY5W1BFRDacs5fcAbu4akPG8jrJQPG5-cNbLf-kaBHIfmW-f6a3WgaqAEjIG6reC_mLvY9n-mzZwZbcFf0q9XmrlkFVdVUH2I4=&originalReferer=https://www.facebook.com/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fchin-tr%25E1%25BB%258Bnh-62200215a%3Ffbclid%3DIwAR289POrXez8UY6k2RQNEnNAjrtOto8H6zhFABlQ7HHCvpIS0afgQHxGGic',
+					number: '1803',
+					street: 'Su Van Hanh',
+					city: 'Ho Chi Minh',
+					country: 'Viet Nam',
+					to: `${user.firstName}`,
+					subject: 'Confirm Email',
+					text1: 'To complete your sign up, please verify your email: ',
+					button: 'VERIFY EMAIL',
+					text2: 'Or copy this link and paste in your web	browser'
+				},
+				forgotPassword: {
+					link: `http//${req.headers.host}/reset/${token}`,
+					author: AUTHOR!,
+					issuer: ISSUER!,
+					ios: 'https://itunes.apple.com/us/app/chnirt',
+					android: 'https://play.google.com/store/apps/chnirt',
+					twitter: 'https://twitter.com/chnirt',
+					facebook: 'https://www.facebook.com/trinhchinchinn',
+					googleplus: 'https://plus.google.com/chnirt',
+					linkedin:
+						'https://www.linkedin.com/authwall?trk=gf&trkInfo=AQFSlEdMz0wy8AAAAW2cEMIYqabj7d0O-w7EMMY5W1BFRDacs5fcAbu4akPG8jrJQPG5-cNbLf-kaBHIfmW-f6a3WgaqAEjIG6reC_mLvY9n-mzZwZbcFf0q9XmrlkFVdVUH2I4=&originalReferer=https://www.facebook.com/&sessionRedirect=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fchin-tr%25E1%25BB%258Bnh-62200215a%3Ffbclid%3DIwAR289POrXez8UY6k2RQNEnNAjrtOto8H6zhFABlQ7HHCvpIS0afgQHxGGic',
+					number: '1803',
+					street: 'Su Van Hanh',
+					city: 'Ho Chi Minh',
+					country: 'Viet Nam',
+					to: `${user.firstName}`,
+					subject: 'Reset Your Password',
+					text1:
+						// tslint:disable-next-line:quotemark
+						"Tap the button below to reset your customer account password. If you didn't request a new password, you can safely delete this email.",
+					button: 'Set New Password',
+					text2:
+						// tslint:disable-next-line:quotemark
+						"If that doesn't work, copy and paste the following link in your browser:"
+				}
 			}
-			const htmlToSend = template(replacements)
+
+			const htmlToSend = template(replacements[type])
 
 			const mailOptions = {
 				from: 'Chnirt  📮:' + MAIL_USER, // sender address
-				to: emails, // list of receivers
-				subject: 'Reset Password',
+				to: user.email, // list of receivers
+				subject: replacements[type].subject,
 				html: htmlToSend,
 				attachments: [
 					{

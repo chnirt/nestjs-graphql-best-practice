@@ -43,7 +43,9 @@ async function bootstrap() {
 	})
 
 	// Application context
-	const tasksService = app.select(TasksModule).get(TasksService, { strict: true })
+	const tasksService = app
+		.select(TasksModule)
+		.get(TasksService, { strict: true })
 
 	// COMPLETE: tasks
 	// tasksService.Timeout()
@@ -60,7 +62,7 @@ async function bootstrap() {
 		app.use(
 			'/voyager',
 			voyagerMiddleware({
-				endpointUrl: `/${END_POINT}`
+				endpointUrl: `/${END_POINT!}`
 			})
 		)
 
@@ -83,15 +85,17 @@ async function bootstrap() {
 
 	NODE_ENV !== 'production' &&
 		Logger.log(
-			`🚀  Server ready at http://${DOMAIN}:` + chalk.hex('#87e8de').bold(PORT) + `/${END_POINT}`,
+			`🚀  Server ready at http://${DOMAIN!}:` +
+				chalk.hex('#87e8de').bold(`${PORT!}`) +
+				`/${END_POINT!}`,
 			'Bootstrap'
 		)
 
 	NODE_ENV !== 'production' &&
 		Logger.log(
-			`🚀  Subscriptions ready at ws://${DOMAIN}:` +
-				chalk.hex('#87e8de').bold(PORT) +
-				`/${END_POINT}`,
+			`🚀  Subscriptions ready at ws://${DOMAIN!}:` +
+				chalk.hex('#87e8de').bold(`${PORT!}`) +
+				`/${END_POINT!}`,
 			'Bootstrap'
 		)
 }

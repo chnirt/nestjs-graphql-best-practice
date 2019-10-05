@@ -10,7 +10,7 @@ import {
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
-import { ApolloError } from 'apollo-server-core'
+import { ApolloError, ForbiddenError } from 'apollo-server-core'
 import * as uuid from 'uuid'
 import {
 	CreateUserInput,
@@ -109,9 +109,12 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Query(() => [User])
-	async users(@Args('offset') offset: number, @Args('limit') limit: number): Promise<User[]> {
+	async users(
+		@Args('offset') offset: number,
+		@Args('limit') limit: number
+	): Promise<User[]> {
 		const users = await this.userRepository.find({
-			where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
+			// where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
 			order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
@@ -141,7 +144,8 @@ export class UserResolver {
 	@Mutation(() => User)
 	async createUser(
 		@Args('input') input: CreateUserInput,
-		@Context('pubSub') pubSub
+		@Context('pubSub') pubSub: any,
+		@Context('req') req: any
 	): Promise<User> {
 		try {
 			const { firstName, lastName, email, password, gender } = input
@@ -149,7 +153,7 @@ export class UserResolver {
 			const existedUser = await this.userRepository.findOne({ email })
 
 			if (existedUser) {
-				throw new ApolloError('Conflict: Username', '409', {})
+				throw new ForbiddenError('Duplicate user')
 			}
 
 			const user = new User()
@@ -162,6 +166,12 @@ export class UserResolver {
 			const createdUser = await this.userRepository.save(user)
 
 			pubSub.publish('userCreated', { userCreated: createdUser })
+
+			// TODO:
+
+			const emailToken = await this.authService.generateEmailToken(createdUser)
+			// send mail
+			await this.mailService.sendMail('verifyEmail', createdUser, req, emailToken)
 
 			return createdUser
 		} catch (error) {
@@ -243,6 +253,7 @@ export class UserResolver {
 	// TODO:
 	@Mutation(() => Boolean)
 	async refreshToken(@Context('req') req: any): Promise<boolean> {
+		console.log('refresh-token')
 		return true
 	}
 
@@ -303,7 +314,10 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Mutation(() => Boolean)
-	async forgotPassword(@Args('email') email: string, @Context('req') req: any): Promise<boolean> {
+	async forgotPassword(
+		@Args('email') email: string,
+		@Context('req') req: any
+	): Promise<boolean> {
 		const user = await this.userRepository.findOne({
 			email
 		})
@@ -314,10 +328,13 @@ export class UserResolver {
 
 		const date = new Date()
 
-		user.resetPasswordToken = uuid.v1()
-		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
+		const resetPassToken = await this.authService.generateResetPassToken(user)
 
-		const rs = await this.mailService.sendMail([user.email], req, user.resetPasswordToken)
+		// send mail
+		await this.mailService.sendMail('forgotPassword', user, req, resetPassToken)
+
+		user.resetPasswordToken = resetPassToken
+		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
 
 		return (await this.userRepository.save(user)) ? true : false
 	}
