@@ -27,7 +27,7 @@ async function bootstrap() {
 		useUnifiedTopology: true,
 		logging: true
 	})
-		.then(cn => Logger.log(`☁️  Database connected`, 'TypeORM'))
+		.then(data => Logger.log(`☁️  Database connected`, 'TypeORM'))
 		.catch(err => Logger.error(`❌  Database connect error, ${err}`, 'TypeORM'))
 
 	const app = await NestFactory.create(AppModule, {

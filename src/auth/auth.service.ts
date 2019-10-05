@@ -9,7 +9,7 @@ import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../environments'
 @Injectable()
 export class AuthService {
 	async generateToken(user: User): Promise<string> {
-		const token = await sign(
+		return await sign(
 			{
 				issuer: 'http://chnirt.dev.io',
 				subject: user._id,
@@ -21,26 +21,22 @@ export class AuthService {
 				expiresIn: '15m'
 			}
 		)
-
-		return token
 	}
 
-	async generateRefreshToken(user: User): Promise<string> {
-		const refreshToken = await sign(
-			{
-				issuer: 'http://chnirt.dev.io',
-				subject: user._id,
-				audience: user.email
-			},
-			REFRESH_TOKEN_SECRET!,
-			{
-				algorithm: 'HS256',
-				expiresIn: '7d'
-			}
-		)
-
-		return refreshToken
-	}
+	// async generateRefreshToken(user: User): Promise<string> {
+	// 	return await sign(
+	// 		{
+	// 			issuer: 'http://chnirt.dev.io',
+	// 			subject: user._id,
+	// 			audience: user.email
+	// 		},
+	// 		REFRESH_TOKEN_SECRET!,
+	// 		{
+	// 			algorithm: 'HS256',
+	// 			expiresIn: '7d'
+	// 		}
+	// 	)
+	// }
 
 	async tradeToken(email: string, password: string): Promise<string> {
 		const user = await getMongoRepository(User).findOne({ email })

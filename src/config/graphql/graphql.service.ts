@@ -4,13 +4,12 @@ import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
 import { ApolloError, GraphQLExtension, AuthenticationError } from 'apollo-server-core'
-// import { Logger as winstonLogger } from 'winston'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
 
-import { NODE_ENV, FE_URL, END_POINT } from '../../environments'
+import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN, REFRESH_TOKEN } from '../../environments'
 
 const pubSub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
@@ -32,10 +31,7 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 // COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(
-		// @Inject('winston') private readonly logger: winstonLogger,
-		private readonly authService: AuthService
-	) {}
+	constructor(private readonly authService: AuthService) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		return {
@@ -111,7 +107,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser
 
-				const { token } = req.headers || ''
+				const token = req.headers[ACCESS_TOKEN] || ''
 
 				if (token) {
 					currentUser = await this.authService.verifyToken(token)
@@ -129,7 +125,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				}
 			},
 			formatError: error => {
-				// this.logger.error('✖️ ' + JSON.stringify(err.message), 'Error')
+				// console.log(error)
 				if (error.originalError instanceof AuthenticationError) {
 					return new Error('Different authentication error message!')
 				}

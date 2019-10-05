@@ -240,6 +240,12 @@ export class UserResolver {
 		return { token }
 	}
 
+	// TODO:
+	@Mutation(() => Boolean)
+	async refreshToken(@Context('req') req: any): Promise<boolean> {
+		return true
+	}
+
 	// COMPLETE:
 	@Mutation(() => Boolean)
 	async lockAndUnlockUser(
@@ -267,18 +273,18 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async changePassword(
 		@Args('_id') _id: string,
-		@Args('currentpassword') currentpassword: string,
+		@Args('currentPassword') currentPassword: string,
 		@Args('password') password: string
 	): Promise<boolean> {
 		const user = await this.userRepository.findOne({ _id })
 
-		// console.log(currentpassword, password)
+		// console.log(currentPassword , password)
 
 		if (!user) {
 			throw new ApolloError('Not Found: User', '404', {})
 		}
 
-		if (!(await user.matchesPassword(currentpassword))) {
+		if (!(await user.matchesPassword(currentPassword))) {
 			throw new ApolloError('missingCurrentPassword', '400', {})
 		}
 
@@ -323,7 +329,7 @@ export class UserResolver {
 	async resetPassword(
 		@Args('resetPasswordToken') resetPasswordToken: string,
 		@Args('password') password: string
-	) {
+	): Promise<boolean> {
 		const user = await this.userRepository.findOne({
 			resetPasswordToken
 		})

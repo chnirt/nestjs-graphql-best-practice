@@ -12,6 +12,8 @@ const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''
 
 // jsonwebtoken
+const ACCESS_TOKEN: string = process.env.ACCESS_TOKEN || 'access-token'
+const REFRESH_TOKEN: string = process.env.REFRESH_TOKEN || 'refresh-token'
 const ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET || ''
 const REFRESH_TOKEN_SECRET: string = process.env.REFRESH_TOKEN_SECRET || ''
 
@@ -31,6 +33,8 @@ export {
 	END_POINT,
 	VOYAGER,
 	FE_URL,
+	ACCESS_TOKEN,
+	REFRESH_TOKEN,
 	ACCESS_TOKEN_SECRET,
 	REFRESH_TOKEN_SECRET,
 	MAIL_USER,
