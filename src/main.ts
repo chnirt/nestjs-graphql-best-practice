@@ -2,24 +2,27 @@ import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
+import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
+// import fs from 'fs'
 import chalk from 'chalk'
+
 import { LoggerService } from './config/logger/logger.service'
 // import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
-// import fs from 'fs'
-import config from './config.env'
-
-import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 import { TasksModule } from '@utils/tasks/tasks.module'
 import { TasksService } from '@utils/tasks/tasks.service'
+
+import config from './config.orm'
+
+import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 
 declare const module: any
 
 async function bootstrap() {
 	// COMPLETE: connect db
 	createConnection({
-		...config.orm,
+		...config,
 		type: 'mongodb',
 		entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 		synchronize: true,
@@ -51,6 +54,15 @@ async function bootstrap() {
 	const httpAdapter = app.getHttpAdapter()
 
 	app.useLogger(app.get(LoggerService))
+
+	// COMPLETE:
+	process.env.NODE_ENV !== 'production' &&
+		app.use(
+			'/voyager',
+			voyagerMiddleware({
+				endpointUrl: `/${END_POINT}`
+			})
+		)
 
 	// COMPLETE:
 	app.useGlobalInterceptors(new LoggingInterceptor())

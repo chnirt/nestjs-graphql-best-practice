@@ -12,6 +12,8 @@ import {
 } from 'class-validator'
 import { Exclude, Expose } from 'class-transformer'
 
+import { SALT } from '../environments'
+
 enum Gender {
 	MALE,
 	FEMALE
@@ -164,7 +166,7 @@ export class User {
 	}
 
 	hashPassword(password) {
-		return hash(password, 10)
+		return hash(password, SALT)
 	}
 
 	matchesPassword(password) {

@@ -7,9 +7,9 @@ import { CLOUD_NAME, API_KEY, API_SECRET } from '../../environments'
 export class UploadService {
 	async uploadFile(createReadStream: any): Promise<string> {
 		cloudinary.config({
-			cloud_name: CLOUD_NAME,
-			api_key: API_KEY,
-			api_secret: API_SECRET
+			cloud_name: CLOUD_NAME!,
+			api_key: API_KEY!,
+			api_secret: API_SECRET!
 		})
 
 		const uniqueFilename = new Date().toISOString()

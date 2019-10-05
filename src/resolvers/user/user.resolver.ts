@@ -317,11 +317,9 @@ export class UserResolver {
 		user.resetPasswordToken = uuid.v1()
 		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
 
-		await this.userRepository.save(user)
+		const rs = await this.mailService.sendMail([user.email], req, user.resetPasswordToken)
 
-		return (await this.mailService.sendMail(user.email, req, user.resetPasswordToken))
-			? true
-			: false
+		return (await this.userRepository.save(user)) ? true : false
 	}
 
 	// COMPLETE:

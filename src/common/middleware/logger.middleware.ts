@@ -1,6 +1,7 @@
 import { Injectable, NestMiddleware, Logger } from '@nestjs/common'
 import { Request, Response } from 'express'
 import { createLogger, format, transports } from 'winston'
+import chalk from 'chalk'
 
 const { label, json, timestamp, printf } = format
 
@@ -64,7 +65,8 @@ const logger = createLogger({
 export class LoggerMiddleware implements NestMiddleware {
 	use(req: Request, res: Response, next: any) {
 		// logger.info({ level: 'info', message: req.headers['user-agent'] })
-		Logger.debug(`📢  ${req.headers['user-agent']}`, 'Request')
+		// Logger.debug(`📢  ${req.headers['user-agent']}`, 'Request')
+		console.log(new Date().toLocaleString(), '📢  ', chalk.hex('#69c0ff').bold('Request'), '»')
 		next()
 	}
 }

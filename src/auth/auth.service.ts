@@ -4,14 +4,14 @@ import { sign, verify } from 'jsonwebtoken'
 import { AuthenticationError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
 
-import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../environments'
+import { ISSUER, ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../environments'
 
 @Injectable()
 export class AuthService {
 	async generateToken(user: User): Promise<string> {
 		return await sign(
 			{
-				issuer: 'http://chnirt.dev.io',
+				issuer: ISSUER,
 				subject: user._id,
 				audience: user.email
 			},
@@ -26,7 +26,7 @@ export class AuthService {
 	// async generateRefreshToken(user: User): Promise<string> {
 	// 	return await sign(
 	// 		{
-	// 			issuer: 'http://chnirt.dev.io',
+	// 			issuer: ISSUER,
 	// 			subject: user._id,
 	// 			audience: user.email
 	// 		},
