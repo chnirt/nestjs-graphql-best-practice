@@ -12,8 +12,9 @@ dist
 # dotenv environment variables file
 .env
 
-# ts
+# others
 graphql.schema.ts
+package-lock.json
 yarn.lock
 
 # Logs

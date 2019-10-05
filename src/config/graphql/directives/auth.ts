@@ -1,4 +1,4 @@
-import { SchemaDirectiveVisitor, ApolloError, AuthenticationError } from 'apollo-server-express'
+import { SchemaDirectiveVisitor, ForbiddenError } from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 
 class AuthDirective extends SchemaDirectiveVisitor {
@@ -9,12 +9,8 @@ class AuthDirective extends SchemaDirectiveVisitor {
 			const { currentUser } = args[2]
 
 			if (!currentUser) {
-				throw new Error('You are not authenticated!')
+				throw new ForbiddenError('You are not authorized for this ressource.')
 			}
-
-			// if (!currentUser.is_admin) {
-			// 	throw new Error('This is above your pay grade!')
-			// }
 
 			return resolve.apply(this, args)
 		}

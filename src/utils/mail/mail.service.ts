@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
-import { ApolloError } from 'apollo-server-core'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
 
@@ -20,7 +19,6 @@ export class MailService {
 		const readHTMLFile = (path, callback) => {
 			fs.readFile(path, { encoding: 'utf-8' }, (err, html) => {
 				if (err) {
-					throw err
 					callback(err)
 				} else {
 					callback(null, html)
@@ -37,7 +35,7 @@ export class MailService {
 			const htmlToSend = template(replacements)
 
 			const mailOptions = {
-				from: 'Acexis 📧 ' + MAIL_USER, // sender address
+				from: 'Chnirt  📮:' + MAIL_USER, // sender address
 				to: email, // list of receivers
 				subject: 'Reset Password',
 				html: htmlToSend
@@ -46,7 +44,7 @@ export class MailService {
 			transporter.sendMail(mailOptions, (err, info) => {
 				if (err) {
 					// console.log(err)
-					throw new ApolloError(err.message, '500', {})
+					Logger.error(err.message)
 				} else {
 					// console.log("Message sent: " + info.response.message)
 				}

@@ -4,7 +4,7 @@ import { sign, verify } from 'jsonwebtoken'
 import { AuthenticationError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
 
-import { SECRET_KEY } from '../environments'
+import { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } from '../environments'
 
 @Injectable()
 export class AuthService {
@@ -15,43 +15,57 @@ export class AuthService {
 				subject: user._id,
 				audience: user.email
 			},
-			SECRET_KEY!,
+			ACCESS_TOKEN_SECRET!,
 			{
-				expiresIn: '30d'
+				algorithm: 'HS256',
+				expiresIn: '15m'
 			}
 		)
 
 		return token
 	}
 
+	async generateRefreshToken(user: User): Promise<string> {
+		const refreshToken = await sign(
+			{
+				issuer: 'http://chnirt.dev.io',
+				subject: user._id,
+				audience: user.email
+			},
+			REFRESH_TOKEN_SECRET!,
+			{
+				algorithm: 'HS256',
+				expiresIn: '7d'
+			}
+		)
+
+		return refreshToken
+	}
+
 	async tradeToken(email: string, password: string): Promise<string> {
 		const user = await getMongoRepository(User).findOne({ email })
 
-		if (!user || !(await user.matchesPassword(password))) {
-			throw new AuthenticationError('you must be logged in')
+		if (user || (await user.matchesPassword(password))) {
+			return this.generateToken(user)
 		}
 
-		return this.generateToken(user)
+		throw new AuthenticationError('Login failed.')
 	}
 
 	async verifyToken(token: string): Promise<User> {
 		let currentUser
-		let decodeToken
+		let decodedToken
 
-		await verify(token, SECRET_KEY!, (err, decodedToken) => {
-			decodeToken = decodedToken
+		await verify(token, ACCESS_TOKEN_SECRET!, (err, data) => {
+			decodedToken = data
 			if (err || !decodedToken) {
-				throw new AuthenticationError('you must be logged in')
+				throw new AuthenticationError('Authentication token is invalid, please log in.')
 			}
 		})
 
 		currentUser = await getMongoRepository(User).findOne({
-			_id: decodeToken.subject
+			_id: decodedToken.subject
 		})
-
-		if (!currentUser) {
-			throw new AuthenticationError('you must be logged in')
-		}
 
 		return currentUser
 	}

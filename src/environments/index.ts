@@ -9,8 +9,11 @@ const DOMAIN: string = process.env.DOMAIN || 'localhost'
 const PORT: string = process.env.PORT || '11048'
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
-const SECRET_KEY: string = process.env.SECRET_KEY || ''
 const FE_URL: string = process.env.FE_URL || ''
+
+// jsonwebtoken
+const ACCESS_TOKEN_SECRET: string = process.env.ACCESS_TOKEN_SECRET || ''
+const REFRESH_TOKEN_SECRET: string = process.env.REFRESH_TOKEN_SECRET || ''
 
 // nodemailer
 const MAIL_USER: string = process.env.MAIL_USER || ''
@@ -27,8 +30,9 @@ export {
 	PORT,
 	END_POINT,
 	VOYAGER,
-	SECRET_KEY,
 	FE_URL,
+	ACCESS_TOKEN_SECRET,
+	REFRESH_TOKEN_SECRET,
 	MAIL_USER,
 	MAIL_PASS,
 	CLOUD_NAME,

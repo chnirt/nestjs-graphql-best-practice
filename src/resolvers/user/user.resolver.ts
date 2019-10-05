@@ -362,4 +362,9 @@ export class UserResolver {
 		const { firstName, lastName } = user
 		return `${firstName} ${lastName}`
 	}
+
+	@ResolveProperty(() => String)
+	async password(@Parent() user: User): Promise<string> {
+		return ''
+	}
 }

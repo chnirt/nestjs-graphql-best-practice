@@ -49,11 +49,11 @@ const logger = createLogger({
 		//
 		// new transports.Console(),
 		new transports.File({
-			filename: 'src/logs/error.log',
+			filename: 'logs/error.log',
 			level: 'error'
 		}),
 		new transports.File({
-			filename: 'src/logs/info.log',
+			filename: 'logs/info.log',
 			level: 'info'
 		})
 		// new transports.File({ filename: 'src/logs/combined.log' })
