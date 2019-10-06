@@ -1,4 +1,10 @@
-import { Entity, ObjectIdColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm'
+import {
+	Entity,
+	ObjectIdColumn,
+	Column,
+	BeforeInsert,
+	BeforeUpdate
+} from 'typeorm'
 import * as uuid from 'uuid'
 import { hash, compare } from 'bcrypt'
 import {
@@ -84,12 +90,6 @@ export class UpdateUserInput {
 	gender: Gender
 }
 
-export class LoginResponse {
-	@IsString()
-	@IsNotEmpty()
-	token: string
-}
-
 @Entity()
 export class User {
 	@ObjectIdColumn()
@@ -132,6 +132,10 @@ export class User {
 
 	@Column()
 	@IsNotEmpty()
+	isVerified: boolean
+
+	@Column()
+	@IsNotEmpty()
 	isLocked: boolean
 
 	@Column()
@@ -153,16 +157,17 @@ export class User {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
+		this.isVerified = false
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true
-		this.createdAt = new Date().getTime()
-		this.updatedAt = new Date().getTime()
+		this.createdAt = +new Date()
+		this.updatedAt = +new Date()
 	}
 
 	@BeforeUpdate()
 	update() {
-		this.updatedAt = new Date().getTime()
+		this.updatedAt = +new Date()
 	}
 
 	hashPassword(password) {

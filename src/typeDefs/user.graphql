@@ -63,7 +63,12 @@ input SearchInput {
 }
 
 type LoginResponse {
-	token: String!
+	accessToken: String!
+	refreshToken: String!
+}
+
+type RefreshTokenResponse {
+	accessToken: String!
 }
 
 type User {
@@ -76,6 +81,7 @@ type User {
 	resetPasswordToken: String
 	resetPasswordExpires: Float
 	fullName: String @upper @concat(value: "Chnirt")
+	isVerified: Boolean!
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!
@@ -100,10 +106,12 @@ type Mutation {
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
 	deleteUser(_id: ID!): Boolean @isAuthenticated
 	deleteUsers: Boolean! @isAuthenticated
+	verifyUser(emailToken: String!): Boolean
 	login(input: LoginUserInput!): LoginResponse
-	refreshToken: Boolean
+	refreshToken(refreshToken: String!): RefreshTokenResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean @isAuthenticated
-	changePassword(_id: ID!, currentPassword: String!, password: String!): Boolean @isAuthenticated
+	changePassword(_id: ID!, currentPassword: String!, password: String!): Boolean
+		@isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
 }

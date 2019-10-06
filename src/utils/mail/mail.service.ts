@@ -37,7 +37,7 @@ export class MailService {
 
 			const replacements = {
 				verifyEmail: {
-					link: `http//${req.headers.host}/confirmation/${token}`,
+					link: `http//${req.headers.host}/verify/${token}`,
 					author: AUTHOR!,
 					issuer: ISSUER!,
 					ios: 'https://itunes.apple.com/us/app/chnirt',
@@ -52,7 +52,7 @@ export class MailService {
 					city: 'Ho Chi Minh',
 					country: 'Viet Nam',
 					to: `${user.firstName}`,
-					subject: 'Confirm Email',
+					subject: 'Verify Email',
 					text1: 'To complete your sign up, please verify your email: ',
 					button: 'VERIFY EMAIL',
 					text2: 'Or copy this link and paste in your web	browser'

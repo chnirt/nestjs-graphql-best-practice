@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
-import { AuthenticationError } from 'apollo-server-core'
+import { AuthenticationError, ForbiddenError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
+import { LoginResponse } from '../graphql.schema'
 
 import {
 	ISSUER,
@@ -74,11 +75,23 @@ export class AuthService {
 		)
 	}
 
-	async tradeToken(email: string, password: string): Promise<string> {
+	async tradeToken(email: string, password: string): Promise<LoginResponse> {
 		const user = await getMongoRepository(User).findOne({ email })
 
+		if (!user) {
+			// tslint:disable-next-line:quotemark
+			throw new ForbiddenError("User already doestn't exist.")
+		}
+
 		if (user || (await user.matchesPassword(password))) {
-			return this.generateToken(user)
+			if (!user.isVerified) {
+				throw new ForbiddenError('Please verify your email')
+			}
+
+			const accessToken = await this.generateToken(user)
+			const refreshToken = await this.generateRefreshToken(user)
+
+			return { accessToken, refreshToken }
 		}
 
 		throw new AuthenticationError('Login failed.')
@@ -87,7 +100,47 @@ export class AuthService {
 	async verifyToken(token: string): Promise<User> {
 		let currentUser
 
-		await verify(token, ACCESS_TOKEN_SECRET!, (err, data) => {
+		await verify(token, ACCESS_TOKEN_SECRET!, async (err, data) => {
+			if (err) {
+				throw new AuthenticationError(
+					'Authentication token is invalid, please log in.'
+				)
+			}
+
+			currentUser = await getMongoRepository(User).findOne({
+				_id: data.subject
+			})
+		})
+
+		if (!currentUser.isVerified) {
+			throw new ForbiddenError('Please verify your email')
+		}
+
+		return currentUser
+	}
+
+	async verifyEmailToken(token: string): Promise<User> {
+		let currentUser
+
+		await verify(token, EMAIL_TOKEN_SECRET!, async (err, data) => {
+			if (err) {
+				throw new AuthenticationError(
+					'Authentication token is invalid, please try again.'
+				)
+			}
+
+			currentUser = await getMongoRepository(User).findOne({
+				_id: data.subject
+			})
+		})
+
+		return currentUser
+	}
+
+	async refreshToken(refreshToken: string): Promise<string> {
+		let currentUser
+
+		await verify(refreshToken, REFRESH_TOKEN_SECRET!, (err, data) => {
 			if (err) {
 				throw new AuthenticationError(
 					'Authentication token is invalid, please log in.'

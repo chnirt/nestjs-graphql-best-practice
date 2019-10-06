@@ -8,7 +8,10 @@ class HttpCacheInterceptor extends CacheInterceptor {
 
 		const isGetRequest = httpServer.getRequestMethod(request) === 'GET'
 		const excludePaths = []
-		if (!isGetRequest || (isGetRequest && excludePaths.includes(httpServer.getRequestUrl))) {
+		if (
+			!isGetRequest ||
+			(isGetRequest && excludePaths.includes(httpServer.getRequestUrl))
+		) {
 			return undefined
 		}
 		return httpServer.getRequestUrl(request)

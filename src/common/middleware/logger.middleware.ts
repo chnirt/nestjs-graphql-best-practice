@@ -66,7 +66,12 @@ export class LoggerMiddleware implements NestMiddleware {
 	use(req: Request, res: Response, next: any) {
 		// logger.info({ level: 'info', message: req.headers['user-agent'] })
 		// Logger.debug(`📢  ${req.headers['user-agent']}`, 'Request')
-		console.log(new Date().toLocaleString(), '📢  ', chalk.hex('#69c0ff').bold('Request'), '»')
+		console.log(
+			new Date().toLocaleString(),
+			'📢  ',
+			chalk.hex('#69c0ff').bold('Request'),
+			'»'
+		)
 		next()
 	}
 }

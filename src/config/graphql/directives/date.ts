@@ -12,7 +12,12 @@ class DateFormatDirective extends SchemaDirectiveVisitor {
 			type: GraphQLString
 		})
 
-		field.resolve = async function(source, { format, ...otherArgs }, context, info) {
+		field.resolve = async function(
+			source,
+			{ format, ...otherArgs },
+			context,
+			info
+		) {
 			const date = await resolve.call(this, source, otherArgs, context, info)
 			// If a format argument was not provided, default to the optional
 			// defaultFormat argument taken by the @date directive:

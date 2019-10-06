@@ -15,13 +15,18 @@ import * as uuid from 'uuid'
 import {
 	CreateUserInput,
 	UpdateUserInput,
-	LoginResponse,
 	LoginUserInput
 } from '../../models/user.entity'
 import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../utils/mail/mail.service'
-import { Result, SearchInput, UserResult } from '../../graphql.schema'
+import {
+	Result,
+	SearchInput,
+	UserResult,
+	LoginResponse,
+	RefreshTokenResponse
+} from '../../graphql.schema'
 
 @Resolver('User')
 export class UserResolver {
@@ -153,7 +158,7 @@ export class UserResolver {
 			const existedUser = await this.userRepository.findOne({ email })
 
 			if (existedUser) {
-				throw new ForbiddenError('Duplicate user')
+				throw new ForbiddenError('User already exists.')
 			}
 
 			const user = new User()
@@ -167,10 +172,8 @@ export class UserResolver {
 
 			pubSub.publish('userCreated', { userCreated: createdUser })
 
-			// TODO:
-
 			const emailToken = await this.authService.generateEmailToken(createdUser)
-			// send mail
+
 			await this.mailService.sendMail('verifyEmail', createdUser, req, emailToken)
 
 			return createdUser
@@ -238,6 +241,19 @@ export class UserResolver {
 	}
 
 	// COMPLETE:
+	@Mutation(() => Boolean)
+	async verifyUser(@Args('emailToken') emailToken: string): Promise<boolean> {
+		const user = await this.authService.verifyEmailToken(emailToken)
+
+		if (!user.isVerified) {
+			user.isVerified = true
+			return (await this.userRepository.save(user)) ? true : false
+		} else {
+			throw new ForbiddenError('Your email has been verified.')
+		}
+	}
+
+	// COMPLETE:
 	@Mutation(() => LoginResponse)
 	async login(
 		@Args('input') input: LoginUserInput,
@@ -245,16 +261,14 @@ export class UserResolver {
 	): Promise<LoginResponse> {
 		const { email, password } = input
 
-		const token = await this.authService.tradeToken(email, password)
-
-		return { token }
+		return await this.authService.tradeToken(email, password)
 	}
 
 	// TODO:
 	@Mutation(() => Boolean)
-	async refreshToken(@Context('req') req: any): Promise<boolean> {
+	async refreshToken(@Context('req') req: any): Promise<RefreshTokenResponse> {
 		console.log('refresh-token')
-		return true
+		return { accessToken: '' }
 	}
 
 	// COMPLETE:
@@ -326,13 +340,11 @@ export class UserResolver {
 			throw new ApolloError('Not Found: User', '404', {})
 		}
 
-		const date = new Date()
-
 		const resetPassToken = await this.authService.generateResetPassToken(user)
 
-		// send mail
 		await this.mailService.sendMail('forgotPassword', user, req, resetPassToken)
 
+		const date = new Date()
 		user.resetPasswordToken = resetPassToken
 		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
 

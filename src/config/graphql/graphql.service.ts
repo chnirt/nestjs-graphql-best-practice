@@ -3,13 +3,23 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import { ApolloError, GraphQLExtension, AuthenticationError } from 'apollo-server-core'
+import {
+	ApolloError,
+	GraphQLExtension,
+	AuthenticationError
+} from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
 
-import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN, REFRESH_TOKEN } from '../../environments'
+import {
+	NODE_ENV,
+	END_POINT,
+	FE_URL,
+	ACCESS_TOKEN,
+	REFRESH_TOKEN
+} from '../../environments'
 
 const pubSub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
@@ -107,8 +117,11 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				let currentUser
 
+				// console.log(ACCESS_TOKEN, req.headers)
+
 				const token = req.headers[ACCESS_TOKEN] || ''
 
+				// console.log('token', token)
 				if (token) {
 					currentUser = await this.authService.verifyToken(token)
 				}
@@ -140,7 +153,8 @@ export class GraphqlService implements GqlOptionsFactory {
 				path: `/${END_POINT}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
-					NODE_ENV !== 'production' && Logger.debug(`🔗  Connected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' &&
+						Logger.debug(`🔗  Connected to websocket`, 'GraphQL')
 
 					let currentUser
 
@@ -155,7 +169,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					throw new ApolloError('currentUser Required', '499', {})
 				},
 				onDisconnect: (webSocket, context) => {
-					NODE_ENV !== 'production' && Logger.error(`❌  Disconnected to websocket`, 'GraphQL')
+					NODE_ENV !== 'production' &&
+						Logger.error(`❌  Disconnected to websocket`, 'GraphQL')
 				}
 			},
 			persistedQueries: {
