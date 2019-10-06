@@ -255,20 +255,22 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Mutation(() => LoginResponse)
-	async login(
-		@Args('input') input: LoginUserInput,
-		@Context('req') req: any
-	): Promise<LoginResponse> {
+	async login(@Args('input') input: LoginUserInput): Promise<LoginResponse> {
 		const { email, password } = input
 
 		return await this.authService.tradeToken(email, password)
 	}
 
-	// TODO:
+	// COMPLETE:
 	@Mutation(() => Boolean)
-	async refreshToken(@Context('req') req: any): Promise<RefreshTokenResponse> {
-		console.log('refresh-token')
-		return { accessToken: '' }
+	async refreshToken(
+		@Args('refreshToken') refreshToken: string
+	): Promise<RefreshTokenResponse> {
+		const user = await this.authService.verifyRefreshToken(refreshToken)
+
+		const accessToken = await this.authService.generateToken(user)
+
+		return { accessToken }
 	}
 
 	// COMPLETE:
