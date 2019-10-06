@@ -84,7 +84,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			introspection: true,
 			playground: NODE_ENV !== 'production' && {
 				settings: {
-					'editor.cursorShape': 'block', // possible values: 'line', 'block', 'underline'
+					'editor.cursorShape': 'underline', // possible values: 'line', 'block', 'underline'
 					'editor.fontFamily': `'Source Code Pro', 'Consolas', 'Inconsolata', 'Droid Sans Mono', 'Monaco', monospace`,
 					'editor.fontSize': 14,
 					'editor.reuseHeaders': true, // new tab reuses headers from last tab
