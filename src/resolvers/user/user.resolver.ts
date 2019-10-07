@@ -174,7 +174,12 @@ export class UserResolver {
 
 			const emailToken = await this.authService.generateEmailToken(createdUser)
 
-			await this.mailService.sendMail('verifyEmail', createdUser, req, emailToken)
+			await this.mailService.sendMail(
+				'verifyEmail',
+				createdUser,
+				req,
+				emailToken
+			)
 
 			return createdUser
 		} catch (error) {

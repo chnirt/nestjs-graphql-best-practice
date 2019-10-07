@@ -55,7 +55,8 @@ async function main() {
 						firstName: item.firstName,
 						lastName: item.lastName,
 						email: item.email,
-						password: '$2b$10$bRhHKONmIJ4nbGpQSzCjJeATUdXqqK.AP.3tK1Gkx0N87qy5o4cwy',
+						password:
+							'$2b$10$bRhHKONmIJ4nbGpQSzCjJeATUdXqqK.AP.3tK1Gkx0N87qy5o4cwy',
 						gender: item.gender,
 						isVerified: true,
 						isLocked: false,

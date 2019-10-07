@@ -29,12 +29,12 @@ export class File {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.createdAt = new Date().getTime()
-		this.updatedAt = new Date().getTime()
+		this.createdAt = +new Date()
+		this.updatedAt = +new Date()
 	}
 
 	@BeforeUpdate()
 	update() {
-		this.updatedAt = new Date().getTime()
+		this.updatedAt = +new Date()
 	}
 }
