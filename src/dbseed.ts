@@ -4,7 +4,7 @@ async function main() {
 	console.log('🚀  Server ready')
 
 	const url = process.env.MONGO_PORT
-		? 'mongodb://localhost:' + process.env.MONGO_PORT
+		? 'mongodb://username:password@192.168.xx.xx:' + process.env.MONGO_PORT
 		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
 		  'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
 	const dbName = process.env.MONGO_PORT
@@ -55,7 +55,8 @@ async function main() {
 						firstName: item.firstName,
 						lastName: item.lastName,
 						email: item.email,
-						password: '$2b$10$bRhHKONmIJ4nbGpQSzCjJeATUdXqqK.AP.3tK1Gkx0N87qy5o4cwy',
+						password:
+							'$2b$10$bRhHKONmIJ4nbGpQSzCjJeATUdXqqK.AP.3tK1Gkx0N87qy5o4cwy',
 						gender: item.gender,
 						isVerified: true,
 						isLocked: false,

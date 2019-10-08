@@ -9,7 +9,7 @@ const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
 const DOMAIN: string = process.env.DOMAIN || 'localhost'
-const PORT: number = +process.env.PORT || 11048
+const PORT: number = +process.env.PORT || 11047
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''
@@ -41,8 +41,8 @@ const RESETPASS_TOKEN_SECRET: string =
 const SALT: number = +process.env.SALT || 10
 
 // nodemailer
-const MAIL_USER: string = process.env.MAIL_USER || ''
-const MAIL_PASS: string = process.env.MAIL_PASS || ''
+const MAIL_USER: string = process.env.MAIL_USER || 'trinhchin.innos@gmail.com'
+const MAIL_PASS: string = process.env.MAIL_PASS || 'Matkhaula1!'
 
 // cloudinary
 const CLOUD_NAME: string = process.env.CLOUD_NAME || ''

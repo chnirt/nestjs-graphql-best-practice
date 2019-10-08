@@ -101,10 +101,10 @@ export class MailService {
 
 			transporter.sendMail(mailOptions, (err, info) => {
 				if (err) {
-					// console.log(err)
+					console.log(err)
 					// Logger.error(err.message)
 				} else {
-					// console.log('Message sent: ' + JSON.parse(info))
+					console.log('Message sent: ' + JSON.parse(info))
 					// Logger.debug(info.response.message, 'Nodemailer')
 				}
 			})

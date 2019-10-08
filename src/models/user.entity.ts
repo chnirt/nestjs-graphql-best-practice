@@ -150,10 +150,6 @@ export class User {
 	@Column()
 	updatedAt: number
 
-	// constructor(partial: Partial<User>) {
-	// 	Object.assign(this, partial)
-	// }
-
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
