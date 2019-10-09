@@ -1,14 +1,14 @@
 import { Resolver, ResolveProperty } from '@nestjs/graphql'
 
-@Resolver('Result')
+@Resolver()
 export class ResultResolver {
-	@ResolveProperty()
-	__resolveType(obj) {
+	@ResolveProperty('Result')
+	__resolveType(obj, context, info) {
 		if (obj.email) {
 			return 'User'
 		}
 		if (obj.name) {
-			return 'Site'
+			return 'File'
 		}
 		return null
 	}

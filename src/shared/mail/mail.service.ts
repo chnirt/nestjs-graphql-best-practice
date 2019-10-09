@@ -37,7 +37,7 @@ export class MailService {
 
 			const replacements = {
 				verifyEmail: {
-					link: `http//${req.headers.host}/verify/${token}`,
+					link: `http://${req.headers.host}/verify/${token}`,
 					author: AUTHOR!,
 					issuer: ISSUER!,
 					ios: 'https://itunes.apple.com/us/app/chnirt',
@@ -58,7 +58,7 @@ export class MailService {
 					text2: 'Or copy this link and paste in your web	browser'
 				},
 				forgotPassword: {
-					link: `http//${req.headers.host}/reset/${token}`,
+					link: `http://${req.headers.host}/reset/${token}`,
 					author: AUTHOR!,
 					issuer: ISSUER!,
 					ios: 'https://itunes.apple.com/us/app/chnirt',

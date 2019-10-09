@@ -65,7 +65,14 @@ export class UserResolver {
 
 		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
-		result = await getMongoRepository(type).find({
+		// result = await getMongoRepository(type).find({
+		// 	where: where[type] && JSON.parse(JSON.stringify(where[type])),
+		// 	order: order && JSON.parse(JSON.stringify(order)),
+		// 	skip,
+		// 	take
+		// })
+
+		result = await this.userRepository.find({
 			where: where[type] && JSON.parse(JSON.stringify(where[type])),
 			order: order && JSON.parse(JSON.stringify(order)),
 			skip,

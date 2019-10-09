@@ -49,7 +49,7 @@ input UpdateUserInput {
 
 input LoginUserInput {
 	email: String!
-	password: String!
+	password: String! @length(max: 2)
 }
 
 input SearchInput {
@@ -94,8 +94,7 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
-	search(conditions: SearchInput!, type: RecordType!): [Result]!
-		@isAuthenticated
+	search(conditions: SearchInput!): [Result]! @isAuthenticated
 	searchUser(userIds: [String!]): UserResult!
 		@rateLimit(window: "3s", max: 1, message: "You are doing that too often.")
 	# today: Date @date @hasScope(scope: [“read:rating”])

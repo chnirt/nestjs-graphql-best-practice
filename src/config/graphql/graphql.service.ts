@@ -47,7 +47,19 @@ export class GraphqlService implements GqlOptionsFactory {
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		return {
 			typePaths: ['./**/*.graphql'],
-			resolvers: { JSON: GraphQLJSON, JSONObject: GraphQLJSONObject },
+			resolvers: {
+				JSON: GraphQLJSON,
+				JSONObject: GraphQLJSONObject
+				// Result: {
+				// 	__resolveType(obj, ctx, info) {
+				// 		return null;
+				// },
+				// UserResult: {
+				// 	__resolveType(obj, ctx, info) {
+				// 		return obj.__typename
+				// 	}
+				// }
+			},
 			extensions: [() => new MyErrorTrackingExtension()],
 			mocks: NODE_ENV === 'testing' && {
 				// String: () => 'Chnirt',

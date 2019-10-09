@@ -1,6 +1,6 @@
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { GraphQLScalarType, GraphQLNonNull } from 'graphql'
-import { assert } from 'chai'
+import assert from 'chai'
 
 class LengthDirective extends SchemaDirectiveVisitor {
 	visitInputFieldDefinition(field) {
