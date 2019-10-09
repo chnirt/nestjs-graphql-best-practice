@@ -14,6 +14,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			synchronize: true,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			keepConnectionAlive: true,
 			logging: true
 		}
 	}

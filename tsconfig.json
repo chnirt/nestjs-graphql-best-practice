@@ -15,7 +15,7 @@
 		"baseUrl": "./",
 		"paths": {
 			"@auth/*": ["src/auth/*"],
-			"@utils/*": ["src/utils/*"],
+			"@utils/*": ["src/shared/*"],
 			"@models/*": ["src/models/*"],
 			"@environments/*": ["src/environments/*"]
 		}

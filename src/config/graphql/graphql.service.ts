@@ -6,7 +6,8 @@ import { PubSub } from 'graphql-subscriptions'
 import {
 	ApolloError,
 	GraphQLExtension,
-	AuthenticationError
+	AuthenticationError,
+	ForbiddenError
 } from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
@@ -139,11 +140,20 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			formatError: error => {
 				// console.log(error)
-				if (error.originalError instanceof AuthenticationError) {
-					return new Error('Different authentication error message!')
-				}
+				// if (error.originalError instanceof AuthenticationError) {
+				// 	return new Error('Different authentication error message!')
+				// }
 
-				return error
+				// if (error.originalError instanceof ForbiddenError) {
+				// 	return new Error('Different forbidden error message!')
+				// }
+
+				return {
+					message: error.message,
+					code: error.extensions && error.extensions.code,
+					locations: error.locations,
+					path: error.path
+				}
 			},
 			formatResponse: response => {
 				// console.log(response)

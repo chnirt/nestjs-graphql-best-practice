@@ -19,7 +19,7 @@ import {
 } from '../../models/user.entity'
 import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
-import { MailService } from '../../utils/mail/mail.service'
+import { MailService } from '../../shared/mail/mail.service'
 import {
 	Result,
 	SearchInput,

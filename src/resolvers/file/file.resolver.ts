@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { File } from '../../models'
-import { UploadService } from '../../utils/upload/upload.service'
+import { UploadService } from '../../shared/upload/upload.service'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 

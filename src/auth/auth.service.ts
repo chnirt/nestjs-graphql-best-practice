@@ -83,7 +83,7 @@ export class AuthService {
 			throw new ForbiddenError("User already doestn't exist.")
 		}
 
-		if (user || (await user.matchesPassword(password))) {
+		if (user && (await user.matchesPassword(password))) {
 			if (!user.isVerified) {
 				throw new ForbiddenError('Please verify your email.')
 			}

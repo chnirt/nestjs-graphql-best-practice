@@ -4,7 +4,7 @@ import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
 import { User } from '../../models/user.entity'
 import { AuthService } from '../../auth/auth.service'
-import { MailService } from '../../utils/mail/mail.service'
+import { MailService } from '../../shared/mail/mail.service'
 // import { LoginResponse } from '../../models/user.entity'
 import * as uuid from 'uuid'
 

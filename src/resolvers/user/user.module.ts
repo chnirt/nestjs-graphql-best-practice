@@ -3,7 +3,7 @@ import { UserResolver } from './user.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from '../../models/user.entity'
 import { AuthModule } from '../../auth/auth.module'
-import { MailModule } from '../../utils/mail/mail.module'
+import { MailModule } from '../../shared/mail/mail.module'
 import { ResultResolver } from './result.resolver'
 import { UserResultResolver } from './userResult.resolver'
 

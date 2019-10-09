@@ -94,9 +94,11 @@ type Query {
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
-	search(conditions: SearchInput!, type: RecordType!): [Result]! @isAuthenticated
+	search(conditions: SearchInput!, type: RecordType!): [Result]!
+		@isAuthenticated
 	searchUser(userIds: [String!]): UserResult!
 		@rateLimit(window: "3s", max: 1, message: "You are doing that too often.")
+	# today: Date @date @hasScope(scope: [“read:rating”])
 	today: Date @date
 }
 
@@ -110,8 +112,11 @@ type Mutation {
 	login(input: LoginUserInput!): LoginResponse
 	refreshToken(refreshToken: String!): RefreshTokenResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean @isAuthenticated
-	changePassword(_id: ID!, currentPassword: String!, password: String!): Boolean
-		@isAuthenticated
+	changePassword(
+		_id: ID!
+		currentPassword: String!
+		password: String!
+	): Boolean @isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
 }

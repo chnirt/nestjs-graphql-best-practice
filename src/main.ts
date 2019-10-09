@@ -10,8 +10,8 @@ import { LoggerService } from './config/logger/logger.service'
 // import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
-import { TasksModule } from '@utils/tasks/tasks.module'
-import { TasksService } from '@utils/tasks/tasks.service'
+import { TasksModule } from './shared/tasks/tasks.module'
+import { TasksService } from './shared/tasks/tasks.service'
 
 import config from './config.orm'
 
@@ -27,8 +27,7 @@ async function bootstrap() {
 		entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
 		synchronize: true,
 		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		logging: true
+		useUnifiedTopology: true
 	})
 		.then(data => Logger.log(`☁️  Database connected`, 'TypeORM'))
 		.catch(err => Logger.error(`❌  Database connect error, ${err}`, 'TypeORM'))

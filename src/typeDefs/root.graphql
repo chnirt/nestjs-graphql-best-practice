@@ -1,5 +1,7 @@
 # auth
 directive @isAuthenticated on FIELD | FIELD_DEFINITION
+directive @hasRole(roles: String) on QUERY | FIELD
+directive @hasScope(scope: [String]) on QUERY | FIELD
 # function
 directive @deprecated(
 	reason: String = "No longer supported"
