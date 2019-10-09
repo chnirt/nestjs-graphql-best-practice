@@ -15,7 +15,9 @@ directive @rateLimit(
 	arrayLengthField: String
 ) on FIELD_DEFINITION
 # validate
-directive @length(max: Int) on INPUT_FIELD_DEFINITION
+directive @length(
+	max: Int
+) on OBJECT | INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 # format
 directive @date(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
 directive @upper on FIELD_DEFINITION
