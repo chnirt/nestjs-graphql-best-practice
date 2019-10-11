@@ -3,7 +3,7 @@ import { getMongoRepository } from 'typeorm'
 import { sign, verify } from 'jsonwebtoken'
 import { AuthenticationError, ForbiddenError } from 'apollo-server-core'
 import { User } from '../models/user.entity'
-import { LoginResponse } from '../graphql.schema'
+import { LoginResponse } from '../generator/graphql.schema'
 
 import {
 	ISSUER,

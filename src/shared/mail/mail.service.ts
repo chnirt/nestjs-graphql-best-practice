@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
-import { User } from '../../graphql.schema'
+import { User } from '../../generator/graphql.schema'
 
 import { AUTHOR, ISSUER, MAIL_USER, MAIL_PASS } from '../../environments'
 

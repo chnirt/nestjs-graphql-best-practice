@@ -26,7 +26,7 @@ import {
 	UserResult,
 	LoginResponse,
 	RefreshTokenResponse
-} from '../../graphql.schema'
+} from '../../generator/graphql.schema'
 
 @Resolver('User')
 export class UserResolver {

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import { AuthService } from './auth.service'
 import { User } from '../models'
-import { LoginResponse } from '../graphql.schema'
+import { LoginResponse } from '../generator/graphql.schema'
 
 describe('AuthResolver', () => {
 	let service: AuthService
