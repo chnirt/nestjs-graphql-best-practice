@@ -12,8 +12,6 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 		field.resolve = async function(...args) {
 			const { currentUser, currentsite } = args[2]
 
-			const result = await resolve.apply(this, args)
-
 			// if (!currentUser || !currentsite) {
 			// 	throw new ApolloError('currentUser & currentsite Required', '499', {})
 			// }

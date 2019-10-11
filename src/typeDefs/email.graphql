@@ -13,7 +13,7 @@ type Email {
 }
 
 type Mutation {
-	createEmail(input: CreateEmailInput!): Boolean
+	createEmail(input: CreateEmailInput!): Email
 	openEmail(_id: ID!): Boolean
 }
 

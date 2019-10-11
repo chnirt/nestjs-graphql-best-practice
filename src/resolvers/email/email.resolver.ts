@@ -19,9 +19,9 @@ export class EmailResolver {
 		})
 	}
 
-	@Mutation(() => Boolean)
-	async createEmail(@Args('input') input: CreateEmailInput): Promise<boolean> {
-		return this.emailRepository.save(new Email(input)) ? true : false
+	@Mutation(() => Email)
+	async createEmail(@Args('input') input: CreateEmailInput): Promise<Email> {
+		return await this.emailRepository.save(new Email(input))
 	}
 
 	@Mutation(() => Boolean)

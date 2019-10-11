@@ -20,12 +20,14 @@ import {
 import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../shared/mail/mail.service'
+import { EmailResolver } from '../email/email.resolver'
 import {
 	Result,
 	SearchInput,
 	UserResult,
 	LoginResponse,
-	RefreshTokenResponse
+	RefreshTokenResponse,
+	CreateEmailInput
 } from '../../generator/graphql.schema'
 
 @Resolver('User')
@@ -34,7 +36,8 @@ export class UserResolver {
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
 		private readonly authService: AuthService,
-		private readonly mailService: MailService
+		private readonly mailService: MailService,
+		private readonly emailResolver: EmailResolver
 	) {}
 
 	// COMPLETE:
@@ -174,11 +177,17 @@ export class UserResolver {
 
 			const emailToken = await this.authService.generateEmailToken(createdUser)
 
+			const existedEmail = await this.emailResolver.createEmail({
+				userId: createdUser._id,
+				type: 'verifyEmail'
+			})
+
 			await this.mailService.sendMail(
 				'verifyEmail',
 				createdUser,
 				req,
-				emailToken
+				emailToken,
+				existedEmail._id
 			)
 
 			return createdUser
@@ -349,7 +358,18 @@ export class UserResolver {
 
 		const resetPassToken = await this.authService.generateResetPassToken(user)
 
-		await this.mailService.sendMail('forgotPassword', user, req, resetPassToken)
+		const existedEmail = await this.emailResolver.createEmail({
+			userId: user._id,
+			type: 'forgotPassword'
+		})
+
+		await this.mailService.sendMail(
+			'forgotPassword',
+			user,
+			req,
+			resetPassToken,
+			existedEmail._id
+		)
 
 		const date = new Date()
 		user.resetPasswordToken = resetPassToken

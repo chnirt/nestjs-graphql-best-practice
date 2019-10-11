@@ -5,6 +5,7 @@ import { EmailResolver } from './email.resolver'
 
 @Module({
 	imports: [TypeOrmModule.forFeature([Email])],
-	providers: [EmailResolver]
+	providers: [EmailResolver],
+	exports: [EmailResolver]
 })
 export class EmailModule {}

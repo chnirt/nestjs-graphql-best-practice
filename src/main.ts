@@ -25,6 +25,8 @@ import config from './config.orm'
 import { logger } from './common/wiston'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
+import { EmailModule } from './resolvers/email/email.module'
+import { EmailResolver } from './resolvers/email/email.resolver'
 
 declare const module: any
 
@@ -60,6 +62,9 @@ async function bootstrap() {
 		const tasksService = app
 			.select(TasksModule)
 			.get(TasksService, { strict: true })
+		const emailResolver = app
+			.select(EmailModule)
+			.get(EmailResolver, { strict: true })
 
 		// tasks
 		// tasksService.Timeout()
@@ -125,11 +130,9 @@ async function bootstrap() {
 		app.enableShutdownHooks()
 
 		app.use('/graphql/:id', (req, res, next) => {
-			// console.log(req.params['id'])
-			fetch(`/graphql`, {})
-				.then(response => response.json())
-				.then(json => console.log(json))
-				.catch()
+			const _id = req.params['id']
+			// console.log(_id)
+			emailResolver.openEmail(_id)
 			next()
 		})
 

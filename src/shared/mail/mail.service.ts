@@ -4,7 +4,15 @@ import * as handlebars from 'handlebars'
 import * as fs from 'fs'
 import { User } from '../../generator/graphql.schema'
 
-import { AUTHOR, ISSUER, MAIL_USER, MAIL_PASS } from '../../environments'
+import {
+	AUTHOR,
+	DOMAIN,
+	PORT,
+	END_POINT,
+	ISSUER,
+	MAIL_USER,
+	MAIL_PASS
+} from '../../environments'
 
 type Type = 'verifyEmail' | 'forgotPassword'
 
@@ -14,7 +22,8 @@ export class MailService {
 		type: Type,
 		user: User,
 		req: any,
-		token: string
+		token: string,
+		_id: string
 	): Promise<any> {
 		const transporter = await nodemailer.createTransport({
 			service: 'gmail',
@@ -51,7 +60,8 @@ export class MailService {
 				street: 'Su Van Hanh',
 				city: 'Ho Chi Minh',
 				country: 'Viet Nam',
-				to: `${user.firstName}`
+				to: user.firstName,
+				tracking: `http://${DOMAIN}:${PORT}/${END_POINT}/${_id}`
 			}
 
 			const replacements = {
