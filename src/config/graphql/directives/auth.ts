@@ -9,7 +9,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
 			const { currentUser } = args[2]
 
 			if (!currentUser) {
-				throw new ForbiddenError('You are not authorized for this ressource.')
+				throw new ForbiddenError('You are not authorized for this resource.')
 			}
 
 			return resolve.apply(this, args)

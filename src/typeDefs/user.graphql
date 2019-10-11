@@ -48,8 +48,8 @@ input UpdateUserInput {
 }
 
 input LoginUserInput {
-	email: String!
-	password: String! @length(max: 2)
+	email: String! @length(max: 50)
+	password: String!
 }
 
 input SearchInput {
@@ -64,7 +64,7 @@ input SearchInput {
 
 type LoginResponse {
 	accessToken: String!
-	refreshToken: String!
+	refreshToken: String! @length(max: 2)
 }
 
 type RefreshTokenResponse {

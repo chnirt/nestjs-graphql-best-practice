@@ -12,7 +12,7 @@ export default {
 	isAuthenticated: AuthDirective,
 	hasPermission: PermissionDirective,
 	deprecated: DeprecatedDirective,
-	// length: LengthDirective,
+	length: LengthDirective,
 	rateLimit: createRateLimitDirective({ identifyContext: ctx => ctx.id }),
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,

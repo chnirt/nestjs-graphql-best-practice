@@ -7,7 +7,7 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import chalk from 'chalk'
 
 import { LoggerService } from './config/logger/logger.service'
-// import { ValidationPipe } from './common/pipes/validation.pipe'
+import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import { TasksModule } from './shared/tasks/tasks.module'
@@ -70,7 +70,7 @@ async function bootstrap() {
 	app.useGlobalInterceptors(new TimeoutInterceptor())
 
 	// COMPLETE:
-	// app.useGlobalPipes(new ValidationPipe())
+	app.useGlobalPipes(new ValidationPipe())
 
 	app.enableShutdownHooks()
 

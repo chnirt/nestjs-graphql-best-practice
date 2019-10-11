@@ -25,7 +25,7 @@ export class AuthService {
 			ACCESS_TOKEN_SECRET!,
 			{
 				algorithm: 'HS256',
-				expiresIn: '15m'
+				expiresIn: '30d' // 15m
 			}
 		)
 	}
