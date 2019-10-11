@@ -23,6 +23,7 @@ directive @concat(value: String!) on FIELD_DEFINITION
 # rest
 directive @rest(url: String) on FIELD_DEFINITION
 
+scalar Url
 scalar JSON
 scalar JSONObject
 scalar Date

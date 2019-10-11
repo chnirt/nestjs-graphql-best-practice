@@ -65,14 +65,7 @@ export class UserResolver {
 
 		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
-		// result = await getMongoRepository(type).find({
-		// 	where: where[type] && JSON.parse(JSON.stringify(where[type])),
-		// 	order: order && JSON.parse(JSON.stringify(order)),
-		// 	skip,
-		// 	take
-		// })
-
-		result = await this.userRepository.find({
+		result = await getMongoRepository(type).find({
 			where: where[type] && JSON.parse(JSON.stringify(where[type])),
 			order: order && JSON.parse(JSON.stringify(order)),
 			skip,
@@ -127,7 +120,7 @@ export class UserResolver {
 	): Promise<User[]> {
 		const users = await this.userRepository.find({
 			// where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
-			order: { createdAt: -1 },
+			// order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
 			cache: true // 1000: 60000 / 1 minute

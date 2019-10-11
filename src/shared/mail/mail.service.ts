@@ -89,6 +89,30 @@ export class MailService {
 					{
 						path: './src/assets/images/logo.png',
 						cid: 'unique@kreata.ee' // same cid value as in the html img src
+					},
+					{
+						path: './src/assets/images/mail/ios.gif',
+						cid: 'ios@chnirt.ee'
+					},
+					{
+						path: './src/assets/images/mail/android.gif',
+						cid: 'android@chnirt.ee'
+					},
+					{
+						path: './src/assets/images/mail/twitter.jpg',
+						cid: 'twitter@chnirt.ee'
+					},
+					{
+						path: './src/assets/images/mail/facebook.jpg',
+						cid: 'facebook@chnirt.ee'
+					},
+					{
+						path: './src/assets/images/mail/googleplus.jpg',
+						cid: 'googleplus@chnirt.ee'
+					},
+					{
+						path: './src/assets/images/mail/linkedin.jpg',
+						cid: 'linkedin@chnirt.ee'
 					}
 				]
 			}

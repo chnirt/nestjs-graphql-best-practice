@@ -8,7 +8,12 @@ import {
 import { IsString } from 'class-validator'
 import * as uuid from 'uuid'
 
-@Entity()
+@Entity({
+	name: 'file',
+	orderBy: {
+		createdAt: 'DESC'
+	}
+})
 export class File {
 	@ObjectIdColumn()
 	_id: string
