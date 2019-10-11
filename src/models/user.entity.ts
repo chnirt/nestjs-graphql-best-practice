@@ -155,6 +155,10 @@ export class User {
 	@Column()
 	updatedAt: number
 
+	// constructor(params: any) {
+	// 	Object.assign(this, params)
+	// }
+
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()

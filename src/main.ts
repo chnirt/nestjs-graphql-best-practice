@@ -124,6 +124,15 @@ async function bootstrap() {
 
 		app.enableShutdownHooks()
 
+		app.use('/graphql/:id', (req, res, next) => {
+			// console.log(req.params['id'])
+			fetch(`/graphql`, {})
+				.then(response => response.json())
+				.then(json => console.log(json))
+				.catch()
+			next()
+		})
+
 		await app.listen(PORT)
 
 		// hot module replacement

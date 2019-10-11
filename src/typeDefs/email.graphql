@@ -1,0 +1,22 @@
+input CreateEmailInput {
+	userId: String!
+	type: String!
+}
+
+type Email {
+	_id: ID!
+	userId: ID!
+	type: String!
+	isOpened: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Mutation {
+	createEmail(input: CreateEmailInput!): Boolean
+	openEmail(_id: ID!): Boolean
+}
+
+type Query {
+	emails: [Email]
+}
