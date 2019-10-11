@@ -21,7 +21,7 @@
 		"test:e2e": "NODE_ENV=testing jest --config ./test/jest-e2e.json",
 		"webpack": "rimraf dist && webpack --config webpack.config.js",
 		"start:hmr": "ACCESS_TOKEN_SECRET='chnirt1803' node dist/main.js",
-		"gen": "ts-node src/generate-typings.ts",
+		"gen": "ts-node src/validation/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
 		"doc": "npx compodoc --port 11045 -p tsconfig.json -s",
 		"doc:serve": "npm run doc && npx compodoc -s",
