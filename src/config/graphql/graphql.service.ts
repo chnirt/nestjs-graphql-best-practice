@@ -13,14 +13,9 @@ import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import schemaDirectives from './directives'
 import { AuthService } from '../../auth/auth.service'
+import { logger } from '../../common/wiston'
 
-import {
-	NODE_ENV,
-	END_POINT,
-	FE_URL,
-	ACCESS_TOKEN,
-	REFRESH_TOKEN
-} from '../../environments'
+import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
 
 const pubSub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
@@ -159,6 +154,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				// if (error.originalError instanceof ForbiddenError) {
 				// 	return new Error('Different forbidden error message!')
 				// }
+				logger.error(error.message)
 
 				return {
 					message: error.message,

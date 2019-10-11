@@ -1,6 +1,5 @@
 import { NODE_ENV, MONGO_URL, MONGO_PORT, MONGO_DB } from './environments'
 
-// COMPLETE:
 const orm = {
 	development: {
 		url: MONGO_URL!

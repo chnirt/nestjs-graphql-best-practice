@@ -22,6 +22,7 @@ import { TasksModule } from './shared/tasks/tasks.module'
 import { TasksService } from './shared/tasks/tasks.service'
 
 import config from './config.orm'
+import { logger } from './common/wiston'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
 
@@ -37,8 +38,14 @@ async function bootstrap() {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
-		.then(data => Logger.log(`☁️  Database connected`, 'TypeORM'))
-		.catch(err => Logger.error(`❌  Database connect error, ${err}`, 'TypeORM'))
+		.then(data => {
+			logger.info(data)
+			Logger.log(`☁️  Database connected`, 'TypeORM')
+		})
+		.catch(err => {
+			logger.error(err)
+			Logger.error(`❌  Database connect error, ${err}`, 'TypeORM')
+		})
 
 	try {
 		const app = await NestFactory.create(AppModule, {
@@ -141,6 +148,7 @@ async function bootstrap() {
 				'Bootstrap'
 			)
 	} catch (error) {
+		logger.error(error)
 		Logger.error(`❌  Error starting server, ${error}`, 'Bootstrap')
 		process.exit()
 	}
