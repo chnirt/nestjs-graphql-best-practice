@@ -11,13 +11,14 @@ type NotificationResponse {
 }
 
 type Query {
-	notifications: [Notification]
+	notifications: [Notification] @isAuthenticated
 }
 
 type Mutation {
 	pushNotification(userIds: [ID!]!, label: String!): Notification
+		@isAuthenticated
 }
 
 type Subscription {
-	notificationResponse: NotificationResponse!
+	newNotification: NotificationResponse! @isAuthenticated
 }

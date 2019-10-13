@@ -56,7 +56,7 @@ export class NotificationResolver {
 			return userIds.indexOf(_id) > -1
 		}
 	})
-	async notificationResponse(
+	async newNotification(
 		@Context('pubsub') pubsub: any
 	): Promise<NotificationResponse> {
 		return pubsub.asyncIterator(NOTIFICATION_SUBSCRIPTION)

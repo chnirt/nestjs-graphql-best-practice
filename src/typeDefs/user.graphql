@@ -122,5 +122,5 @@ type Mutation {
 }
 
 type Subscription {
-	userCreated: User @isAuthenticated
+	newUser: User @isAuthenticated
 }

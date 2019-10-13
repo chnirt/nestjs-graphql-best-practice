@@ -419,7 +419,7 @@ export class UserResolver {
 			return true
 		}
 	})
-	async userCreated(@Context('pubsub') pubsub: any): Promise<User> {
+	async newUser(@Context('pubsub') pubsub: any): Promise<User> {
 		return pubsub.asyncIterator(USER_SUBSCRIPTION)
 	}
 

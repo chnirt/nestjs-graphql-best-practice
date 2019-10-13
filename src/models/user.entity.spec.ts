@@ -1,7 +1,7 @@
 import { User } from './user.entity'
 
 describe('User class', () => {
-	const user = new User({})
+	const user = new User()
 	user.password = '$2b$10$Vz50uKhwY.otm5wzKpzDq.ojDwHg819UDBAdoCiOEzrCcNS0/95f6'
 	it('save should be defined', () => {
 		expect(user.save())

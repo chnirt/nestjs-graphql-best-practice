@@ -29,7 +29,7 @@ scalar JSONObject
 scalar Date
 scalar Upload
 
-type Schema {
+schema {
 	query: Query
 	mutation: Mutation
 	subscription: Subscription

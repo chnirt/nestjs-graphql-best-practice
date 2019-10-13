@@ -1,0 +1,13 @@
+type Room {
+	_id: ID!
+	title: String!
+	users: [User!]!
+	messages: [Message]
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	rooms: [Room]
+	room(_id: ID!): Room
+}
