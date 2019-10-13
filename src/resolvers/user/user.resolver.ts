@@ -256,7 +256,7 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Mutation(() => Boolean)
-	async verifyUser(@Args('emailToken') emailToken: string): Promise<boolean> {
+	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
 		const user = await this.authService.verifyEmailToken(emailToken)
 
 		if (!user.isVerified) {
@@ -349,7 +349,8 @@ export class UserResolver {
 		@Context('req') req: any
 	): Promise<boolean> {
 		const user = await this.userRepository.findOne({
-			email
+			email,
+			isVerified: true
 		})
 
 		if (!user) {

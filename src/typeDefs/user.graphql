@@ -108,7 +108,7 @@ type Mutation {
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
 	deleteUser(_id: ID!): Boolean @isAuthenticated
 	deleteUsers: Boolean! @isAuthenticated
-	verifyUser(emailToken: String!): Boolean
+	verifyEmail(emailToken: String!): Boolean
 	login(input: LoginUserInput!): LoginResponse
 	refreshToken(refreshToken: String!): RefreshTokenResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean @isAuthenticated

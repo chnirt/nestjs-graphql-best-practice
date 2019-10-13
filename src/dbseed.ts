@@ -1,14 +1,11 @@
 import { MongoClient } from 'mongodb'
 
-import {} from './environments'
-
 async function main() {
 	console.log('🚀  Server ready')
 
 	const url = process.env.MONGO_PORT
-		? 'mongodb://username:password@192.168.xx.xx:' + process.env.MONGO_PORT
-		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
-		  'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+		? 'mongodb://localhost:' + process.env.MONGO_PORT
+		: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
 	const dbName = 'chnirt-nest'
 
 	const client = new MongoClient(url, {
@@ -36,10 +33,10 @@ async function main() {
 		const users = [
 			{
 				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
-				firstName: 'chin',
-				lastName: 'trinhchin',
+				firstName: 'Chin',
+				lastName: 'Trinh',
 				gender: 'MALE',
-				email: 'nhocpo.juzo@gmail.com'
+				email: 'trinhchinchin@gmail.com'
 			}
 		]
 
@@ -55,7 +52,7 @@ async function main() {
 						lastName: item.lastName,
 						email: item.email,
 						password:
-							'$2b$10$bRhHKONmIJ4nbGpQSzCjJeATUdXqqK.AP.3tK1Gkx0N87qy5o4cwy',
+							'$2b$10$KeRbjXtzdK1nR0AR1BKjFu5AOh/PjYACgS.4OQV5KtykJZRFSEo22',
 						gender: item.gender,
 						isVerified: true,
 						isLocked: false,
