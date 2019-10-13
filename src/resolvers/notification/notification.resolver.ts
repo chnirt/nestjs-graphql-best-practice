@@ -37,12 +37,12 @@ export class NotificationResolver {
 			new Notification({ label })
 		)
 
-		console.log(newNotification)
+		// console.log(newNotification)
 		const notificationResponse = new NotificationResponse()
 		notificationResponse.userIds = userIds
 		notificationResponse.newNotification = newNotification
 
-		console.log(notificationResponse)
+		// console.log(notificationResponse)
 
 		pubsub.publish(NOTIFICATION_SUBSCRIPTION, { notificationResponse })
 
