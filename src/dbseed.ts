@@ -6,6 +6,7 @@ async function main() {
 	const url = process.env.MONGO_PORT
 		? 'mongodb://localhost:' + process.env.MONGO_PORT
 		: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+
 	const dbName = 'chnirt-nest'
 
 	const client = new MongoClient(url, {

@@ -114,7 +114,7 @@ async function bootstrap() {
 		// voyager
 		process.env.NODE_ENV !== 'production' &&
 			app.use(
-				`/${VOYAGER}`,
+				`/${VOYAGER!}`,
 				voyagerMiddleware({
 					endpointUrl: `/${END_POINT!}`
 				})

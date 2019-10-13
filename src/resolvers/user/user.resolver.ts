@@ -67,7 +67,7 @@ export class UserResolver {
 		const { select, where, order, skip, take } = conditions
 
 		if (Object.keys(where).length > 1) {
-			throw new ApolloError('Your where must be 1 collection', '400', {})
+			throw new UserInputError('Your where must be 1 collection.')
 		}
 
 		const type = Object.keys(where)[0]
@@ -96,7 +96,7 @@ export class UserResolver {
 		let result
 
 		if (userIds.length === 0) {
-			throw new ApolloError('userIds can not be blank', '400', {})
+			throw new UserInputError('userIds can not be blank.')
 		}
 
 		result = await this.userRepository.find({
@@ -128,7 +128,7 @@ export class UserResolver {
 		@Args('limit') limit: number
 	): Promise<User[]> {
 		const users = await this.userRepository.find({
-			// where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
+			// where: { email: { $nin: ['trinchinchin@gmail.com'] } },
 			// order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
@@ -251,7 +251,7 @@ export class UserResolver {
 	async deleteUsers(): Promise<boolean> {
 		try {
 			return (await this.userRepository.deleteMany({
-				email: { $nin: ['nhocpo.juzo@gmail.com'] }
+				email: { $nin: ['trinhchinchin@gmail.com'] }
 			}))
 				? true
 				: false
@@ -336,7 +336,7 @@ export class UserResolver {
 		}
 
 		if (await user.matchesPassword(password)) {
-			throw new UserInputError(
+			throw new ForbiddenError(
 				'Your new password must be different from your previous password.'
 			)
 		}
