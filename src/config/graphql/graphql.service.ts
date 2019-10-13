@@ -14,7 +14,7 @@ import { logger } from '../../common/wiston'
 
 import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
 
-const pubSub = new PubSub()
+const pubsub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
 	willSendResponse(o) {
 		const { context, graphqlResponse } = o
@@ -120,9 +120,10 @@ export class GraphqlService implements GqlOptionsFactory {
 			},
 			context: async ({ req, res, connection }) => {
 				if (connection) {
+					const { currentUser } = connection.context
 					return {
-						req: connection.context,
-						pubSub
+						pubsub,
+						currentUser
 					}
 				}
 
@@ -140,7 +141,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				return {
 					req,
 					res,
-					pubSub,
+					pubsub,
 					currentUser,
 					trackErrors(errors) {
 						// Track the errors
@@ -180,7 +181,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 					let currentUser
 
-					const token = connectionParams['token']
+					const token = connectionParams[ACCESS_TOKEN]
 
 					if (token) {
 						currentUser = await this.authService.verifyToken(token)

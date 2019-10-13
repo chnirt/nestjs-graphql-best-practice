@@ -7,9 +7,9 @@ type File {
 }
 
 type Mutation {
-	uploadFile(file: Upload!): Boolean
+	uploadFile(file: Upload!): Boolean @isAuthenticated
 }
 
 type Query {
-	files: [File]
+	files: [File] @isAuthenticated
 }

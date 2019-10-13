@@ -10,7 +10,12 @@ import {
 } from '@nestjs/graphql'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
-import { ApolloError, ForbiddenError } from 'apollo-server-core'
+import {
+	ApolloError,
+	AuthenticationError,
+	ForbiddenError,
+	UserInputError
+} from 'apollo-server-core'
 import * as uuid from 'uuid'
 import {
 	CreateUserInput,
@@ -26,9 +31,10 @@ import {
 	SearchInput,
 	UserResult,
 	LoginResponse,
-	RefreshTokenResponse,
-	CreateEmailInput
+	RefreshTokenResponse
 } from '../../generator/graphql.schema'
+
+import { USER_SUBSCRIPTION } from '../../environments'
 
 @Resolver('User')
 export class UserResolver {
@@ -78,7 +84,7 @@ export class UserResolver {
 		// console.log(result)
 
 		if (result.length === 0) {
-			throw new ApolloError('Not Found', '404', {})
+			throw new ForbiddenError('Not found.')
 		}
 
 		return result
@@ -139,7 +145,7 @@ export class UserResolver {
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError('Not Found: User', '404', {})
+				throw new ForbiddenError('User not found.')
 			}
 
 			return user
@@ -152,7 +158,7 @@ export class UserResolver {
 	@Mutation(() => User)
 	async createUser(
 		@Args('input') input: CreateUserInput,
-		@Context('pubSub') pubSub: any,
+		@Context('pubsub') pubsub: any,
 		@Context('req') req: any
 	): Promise<User> {
 		try {
@@ -173,7 +179,7 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(user)
 
-			pubSub.publish('userCreated', { userCreated: createdUser })
+			pubsub.publish(USER_SUBSCRIPTION, { userCreated: createdUser })
 
 			const emailToken = await this.authService.generateEmailToken(createdUser)
 
@@ -208,7 +214,7 @@ export class UserResolver {
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError('Not Found: User', '404', {})
+				throw new ForbiddenError('User not found.')
 			}
 
 			user.firstName = firstName
@@ -229,7 +235,7 @@ export class UserResolver {
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError('Not Found: User', '404', {})
+				throw new ForbiddenError('User not found.')
 			}
 
 			user.isActive = false
@@ -298,7 +304,7 @@ export class UserResolver {
 			const user = await this.userRepository.findOne({ _id })
 
 			if (!user) {
-				throw new ApolloError('Not Found: User', '404', {})
+				throw new ForbiddenError('User not found.')
 			}
 
 			user.reason = !user.isLocked ? reason : ''
@@ -322,18 +328,16 @@ export class UserResolver {
 		// console.log(currentPassword , password)
 
 		if (!user) {
-			throw new ApolloError('Not Found: User', '404', {})
+			throw new ForbiddenError('User not found.')
 		}
 
 		if (!(await user.matchesPassword(currentPassword))) {
-			throw new ApolloError('missingCurrentPassword', '400', {})
+			throw new ForbiddenError('Your current password is missing or incorrect.')
 		}
 
 		if (await user.matchesPassword(password)) {
-			throw new ApolloError(
-				'Your new password must be different from your previous password.',
-				'400',
-				{}
+			throw new UserInputError(
+				'Your new password must be different from your previous password.'
 			)
 		}
 
@@ -354,7 +358,7 @@ export class UserResolver {
 		})
 
 		if (!user) {
-			throw new ApolloError('Not Found: User', '404', {})
+			throw new ForbiddenError('User not found.')
 		}
 
 		const resetPassToken = await this.authService.generateResetPassToken(user)
@@ -390,11 +394,13 @@ export class UserResolver {
 		})
 
 		if (!user) {
-			throw new ApolloError('Not Found: User', '404', {})
+			throw new ForbiddenError('User not found.')
 		}
 
 		if (user.resetPasswordExpires < Date.now()) {
-			throw new ApolloError('Invalid ResetPasswordToken', '498', {})
+			throw new AuthenticationError(
+				'Reset password token is invalid, please try again.'
+			)
 		}
 
 		user.password = await user.hashPassword(password)
@@ -413,8 +419,8 @@ export class UserResolver {
 			return true
 		}
 	})
-	async userCreated(@Context('pubSub') pubSub: any): Promise<User> {
-		return pubSub.asyncIterator('userCreated')
+	async userCreated(@Context('pubsub') pubsub: any): Promise<User> {
+		return pubsub.asyncIterator(USER_SUBSCRIPTION)
 	}
 
 	// COMPLETE:

@@ -91,7 +91,7 @@ export class UpdateUserInput {
 }
 
 @Entity({
-	name: 'user',
+	name: 'users',
 	orderBy: {
 		createdAt: 'DESC'
 	}

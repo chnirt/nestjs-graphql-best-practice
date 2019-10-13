@@ -18,5 +18,5 @@ type Mutation {
 }
 
 type Query {
-	emails: [Email]
+	emails: [Email] @isAuthenticated
 }

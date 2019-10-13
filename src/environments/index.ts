@@ -49,6 +49,10 @@ const CLOUD_NAME: string = process.env.CLOUD_NAME || ''
 const API_KEY: string = process.env.API_KEY || ''
 const API_SECRET: string = process.env.API_SECRET || ''
 
+// pubsub
+const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
+const USER_SUBSCRIPTION: string = 'newUser'
+
 export {
 	NODE_ENV,
 	AUTHOR,
@@ -74,5 +78,7 @@ export {
 	MAIL_PASS,
 	CLOUD_NAME,
 	API_KEY,
-	API_SECRET
+	API_SECRET,
+	USER_SUBSCRIPTION,
+	NOTIFICATION_SUBSCRIPTION
 }

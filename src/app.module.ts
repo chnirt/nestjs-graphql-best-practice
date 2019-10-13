@@ -15,6 +15,7 @@ import { MailModule } from './shared/mail/mail.module'
 import { FileModule } from './resolvers/file/file.module'
 import { TasksModule } from './shared/tasks/tasks.module'
 import { EmailModule } from './resolvers/email/email.module'
+import { NotificationModule } from './resolvers/notification/notification.module'
 
 @Module({
 	imports: [
@@ -36,7 +37,8 @@ import { EmailModule } from './resolvers/email/email.module'
 		FileModule,
 		UploadModule,
 		TasksModule,
-		EmailModule
+		EmailModule,
+		NotificationModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

@@ -96,7 +96,7 @@ type Query {
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated
 	search(conditions: SearchInput!): [Result]! @isAuthenticated
-	searchUser(userIds: [String!]): UserResult!
+	searchUser(userIds: [ID!]): UserResult!
 		@rateLimit(window: "3s", max: 1, message: "You are doing that too often.")
 	# today: Date @date @hasScope(scope: [“read:rating”])
 	today: Date @date

@@ -9,7 +9,7 @@ import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
 @Entity({
-	name: 'email',
+	name: 'emails',
 	orderBy: {
 		createdAt: 'DESC'
 	}

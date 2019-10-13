@@ -41,7 +41,7 @@ async function main() {
 		]
 
 		users.map(async item => {
-			await db.collection('user').findOneAndUpdate(
+			await db.collection('users').findOneAndUpdate(
 				{ _id: item._id },
 				{
 					$setOnInsert: {

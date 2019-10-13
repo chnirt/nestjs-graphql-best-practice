@@ -1,0 +1,23 @@
+type Notification {
+	_id: ID!
+	label: String!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type NotificationResponse {
+	userIds: [ID!]!
+	newNotification: Notification!
+}
+
+type Query {
+	notifications: [Notification]
+}
+
+type Mutation {
+	pushNotification(userIds: [ID!]!, label: String!): Notification
+}
+
+type Subscription {
+	notificationResponse: NotificationResponse!
+}

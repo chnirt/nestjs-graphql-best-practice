@@ -9,22 +9,18 @@ import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
 @Entity({
-	name: 'files',
+	name: 'notifications',
 	orderBy: {
 		createdAt: 'DESC'
 	}
 })
-export class File {
+export class Notification {
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
 	@IsNotEmpty()
-	filename: string
-
-	@Column()
-	@IsNotEmpty()
-	path: string
+	label: string
 
 	@Column()
 	createdAt: number
