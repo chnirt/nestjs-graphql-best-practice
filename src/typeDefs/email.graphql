@@ -1,12 +1,17 @@
+enum Type {
+	VERIFY_EMAIL
+	FORGOT_PASSWORD
+}
+
 input CreateEmailInput {
 	userId: String!
-	type: String!
+	type: Type!
 }
 
 type Email {
 	_id: ID!
 	userId: ID!
-	type: String!
+	type: Type!
 	isOpened: Boolean!
 	createdAt: Float!
 	updatedAt: Float!

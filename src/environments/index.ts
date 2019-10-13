@@ -9,7 +9,7 @@ const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
 const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
-const PORT: number = +process.env.PORT || 11047
+const PORT: number = +process.env.PORT || 11048
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''

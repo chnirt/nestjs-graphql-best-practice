@@ -31,7 +31,8 @@ import {
 	SearchInput,
 	UserResult,
 	LoginResponse,
-	RefreshTokenResponse
+	RefreshTokenResponse,
+	Type
 } from '../../generator/graphql.schema'
 
 import { USER_SUBSCRIPTION } from '../../environments'
@@ -117,7 +118,7 @@ export class UserResolver {
 
 	// COMPLETE:
 	@Query(() => User)
-	async me(@Context('currentUser') currentUser: User) {
+	async me(@Context('currentUser') currentUser: User): Promise<User> {
 		return currentUser
 	}
 
@@ -185,7 +186,7 @@ export class UserResolver {
 
 			const existedEmail = await this.emailResolver.createEmail({
 				userId: createdUser._id,
-				type: 'verifyEmail'
+				type: Type.VERIFY_EMAIL
 			})
 
 			await this.mailService.sendMail(
@@ -297,8 +298,7 @@ export class UserResolver {
 	@Mutation(() => Boolean)
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
-		@Args('reason') reason: string,
-		@Context('currentUser') currentUser: User
+		@Args('reason') reason: string
 	): Promise<boolean> {
 		try {
 			const user = await this.userRepository.findOne({ _id })
@@ -365,7 +365,7 @@ export class UserResolver {
 
 		const existedEmail = await this.emailResolver.createEmail({
 			userId: user._id,
-			type: 'forgotPassword'
+			type: Type.FORGOT_PASSWORD
 		})
 
 		await this.mailService.sendMail(

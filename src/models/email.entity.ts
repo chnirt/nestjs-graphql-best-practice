@@ -8,6 +8,11 @@ import {
 import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
+enum Type {
+	VERIFY_EMAIL,
+	FORGOT_PASSWORD
+}
+
 @Entity({
 	name: 'emails',
 	orderBy: {
@@ -24,7 +29,7 @@ export class Email {
 
 	@Column()
 	@IsNotEmpty()
-	type: string
+	type: Type
 
 	@Column()
 	@IsNotEmpty()
