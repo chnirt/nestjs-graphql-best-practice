@@ -3,6 +3,13 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
+import * as bodyParser from 'body-parser'
+import * as helmet from 'helmet'
+import * as compression from 'compression'
+// import * as csurf from 'csurf'
+// import * as rateLimit from 'express-rate-limit'
+// import * as cookieParser from 'cookie-parser'
+// import * as passport from 'passport'
 // import * as fs from 'fs'
 import chalk from 'chalk'
 
@@ -10,17 +17,21 @@ import { LoggerService } from './config/logger/logger.service'
 import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
+import { LoggerMiddleware } from './common/middleware/logger.middleware'
 import { TasksModule } from './shared/tasks/tasks.module'
 import { TasksService } from './shared/tasks/tasks.service'
 
 import config from './config.orm'
+import { logger } from './common/wiston'
 
-import { NODE_ENV, DOMAIN, PORT, END_POINT } from './environments'
+import { NODE_ENV, DOMAIN, PORT, END_POINT, VOYAGER } from './environments'
+import { EmailModule } from './resolvers/email/email.module'
+import { EmailResolver } from './resolvers/email/email.resolver'
 
 declare const module: any
 
 async function bootstrap() {
-	// COMPLETE: connect database
+	// connect database
 	createConnection({
 		...config,
 		type: 'mongodb',
@@ -29,73 +40,139 @@ async function bootstrap() {
 		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
-		.then(data => Logger.log(`☁️  Database connected`, 'TypeORM'))
-		.catch(err => Logger.error(`❌  Database connect error, ${err}`, 'TypeORM'))
+		.then(data => {
+			logger.info(data)
+			Logger.log(`☁️  Database connected`, 'TypeORM')
+		})
+		.catch(err => {
+			logger.error(err)
+			Logger.error(`❌  Database connect error, ${err}`, 'TypeORM')
+		})
 
-	const app = await NestFactory.create(AppModule, {
-		// httpsOptions: {
-		// 	key: fs.readFileSync(`./ssl/product/server.key`),
-		// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
-		// },
-		logger: false
-		// logger: new LoggerService()
-	})
+	try {
+		const app = await NestFactory.create(AppModule, {
+			// httpsOptions: {
+			// 	key: fs.readFileSync(`./ssl/product/server.key`),
+			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
+			// },
+			logger: false
+		})
 
-	// Application context
-	const tasksService = app
-		.select(TasksModule)
-		.get(TasksService, { strict: true })
+		// application context
+		const tasksService = app
+			.select(TasksModule)
+			.get(TasksService, { strict: true })
+		const emailResolver = app
+			.select(EmailModule)
+			.get(EmailResolver, { strict: true })
 
-	// COMPLETE: tasks
-	// tasksService.Timeout()
-	// tasksService.Interval()
-	tasksService.Cron()
+		// tasks
+		// tasksService.Timeout()
+		// tasksService.Interval()
+		tasksService.Cron()
 
-	// COMPLETE: for e2e testing
-	const httpAdapter = app.getHttpAdapter()
+		// adapter for e2e testing
+		const httpAdapter = app.getHttpAdapter()
 
-	app.useLogger(app.get(LoggerService))
+		app.useLogger(app.get(LoggerService))
 
-	// COMPLETE:
-	process.env.NODE_ENV !== 'production' &&
+		// added security
+		app.use(helmet())
+
+		// body parser
+		app.use(bodyParser.json({ limit: '50mb' }))
 		app.use(
-			'/voyager',
-			voyagerMiddleware({
-				endpointUrl: `/${END_POINT!}`
+			bodyParser.urlencoded({
+				limit: '50mb',
+				extended: true,
+				parameterLimit: 50000
 			})
 		)
 
-	// COMPLETE:
-	app.useGlobalInterceptors(new LoggingInterceptor())
-	app.useGlobalInterceptors(new TimeoutInterceptor())
+		// compress
+		app.use(compression())
 
-	// COMPLETE:
-	app.useGlobalPipes(new ValidationPipe())
+		// cruf
+		// app.use(csurf())
 
-	app.enableShutdownHooks()
+		// rateLimit
+		// app.use(
+		// 	rateLimit({
+		// 		windowMs: 15 * 60 * 1000, // 15 minutes
+		// 		max: 1, // limit each IP to 100 requests per windowMs
+		// 		message:
+		// 			'Too many request created from this IP, please try again after an hour'
+		// 	})
+		// )
 
-	await app.listen(PORT)
+		// passport
+		// app.use(passport.initialize())
 
-	// COMPLETE:
-	if (module.hot) {
-		module.hot.accept()
-		module.hot.dispose(() => app.close())
+		// poggerMiddleware
+		NODE_ENV !== 'testing' && app.use(LoggerMiddleware)
+
+		// voyager
+		process.env.NODE_ENV !== 'production' &&
+			app.use(
+				`/${VOYAGER}`,
+				voyagerMiddleware({
+					endpointUrl: `/${END_POINT!}`
+				})
+			)
+
+		// interceptors
+		app.useGlobalInterceptors(new LoggingInterceptor())
+		app.useGlobalInterceptors(new TimeoutInterceptor())
+
+		// global nest setup
+		app.useGlobalPipes(new ValidationPipe())
+
+		app.enableShutdownHooks()
+
+		// tracking
+		app.use('/graphql/:id', (req, res, next) => {
+			const _id = req.params['id']
+			// console.log(_id)
+			emailResolver.openEmail(_id)
+			next()
+		})
+
+		// size limit
+		app.use('*', (req, res, next) => {
+			const query = req.query.query || req.body.query || ''
+			if (query.length > 2000) {
+				throw new Error('Query too large')
+			}
+			next()
+		})
+
+		await app.listen(PORT)
+
+		// hot module replacement
+		if (module.hot) {
+			module.hot.accept()
+			module.hot.dispose(() => app.close())
+		}
+
+		NODE_ENV !== 'production' &&
+			Logger.log(
+				`🚀  Server ready at http://${DOMAIN!}:` +
+					chalk.hex('#87e8de').bold(`${PORT!}`) +
+					`/${END_POINT!}`,
+				'Bootstrap'
+			)
+
+		NODE_ENV !== 'production' &&
+			Logger.log(
+				`🚀  Subscriptions ready at ws://${DOMAIN!}:` +
+					chalk.hex('#87e8de').bold(`${PORT!}`) +
+					`/${END_POINT!}`,
+				'Bootstrap'
+			)
+	} catch (error) {
+		logger.error(error)
+		Logger.error(`❌  Error starting server, ${error}`, 'Bootstrap')
+		process.exit()
 	}
-
-	NODE_ENV !== 'production' &&
-		Logger.log(
-			`🚀  Server ready at http://${DOMAIN!}:` +
-				chalk.hex('#87e8de').bold(`${PORT!}`) +
-				`/${END_POINT!}`,
-			'Bootstrap'
-		)
-
-	NODE_ENV !== 'production' &&
-		Logger.log(
-			`🚀  Subscriptions ready at ws://${DOMAIN!}:` +
-				chalk.hex('#87e8de').bold(`${PORT!}`) +
-				`/${END_POINT!}`,
-			'Bootstrap'
-		)
 }
 bootstrap()

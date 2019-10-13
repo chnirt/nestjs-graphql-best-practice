@@ -20,13 +20,15 @@ import {
 import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../shared/mail/mail.service'
+import { EmailResolver } from '../email/email.resolver'
 import {
 	Result,
 	SearchInput,
 	UserResult,
 	LoginResponse,
-	RefreshTokenResponse
-} from '../../graphql.schema'
+	RefreshTokenResponse,
+	CreateEmailInput
+} from '../../generator/graphql.schema'
 
 @Resolver('User')
 export class UserResolver {
@@ -34,7 +36,8 @@ export class UserResolver {
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
 		private readonly authService: AuthService,
-		private readonly mailService: MailService
+		private readonly mailService: MailService,
+		private readonly emailResolver: EmailResolver
 	) {}
 
 	// COMPLETE:
@@ -65,14 +68,7 @@ export class UserResolver {
 
 		// const createdAt = { $gte: 0, $lte: new Date().getTime() }
 
-		// result = await getMongoRepository(type).find({
-		// 	where: where[type] && JSON.parse(JSON.stringify(where[type])),
-		// 	order: order && JSON.parse(JSON.stringify(order)),
-		// 	skip,
-		// 	take
-		// })
-
-		result = await this.userRepository.find({
+		result = await getMongoRepository(type).find({
 			where: where[type] && JSON.parse(JSON.stringify(where[type])),
 			order: order && JSON.parse(JSON.stringify(order)),
 			skip,
@@ -127,7 +123,7 @@ export class UserResolver {
 	): Promise<User[]> {
 		const users = await this.userRepository.find({
 			// where: { email: { $nin: ['nhocpo.juzo@gmail.com'] } },
-			order: { createdAt: -1 },
+			// order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
 			cache: true // 1000: 60000 / 1 minute
@@ -181,11 +177,17 @@ export class UserResolver {
 
 			const emailToken = await this.authService.generateEmailToken(createdUser)
 
+			const existedEmail = await this.emailResolver.createEmail({
+				userId: createdUser._id,
+				type: 'verifyEmail'
+			})
+
 			await this.mailService.sendMail(
 				'verifyEmail',
 				createdUser,
 				req,
-				emailToken
+				emailToken,
+				existedEmail._id
 			)
 
 			return createdUser
@@ -356,7 +358,18 @@ export class UserResolver {
 
 		const resetPassToken = await this.authService.generateResetPassToken(user)
 
-		await this.mailService.sendMail('forgotPassword', user, req, resetPassToken)
+		const existedEmail = await this.emailResolver.createEmail({
+			userId: user._id,
+			type: 'forgotPassword'
+		})
+
+		await this.mailService.sendMail(
+			'forgotPassword',
+			user,
+			req,
+			resetPassToken,
+			existedEmail._id
+		)
 
 		const date = new Date()
 		user.resetPasswordToken = resetPassToken

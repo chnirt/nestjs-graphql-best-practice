@@ -1,5 +1,7 @@
 import { MongoClient } from 'mongodb'
 
+import {} from './environments'
+
 async function main() {
 	console.log('🚀  Server ready')
 
@@ -7,10 +9,7 @@ async function main() {
 		? 'mongodb://username:password@192.168.xx.xx:' + process.env.MONGO_PORT
 		: // 'mongodb://admin:chnirt1803@ds347467.mlab.com:47467/nest-graphql'
 		  'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
-	const dbName = process.env.MONGO_PORT
-		? 'demo'
-		: // 'nest-graphql1'
-		  'chnirt-nest'
+	const dbName = 'chnirt-nest'
 
 	const client = new MongoClient(url, {
 		useNewUrlParser: true,

@@ -48,7 +48,7 @@ input UpdateUserInput {
 }
 
 input LoginUserInput {
-	email: String! @length(max: 50)
+	email: String!
 	password: String!
 }
 
@@ -63,7 +63,7 @@ input SearchInput {
 }
 
 type LoginResponse {
-	accessToken: String!
+	accessToken: String! @validate
 	refreshToken: String! @length(max: 2)
 }
 
@@ -82,6 +82,7 @@ type User {
 	resetPasswordExpires: Float
 	fullName: String @upper @concat(value: "Chnirt")
 	isVerified: Boolean!
+	isActivated: Boolean @deprecated(reason: "Use `isVerified`.")
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!
@@ -90,7 +91,7 @@ type User {
 }
 
 type Query {
-	hello: String!
+	hello: String! @length(max: 2)
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated

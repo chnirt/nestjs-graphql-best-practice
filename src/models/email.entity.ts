@@ -9,22 +9,26 @@ import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
 @Entity({
-	name: 'file',
+	name: 'email',
 	orderBy: {
 		createdAt: 'DESC'
 	}
 })
-export class File {
+export class Email {
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
 	@IsNotEmpty()
-	filename: string
+	userId: string
 
 	@Column()
 	@IsNotEmpty()
-	path: string
+	type: string
+
+	@Column()
+	@IsNotEmpty()
+	isOpened: boolean
 
 	@Column()
 	createdAt: number
@@ -38,6 +42,7 @@ export class File {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
+		this.isOpened = false
 		this.createdAt = +new Date()
 		this.updatedAt = +new Date()
 	}

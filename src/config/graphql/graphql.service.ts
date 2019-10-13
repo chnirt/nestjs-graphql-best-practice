@@ -1,26 +1,18 @@
-import { Injectable, Inject, Logger } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import {
-	ApolloError,
-	GraphQLExtension,
-	AuthenticationError,
-	ForbiddenError
-} from 'apollo-server-core'
+import { ApolloError, GraphQLExtension } from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
-import schemaDirectives from './directives'
+import * as depthLimit from 'graphql-depth-limit'
+import schemaDirectives from './schemaDirectives'
+import directiveResolvers from './directiveResolvers'
 import { AuthService } from '../../auth/auth.service'
+import { logger } from '../../common/wiston'
 
-import {
-	NODE_ENV,
-	END_POINT,
-	FE_URL,
-	ACCESS_TOKEN,
-	REFRESH_TOKEN
-} from '../../environments'
+import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
 
 const pubSub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
@@ -94,6 +86,12 @@ export class GraphqlService implements GqlOptionsFactory {
 			// 	outputAs: 'class'
 			// },
 			schemaDirectives,
+			directiveResolvers,
+			validationRules: [
+				depthLimit(10, { ignore: [/_trusted$/, 'idontcare'] }, depths => {
+					// console.log(depths)
+				})
+			],
 			introspection: true,
 			playground: NODE_ENV !== 'production' && {
 				settings: {
@@ -159,6 +157,8 @@ export class GraphqlService implements GqlOptionsFactory {
 				// if (error.originalError instanceof ForbiddenError) {
 				// 	return new Error('Different forbidden error message!')
 				// }
+
+				logger.error(error.message)
 
 				return {
 					message: error.message,

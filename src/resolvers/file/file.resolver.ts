@@ -26,11 +26,8 @@ export class FileResolver {
 
 		const path = await this.uploadService.uploadFile(createReadStream)
 
-		const newFile = new File()
-
-		newFile.filename = filename
-		newFile.path = path
-
-		return (await this.fileRepository.save(newFile)) ? true : false
+		return (await this.fileRepository.save(new File({ filename, path })))
+			? true
+			: false
 	}
 }

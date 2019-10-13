@@ -90,7 +90,12 @@ export class UpdateUserInput {
 	gender: Gender
 }
 
-@Entity()
+@Entity({
+	name: 'user',
+	orderBy: {
+		createdAt: 'DESC'
+	}
+})
 export class User {
 	@ObjectIdColumn()
 	_id: string
@@ -149,6 +154,10 @@ export class User {
 	createdAt: number
 	@Column()
 	updatedAt: number
+
+	// constructor(params: any) {
+	// 	Object.assign(this, params)
+	// }
 
 	@BeforeInsert()
 	save() {

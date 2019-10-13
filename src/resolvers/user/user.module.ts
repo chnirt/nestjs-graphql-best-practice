@@ -4,11 +4,17 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { User } from '../../models/user.entity'
 import { AuthModule } from '../../auth/auth.module'
 import { MailModule } from '../../shared/mail/mail.module'
+import { EmailModule } from '../email/email.module'
 import { ResultResolver } from './result.resolver'
 import { UserResultResolver } from './userResult.resolver'
 
 @Module({
-	imports: [TypeOrmModule.forFeature([User]), AuthModule, MailModule],
+	imports: [
+		TypeOrmModule.forFeature([User]),
+		AuthModule,
+		MailModule,
+		EmailModule
+	],
 	providers: [UserResolver, ResultResolver, UserResultResolver]
 })
 export class UserModule {}

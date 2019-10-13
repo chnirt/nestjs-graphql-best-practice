@@ -1,14 +1,7 @@
-import {
-	Injectable,
-	PipeTransform,
-	ArgumentMetadata,
-	BadRequestException,
-	HttpException,
-	HttpStatus
-} from '@nestjs/common'
+import { Injectable, PipeTransform, ArgumentMetadata } from '@nestjs/common'
 import { validate } from 'class-validator'
 import { plainToClass } from 'class-transformer'
-import { ApolloError, UserInputError } from 'apollo-server-core'
+import { UserInputError } from 'apollo-server-core'
 
 @Injectable()
 export class ValidationPipe implements PipeTransform<any> {
@@ -23,11 +16,6 @@ export class ValidationPipe implements PipeTransform<any> {
 			throw new UserInputError(
 				`Form Arguments invalid ${this.formatErrors(errors)}`
 			)
-			// throw new ApolloError(
-			// 	`Bad Request: ${this.formatErrors(errors)}`,
-			// 	'400',
-			// 	{}
-			// )
 		}
 		return value
 	}
