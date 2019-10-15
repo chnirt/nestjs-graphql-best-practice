@@ -1,3 +1,8 @@
+input CreateRoomInput {
+	title: String!
+	userIds: [ID!]!
+}
+
 type Room {
 	_id: ID!
 	title: String!
@@ -10,4 +15,8 @@ type Room {
 type Query {
 	rooms: [Room]
 	room(_id: ID!): Room
+}
+
+type Mutation {
+	createRoom(input: CreateRoomInput!): Room
 }

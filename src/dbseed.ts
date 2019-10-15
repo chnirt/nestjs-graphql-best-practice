@@ -38,6 +38,13 @@ async function main() {
 				lastName: 'Trinh',
 				gender: 'MALE',
 				email: 'trinhchinchin@gmail.com'
+			},
+			{
+				_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
+				firstName: 'Hung',
+				lastName: 'Luu',
+				gender: 'MALE',
+				email: 'luuvinhhung159@gmail.com'
 			}
 		]
 

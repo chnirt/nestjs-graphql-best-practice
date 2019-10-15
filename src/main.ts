@@ -146,10 +146,19 @@ async function bootstrap() {
 			next()
 		})
 
-		await app.listen(PORT)
+		const server = await app.listen(PORT)
 
 		// hot module replacement
 		if (module.hot) {
+			module.hot.accept(() => {
+				try {
+					server.removeAllListeners('request', server)
+					// app = require('./server').default
+					server.on('request', app.init())
+				} catch (err) {
+					console.log(err)
+				}
+			})
 			module.hot.accept()
 			module.hot.dispose(() => app.close())
 		}

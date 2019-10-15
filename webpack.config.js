@@ -63,7 +63,7 @@ module.exports = {
 			analyzerMode: 'static',
 			analyzerHost: '127.0.0.1',
 			analyzerPort: '8888',
-			reportFilename: 'report.html',
+			reportFilename: process.env.NODE_ENV === 'development' && 'report.html',
 			openAnalyzer: false,
 			generateStatsFile: false,
 			statsFilename: 'stats.json'

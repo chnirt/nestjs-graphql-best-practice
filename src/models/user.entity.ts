@@ -113,8 +113,8 @@ export class User {
 	email: string
 
 	@Column()
+	// @Exclude()
 	@IsNotEmpty()
-	@Exclude()
 	password: string
 
 	@Column()
