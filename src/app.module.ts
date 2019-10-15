@@ -46,6 +46,4 @@ import { MessageModule } from './resolvers/message/message.module'
 	],
 	providers: [DateScalar, UploadScalar]
 })
-
-// COMPLETE:
 export class AppModule {}

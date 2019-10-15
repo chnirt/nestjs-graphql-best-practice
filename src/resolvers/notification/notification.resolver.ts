@@ -9,7 +9,6 @@ import {
 import { Notification } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
-import { NotificationResponse } from '../../generator/graphql.schema'
 
 import { NOTIFICATION_SUBSCRIPTION } from '../../environments'
 

@@ -1,12 +1,4 @@
-import {
-	Resolver,
-	Mutation,
-	Args,
-	Query,
-	Context,
-	ResolveProperty,
-	Parent
-} from '@nestjs/graphql'
+import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { Room } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'

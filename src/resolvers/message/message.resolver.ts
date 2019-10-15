@@ -4,8 +4,6 @@ import {
 	Args,
 	Query,
 	Context,
-	ResolveProperty,
-	Parent,
 	Subscription
 } from '@nestjs/graphql'
 import { Message } from '../../models'

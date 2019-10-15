@@ -47,20 +47,17 @@ export class UserResolver {
 		private readonly emailResolver: EmailResolver
 	) {}
 
-	// COMPLETE:
 	@Query(() => String)
 	async hello(): Promise<string> {
 		return uuid.v1()
 		// return await 'world'
 	}
 
-	// COMPLETE:
 	@Query(() => Date)
 	async today(): Promise<Date> {
 		return new Date()
 	}
 
-	// COMPLETE:
 	@Query()
 	async search(@Args('conditions') conditions: SearchInput): Promise<Result[]> {
 		let result
@@ -91,7 +88,6 @@ export class UserResolver {
 		return result
 	}
 
-	// COMPLETE:
 	@Query()
 	async searchUser(@Args('userIds') userIds: string[]): Promise<UserResult> {
 		let result
@@ -116,13 +112,11 @@ export class UserResolver {
 		return result
 	}
 
-	// COMPLETE:
 	@Query(() => User)
 	async me(@Context('currentUser') currentUser: User): Promise<User> {
 		return currentUser
 	}
 
-	// COMPLETE:
 	@Query(() => [User])
 	async users(
 		@Args('offset') offset: number,
@@ -139,7 +133,6 @@ export class UserResolver {
 		return users
 	}
 
-	// COMPLETE:
 	@Query(() => User)
 	async user(@Args('_id') _id: string): Promise<User> {
 		try {
@@ -155,7 +148,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => User)
 	async createUser(
 		@Args('input') input: CreateUserInput,
@@ -203,7 +195,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async updateUser(
 		@Args('_id') _id: string,
@@ -229,7 +220,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
@@ -247,7 +237,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async deleteUsers(): Promise<boolean> {
 		try {
@@ -261,7 +250,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
 		const user = await this.authService.verifyEmailToken(emailToken)
@@ -274,7 +262,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => LoginResponse)
 	async login(@Args('input') input: LoginUserInput): Promise<LoginResponse> {
 		const { email, password } = input
@@ -282,7 +269,6 @@ export class UserResolver {
 		return await this.authService.tradeToken(email, password)
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async refreshToken(
 		@Args('refreshToken') refreshToken: string
@@ -294,7 +280,6 @@ export class UserResolver {
 		return { accessToken }
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
@@ -316,7 +301,6 @@ export class UserResolver {
 		}
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async changePassword(
 		@Args('_id') _id: string,
@@ -346,7 +330,6 @@ export class UserResolver {
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async forgotPassword(
 		@Args('email') email: string,
@@ -383,7 +366,6 @@ export class UserResolver {
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
-	// COMPLETE:
 	@Mutation(() => Boolean)
 	async resetPassword(
 		@Args('resetPasswordToken') resetPasswordToken: string,
@@ -410,7 +392,6 @@ export class UserResolver {
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
-	// COMPLETE:
 	@Subscription(() => Object, {
 		filter: (payload: any, variables: any) => {
 			// console.log('payload', payload)
