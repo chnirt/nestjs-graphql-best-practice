@@ -1,0 +1,21 @@
+input CreateFormInput {
+	content: String!
+}
+
+type Form {
+	_id: ID!
+	content: String
+	state: Int!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	forms: [Form] @isAuthenticated
+}
+
+type Mutation {
+	createForm(input: CreateRoomInput!): Form
+	# acceptForm1(_id: String!): Form
+	# acceptForm2(_id: String!): Form
+}

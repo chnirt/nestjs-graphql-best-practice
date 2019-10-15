@@ -3,7 +3,7 @@ import { Email } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository } from 'typeorm'
 import { CreateEmailInput } from '../../generator/graphql.schema'
-import { ApolloError } from 'apollo-server-core'
+import { ForbiddenError } from 'apollo-server-core'
 
 @Resolver('Email')
 export class EmailResolver {
@@ -31,7 +31,7 @@ export class EmailResolver {
 		})
 
 		if (!email) {
-			throw new ApolloError('Not Found: Email', '404', {})
+			throw new ForbiddenError('Email not found.')
 		}
 
 		email.isOpened = true

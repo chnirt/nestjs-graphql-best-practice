@@ -6,10 +6,10 @@ type File {
 	updatedAt: Float!
 }
 
-type Mutation {
-	uploadFile(file: Upload!): Boolean @isAuthenticated
-}
-
 type Query {
 	files: [File] @isAuthenticated
+}
+
+type Mutation {
+	uploadFile(file: Upload!): Boolean @isAuthenticated
 }

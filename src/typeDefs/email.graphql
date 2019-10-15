@@ -17,11 +17,11 @@ type Email {
 	updatedAt: Float!
 }
 
+type Query {
+	emails: [Email] @isAuthenticated
+}
+
 type Mutation {
 	createEmail(input: CreateEmailInput!): Email
 	openEmail(_id: ID!): Boolean
-}
-
-type Query {
-	emails: [Email] @isAuthenticated
 }

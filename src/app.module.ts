@@ -18,6 +18,7 @@ import { EmailModule } from './resolvers/email/email.module'
 import { NotificationModule } from './resolvers/notification/notification.module'
 import { RoomModule } from './resolvers/room/room.module'
 import { MessageModule } from './resolvers/message/message.module'
+import { FormModule } from './resolvers/form/form.module'
 
 @Module({
 	imports: [
@@ -42,7 +43,8 @@ import { MessageModule } from './resolvers/message/message.module'
 		EmailModule,
 		NotificationModule,
 		RoomModule,
-		MessageModule
+		MessageModule,
+		FormModule
 	],
 	providers: [DateScalar, UploadScalar]
 })
