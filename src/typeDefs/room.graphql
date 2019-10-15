@@ -13,10 +13,12 @@ type Room {
 }
 
 type Query {
-	rooms: [Room]
-	room(_id: ID!): Room
+	rooms: [Room] @isAuthenticated
+	room(_id: ID!): Room @isAuthenticated
 }
 
 type Mutation {
-	createRoom(input: CreateRoomInput!): Room
+	createRoom(input: CreateRoomInput!): Room @isAuthenticated
+	joinRoom(_id: ID!): Boolean @isAuthenticated
+	leaveRoom(_id: ID!): Boolean @isAuthenticated
 }

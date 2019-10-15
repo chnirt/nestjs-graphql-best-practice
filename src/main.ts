@@ -30,25 +30,25 @@ import { EmailResolver } from './resolvers/email/email.resolver'
 
 declare const module: any
 
-async function bootstrap() {
-	// connect database
-	createConnection({
-		...config,
-		type: 'mongodb',
-		entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-		synchronize: true,
-		useNewUrlParser: true,
-		useUnifiedTopology: true
+// connect database
+createConnection({
+	...config,
+	type: 'mongodb',
+	entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
+	synchronize: true,
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+	.then(data => {
+		logger.info(data)
+		Logger.log(`☁️  Database connected`, 'TypeORM')
 	})
-		.then(data => {
-			logger.info(data)
-			Logger.log(`☁️  Database connected`, 'TypeORM')
-		})
-		.catch(err => {
-			logger.error(err)
-			Logger.error(`❌  Database connect error, ${err}`, 'TypeORM')
-		})
+	.catch(err => {
+		logger.error(err)
+		Logger.error(`❌  Database connect error, ${err}`, 'TypeORM')
+	})
 
+async function bootstrap() {
 	try {
 		const app = await NestFactory.create(AppModule, {
 			// httpsOptions: {
@@ -150,10 +150,18 @@ async function bootstrap() {
 
 		// hot module replacement
 		if (module.hot) {
-			module.hot.accept(() => {
+			module.hot.accept(async () => {
 				try {
 					server.removeAllListeners('request', server)
-					// app = require('./server').default
+
+					const app = await NestFactory.create(AppModule, {
+						// httpsOptions: {
+						// 	key: fs.readFileSync(`./ssl/product/server.key`),
+						// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
+						// },
+						logger: false
+					})
+
 					server.on('request', app.init())
 				} catch (err) {
 					console.log(err)

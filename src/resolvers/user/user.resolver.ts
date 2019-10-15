@@ -423,7 +423,6 @@ export class UserResolver {
 		return pubsub.asyncIterator(USER_SUBSCRIPTION)
 	}
 
-	// COMPLETE:
 	@ResolveProperty(() => String)
 	async fullName(@Parent() user: User): Promise<string> {
 		const { firstName, lastName } = user

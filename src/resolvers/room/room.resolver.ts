@@ -1,4 +1,12 @@
-import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
+import {
+	Resolver,
+	Mutation,
+	Args,
+	Query,
+	Context,
+	ResolveProperty,
+	Parent
+} from '@nestjs/graphql'
 import { Room } from '../../models'
 import { InjectRepository } from '@nestjs/typeorm'
 import { MongoRepository, getMongoRepository } from 'typeorm'
@@ -22,6 +30,14 @@ export class RoomResolver {
 
 	@Query(() => Room)
 	async room(@Args('_id') _id: string): Promise<Room> {
+		const room = await this.roomRepository.findOne({
+			_id
+		})
+
+		if (!room) {
+			throw new ForbiddenError('Room not found.')
+		}
+
 		return this.roomRepository.findOne({
 			_id
 		})
@@ -32,41 +48,70 @@ export class RoomResolver {
 		@Args('input') input: CreateRoomInput,
 		@Context('currentUser') currentUser: User
 	): Promise<Room> {
-		const { userIds } = input
+		const { title, userIds } = input
 
 		if (userIds.length === 0) {
 			throw new ForbiddenError('Room must have at least 2 people.')
 		}
 
 		const existedUserIds = await getMongoRepository(User).find({
-			where: { _id: { $in: userIds } },
-			select: ['_id', 'email']
+			where: { _id: { $in: userIds, $ne: currentUser._id } }
 		})
 
 		if (userIds.length !== existedUserIds.length) {
 			throw new ForbiddenError('One of userIds is invalid.')
 		}
 
-		// const { _id } = currentUser
-
-		console.log('existedUserIds', [...existedUserIds])
-
-		// return await this.roomRepository.save(new Room(input))
-		return null
+		return await this.roomRepository.save(
+			new Room({ title, users: [...existedUserIds, currentUser] })
+		)
 	}
 
-	// @Mutation(() => Boolean)
-	// async openRoom(@Args('_id') _id: string): Promise<boolean> {
-	// 	const Room = await this.roomRepository.findOne({
-	// 		_id
-	// 	})
+	@Mutation(() => Boolean)
+	async joinRoom(
+		@Args('_id') _id: string,
+		@Context('currentUser') currentUser: User
+	): Promise<boolean> {
+		const room = await this.roomRepository.findOne({
+			_id
+		})
 
-	// 	if (!Room) {
-	// 		throw new ApolloError('Not Found: Room', '404', {})
-	// 	}
+		if (!room) {
+			throw new ForbiddenError('Room not found.')
+		}
 
-	// 	Room.isOpened = true
+		const rs = room.users.filter(item => item._id === currentUser._id)
 
-	// 	return this.RoomRepository.save(Room) ? true : false
-	// }
+		if (rs.length > 0) {
+			throw new ForbiddenError('You joined the room.')
+		}
+
+		room.users = [...room.users, currentUser]
+
+		return this.roomRepository.save(room) ? true : false
+	}
+
+	@Mutation(() => Boolean)
+	async leaveRoom(
+		@Args('_id') _id: string,
+		@Context('currentUser') currentUser: User
+	): Promise<boolean> {
+		const room = await this.roomRepository.findOne({
+			_id
+		})
+
+		if (!room) {
+			throw new ForbiddenError('Room not found.')
+		}
+
+		const rs = room.users.filter(item => item._id === currentUser._id)
+
+		if (rs.length === 0) {
+			throw new ForbiddenError('You are not in the room.')
+		}
+
+		room.users = room.users.filter(item => item._id !== currentUser._id)
+
+		return this.roomRepository.save(room) ? true : false
+	}
 }
