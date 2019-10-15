@@ -22,7 +22,8 @@
 		"no-string-literal": false,
 		"max-classes-per-file": true,
 
-		"no-unused-expression": false
+		"no-unused-expression": false,
+		"object-literal-key-quotes": false
 	},
 	"rulesDirectory": [],
 	"lintOptions": {

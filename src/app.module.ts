@@ -17,6 +17,7 @@ import { TasksModule } from './shared/tasks/tasks.module'
 import { EmailModule } from './resolvers/email/email.module'
 import { NotificationModule } from './resolvers/notification/notification.module'
 import { RoomModule } from './resolvers/room/room.module'
+import { MessageModule } from './resolvers/message/message.module'
 
 @Module({
 	imports: [
@@ -40,7 +41,8 @@ import { RoomModule } from './resolvers/room/room.module'
 		TasksModule,
 		EmailModule,
 		NotificationModule,
-		RoomModule
+		RoomModule,
+		MessageModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

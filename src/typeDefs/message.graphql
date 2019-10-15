@@ -1,6 +1,12 @@
+input CreateMessageInput {
+	text: String!
+	roomId: ID!
+}
+
 type Message {
 	_id: ID!
 	text: String
+	roomId: ID!
 	createdBy: User
 	createdAt: Float!
 	updatedAt: Float!
@@ -11,9 +17,9 @@ type Query {
 }
 
 type Mutation {
-	createMessage(text: String!, userId: ID!, RoomId: ID!): Message
+	sendMessage(input: CreateMessageInput!): Message
 }
 
 type Subscription {
-	newMessage(RoomId: ID!): Message
+	newMessages(roomId: ID!): Room
 }

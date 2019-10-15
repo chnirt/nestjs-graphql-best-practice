@@ -7,6 +7,7 @@ import {
 } from 'typeorm'
 import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
+import { User } from './user.entity'
 
 @Entity({
 	name: 'messages',
@@ -21,6 +22,14 @@ export class Message {
 	@Column()
 	@IsNotEmpty()
 	text: string
+
+	@Column()
+	@IsNotEmpty()
+	roomId: string
+
+	@Column()
+	@IsNotEmpty()
+	createdBy: User[]
 
 	@Column()
 	createdAt: number

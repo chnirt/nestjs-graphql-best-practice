@@ -37,28 +37,19 @@ export class NotificationResolver {
 			new Notification({ label })
 		)
 
-		// console.log(newNotification)
-		const notificationResponse = new NotificationResponse()
-		notificationResponse.userIds = userIds
-		notificationResponse.newNotification = newNotification
-
-		// console.log(notificationResponse)
-
-		pubsub.publish(NOTIFICATION_SUBSCRIPTION, { notificationResponse })
+		pubsub.publish(NOTIFICATION_SUBSCRIPTION, { userIds, newNotification })
 
 		return newNotification
 	}
 
 	@Subscription(() => Object, {
 		filter: (payload: any, variables: any, context: any) => {
-			const { userIds } = payload.notificationResponse
+			const { userIds } = payload
 			const { _id } = context.currentUser
 			return userIds.indexOf(_id) > -1
 		}
 	})
-	async newNotification(
-		@Context('pubsub') pubsub: any
-	): Promise<NotificationResponse> {
+	async newNotification(@Context('pubsub') pubsub: any): Promise<Notification> {
 		return pubsub.asyncIterator(NOTIFICATION_SUBSCRIPTION)
 	}
 }

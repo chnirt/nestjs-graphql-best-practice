@@ -44,6 +44,7 @@ export class Room {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
+		this.messages = []
 		this.createdAt = +new Date()
 		this.updatedAt = +new Date()
 	}

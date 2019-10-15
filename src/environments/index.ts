@@ -52,6 +52,7 @@ const API_SECRET: string = process.env.API_SECRET || ''
 // pubsub
 const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
 const USER_SUBSCRIPTION: string = 'newUser'
+const MESSAGES_SUBSCRIPTION: string = 'newMessages'
 
 export {
 	NODE_ENV,
@@ -80,5 +81,6 @@ export {
 	API_KEY,
 	API_SECRET,
 	USER_SUBSCRIPTION,
-	NOTIFICATION_SUBSCRIPTION
+	NOTIFICATION_SUBSCRIPTION,
+	MESSAGES_SUBSCRIPTION
 }
