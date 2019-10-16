@@ -67,6 +67,7 @@
 		"rxjs": "^6.5.3",
 		"tsconfig-paths": "^3.9.0",
 		"typeorm": "^0.2.19",
+		"typescript": "^3.6.4",
 		"uuid": "^3.3.3",
 		"webpack-bundle-analyzer": "^3.5.2",
 		"winston": "^3.2.1"
@@ -93,7 +94,6 @@
 		"ts-node": "^8.4.1",
 		"tslint": "^5.20.0",
 		"tslint-config-prettier": "^1.18.0",
-		"typescript": "^3.6.4",
 		"wait-on": "^3.2.0",
 		"webpack": "^4.41.0",
 		"webpack-cli": "^3.3.9",

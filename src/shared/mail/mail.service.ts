@@ -61,12 +61,12 @@ export class MailService {
 				city: 'Ho Chi Minh',
 				country: 'Viet Nam',
 				to: user.firstName,
-				tracking: `http://${DOMAIN}:${PORT}/${END_POINT}/${_id}`
+				tracking: `http://${req.headers.host}/${END_POINT}/${_id}`
 			}
 
 			const replacements = {
 				verifyEmail: {
-					link: `http://${req.headers.host}/verify/${token}`,
+					link: `${req.headers.origin}/verify/${token}`,
 					subject: 'Verify Email',
 					text1: 'To complete your sign up, please verify your email: ',
 					button: 'VERIFY EMAIL',
@@ -74,7 +74,7 @@ export class MailService {
 					...common
 				},
 				forgotPassword: {
-					link: `http://${req.headers.host}/reset/${token}`,
+					link: `${req.headers.origin}/reset/${token}`,
 
 					subject: 'Reset Your Password',
 					text1:
