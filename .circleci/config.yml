@@ -4,9 +4,8 @@ jobs:
   build:
     docker:
       - image: circleci/node:12
-      - image: mongo:3.4.4
-          environment:
-            ACCESS_TOKEN_SECRET: chnirt1803
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
     steps:
       - checkout
       - run:
