@@ -2,13 +2,14 @@
 	"moduleFileExtensions": ["js", "json", "ts"],
 	"rootDir": ".",
 	"testEnvironment": "node",
-	"testRegex": ".e2e-spec.ts$",
+	"testRegex": "/e2e/.*\\.(e2e-test|e2e-spec).(ts|tsx|js)$",
 	"transform": {
 		"^.+\\.ts$": "ts-jest"
 	},
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/../src/auth$1",
-		"^@utils(.*)$": "<rootDir>/../src/utils$1",
-		"^@models(.*)$": "<rootDir>/../src/models$1"
+		"^@utils(.*)$": "<rootDir>/../src/shared$1",
+		"^@models(.*)$": "<rootDir>/../src/models$1",
+		"^@environments(.*)$": "<rootDir>/../src/environments$1"
 	}
 }

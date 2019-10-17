@@ -3,14 +3,14 @@ import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import config from '../../src/config.env'
-import { User } from '../../src/models'
+import { User, Email } from '../../src/models'
 import { UserResolver } from '../../src/resolvers/user/user.resolver'
 import { AppModule } from '../../src/app.module'
 import { AuthService } from '../../src/auth/auth.service'
-import { MailService } from '../../src/utils/mail/mail.service'
+import { MailService } from '../../src/shared/mail/mail.service'
+import { EmailResolver } from '../../src/resolvers/email/email.resolver'
 
-const { end_point } = config
+import { END_POINT } from '../../src/environments'
 
 describe('UserModule (e2e)', () => {
 	let app: INestApplication
@@ -26,7 +26,12 @@ describe('UserModule (e2e)', () => {
 					useClass: Repository
 				},
 				AuthService,
-				MailService
+				MailService,
+				EmailResolver,
+				{
+					provide: getRepositoryToken(Email),
+					useClass: Repository
+				}
 			]
 		}).compile()
 
@@ -38,7 +43,7 @@ describe('UserModule (e2e)', () => {
 
 	it('QUERY › users', () => {
 		return request(app.getHttpServer())
-			.post(`/${end_point}`)
+			.post(`/${END_POINT}`)
 			.send({
 				operationName: null,
 				variables: {},

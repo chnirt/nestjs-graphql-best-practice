@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing'
 import * as request from 'supertest'
 import { AppModule } from '../src/app.module'
-import config from '../src/config.env'
 
-const { end_point } = config
+import { END_POINT } from '../src/environments'
 
 describe('AppModule (e2e)', () => {
 	let app
@@ -19,7 +18,7 @@ describe('AppModule (e2e)', () => {
 
 	it('QUERY › hello', () => {
 		return request(app.getHttpServer())
-			.post(`/${end_point}`)
+			.post(`/${END_POINT}`)
 			.send({
 				operationName: null,
 				variables: {},
@@ -28,7 +27,7 @@ describe('AppModule (e2e)', () => {
 			.expect(200)
 	})
 
-	// afterAll(async () => {
-	// 	await app.close()
-	// })
+	afterAll(async () => {
+		await app.close()
+	})
 })
