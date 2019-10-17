@@ -1,26 +1,31 @@
-version: 2
+version: 2.1
 jobs:
+  working_directory: ~/nest-graphql-best-practice
   build:
     docker:
       - image: circleci/node:12
-        environment:
-          ACCESS_TOKEN_SECRET: chnirt1803
+      - image: mongo:3.4.4
+          environment:
+            ACCESS_TOKEN_SECRET: chnirt1803
     steps:
       - checkout
-      - run: echo "A first hello"
-      - run: sleep 25
-  test:
-    docker:
-      - image: circleci/node:12
-        environment:
-          ACCESS_TOKEN_SECRET: chnirt1803
-    steps:
-      - checkout
-      - run: echo "A second hello"
-      - run: sleep 15
+      - run:
+        name: update-npm
+        command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+        key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+        name: install-npm-wee
+        command: npm install
+      - save_cache:
+        key: dependency-cache-{{ checksum "package-lock.json" }}
+        paths:
+          - ./node_modules
+      - run:
+        name: test
+        command: npm run test
 workflows:
   version: 2
-  build_and_test:
+  build:
     jobs:
       - build
-      - test
