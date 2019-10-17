@@ -101,7 +101,7 @@
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {
-		"*.ts": [
+		"**/*.ts": [
 			"npm run format",
 			"npm run lint",
 			"git add"
