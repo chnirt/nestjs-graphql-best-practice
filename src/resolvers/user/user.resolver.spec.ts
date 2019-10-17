@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
-import { User } from '../../models/user.entity'
+import { User, Email } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../shared/mail/mail.service'
+import { EmailResolver } from '../email/email.resolver'
 // import { LoginResponse } from '../../models/user.entity'
 import * as uuid from 'uuid'
 
@@ -31,7 +32,12 @@ describe('UserResolver', () => {
 					useClass: Repository
 				},
 				AuthService,
-				MailService
+				MailService,
+				EmailResolver,
+				{
+					provide: getRepositoryToken(Email),
+					useClass: Repository
+				}
 			]
 		}).compile()
 
