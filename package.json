@@ -101,7 +101,7 @@
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {
-		"*.ts": [
+		"*.{ts}": [
 			"yarn test",
 			"git add"
 		]
