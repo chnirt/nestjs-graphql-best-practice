@@ -101,8 +101,10 @@
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {
-		"*.{ts}": [
-			"prettier --write",
+		"*.ts": [
+			"yarn format",
+			"yarn lint",
+			"yarn test",
 			"git add"
 		]
 	},
