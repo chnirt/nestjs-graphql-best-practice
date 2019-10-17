@@ -101,10 +101,12 @@
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {
-		"**/*.ts": [
+		"*.ts": [
+			"yarn gen",
 			"yarn format",
 			"yarn lint",
-			"npm run test",
+			"yarn test",
+			"yarn test:e2e",
 			"git add"
 		]
 	},
