@@ -1,0 +1,15 @@
+jobs:
+  build:
+    docker:
+      - image: circleci/node:12
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+    steps:
+      - checkout
+      - run:
+          name: Greeting
+          command: echo Hello, world.
+
+      - run:
+          name: Print the Current Time
+          command: date
