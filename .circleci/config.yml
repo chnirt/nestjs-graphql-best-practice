@@ -8,7 +8,7 @@ jobs:
           ACCESS_TOKEN_SECRET: chnirt1803
     steps:
       - checkout
-      - run: npm run i
+      - run: npm i
       - run: npm run lint
       - run: npm run test
       - run: npm run test:e2e
