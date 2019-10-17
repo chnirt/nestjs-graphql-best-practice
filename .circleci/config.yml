@@ -8,11 +8,11 @@ jobs:
           ACCESS_TOKEN_SECRET: chnirt1803
     steps:
       - checkout
+      - run: npm run i
       - run: npm run lint
       - run: npm run test
       - run: npm run test:e2e
-      # - run: npm install
-      # - run: npm run gen
+      - run: npm run gen
       # - run: npm run start:prod
 workflows:
   version: 2.1
