@@ -24,8 +24,8 @@
 		"gen": "ts-node src/generator/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
 		"doc": "npx compodoc --port 11045 -p tsconfig.json -s",
-		"doc:serve": "npm run doc && npx compodoc -s",
-		"heroku-postbuild": "npm i --only=dev --no-shrinkwrap && yarn build"
+		"doc:serve": "yarn doc && npx compodoc -s",
+		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.8.3",
@@ -102,8 +102,6 @@
 	},
 	"lint-staged": {
 		"*.ts": [
-			"yarn format",
-			"yarn lint",
 			"yarn test",
 			"git add"
 		]
