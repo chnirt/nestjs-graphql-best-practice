@@ -104,7 +104,8 @@
 		"**/*.ts": [
 			"yarn format",
 			"yarn lint",
-			"yarn test"
+			"npm run test",
+			"git add"
 		]
 	},
 	"husky": {
