@@ -27,7 +27,6 @@
 		"coverage",
 		"assets",
 		"**/*.(spec|test).ts",
-		"**/*.e2e-spec.ts",
 		"**/graphql.schema.ts"
 	]
 }
