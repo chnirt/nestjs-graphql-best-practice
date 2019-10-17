@@ -103,7 +103,7 @@
 	"lint-staged": {
 		"**/*.ts": [
 			"npm run format",
-			"npm run lint",
+			"npm run test",
 			"git add"
 		]
 	},
