@@ -102,11 +102,8 @@
 	},
 	"lint-staged": {
 		"*.ts": [
-			"yarn gen",
 			"yarn format",
 			"yarn lint",
-			"yarn test",
-			"yarn test:e2e",
 			"git add"
 		]
 	},
