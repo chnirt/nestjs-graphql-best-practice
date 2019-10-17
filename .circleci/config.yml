@@ -1,3 +1,4 @@
+version: 2
 jobs:
   build:
     docker:
@@ -6,10 +7,20 @@ jobs:
           ACCESS_TOKEN_SECRET: chnirt1803
     steps:
       - checkout
-      - run:
-          name: Greeting
-          command: echo Hello, world.
-
-      - run:
-          name: Print the Current Time
-          command: date
+      - run: echo "A first hello"
+      - run: sleep 25
+  test:
+    docker:
+      - image: circleci/node:12
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+    steps:
+      - checkout
+      - run: echo "A second hello"
+      - run: sleep 15
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test
