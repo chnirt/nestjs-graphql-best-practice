@@ -16,7 +16,14 @@
   - [Function](#function)
   - [Usage](#usage)
   - [Starting the Server](#starting-the-server)
-- [Node.js Best Practices](#nodejs-best-practices) - [1. Project Structure Practices](#1-project-structure-practices) - [2. Error Handling Practices](#2-error-handling-practices) - [3. Code Style Practices](#3-code-style-practices) - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices) - [5. Going To Production Practices](#5-going-to-production-practices) - [6. Security Best Practices](#6-security-best-practices) - [7. Performance Best Practices](#7-performance-best-practices)
+- [Node.js Best Practices](#nodejs-best-practices)
+  - [1. Project Structure Practices](#1-project-structure-practices)
+  - [2. Error Handling Practices](#2-error-handling-practices)
+  - [3. Code Style Practices](#3-code-style-practices)
+  - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
+  - [5. Going To Production Practices](#5-going-to-production-practices)
+  - [6. Security Best Practices](#6-security-best-practices)
+  - [7. Performance Best Practices](#7-performance-best-practices)
 
 ## Function
 
@@ -80,7 +87,7 @@
   <img src="src/assets/images/banner-2.jpg" alt="Node.js Best Practices">
 </h1>
 
-#### 1. Project Structure Practices
+### 1. Project Structure Practices
 
 [✔️] 1.1 Structure your solution by components
 
@@ -92,7 +99,7 @@
 
 [✔️] 1.5 Use environment aware, secure and hierarchical config
 
-#### 2. Error Handling Practices
+### 2. Error Handling Practices
 
 [✔️] 2.1 Use Async-Await or promises for async error handling
 
@@ -116,7 +123,7 @@
 
 [✔️] 2.11 Fail fast, validate arguments using a dedicated library
 
-#### 3. Code Style Practices
+### 3. Code Style Practices
 
 [❌] No neccessary - 3.1 Use ESLint
 
@@ -142,7 +149,7 @@
 
 [✔️] 3.12 Use arrow function expressions (=>)
 
-###### 4. Testing And Overall Quality Practices
+### 4. Testing And Overall Quality Practices
 
 [✔️] 4.1 At the very least, write API (component) testing
 
@@ -168,7 +175,7 @@
 
 [✔️] 4.12 Carefully choose your CI platform (Jenkins vs CircleCI vs Travis vs Rest of the world)
 
-#### 5. Going To Production Practices
+### 5. Going To Production Practices
 
 ![❔] 5.1. Monitoring!
 
@@ -206,7 +213,7 @@
 
 ![❔] 5.18. Don't route logs within the app
 
-#### 6. Security Best Practices
+### 6. Security Best Practices
 
 [✔️] 6.1. Embrace linter security rules
 
@@ -258,7 +265,7 @@
 
 ![❔] 6.25. Avoid publishing secrets to the npm registry
 
-#### 7. Performance Best Practices
+### 7. Performance Best Practices
 
 Our contributors are working on this section. [Would you like to join?](https://github.com/i0natan/nodebestpractices/issues/256)
 
