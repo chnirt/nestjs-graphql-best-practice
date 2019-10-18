@@ -21,6 +21,7 @@ export class FormResolver {
 
 	@Mutation(() => Form)
 	async createForm(@Args('input') input: CreateFormInput): Promise<Form> {
+		console.log('a')
 		return await this.formRepository.save(new Form(input))
 	}
 }

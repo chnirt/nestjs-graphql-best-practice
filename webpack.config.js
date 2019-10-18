@@ -37,7 +37,7 @@ module.exports = {
 		alias: {
 			'@src': path.resolve(__dirname, './src'),
 			'@auth': path.resolve(__dirname, './src/auth'),
-			'@utils': path.resolve(__dirname, './src/utils'),
+			'@utils': path.resolve(__dirname, './src/shared'),
 			'@models': path.resolve(__dirname, './src/models'),
 			'@environments': path.resolve(__dirname, './src/environments')
 		},

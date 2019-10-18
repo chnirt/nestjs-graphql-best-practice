@@ -21,12 +21,5 @@
 		}
 	},
 	"include": ["src/**/*"],
-	"exclude": [
-		"node_modules",
-		"dist",
-		"coverage",
-		"assets",
-		"**/*.(spec|test).ts",
-		"**/graphql.schema.ts"
-	]
+	"exclude": [".circleci", "node_modules", "dist", "coverage", "assets", "test"]
 }

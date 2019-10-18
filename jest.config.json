@@ -9,7 +9,7 @@
 	"testEnvironment": "node",
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/src/auth$1",
-		"^@utils(.*)$": "<rootDir>/src/utils$1",
+		"^@utils(.*)$": "<rootDir>/src/shared$1",
 		"^@models(.*)$": "<rootDir>/src/models$1",
 		"^@environments(.*)": "<rootDir>/src/environments$1"
 	}

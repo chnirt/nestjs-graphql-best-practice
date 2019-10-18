@@ -1,0 +1,20 @@
+version: 2.1
+jobs:
+  working_directory: ~/nest-graphql-best-practice
+  deploy:
+    docker:
+      - image: circleci/node:12
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+    steps:
+      - checkout
+      - run: npm i
+      - run: npm run gen
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run test:e2e
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - deploy
