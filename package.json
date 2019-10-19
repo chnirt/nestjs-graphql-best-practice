@@ -1,9 +1,16 @@
 {
 	"name": "Chnirt-NestJs-Backend",
 	"version": "0.0.1",
-	"description": "",
+	"description": "Nestjs GraphQL Best Practice",
 	"author": "Chnirt",
 	"license": "MIT",
+	"keywords": [
+		"nestjs",
+		"bootstrap",
+		"express",
+		"apollo-graphql",
+		"typeorm"
+	],
 	"scripts": {
 		"build": "tsc -p tsconfig.build.json",
 		"format": "prettier --write \"src/**/*.ts\"",
