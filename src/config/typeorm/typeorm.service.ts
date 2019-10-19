@@ -11,13 +11,13 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			...config,
 			type: 'mongodb',
 			entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-			migrations: ['src/modules/**/migration/*.ts'],
-			subscribers: ['src/modules/**/subscriber/*.ts'],
-			cli: {
-				entitiesDir: 'src/modules/**/entity',
-				migrationsDir: 'src/modules/**/migration',
-				subscribersDir: 'src/modules/**/subscriber'
-			},
+			// migrations: ['src/modules/**/migration/*.ts'],
+			// subscribers: ['src/modules/**/subscriber/*.ts'],
+			// cli: {
+			// 	entitiesDir: 'src/modules/**/entity',
+			// 	migrationsDir: 'src/modules/**/migration',
+			// 	subscribersDir: 'src/modules/**/subscriber'
+			// },
 			synchronize: true,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
