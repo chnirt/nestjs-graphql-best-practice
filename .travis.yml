@@ -9,17 +9,36 @@ branches:
   only:
     - cicd
 cache:
-  yarn: true
   directories:
     - node_modules
+  yarn: true
 env:
   - ACCESS_TOKEN_SECRET=chnirt1803
+  - DOCKER_USERNAME=chnirt
+  - DOCKER_PASSWORD=12345678
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
   - export PATH="$HOME/.yarn/bin:$PATH"
 install:
   - yarn
-script:
-  - yarn gen
-  - yarn lint
-  - yarn test
+stages:
+  - build docker image
+  - generate
+  - lint
+  - test
+  - deploy
+jobs:
+  include:
+    - stage: build docker image
+      script:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker build -t travis-ci-build-stages-demo .
+        - docker images
+        - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
+        - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
+    - stage: generate
+      script: yarn gen
+    - stage: lint
+      script: yarn lint
+    - stage: test
+      script: yarn test
