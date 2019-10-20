@@ -1,6 +1,13 @@
 language: node_js # latest stable Node.js release
 node_js:
   - lts/* #latest LTS Node.js release
+branches:
+  only:
+    - cicd
+cache:
+  yarn: true
+  directories:
+    - 'node_modules'
 services: mongodb
 env:
   - ACCESS_TOKEN_SECRET=chnirt1803
