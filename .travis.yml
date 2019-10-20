@@ -15,28 +15,28 @@ cache:
 env:
   global:
     - ACCESS_TOKEN_SECRET=chnirt1803
-    - DOCKER_USERNAME=chnirt
-    - DOCKER_PASSWORD=12345678
+    # - DOCKER_USERNAME=chnirt
+    # - DOCKER_PASSWORD=12345678
 before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
   - export PATH="$HOME/.yarn/bin:$PATH"
 install:
   - yarn
 stages:
-  - build docker image
+  # - build docker image
   - generate
   - lint
   - test
   - deploy
 jobs:
   include:
-    - stage: build docker image
-      script:
-        - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-        - docker build -t travis-ci-build-stages-demo .
-        - docker images
-        - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
-        - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
+    # - stage: build docker image
+    #   script:
+    #     - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+    #     - docker build -t travis-ci-build-stages-demo .
+    #     - docker images
+    #     - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
+    #     - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
     - stage: generate
       script: yarn gen
     - stage: lint
