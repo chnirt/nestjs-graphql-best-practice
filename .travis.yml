@@ -24,10 +24,11 @@ install:
   - yarn
 stages:
   # - build docker image
-  - generate
-  - lint
-  - test
-  - deploy
+  - Unit Tests
+  - E2e Tests
+  - Coverage Tests
+  # - UI Tests
+  - Deploy
 jobs:
   include:
     # - stage: build docker image
@@ -37,9 +38,18 @@ jobs:
     #     - docker images
     #     - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
     #     - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
-    - stage: generate
-      script: yarn gen
-    - stage: lint
-      script: yarn lint
-    - stage: test
-      script: yarn test
+    - stage: Unit Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test
+    - stage: E2e Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test:e2e
+    - stage: Coverage Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test:cov
