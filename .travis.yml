@@ -1,0 +1,15 @@
+language: node_js # latest stable Node.js release
+node_js:
+  - lts/* #latest LTS Node.js release
+services: mongodb
+env:
+  - ACCESS_TOKEN_SECRET=chnirt1803
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  - export PATH="$HOME/.yarn/bin:$PATH"
+install:
+  - yarn
+script:
+  - yarn gen
+  - yarn lint
+  - yarn test
