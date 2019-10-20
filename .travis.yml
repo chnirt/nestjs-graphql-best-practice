@@ -1,3 +1,7 @@
+sudo: required
+services:
+  - docker
+  - mongodb
 language: node_js # latest stable Node.js release
 node_js:
   - lts/* #latest LTS Node.js release
@@ -7,8 +11,7 @@ branches:
 cache:
   yarn: true
   directories:
-    - 'node_modules'
-services: mongodb
+    - node_modules
 env:
   - ACCESS_TOKEN_SECRET=chnirt1803
 before_install:
