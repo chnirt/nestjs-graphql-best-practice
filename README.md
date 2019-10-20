@@ -3,6 +3,7 @@
 > ### NestJS (Express + Typeorm) codebase containing real world examples (CRUD, auth, advanced patterns, etc).
 
 [![Build Status](https://travis-ci.org/chnirt/nestjs-graphql-best-practice.svg?branch=cicd)](https://travis-ci.org/chnirt/nestjs-graphql-best-practice)
+[![CircleCI](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd.svg?style=svg)](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd)
 
 <h1 align="center">
   <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">

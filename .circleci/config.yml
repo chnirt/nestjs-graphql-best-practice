@@ -1,20 +1,84 @@
 version: 2.1
 jobs:
   working_directory: ~/nest-graphql-best-practice
-  deploy:
+  checkout_code:
     docker:
       - image: circleci/node:12
+      - image: mongo:4.2
         environment:
           ACCESS_TOKEN_SECRET: chnirt1803
+          DOCKER_USERNAME: chnirt
+          DOCKER_PASSWORD: 12345678
     steps:
       - checkout
-      - run: npm i
-      - run: npm run gen
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run test:e2e
+  unit_tests:
+    docker:
+      - image: circleci/node:12
+      - image: mongo:4.2
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+          DOCKER_USERNAME: chnirt
+          DOCKER_PASSWORD: 12345678
+    steps:
+      - run:
+        name: Install the dependencies
+        command: npm i
+      - run:
+        name: Generate
+        command: npm run gen
+      - run:
+        name: Lint
+        command: npm run lint
+      - run:
+        name: Test
+        command: npm run test
+  e2e_tests:
+    docker:
+      - image: circleci/node:12
+      - image: mongo:4.2
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+          DOCKER_USERNAME: chnirt
+          DOCKER_PASSWORD: 12345678
+    steps:
+      - run:
+        name: Install the dependencies
+        command: npm i
+      - run:
+        name: Generate
+        command: npm run gen
+      - run:
+        name: Lint
+        command: npm run lint
+      - run:
+        name: E2e
+        command: npm run test:e2e
+  coverage_tests:
+    docker:
+      - image: circleci/node:12
+      - image: mongo:4.2
+        environment:
+          ACCESS_TOKEN_SECRET: chnirt1803
+          DOCKER_USERNAME: chnirt
+          DOCKER_PASSWORD: 12345678
+    steps:
+      - run:
+        name: Install the dependencies
+        command: npm i
+      - run:
+        name: Generate
+        command: npm run gen
+      - run:
+        name: Lint
+        command: npm run lint
+      - run:
+        name: Coverage
+        command: npm run test:cov
 workflows:
   version: 2.1
-  workflow:
+  tests:
     jobs:
-      - deploy
+      - checkout_code
+      - unit_tests
+      - e2e_tests
+      - coverage_tests
