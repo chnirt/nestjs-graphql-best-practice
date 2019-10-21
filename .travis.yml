@@ -1,0 +1,55 @@
+sudo: required
+services:
+  - docker
+  - mongodb
+language: node_js # latest stable Node.js release
+node_js:
+  - lts/* #latest LTS Node.js release
+branches:
+  only:
+    - cicd
+cache:
+  directories:
+    - node_modules
+  yarn: true
+env:
+  global:
+    - ACCESS_TOKEN_SECRET=chnirt1803
+    # - DOCKER_USERNAME=chnirt
+    # - DOCKER_PASSWORD=12345678
+before_install:
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  - export PATH="$HOME/.yarn/bin:$PATH"
+install:
+  - yarn
+stages:
+  # - build docker image
+  - Unit Tests
+  - E2e Tests
+  - Coverage Tests
+  # - UI Tests
+  - Deploy
+jobs:
+  include:
+    # - stage: build docker image
+    #   script:
+    #     - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+    #     - docker build -t travis-ci-build-stages-demo .
+    #     - docker images
+    #     - docker tag travis-ci-build-stages-demo $DOCKER_USERNAME/travis-ci-build-stages-demo
+    #     - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
+    - stage: Unit Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test
+    - stage: E2e Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test:e2e
+    - stage: Coverage Tests
+      script:
+        - yarn lint
+        - yarn gen
+        - yarn test:cov

@@ -171,19 +171,25 @@ async function bootstrap() {
 			module.hot.dispose(() => app.close())
 		}
 
-		NODE_ENV !== 'production' &&
-			Logger.log(
-				`🚀  Server ready at http://${DOMAIN!}:` +
-					chalk.hex('#87e8de').bold(`${PORT!}`) +
-					`/${END_POINT!}`,
-				'Bootstrap'
-			)
+		NODE_ENV !== 'production'
+			? Logger.log(
+					`🚀  Server ready at http://${DOMAIN!}:${chalk
+						.hex('#87e8de')
+						.bold(`${PORT!}`)}/${END_POINT!}`,
+					'Bootstrap'
+			  )
+			: Logger.log(
+					`🚀  Server is listening on port ${chalk
+						.hex('#87e8de')
+						.bold(`${PORT!}`)}`,
+					'Bootstrap'
+			  )
 
 		NODE_ENV !== 'production' &&
 			Logger.log(
-				`🚀  Subscriptions ready at ws://${DOMAIN!}:` +
-					chalk.hex('#87e8de').bold(`${PORT!}`) +
-					`/${END_POINT!}`,
+				`🚀  Subscriptions ready at ws://${DOMAIN!}:${chalk
+					.hex('#87e8de')
+					.bold(`${PORT!}`)}/${END_POINT!}`,
 				'Bootstrap'
 			)
 	} catch (error) {
