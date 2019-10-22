@@ -82,6 +82,47 @@ async function main() {
 			)
 		})
 
+		const permissions = [
+			{
+				_id: 'f1dbbda0-be4d-11e9-bc7c-2117bce2f37c',
+				code: 'FORM_READ',
+				description: 'Xem biên bản'
+			},
+			{
+				_id: 'ad5a65e0-be4e-11e9-a6ad-c109fb49072b',
+				code: 'FORM_CREATE',
+				description: 'Tạo biên bản'
+			},
+			{
+				_id: '6ca4ffb0-be4e-11e9-b75c-d915f7b6e00b',
+				code: 'FORM_ACCEPT_1ST',
+				description: 'Duyệt biên bản lần 1'
+			},
+			{
+				_id: 'a6957510-be4e-11e9-a6ad-c109fb49072b',
+				code: 'FORM_ACCEPT_2ND',
+				description: 'Duyệt biên bản lần 2'
+			}
+		]
+
+		permissions.map(async item => {
+			await db.collection('permissions').findOneAndUpdate(
+				{ code: item.code, description: item.description },
+				{
+					$setOnInsert: {
+						_id: item._id
+					},
+					$set: {
+						code: item.code,
+						description: item.description,
+						createdAt: +new Date(),
+						updatedAt: +new Date()
+					}
+				},
+				{ upsert: true }
+			)
+		})
+
 		client.close()
 		console.log('💤  Server off')
 	} catch (err) {
