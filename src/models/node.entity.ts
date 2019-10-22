@@ -18,7 +18,7 @@ enum NodeCategory {
 @Entity({
 	name: 'nodes',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Node {

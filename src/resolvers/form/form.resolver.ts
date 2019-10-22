@@ -12,19 +12,20 @@ export class FormResolver {
 		private readonly formRepository: MongoRepository<Form>
 	) {}
 
-	@Query(() => [Form])
+	@Query()
 	async forms(): Promise<Form[]> {
 		return this.formRepository.find({
 			cache: true
 		})
 	}
 
-	@Mutation(() => Form)
+	@Mutation()
 	async createForm(@Args('input') input: CreateFormInput): Promise<Form> {
-		return await this.formRepository.save(new Form({ ...input }))
+		// return await this.formRepository.save(new Form({ ...input }))
+		return null
 	}
 
-	@Mutation(() => Form)
+	@Mutation()
 	async acceptForm1st(@Args('_id') _id: string): Promise<Form> {
 		const form = await this.formRepository.findOne({ _id, state: 0 })
 
@@ -37,7 +38,7 @@ export class FormResolver {
 		return await this.formRepository.save(form)
 	}
 
-	@Mutation(() => Form)
+	@Mutation()
 	async acceptForm2nd(@Args('_id') _id: string): Promise<Form> {
 		const form = await this.formRepository.findOne({ _id, state: 10 })
 

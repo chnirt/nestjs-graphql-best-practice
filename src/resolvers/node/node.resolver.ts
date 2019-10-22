@@ -13,7 +13,7 @@ export class NodeResolver {
 		private readonly nodeRepository: MongoRepository<Node>
 	) {}
 
-	@Query(() => [Node])
+	@Query()
 	async nodes(
 		@Args('text') text: string,
 		@Args('code') code: string
@@ -45,7 +45,7 @@ export class NodeResolver {
 		})
 	}
 
-	@Mutation(() => Node)
+	@Mutation()
 	async createNode(@Args('input') input: CreateNodeInput): Promise<Node> {
 		const { parentId, code, category } = input
 

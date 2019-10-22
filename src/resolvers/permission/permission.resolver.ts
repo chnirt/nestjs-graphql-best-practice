@@ -10,7 +10,7 @@ export class PermissionResolver {
 		private readonly permissionRepository: MongoRepository<Permission>
 	) {}
 
-	@Query(() => [Permission])
+	@Query()
 	async permissions(): Promise<Permission[]> {
 		return this.permissionRepository.find({
 			cache: true

@@ -11,7 +11,7 @@ import * as uuid from 'uuid'
 @Entity({
 	name: 'files',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class File {

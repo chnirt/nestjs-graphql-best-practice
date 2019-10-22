@@ -18,6 +18,7 @@ import { MessageModule } from './resolvers/message/message.module'
 import { FormModule } from './resolvers/form/form.module'
 import { NodeModule } from './resolvers/node/node.module'
 import { PermissionModule } from './resolvers/permission/permission.module'
+import { RoleModule } from './resolvers/role/role.module'
 
 @Module({
 	imports: [
@@ -40,7 +41,8 @@ import { PermissionModule } from './resolvers/permission/permission.module'
 		MessageModule,
 		FormModule,
 		NodeModule,
-		PermissionModule
+		PermissionModule,
+		RoleModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

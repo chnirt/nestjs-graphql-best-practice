@@ -4,10 +4,10 @@ import { defaultFieldResolver } from 'graphql'
 import { getMongoRepository } from 'typeorm'
 import { Role } from '../../../models'
 
-class PermissionDirective extends SchemaDirectiveVisitor {
+class PathDirective extends SchemaDirectiveVisitor {
 	visitFieldDefinition(field) {
 		const { resolve = defaultFieldResolver } = field
-		const { permission } = this.args
+		const { path } = this.args
 
 		field.resolve = async function(...args) {
 			const { currentUser } = args[2]
@@ -18,12 +18,12 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 				)
 			}
 
-			// console.log(currentUser._id, permission)
+			// console.log(currentUser._id, path)
 
 			const role = await getMongoRepository(Role).find({
 				where: {
 					userId: currentUser._id,
-					'permissions.code': permission
+					path: { $regex: `.*${path}|${path.toLowerCase()}.*` }
 				}
 			})
 
@@ -38,4 +38,4 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 	}
 }
 
-export default PermissionDirective
+export default PathDirective

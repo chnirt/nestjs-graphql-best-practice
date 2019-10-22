@@ -21,7 +21,7 @@ export class MessageResolver {
 		private readonly messageRepository: MongoRepository<Message>
 	) {}
 
-	@Query(() => [Message])
+	@Query()
 	async messages(@Args('roomId') roomId: string): Promise<Message[]> {
 		return this.messageRepository.find({
 			where: { roomId },
@@ -29,7 +29,7 @@ export class MessageResolver {
 		})
 	}
 
-	@Mutation(() => Message)
+	@Mutation()
 	async sendMessage(
 		@Args('input') input: CreateMessageInput,
 		@Context('currentUser') currentUser: User,

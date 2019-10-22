@@ -13,7 +13,7 @@ import * as uuid from 'uuid'
 @Entity({
 	name: 'rooms',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Room {

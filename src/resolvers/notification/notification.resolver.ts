@@ -19,14 +19,14 @@ export class NotificationResolver {
 		private readonly notificationRepository: MongoRepository<Notification>
 	) {}
 
-	@Query(() => [Notification])
+	@Query()
 	async notifications(): Promise<Notification[]> {
 		return this.notificationRepository.find({
 			cache: true
 		})
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async pushNotification(
 		@Args('userIds') userIds: string[],
 		@Args('label') label: string,

@@ -11,7 +11,7 @@ import { PermissionInfo } from '../generator/graphql.schema'
 @Entity({
 	name: 'roles',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Role {

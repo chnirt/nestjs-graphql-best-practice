@@ -6,19 +6,8 @@ import {
 	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
-import { hash, compare } from 'bcrypt'
-import {
-	IsString,
-	IsNotEmpty,
-	Length,
-	// MinLength,
-	// IsBoolean,
-	IsEmail
-	// IsNumber
-} from 'class-validator'
+import { IsString, IsNotEmpty, Length, IsEmail } from 'class-validator'
 // import { Exclude, Expose } from 'class-transformer'
-
-import { SALT } from '../environments'
 
 enum Gender {
 	MALE,
@@ -93,7 +82,7 @@ export class UpdateUserInput {
 @Entity({
 	name: 'users',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class User {

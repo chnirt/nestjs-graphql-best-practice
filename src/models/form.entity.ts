@@ -11,7 +11,7 @@ import * as uuid from 'uuid'
 @Entity({
 	name: 'forms',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Form {

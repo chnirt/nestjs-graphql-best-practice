@@ -12,19 +12,19 @@ export class EmailResolver {
 		private readonly emailRepository: MongoRepository<Email>
 	) {}
 
-	@Query(() => [Email])
+	@Query()
 	async emails(): Promise<Email[]> {
 		return this.emailRepository.find({
 			cache: true
 		})
 	}
 
-	@Mutation(() => Email)
+	@Mutation()
 	async createEmail(@Args('input') input: CreateEmailInput): Promise<Email> {
 		return await this.emailRepository.save(new Email(input))
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async openEmail(@Args('_id') _id: string): Promise<boolean> {
 		const email = await this.emailRepository.findOne({
 			_id

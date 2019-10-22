@@ -16,7 +16,7 @@ enum Type {
 @Entity({
 	name: 'emails',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Email {

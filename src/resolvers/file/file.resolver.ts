@@ -12,14 +12,14 @@ export class FileResolver {
 		private readonly fileRepository: MongoRepository<File>
 	) {}
 
-	@Query(() => [File])
+	@Query()
 	async files(): Promise<File[]> {
 		return this.fileRepository.find({
 			cache: true
 		})
 	}
 
-	@Mutation(() => File)
+	@Mutation()
 	async uploadFile(@Args('file') file: any): Promise<File> {
 		const { filename, createReadStream } = file
 

@@ -11,7 +11,7 @@ import { User } from '../generator/graphql.schema'
 @Entity({
 	name: 'messages',
 	orderBy: {
-		createdAt: 'DESC'
+		createdAt: 'ASC'
 	}
 })
 export class Message {
