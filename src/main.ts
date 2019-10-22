@@ -18,15 +18,17 @@ import { ValidationPipe } from './common/pipes/validation.pipe'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
+
 import { TasksModule } from './shared/tasks/tasks.module'
 import { TasksService } from './shared/tasks/tasks.service'
+import { timeout, interval, cron } from './shared/tasks'
+import { EmailModule } from './resolvers/email/email.module'
+import { EmailResolver } from './resolvers/email/email.resolver'
 
 import config from './config.orm'
 import { logger } from './common/wiston'
 
 import { NODE_ENV, DOMAIN, PORT, END_POINT, VOYAGER } from './environments'
-import { EmailModule } from './resolvers/email/email.module'
-import { EmailResolver } from './resolvers/email/email.resolver'
 
 declare const module: any
 
@@ -67,12 +69,13 @@ async function bootstrap() {
 			.get(EmailResolver, { strict: true })
 
 		// tasks
-		// tasksService.Timeout()
-		// tasksService.Interval()
-		tasksService.Cron()
+		tasksService.Timeout()
+		// timeout()
+		// interval()
+		// cron()
 
 		// adapter for e2e testing
-		const httpAdapter = app.getHttpAdapter()
+		app.getHttpAdapter()
 
 		app.useLogger(app.get(LoggerService))
 
@@ -129,9 +132,9 @@ async function bootstrap() {
 
 		app.enableShutdownHooks()
 
-		// tracking
+		// mail tracking
 		app.use('/graphql/:id', (req, res, next) => {
-			const _id = req.params['id']
+			const { _id } = req.params
 			// console.log(_id)
 			emailResolver.openEmail(_id)
 			next()

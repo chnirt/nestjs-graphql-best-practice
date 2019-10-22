@@ -153,9 +153,9 @@ export class User {
 	@Column()
 	updatedAt: number
 
-	// constructor(params: any) {
-	// 	Object.assign(this, params)
-	// }
+	constructor(user: Partial<User>) {
+		Object.assign(this, user)
+	}
 
 	@BeforeInsert()
 	save() {
@@ -172,13 +172,5 @@ export class User {
 	@BeforeUpdate()
 	update() {
 		this.updatedAt = +new Date()
-	}
-
-	hashPassword(password) {
-		return hash(password, SALT)
-	}
-
-	matchesPassword(password) {
-		return compare(password, this.password)
 	}
 }

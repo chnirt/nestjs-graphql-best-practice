@@ -23,8 +23,7 @@ import {
 	LoginUserInput
 } from '../../models/user.entity'
 import { User } from '../../models'
-import { AuthService } from '../../auth/auth.service'
-import { MailService } from '../../shared/mail/mail.service'
+import { comparePassword, hashPassword } from '../../utils/password'
 import { EmailResolver } from '../email/email.resolver'
 import { FileResolver } from '../file/file.resolver'
 import {
@@ -35,6 +34,15 @@ import {
 	RefreshTokenResponse,
 	Type
 } from '../../generator/graphql.schema'
+import {
+	generateToken,
+	generateResetPassToken,
+	generateEmailToken,
+	tradeToken,
+	verifyRefreshToken,
+	verifyEmailToken
+} from '../../auth'
+import { sendMail } from '../../shared/mail'
 
 import { USER_SUBSCRIPTION } from '../../environments'
 
@@ -43,8 +51,6 @@ export class UserResolver {
 	constructor(
 		@InjectRepository(User)
 		private readonly userRepository: MongoRepository<User>,
-		private readonly authService: AuthService,
-		private readonly mailService: MailService,
 		private readonly emailResolver: EmailResolver,
 		private readonly fileResolver: FileResolver
 	) {}
@@ -157,7 +163,7 @@ export class UserResolver {
 		@Context('req') req: any
 	): Promise<User> {
 		try {
-			const { firstName, lastName, email, password, gender } = input
+			const { email, password } = input
 
 			const existedUser = await this.userRepository.findOne({ email })
 
@@ -165,25 +171,23 @@ export class UserResolver {
 				throw new ForbiddenError('User already exists.')
 			}
 
-			const user = new User()
-			user.firstName = firstName
-			user.lastName = lastName
-			user.email = email
-			user.password = await user.hashPassword(password)
-			user.gender = gender
-
-			const createdUser = await this.userRepository.save(user)
+			const createdUser = await this.userRepository.save(
+				new User({
+					...input,
+					password: await hashPassword(password)
+				})
+			)
 
 			pubsub.publish(USER_SUBSCRIPTION, { userCreated: createdUser })
 
-			const emailToken = await this.authService.generateEmailToken(createdUser)
+			const emailToken = await generateEmailToken(createdUser)
 
 			const existedEmail = await this.emailResolver.createEmail({
 				userId: createdUser._id,
 				type: Type.VERIFY_EMAIL
 			})
 
-			await this.mailService.sendMail(
+			await sendMail(
 				'verifyEmail',
 				createdUser,
 				req,
@@ -203,7 +207,7 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const { firstName, lastName, password, gender } = input
+			const { password } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
@@ -211,12 +215,15 @@ export class UserResolver {
 				throw new ForbiddenError('User not found.')
 			}
 
-			user.firstName = firstName
-			user.lastName = lastName
-			user.password = await user.hashPassword(password)
-			user.gender = gender
-
-			return (await this.userRepository.save(user)) ? true : false
+			return (await this.userRepository.save(
+				new User({
+					...user,
+					...input,
+					password: await hashPassword(password)
+				})
+			))
+				? true
+				: false
 		} catch (error) {
 			throw new ApolloError(error, '500', {})
 		}
@@ -276,7 +283,7 @@ export class UserResolver {
 
 	@Mutation(() => Boolean)
 	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
-		const user = await this.authService.verifyEmailToken(emailToken)
+		const user = await verifyEmailToken(emailToken)
 
 		if (!user.isVerified) {
 			user.isVerified = true
@@ -290,16 +297,16 @@ export class UserResolver {
 	async login(@Args('input') input: LoginUserInput): Promise<LoginResponse> {
 		const { email, password } = input
 
-		return await this.authService.tradeToken(email, password)
+		return await tradeToken(email, password)
 	}
 
 	@Mutation(() => Boolean)
 	async refreshToken(
 		@Args('refreshToken') refreshToken: string
 	): Promise<RefreshTokenResponse> {
-		const user = await this.authService.verifyRefreshToken(refreshToken)
+		const user = await verifyRefreshToken(refreshToken)
 
-		const accessToken = await this.authService.generateToken(user)
+		const accessToken = await generateToken(user)
 
 		return { accessToken }
 	}
@@ -339,17 +346,17 @@ export class UserResolver {
 			throw new ForbiddenError('User not found.')
 		}
 
-		if (!(await user.matchesPassword(currentPassword))) {
+		if (!(await comparePassword(currentPassword, user.password))) {
 			throw new ForbiddenError('Your current password is missing or incorrect.')
 		}
 
-		if (await user.matchesPassword(password)) {
+		if (await comparePassword(password, user.password)) {
 			throw new ForbiddenError(
 				'Your new password must be different from your previous password.'
 			)
 		}
 
-		user.password = await user.hashPassword(password)
+		user.password = await hashPassword(password)
 
 		return (await this.userRepository.save(user)) ? true : false
 	}
@@ -368,14 +375,14 @@ export class UserResolver {
 			throw new ForbiddenError('User not found.')
 		}
 
-		const resetPassToken = await this.authService.generateResetPassToken(user)
+		const resetPassToken = await generateResetPassToken(user)
 
 		const existedEmail = await this.emailResolver.createEmail({
 			userId: user._id,
 			type: Type.FORGOT_PASSWORD
 		})
 
-		await this.mailService.sendMail(
+		await sendMail(
 			'forgotPassword',
 			user,
 			req,
@@ -409,7 +416,7 @@ export class UserResolver {
 			)
 		}
 
-		user.password = await user.hashPassword(password)
+		user.password = await hashPassword(password)
 		user.resetPasswordToken = null
 		user.resetPasswordExpires = null
 

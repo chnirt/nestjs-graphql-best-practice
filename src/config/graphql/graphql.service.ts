@@ -3,7 +3,7 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import { GraphQLExtension, ForbiddenError } from 'apollo-server-core'
+import { GraphQLExtension, AuthenticationError } from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import * as depthLimit from 'graphql-depth-limit'
@@ -11,6 +11,7 @@ import { getMongoRepository } from 'typeorm'
 
 import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
+import { verifyToken } from '../../auth'
 import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { logger } from '../../common/wiston'
@@ -37,7 +38,7 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 // COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	constructor(private readonly authService: AuthService) {}
+	// constructor(private readonly authService: AuthService) {}
 
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		return {
@@ -139,7 +140,8 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				// console.log('token', token)
 				if (token) {
-					currentUser = await this.authService.verifyToken(token)
+					// currentUser = await this.authService.verifyToken(token)
+					currentUser = await verifyToken(token)
 				}
 
 				// console.log(currentUser)
@@ -190,7 +192,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					const token = connectionParams[ACCESS_TOKEN]
 
 					if (token) {
-						currentUser = await this.authService.verifyToken(token)
+						// currentUser = await this.authService.verifyToken(token)
+						currentUser = await verifyToken(token)
 
 						await getMongoRepository(User).updateOne(
 							{ _id: currentUser._id },
@@ -205,7 +208,9 @@ export class GraphqlService implements GqlOptionsFactory {
 						return { currentUser }
 					}
 
-					throw new ForbiddenError('You are not authorized for this resource.')
+					throw new AuthenticationError(
+						'Authentication token is invalid, please try again.'
+					)
 				},
 				onDisconnect: async (webSocket, context) => {
 					NODE_ENV !== 'production' &&

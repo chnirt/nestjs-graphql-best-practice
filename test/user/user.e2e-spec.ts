@@ -8,13 +8,7 @@ import { User, Email, File } from '../../src/models'
 
 import { AppModule } from '../../src/app.module'
 import { FileModule } from '../../src/resolvers/file/file.module'
-import { AuthModule } from '../../src/auth/auth.module'
-import { MailModule } from '../../src/shared/mail/mail.module'
 import { EmailModule } from '../../src/resolvers/email/email.module'
-
-import { AuthService } from '../../src/auth/auth.service'
-import { MailService } from '../../src/shared/mail/mail.service'
-import { UploadService } from '../../src/shared/upload/upload.service'
 
 import { UserResolver } from '../../src/resolvers/user/user.resolver'
 import { EmailResolver } from '../../src/resolvers/email/email.resolver'
@@ -28,15 +22,13 @@ describe('UserModule (e2e)', () => {
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [AppModule, AuthModule, MailModule, EmailModule, FileModule],
+			imports: [AppModule, EmailModule, FileModule],
 			providers: [
 				UserResolver,
 				{
 					provide: getRepositoryToken(User),
 					useClass: Repository
 				},
-				AuthService,
-				MailService,
 				EmailResolver,
 				{
 					provide: getRepositoryToken(Email),
@@ -46,8 +38,7 @@ describe('UserModule (e2e)', () => {
 				{
 					provide: getRepositoryToken(File),
 					useClass: Repository
-				},
-				UploadService
+				}
 			]
 		}).compile()
 
