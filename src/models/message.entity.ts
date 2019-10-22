@@ -32,7 +32,7 @@ export class Message {
 	@Column()
 	updatedAt: number
 
-	constructor(message: Partial<Message>) {
+	constructor(message: Partial<Message | User[]>) {
 		Object.assign(this, message)
 	}
 

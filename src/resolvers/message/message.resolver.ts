@@ -49,7 +49,7 @@ export class MessageResolver {
 		}
 
 		const newMessage = await this.messageRepository.save(
-			new Message({ ...input, createdBy: currentUser })
+			new Message({ ...input, createdBy: [currentUser] })
 		)
 
 		room.messages = [...room.messages, newMessage]
