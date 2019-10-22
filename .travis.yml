@@ -22,7 +22,7 @@ before_install:
   - export PATH="$HOME/.yarn/bin:$PATH"
 install:
   # - npm rebuild bcrypt --update-binary
-  - yarn --force bcrypt --update-binaryaa
+  - yarn --force bcrypt --update-binary
   - yarn
 stages:
   # - build docker image
