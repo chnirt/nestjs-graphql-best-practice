@@ -9,8 +9,8 @@ branches:
   only:
     - cicd
 cache:
-  directories:
-    - node_modules
+  # directories:
+  #   - node_modules
   yarn: true
 env:
   global:
@@ -21,8 +21,6 @@ before_install:
   - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
   - export PATH="$HOME/.yarn/bin:$PATH"
 install:
-  # - npm rebuild bcrypt --update-binary
-  - yarn --force bcrypt --update-binary
   - yarn
 stages:
   # - build docker image
@@ -30,7 +28,7 @@ stages:
   - E2e Tests
   - Coverage Tests
   # - UI Tests
-  - Deploy
+  # - Deploy
 jobs:
   include:
     # - stage: build docker image
