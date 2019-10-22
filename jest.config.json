@@ -12,5 +12,6 @@
 		"^@utils(.*)$": "<rootDir>/src/shared$1",
 		"^@models(.*)$": "<rootDir>/src/models$1",
 		"^@environments(.*)": "<rootDir>/src/environments$1"
-	}
+	},
+	"collectCoverageFrom": ["**/*.js", "!data/keyMap.js", "!/node_modules/"]
 }
