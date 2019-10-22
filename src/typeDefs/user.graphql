@@ -84,6 +84,7 @@ type User {
 	fullName: String @upper @concat(value: "Chnirt")
 	isVerified: Boolean!
 	isActivated: Boolean @deprecated(reason: "Use `isVerified`.")
+	isOnline: Boolean!
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!

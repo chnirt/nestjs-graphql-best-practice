@@ -3,12 +3,15 @@ import { GqlOptionsFactory, GqlModuleOptions } from '@nestjs/graphql'
 import { MemcachedCache } from 'apollo-server-cache-memcached'
 import { PubSub } from 'graphql-subscriptions'
 // import { join } from 'path'
-import { ApolloError, GraphQLExtension } from 'apollo-server-core'
+import { GraphQLExtension, ForbiddenError } from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import * as depthLimit from 'graphql-depth-limit'
+import { getMongoRepository } from 'typeorm'
+
 import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
+import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { logger } from '../../common/wiston'
 
@@ -121,6 +124,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			context: async ({ req, res, connection }) => {
 				if (connection) {
 					const { currentUser } = connection.context
+
 					return {
 						pubsub,
 						currentUser
@@ -188,14 +192,37 @@ export class GraphqlService implements GqlOptionsFactory {
 					if (token) {
 						currentUser = await this.authService.verifyToken(token)
 
+						await getMongoRepository(User).updateOne(
+							{ _id: currentUser._id },
+							{
+								$set: { isOnline: true }
+							},
+							{
+								upsert: true
+							}
+						)
+
 						return { currentUser }
 					}
 
-					throw new ApolloError('currentUser Required', '499', {})
+					throw new ForbiddenError('You are not authorized for this resource.')
 				},
-				onDisconnect: (webSocket, context) => {
+				onDisconnect: async (webSocket, context) => {
 					NODE_ENV !== 'production' &&
 						Logger.error(`❌  Disconnected to websocket`, 'GraphQL')
+
+					const { initPromise } = context
+					const { currentUser } = await initPromise
+
+					await getMongoRepository(User).updateOne(
+						{ _id: currentUser._id },
+						{
+							$set: { isOnline: false }
+						},
+						{
+							upsert: true
+						}
+					)
 				}
 			},
 			persistedQueries: {

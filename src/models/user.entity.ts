@@ -137,6 +137,9 @@ export class User {
 	isVerified: boolean
 
 	@Column()
+	isOnline: boolean
+
+	@Column()
 	isLocked: boolean
 
 	@Column()
@@ -158,6 +161,7 @@ export class User {
 	save() {
 		this._id = uuid.v1()
 		this.isVerified = false
+		this.isOnline = false
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true

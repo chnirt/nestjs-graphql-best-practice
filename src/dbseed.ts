@@ -70,6 +70,7 @@ async function main() {
 							'$2b$10$KeRbjXtzdK1nR0AR1BKjFu5AOh/PjYACgS.4OQV5KtykJZRFSEo22',
 						gender: item.gender,
 						isVerified: true,
+						isOnline: false,
 						isLocked: false,
 						reason: '',
 						isActive: true,
