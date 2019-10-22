@@ -2,10 +2,20 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
-import { User, Email } from '../../models'
+import { User, Email, File } from '../../models'
+
+import { AppModule } from '../../app.module'
+import { AuthModule } from '../../auth/auth.module'
+import { MailModule } from '../../shared/mail/mail.module'
+import { EmailModule } from '../email/email.module'
+import { FileModule } from '../file/file.module'
+
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../shared/mail/mail.service'
+import { UploadService } from '../../shared/upload/upload.service'
+
 import { EmailResolver } from '../email/email.resolver'
+import { FileResolver } from '../file/file.resolver'
 // import { LoginResponse } from '../../models/user.entity'
 import * as uuid from 'uuid'
 
@@ -25,6 +35,7 @@ describe('UserResolver', () => {
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
+			imports: [AppModule, AuthModule, MailModule, EmailModule, FileModule],
 			providers: [
 				UserResolver,
 				{
@@ -37,7 +48,13 @@ describe('UserResolver', () => {
 				{
 					provide: getRepositoryToken(Email),
 					useClass: Repository
-				}
+				},
+				FileResolver,
+				{
+					provide: getRepositoryToken(File),
+					useClass: Repository
+				},
+				UploadService
 			]
 		}).compile()
 

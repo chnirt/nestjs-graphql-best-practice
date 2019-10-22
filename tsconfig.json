@@ -21,5 +21,10 @@
 		}
 	},
 	"include": ["src/**/*"],
-	"exclude": [".circleci", "node_modules", "dist", "coverage", "assets", "test"]
+	"exclude": [
+		".circleci",
+		"node_modules",
+		"dist",
+		"coverage",
+	]
 }

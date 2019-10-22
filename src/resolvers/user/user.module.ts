@@ -10,7 +10,6 @@ import { FileModule } from '../file/file.module'
 
 import { ResultResolver } from './result.resolver'
 import { UserResultResolver } from './userResult.resolver'
-import { FileResolver } from '../file/file.resolver'
 
 @Module({
 	imports: [
@@ -20,6 +19,6 @@ import { FileResolver } from '../file/file.resolver'
 		EmailModule,
 		FileModule
 	],
-	providers: [UserResolver, ResultResolver, UserResultResolver, FileResolver]
+	providers: [UserResolver, ResultResolver, UserResultResolver]
 })
 export class UserModule {}
