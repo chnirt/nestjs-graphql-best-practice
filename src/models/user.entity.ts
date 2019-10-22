@@ -118,6 +118,10 @@ export class User {
 	password: string
 
 	@Column()
+	@IsNotEmpty()
+	avatar: string
+
+	@Column()
 	resetPasswordToken: string
 
 	@Column()

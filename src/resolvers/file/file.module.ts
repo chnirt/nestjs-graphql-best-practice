@@ -6,6 +6,7 @@ import { UploadModule } from '../../shared/upload/upload.module'
 
 @Module({
 	imports: [TypeOrmModule.forFeature([File]), UploadModule],
-	providers: [FileResolver]
+	providers: [FileResolver],
+	exports: [FileResolver]
 })
 export class FileModule {}

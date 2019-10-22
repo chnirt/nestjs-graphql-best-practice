@@ -26,6 +26,7 @@ import { User } from '../../models'
 import { AuthService } from '../../auth/auth.service'
 import { MailService } from '../../shared/mail/mail.service'
 import { EmailResolver } from '../email/email.resolver'
+import { FileResolver } from '../file/file.resolver'
 import {
 	Result,
 	SearchInput,
@@ -44,7 +45,8 @@ export class UserResolver {
 		private readonly userRepository: MongoRepository<User>,
 		private readonly authService: AuthService,
 		private readonly mailService: MailService,
-		private readonly emailResolver: EmailResolver
+		private readonly emailResolver: EmailResolver,
+		private readonly fileResolver: FileResolver
 	) {}
 
 	@Query(() => String)
@@ -213,6 +215,28 @@ export class UserResolver {
 			user.lastName = lastName
 			user.password = await user.hashPassword(password)
 			user.gender = gender
+
+			return (await this.userRepository.save(user)) ? true : false
+		} catch (error) {
+			throw new ApolloError(error, '500', {})
+		}
+	}
+
+	@Mutation(() => Boolean)
+	async updateAvatar(
+		@Args('_id') _id: string,
+		@Args('file') file: any
+	): Promise<boolean> {
+		try {
+			const user = await this.userRepository.findOne({ _id })
+
+			if (!user) {
+				throw new ForbiddenError('User not found.')
+			}
+
+			const newFile = await this.fileResolver.uploadFile(file)
+
+			user.avatar = newFile.path
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {

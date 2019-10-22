@@ -77,6 +77,7 @@ type User {
 	lastName: String!
 	email: String!
 	password: String
+	avatar: String
 	gender: Gender!
 	resetPasswordToken: String
 	resetPasswordExpires: Float
@@ -106,6 +107,7 @@ type Mutation {
 	createUser(input: CreateUserInput!): User
 		@rateLimit(window: "5s", max: 1, message: "You are doing that too often.")
 	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
+	updateAvatar(_id: ID!, file: Upload!): Boolean @isAuthenticated
 	deleteUser(_id: ID!): Boolean @isAuthenticated
 	deleteUsers: Boolean! @isAuthenticated
 	verifyEmail(emailToken: String!): Boolean

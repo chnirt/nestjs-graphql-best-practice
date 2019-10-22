@@ -15,7 +15,7 @@ type Query {
 }
 
 type Mutation {
-	createForm(input: CreateRoomInput!): Form
-	# acceptForm1(_id: String!): Form
-	# acceptForm2(_id: String!): Form
+	createForm(input: CreateFormInput!): Form
+	acceptForm1st(_id: ID!): Form
+	acceptForm2nd(_id: ID!): Form
 }

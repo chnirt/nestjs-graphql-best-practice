@@ -19,14 +19,14 @@ export class FileResolver {
 		})
 	}
 
-	@Mutation(() => Boolean)
-	async uploadFile(@Args('file') file: any): Promise<boolean> {
+	@Mutation(() => File)
+	async uploadFile(@Args('file') file: any): Promise<File> {
 		const { filename, createReadStream } = file
 
 		const path = await this.uploadService.uploadFile(createReadStream)
 
-		return (await this.fileRepository.save(new File({ filename, path })))
-			? true
-			: false
+		const newFile = await this.fileRepository.save(new File({ filename, path }))
+
+		return newFile
 	}
 }

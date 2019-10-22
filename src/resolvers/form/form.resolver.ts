@@ -21,7 +21,32 @@ export class FormResolver {
 
 	@Mutation(() => Form)
 	async createForm(@Args('input') input: CreateFormInput): Promise<Form> {
-		console.log('a')
 		return await this.formRepository.save(new Form(input))
+	}
+
+	@Mutation(() => Form)
+	async acceptForm1st(@Args('_id') _id: string): Promise<Form> {
+		const form = await this.formRepository.findOne({ _id, state: 0 })
+
+		if (!form) {
+			throw new ForbiddenError('Form not found.')
+		}
+
+		form.state = 10
+
+		return await this.formRepository.save(form)
+	}
+
+	@Mutation(() => Form)
+	async acceptForm2nd(@Args('_id') _id: string): Promise<Form> {
+		const form = await this.formRepository.findOne({ _id, state: 10 })
+
+		if (!form) {
+			throw new ForbiddenError('Form not found.')
+		}
+
+		form.state = 20
+
+		return await this.formRepository.save(form)
 	}
 }
