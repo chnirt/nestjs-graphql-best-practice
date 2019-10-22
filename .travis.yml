@@ -54,4 +54,3 @@ jobs:
         - npm run lint
         - npm run gen
         - npm run test:cov
-        - npm run coveralls

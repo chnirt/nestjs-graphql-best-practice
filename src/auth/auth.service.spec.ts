@@ -4,7 +4,7 @@ import { User } from '../models'
 import { LoginResponse } from '../generator/graphql.schema'
 
 describe('AuthResolver', () => {
-	let service: AuthService
+	let service
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({

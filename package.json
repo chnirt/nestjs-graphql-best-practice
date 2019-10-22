@@ -32,8 +32,7 @@
 		"db:seed": "ts-node src/dbseed.ts",
 		"doc": "npx compodoc --port 11045 -p tsconfig.json -s",
 		"doc:serve": "yarn doc && npx compodoc -s",
-		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build",
-		"coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.8.3",
