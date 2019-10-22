@@ -17,6 +17,7 @@ import { RoomModule } from './resolvers/room/room.module'
 import { MessageModule } from './resolvers/message/message.module'
 import { FormModule } from './resolvers/form/form.module'
 import { NodeModule } from './resolvers/node/node.module'
+import { PermissionModule } from './resolvers/permission/permission.module'
 
 @Module({
 	imports: [
@@ -38,7 +39,8 @@ import { NodeModule } from './resolvers/node/node.module'
 		RoomModule,
 		MessageModule,
 		FormModule,
-		NodeModule
+		NodeModule,
+		PermissionModule
 	],
 	providers: [DateScalar, UploadScalar]
 })

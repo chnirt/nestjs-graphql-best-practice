@@ -1,11 +1,11 @@
 {
 	"moduleDirectories": ["node_modules", "src"],
 	"moduleFileExtensions": ["js", "json", "ts"],
-	"testRegex": ".(spec|test).ts$",
+	"testRegex": ".spec.ts$",
 	"transform": {
 		"^.+\\.ts$": "ts-jest"
 	},
-	"coverageDirectory": "../coverage",
+	"coverageDirectory": "./coverage",
 	"testEnvironment": "node",
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/src/auth$1",

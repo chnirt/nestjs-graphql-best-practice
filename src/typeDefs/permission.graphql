@@ -1,0 +1,11 @@
+type Permission {
+	_id: ID!
+	code: String!
+	description: String!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	permissions: [Permission!]
+}

@@ -21,10 +21,5 @@
 		}
 	},
 	"include": ["src/**/*.ts"],
-	"exclude": [
-		".circleci",
-		"node_modules",
-		"dist",
-		"coverage",
-	]
+	"exclude": [".circleci", "node_modules", "dist"]
 }

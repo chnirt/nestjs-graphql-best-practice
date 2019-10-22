@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { Form } from '../../models/form.entity'
+import { Form } from '../../models'
 import { FormResolver } from './form.resolver'
 
 @Module({
