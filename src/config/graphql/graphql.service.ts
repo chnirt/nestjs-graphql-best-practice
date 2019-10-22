@@ -13,7 +13,6 @@ import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
 import { verifyToken } from '../../auth'
 import { User } from '../../models'
-import { AuthService } from '../../auth/auth.service'
 import { logger } from '../../common/wiston'
 
 import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
@@ -38,8 +37,6 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 // COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
-	// constructor(private readonly authService: AuthService) {}
-
 	async createGqlOptions(): Promise<GqlModuleOptions> {
 		return {
 			typePaths: ['./**/*.graphql'],

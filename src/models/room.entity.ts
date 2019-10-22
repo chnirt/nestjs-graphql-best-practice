@@ -34,8 +34,8 @@ export class Room {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(room: Partial<Room>) {
+		Object.assign(this, room)
 	}
 
 	@BeforeInsert()

@@ -45,8 +45,8 @@ export class Node {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(node: Partial<Node>) {
+		Object.assign(this, node)
 	}
 
 	@BeforeInsert()

@@ -29,8 +29,8 @@ export class File {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(file: Partial<File>) {
+		Object.assign(this, file)
 	}
 
 	@BeforeInsert()

@@ -26,8 +26,8 @@ export class Notification {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(notification: Partial<Notification>) {
+		Object.assign(this, notification)
 	}
 
 	@BeforeInsert()

@@ -37,8 +37,8 @@ export class Email {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(email: Partial<Email>) {
+		Object.assign(this, email)
 	}
 
 	@BeforeInsert()

@@ -5,9 +5,8 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
-import { User } from './user.entity'
+import { User } from '../generator/graphql.schema'
 
 @Entity({
 	name: 'messages',
@@ -33,8 +32,8 @@ export class Message {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(message: Partial<Message>) {
+		Object.assign(this, message)
 	}
 
 	@BeforeInsert()

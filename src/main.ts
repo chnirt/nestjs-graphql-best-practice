@@ -75,7 +75,7 @@ async function bootstrap() {
 		// cron()
 
 		// adapter for e2e testing
-		app.getHttpAdapter()
+		const httpAdapter = app.getHttpAdapter()
 
 		app.useLogger(app.get(LoggerService))
 

@@ -29,8 +29,8 @@ export class Form {
 	@Column()
 	updatedAt: number
 
-	constructor(params: any) {
-		Object.assign(this, params)
+	constructor(form: Partial<Form>) {
+		Object.assign(this, form)
 	}
 
 	@BeforeInsert()

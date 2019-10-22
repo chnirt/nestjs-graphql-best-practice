@@ -11,7 +11,6 @@ import { FileModule } from '../file/file.module'
 import { EmailResolver } from '../email/email.resolver'
 import { FileResolver } from '../file/file.resolver'
 // import { LoginResponse } from '../../models/user.entity'
-import * as uuid from 'uuid'
 
 // const userArray = [
 // 	new User('Test Cat 1', 'Test Breed 1', 4, 'uuid1'),
@@ -22,7 +21,7 @@ import * as uuid from 'uuid'
 // const oneUser = new User('Test Cat 1', 'Test Breed 1', 4, 'a uuid')
 
 describe('UserResolver', () => {
-	let userResolver: UserResolver
+	let userResolver
 	let repo: Repository<User>
 	// let userPermissionResolver: UserPermissionResolver
 	// let historyResolver: HistoryResolver
@@ -64,7 +63,7 @@ describe('UserResolver', () => {
 	})
 
 	it('should return users', async () => {
-		const result = [new User()]
+		const result = [new User({})]
 		jest
 			.spyOn(userResolver, 'users')
 			.mockImplementation(() => Promise.resolve(result))
