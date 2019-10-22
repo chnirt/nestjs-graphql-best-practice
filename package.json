@@ -104,7 +104,9 @@
 		"wait-on": "^3.3.0",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.9",
+		"webpack-loader-helper": "^1.0.0",
 		"webpack-node-externals": "^1.7.2",
+		"webpack-notifier": "^1.8.0",
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {

@@ -20,15 +20,12 @@ export class Message {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	text: string
 
 	@Column()
-	@IsNotEmpty()
 	roomId: string
 
 	@Column()
-	@IsNotEmpty()
 	createdBy: User[]
 
 	@Column()

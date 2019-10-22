@@ -11,11 +11,12 @@ type Form {
 }
 
 type Query {
-	forms: [Form] @isAuthenticated
+	forms: [Form] @isAuthenticated @hasPermission(permission: "FORM_READ")
 }
 
 type Mutation {
 	createForm(input: CreateFormInput!): Form
-	acceptForm1st(_id: ID!): Form
-	acceptForm2nd(_id: ID!): Form
+		@hasPermission(permission: "FORM_CREATE")
+	acceptForm1st(_id: ID!): Form @hasPermission(permission: "FORM_ACCEPT_1ST")
+	acceptForm2nd(_id: ID!): Form @hasPermission(permission: "FORM_ACCEPT_2ND")
 }

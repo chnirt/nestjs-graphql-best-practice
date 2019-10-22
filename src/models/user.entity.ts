@@ -16,7 +16,7 @@ import {
 	IsEmail
 	// IsNumber
 } from 'class-validator'
-import { Exclude, Expose } from 'class-transformer'
+// import { Exclude, Expose } from 'class-transformer'
 
 import { SALT } from '../environments'
 
@@ -101,24 +101,19 @@ export class User {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	firstName: string
 
 	@Column()
-	@IsNotEmpty()
 	lastName: string
 
 	@Column()
-	@IsNotEmpty()
 	email: string
 
 	@Column()
 	// @Exclude()
-	@IsNotEmpty()
 	password: string
 
 	@Column()
-	@IsNotEmpty()
 	avatar: string
 
 	@Column()
@@ -136,22 +131,18 @@ export class User {
 	// role: RoleEntity;
 
 	@Column()
-	@IsNotEmpty()
 	gender: Gender
 
 	@Column()
-	@IsNotEmpty()
 	isVerified: boolean
 
 	@Column()
-	@IsNotEmpty()
 	isLocked: boolean
 
 	@Column()
 	reason: string
 
 	@Column()
-	@IsNotEmpty()
 	isActive: boolean
 
 	@Column()

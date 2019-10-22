@@ -19,7 +19,6 @@ export class Notification {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	label: string
 
 	@Column()

@@ -5,24 +5,40 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
+enum NodeCategory {
+	COMPANY,
+	COUNTRY,
+	CITY,
+	SITE,
+	DEPARTMENT
+}
+
 @Entity({
-	name: 'forms',
+	name: 'nodes',
 	orderBy: {
 		createdAt: 'DESC'
 	}
 })
-export class Form {
+export class Node {
 	@ObjectIdColumn()
 	_id: string
 
 	@Column()
-	content: string
+	parentId: string
 
 	@Column()
-	state: number
+	category: NodeCategory
+
+	@Column()
+	name: string
+
+	@Column()
+	code: string
+
+	@Column()
+	path: string
 
 	@Column()
 	createdAt: number
@@ -36,7 +52,7 @@ export class Form {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.state = 0
+		this.path = this.path ? `${this.path}/${this.code}` : this.code
 		this.createdAt = +new Date()
 		this.updatedAt = +new Date()
 	}

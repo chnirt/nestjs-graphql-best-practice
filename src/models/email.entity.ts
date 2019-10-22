@@ -24,15 +24,12 @@ export class Email {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	userId: string
 
 	@Column()
-	@IsNotEmpty()
 	type: Type
 
 	@Column()
-	@IsNotEmpty()
 	isOpened: boolean
 
 	@Column()

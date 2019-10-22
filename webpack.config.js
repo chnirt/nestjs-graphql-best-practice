@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const path = require('path')
+const { loader } = require('webpack-loader-helper')
+const WebpackNotifierPlugin = require('webpack-notifier')
 const nodeExternals = require('webpack-node-externals')
 const chalk = require('chalk')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
@@ -20,13 +22,7 @@ module.exports = {
 			{
 				test: /.tsx?$/,
 				use: [
-					{
-						loader: 'ts-loader',
-						options: {
-							transpileOnly: true,
-							experimentalWatchApi: true
-						}
-					}
+					loader('ts', { transpileOnly: true, compilerOptions: {} })
 				],
 				exclude: /node_modules/
 			}
@@ -67,7 +63,13 @@ module.exports = {
 			openAnalyzer: false,
 			generateStatsFile: false,
 			statsFilename: 'stats.json'
-		})
+		}),
+		new webpack.BannerPlugin({
+			banner: 'require("source-map-support").install();',
+			raw: true,
+			entryOnly: false
+		}),
+		new WebpackNotifierPlugin({ excludeWarnings: true, sound: false })
 	],
 	optimization: {
 		removeAvailableModules: false,

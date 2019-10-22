@@ -20,7 +20,7 @@
 			"@environments/*": ["src/environments/*"]
 		}
 	},
-	"include": ["src/**/*"],
+	"include": ["src/**/*.ts"],
 	"exclude": [
 		".circleci",
 		"node_modules",

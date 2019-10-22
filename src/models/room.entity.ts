@@ -21,15 +21,12 @@ export class Room {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	title: string
 
 	@Column()
-	@IsNotEmpty()
 	users: User[]
 
 	@Column()
-	@IsNotEmpty()
 	messages: Message[]
 
 	@Column()

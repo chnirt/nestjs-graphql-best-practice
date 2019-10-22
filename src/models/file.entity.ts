@@ -19,11 +19,9 @@ export class File {
 	_id: string
 
 	@Column()
-	@IsNotEmpty()
 	filename: string
 
 	@Column()
-	@IsNotEmpty()
 	path: string
 
 	@Column()
