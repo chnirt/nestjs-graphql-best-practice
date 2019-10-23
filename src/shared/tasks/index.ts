@@ -1,13 +1,13 @@
 import { CronJob } from 'cron'
 
 export const timeout = () => {
-	const taskID = setTimeout(() => console.log('Task completed'), 2000)
-	clearTimeout(taskID)
+	const taskID = setTimeout(() => console.log('Task completed'), 1000)
+	// clearTimeout(taskID)
 }
 
 export const interval = () => {
-	const intervalID = setInterval(() => console.log('Task executed'), 4000)
-	clearInterval(intervalID)
+	const intervalID = setInterval(() => console.log('Task executed'), 2000)
+	// clearInterval(intervalID)
 }
 
 export const cron = () => {

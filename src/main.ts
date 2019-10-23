@@ -19,9 +19,7 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
 
-import { TasksModule } from './shared/tasks/tasks.module'
-import { TasksService } from './shared/tasks/tasks.service'
-import { timeout, interval, cron } from './shared/tasks'
+import { timeout, interval, cron } from './shared'
 import { EmailModule } from './resolvers/email/email.module'
 import { EmailResolver } from './resolvers/email/email.resolver'
 
@@ -61,18 +59,14 @@ async function bootstrap() {
 		})
 
 		// application context
-		const tasksService = app
-			.select(TasksModule)
-			.get(TasksService, { strict: true })
 		const emailResolver = app
 			.select(EmailModule)
 			.get(EmailResolver, { strict: true })
 
 		// tasks
-		tasksService.Timeout()
 		// timeout()
 		// interval()
-		// cron()
+		cron()
 
 		// adapter for e2e testing
 		const httpAdapter = app.getHttpAdapter()
@@ -119,6 +113,10 @@ async function bootstrap() {
 			app.use(
 				`/${VOYAGER!}`,
 				voyagerMiddleware({
+					displayOptions: {
+						skipRelay: false,
+						skipDeprecated: false
+					},
 					endpointUrl: `/${END_POINT!}`
 				})
 			)

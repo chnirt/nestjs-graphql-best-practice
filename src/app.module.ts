@@ -10,7 +10,6 @@ import { UserModule } from './resolvers/user/user.module'
 import { DateScalar } from './common/scalars/date.scalar'
 import { UploadScalar } from './common/scalars/upload.scalar'
 import { FileModule } from './resolvers/file/file.module'
-import { TasksModule } from './shared/tasks/tasks.module'
 import { EmailModule } from './resolvers/email/email.module'
 import { NotificationModule } from './resolvers/notification/notification.module'
 import { RoomModule } from './resolvers/room/room.module'
@@ -34,7 +33,6 @@ import { RoleModule } from './resolvers/role/role.module'
 		UserModule,
 		LoggerModule,
 		FileModule,
-		TasksModule,
 		EmailModule,
 		NotificationModule,
 		RoomModule,
