@@ -49,11 +49,11 @@ export class NodeResolver {
 	async createNode(@Args('input') input: CreateNodeInput): Promise<Node> {
 		const { parentId, code, category } = input
 
-		const node = await this.nodeRepository.findOne({ code })
+		// const node = await this.nodeRepository.findOne({ code })
 
-		if (node) {
-			throw new ForbiddenError('Node already exists.')
-		}
+		// if (node) {
+		// 	throw new ForbiddenError('Node already exists.')
+		// }
 
 		if (parentId) {
 			if (category === NodeCategory.COMPANY && parentId.length >= 0) {
@@ -68,6 +68,14 @@ export class NodeResolver {
 				throw new ForbiddenError('Node not found.')
 			}
 
+			const path = `${nodeByParentId.path}/${code}`
+
+			const node = await this.nodeRepository.findOne({ path })
+
+			if (node) {
+				throw new ForbiddenError('Node already exists.')
+			}
+
 			const newNode = await this.nodeRepository.save(
 				new Node({ ...input, path: nodeByParentId.path })
 			)
@@ -78,5 +86,30 @@ export class NodeResolver {
 		const newNode = await this.nodeRepository.save(new Node({ ...input }))
 
 		return newNode
+	}
+
+	@Mutation()
+	async updateNode(
+		@Args('_id') _id: string,
+		@Args('parentId') parentId: string
+	): Promise<Node> {
+		const node = await this.nodeRepository.findOne({ _id })
+
+		if (!node) {
+			throw new ForbiddenError('Node not found.')
+		}
+
+		const nodeByParentId = await this.nodeRepository.findOne({ _id: parentId })
+
+		if (!nodeByParentId) {
+			throw new ForbiddenError('Node by parentId not found.')
+		}
+
+		node.parentId = parentId
+		node.path = nodeByParentId.path
+
+		const updatedNode = await this.nodeRepository.save(new Node({ ...node }))
+
+		return updatedNode
 	}
 }

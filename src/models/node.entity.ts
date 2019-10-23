@@ -6,14 +6,7 @@ import {
 	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
-
-enum NodeCategory {
-	COMPANY,
-	COUNTRY,
-	CITY,
-	SITE,
-	DEPARTMENT
-}
+import { NodeCategory } from '../generator/graphql.schema'
 
 @Entity({
 	name: 'nodes',
@@ -59,6 +52,7 @@ export class Node {
 
 	@BeforeUpdate()
 	update() {
+		this.path = this.path ? `${this.path}/${this.code}` : this.code
 		this.updatedAt = +new Date()
 	}
 }

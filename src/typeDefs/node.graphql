@@ -1,9 +1,10 @@
 enum NodeCategory {
 	COMPANY # Acexis
 	# REGION # Bắc, Trung, Nam
-	COUNTRY # Việt Nam
+	# COUNTRY # Việt Nam
 	CITY # HCM, HN
-	SITE # Sư Vạn Hạnh, Hoa Hồng
+	# SITE # Sư Vạn Hạnh, Hoa Hồng
+	STORE # Cửa hàng
 	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
 }
 
@@ -29,9 +30,9 @@ type Node {
 #   Country
 # 		City
 #     	Site
-#       	Department
-#         	Group
-#           	Staff
+#     Department
+#       Group
+#         Staff
 
 type Query {
 	nodes(text: String, code: String): [Node]
@@ -39,4 +40,5 @@ type Query {
 
 type Mutation {
 	createNode(input: CreateNodeInput!): Node
+	updateNode(_id: ID!, parentId: ID!): Node
 }

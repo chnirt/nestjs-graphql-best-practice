@@ -163,7 +163,12 @@ async function bootstrap() {
 						logger: false
 					})
 
-					server.on('request', app.init())
+					// server.on(
+					// 	'request',
+					// 	app.useCallback(() => {
+					// 		callback
+					// 	}, [input])()
+					// )
 				} catch (err) {
 					console.log(err)
 				}

@@ -19,13 +19,10 @@ export class Role {
 	_id: string
 
 	@Column()
-	userId: string
-
-	@Column()
-	path: string
-
-	@Column()
 	name: string
+
+	@Column()
+	nodeId: string
 
 	@Column()
 	permissions: PermissionInfo[]

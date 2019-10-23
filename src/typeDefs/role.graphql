@@ -4,9 +4,8 @@ input PermissionInfoInput {
 }
 
 input CreateRoleInput {
-	userId: String!
-	path: String!
 	name: String!
+	nodeId: ID!
 	permissions: [PermissionInfoInput!]!
 }
 
@@ -17,9 +16,8 @@ type PermissionInfo {
 
 type Role {
 	_id: ID!
-	userId: ID!
-	path: String!
 	name: String!
+	nodeId: ID!
 	permissions: [PermissionInfo!]!
 	createdAt: Float!
 	updatedAt: Float!
@@ -31,4 +29,12 @@ type Query {
 
 type Mutation {
 	createRole(input: CreateRoleInput!): Role
+}
+
+type UserRole {
+	_id: ID!
+	userId: ID!
+	roleId: ID!
+	createdAt: Float!
+	updatedAt: Float!
 }
