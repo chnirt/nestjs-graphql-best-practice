@@ -134,7 +134,11 @@ async function bootstrap() {
 		app.use('/graphql/:id', (req, res, next) => {
 			const { _id } = req.params
 			// console.log(_id)
-			emailResolver.openEmail(_id)
+
+			if (_id) {
+				emailResolver.openEmail(_id)
+			}
+
 			next()
 		})
 

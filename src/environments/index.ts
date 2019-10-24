@@ -54,6 +54,13 @@ const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
 const USER_SUBSCRIPTION: string = 'newUser'
 const MESSAGES_SUBSCRIPTION: string = 'newMessages'
 
+// Oauth client
+const GOOGLE_CLIENT_ID: string =
+	process.env.GOOGLE_CLIENT_ID ||
+	'86787817879-0qaekf0879a63bqvaffr6i9c2m4vhss4.apps.googleusercontent.com'
+const GOOGLE_CLIENT_SECRET: string =
+	process.env.GOOGLE_CLIENT_SECRET || 'zBjNYmCUEJGe5iw-PXHBykap'
+
 export {
 	NODE_ENV,
 	AUTHOR,
@@ -82,5 +89,7 @@ export {
 	API_SECRET,
 	USER_SUBSCRIPTION,
 	NOTIFICATION_SUBSCRIPTION,
-	MESSAGES_SUBSCRIPTION
+	MESSAGES_SUBSCRIPTION,
+	GOOGLE_CLIENT_ID,
+	GOOGLE_CLIENT_SECRET
 }
