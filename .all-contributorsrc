@@ -1,0 +1,23 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "kaonashi164",
+      "name": "kaonashi164",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/53259564?v=4",
+      "profile": "https://github.com/kaonashi164",
+      "contributions": [
+        "projectManagement"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "nestjs-graphql-best-practice",
+  "projectOwner": "chnirt",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}
