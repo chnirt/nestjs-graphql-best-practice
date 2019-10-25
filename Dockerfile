@@ -1,13 +1,20 @@
 FROM node:12.2.0
 
-WORKDIR /usr/src/app
+# Set working dir in the container to /
+WORKDIR /
 
-COPY package*.json ./
+# Copy application to / directory and install dependencies
+COPY package.json ./
 RUN npm install
-
 COPY . .
+RUN npm run gen
+# Expose port 8081 to the outside once the container has launched
+EXPOSE 11047
 
+# what should be executed when the Docker image is launching
 CMD [ "npm", “run”, "start:prod" ]
+
+
 
 # RUN mkdir -p /nest
 # ADD . /nest
