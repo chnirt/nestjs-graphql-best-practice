@@ -63,11 +63,13 @@ async function main() {
 						_id: item._id
 					},
 					$set: {
+						local: {
+							email: item.email,
+							password:
+								'$2b$10$KeRbjXtzdK1nR0AR1BKjFu5AOh/PjYACgS.4OQV5KtykJZRFSEo22'
+						},
 						firstName: item.firstName,
 						lastName: item.lastName,
-						email: item.email,
-						password:
-							'$2b$10$KeRbjXtzdK1nR0AR1BKjFu5AOh/PjYACgS.4OQV5KtykJZRFSEo22',
 						gender: item.gender,
 						isVerified: true,
 						isOnline: false,

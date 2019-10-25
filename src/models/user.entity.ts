@@ -7,6 +7,7 @@ import {
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty, Length, IsEmail } from 'class-validator'
+import { Local, Googleplus } from '../generator/graphql.schema'
 // import { Exclude, Expose } from 'class-transformer'
 
 enum Gender {
@@ -29,14 +30,14 @@ export class LoginUserInput {
 
 export class CreateUserInput {
 	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters'
+		message: 'Your firstName must be between 3 and 20 characters'
 	})
 	@IsString()
 	@IsNotEmpty({ message: 'Your firstName can not be blank' })
 	firstName: string
 
 	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters'
+		message: 'Your lastName must be between 3 and 20 characters'
 	})
 	@IsString()
 	@IsNotEmpty({ message: 'Your lastName can not be blank' })
@@ -58,13 +59,13 @@ export class CreateUserInput {
 
 export class UpdateUserInput {
 	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters'
+		message: 'Your firstName must be between 3 and 20 characters'
 	})
 	@IsString()
 	firstName: string
 
 	@Length(3, 20, {
-		message: 'Your fullName must be between 3 and 20 characters'
+		message: 'Your lastName must be between 3 and 20 characters'
 	})
 	@IsString()
 	lastName: string
@@ -90,17 +91,16 @@ export class User {
 	_id: string
 
 	@Column()
+	local: Local
+
+	@Column()
+	googleplus: Googleplus
+
+	@Column()
 	firstName: string
 
 	@Column()
 	lastName: string
-
-	@Column()
-	email: string
-
-	@Column()
-	// @Exclude()
-	password: string
 
 	@Column()
 	avatar: string

@@ -1,12 +1,11 @@
 import { Resolver, Mutation, Args, Context } from '@nestjs/graphql'
 import { AuthInput, AuthResponse } from '../../generator/graphql.schema'
-import { authenticateFacebook } from '../../auth/passport'
-import { ForbiddenError } from 'apollo-server-core'
+import { authenticateGooglePlus } from '../../auth/passport'
 
 @Resolver('Auth')
 export class AuthResolver {
 	@Mutation()
-	async authFacebook(
+	async authGooglePlus(
 		@Args('input') input: AuthInput,
 		@Context() context: any
 	): Promise<AuthResponse> {
@@ -18,23 +17,11 @@ export class AuthResolver {
 			access_token: accessToken
 		}
 
-		console.log(req.body)
+		// req.params.access_token = accessToken
 
-		return null
-	}
+		const rs = await authenticateGooglePlus(req, res)
 
-	@Mutation()
-	async authGoogle(
-		@Args('input') input: AuthInput,
-		@Context() context: any
-	): Promise<AuthResponse> {
-		const { req, res } = context
-		const { accessToken } = input
-
-		req.body = {
-			...req.body,
-			access_token: accessToken
-		}
+		console.log(rs)
 
 		return null
 	}

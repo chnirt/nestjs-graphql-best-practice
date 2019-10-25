@@ -71,6 +71,7 @@
 		"nodemailer-express-handlebars": "^3.1.0",
 		"passport": "^0.4.0",
 		"passport-google-oauth": "^2.0.0",
+		"passport-google-plus-token": "^2.1.0",
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.0",
 		"rxjs": "^6.5.3",

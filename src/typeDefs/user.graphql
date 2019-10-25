@@ -71,12 +71,24 @@ type RefreshTokenResponse {
 	accessToken: String!
 }
 
+type Local {
+	email: String!
+	password: String!
+}
+
+type Googleplus {
+	_id: String!
+	token: String!
+	name: String!
+	email: String!
+}
+
 type User {
 	_id: ID!
+	local: Local
+	googleplus: Googleplus
 	firstName: String!
 	lastName: String!
-	email: String!
-	password: String
 	avatar: String
 	gender: Gender!
 	resetPasswordToken: String

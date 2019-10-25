@@ -78,14 +78,18 @@ export const tradeToken = async (
 	email: string,
 	password: string
 ): Promise<LoginResponse> => {
-	const user = await getMongoRepository(User).findOne({ email })
+	const user = await getMongoRepository(User).findOne({
+		where: {
+			'local.email': email
+		}
+	})
 
 	if (!user) {
 		// tslint:disable-next-line:quotemark
 		throw new ForbiddenError("User already doestn't exist.")
 	}
 
-	if (user && (await comparePassword(password, user.password))) {
+	if (user && (await comparePassword(password, user.local.password))) {
 		if (!user.isVerified) {
 			throw new ForbiddenError('Please verify your email.')
 		}

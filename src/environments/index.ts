@@ -57,9 +57,11 @@ const MESSAGES_SUBSCRIPTION: string = 'newMessages'
 // Oauth client
 const GOOGLE_CLIENT_ID: string =
 	process.env.GOOGLE_CLIENT_ID ||
-	'86787817879-0qaekf0879a63bqvaffr6i9c2m4vhss4.apps.googleusercontent.com'
+	'136789717061-f8l416gn2fj2laun6ugl3e176qo5i34l.apps.googleusercontent.com'
 const GOOGLE_CLIENT_SECRET: string =
-	process.env.GOOGLE_CLIENT_SECRET || 'zBjNYmCUEJGe5iw-PXHBykap'
+	process.env.GOOGLE_CLIENT_SECRET || 'V8AH53Xb5dteR0SifGfRKp8P'
+const GOOGLE_CALLBACK_URL: string =
+	process.env.GOOGLE_CALLBACK_URL || 'auth/google/callback'
 
 export {
 	NODE_ENV,
@@ -91,5 +93,6 @@ export {
 	NOTIFICATION_SUBSCRIPTION,
 	MESSAGES_SUBSCRIPTION,
 	GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET
+	GOOGLE_CLIENT_SECRET,
+	GOOGLE_CALLBACK_URL
 }

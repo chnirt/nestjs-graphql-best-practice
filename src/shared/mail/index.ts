@@ -1,13 +1,10 @@
-import { Injectable } from '@nestjs/common'
 import * as nodemailer from 'nodemailer'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
-import { User } from '../../generator/graphql.schema'
+import { User } from '../../models'
 
 import {
 	AUTHOR,
-	DOMAIN,
-	PORT,
 	END_POINT,
 	ISSUER,
 	MAIL_USER,
@@ -90,7 +87,7 @@ export const sendMail = async (
 
 		const mailOptions = {
 			from: 'Chnirt  📮:' + MAIL_USER, // sender address
-			to: user.email, // list of receivers
+			to: user.local.email, // list of receivers
 			subject: replacements[type].subject,
 			html: htmlToSend,
 			attachments: [

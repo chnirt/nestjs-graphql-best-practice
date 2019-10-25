@@ -165,7 +165,11 @@ export class UserResolver {
 		try {
 			const { email, password } = input
 
-			const existedUser = await this.userRepository.findOne({ email })
+			const existedUser = await this.userRepository.findOne({
+				where: {
+					'local.email': email
+				}
+			})
 
 			if (existedUser) {
 				throw new ForbiddenError('User already exists.')
@@ -173,8 +177,13 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(
 				new User({
-					...input,
-					password: await hashPassword(password)
+					firstName: input.firstName,
+					lastName: input.lastName,
+					local: {
+						email: input.email,
+						password: await hashPassword(password)
+					},
+					gender: input.gender
 				})
 			)
 
@@ -219,7 +228,10 @@ export class UserResolver {
 				new User({
 					...user,
 					...input,
-					password: await hashPassword(password)
+					local: {
+						email: user.local.email,
+						password: await hashPassword(password)
+					}
 				})
 			))
 				? true
@@ -346,17 +358,17 @@ export class UserResolver {
 			throw new ForbiddenError('User not found.')
 		}
 
-		if (!(await comparePassword(currentPassword, user.password))) {
+		if (!(await comparePassword(currentPassword, user.local.password))) {
 			throw new ForbiddenError('Your current password is missing or incorrect.')
 		}
 
-		if (await comparePassword(password, user.password)) {
+		if (await comparePassword(password, user.local.password)) {
 			throw new ForbiddenError(
 				'Your new password must be different from your previous password.'
 			)
 		}
 
-		user.password = await hashPassword(password)
+		user.local.password = await hashPassword(password)
 
 		return (await this.userRepository.save(user)) ? true : false
 	}
@@ -367,8 +379,10 @@ export class UserResolver {
 		@Context('req') req: any
 	): Promise<boolean> {
 		const user = await this.userRepository.findOne({
-			email,
-			isVerified: true
+			where: {
+				'local.email': email,
+				isVerified: true
+			}
 		})
 
 		if (!user) {
@@ -416,7 +430,7 @@ export class UserResolver {
 			)
 		}
 
-		user.password = await hashPassword(password)
+		user.local.password = await hashPassword(password)
 		user.resetPasswordToken = null
 		user.resetPasswordExpires = null
 
@@ -441,8 +455,8 @@ export class UserResolver {
 		return `${firstName} ${lastName}`
 	}
 
-	@ResolveProperty(() => String)
-	async password(@Parent() user: User): Promise<string> {
-		return ''
-	}
+	// @ResolveProperty(() => String)
+	// async password(@Parent() user: User): Promise<string> {
+	// 	return ''
+	// }
 }

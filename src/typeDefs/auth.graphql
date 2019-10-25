@@ -8,6 +8,5 @@ input AuthInput {
 }
 
 type Mutation {
-	authFacebook(input: AuthInput!): AuthResponse
-	authGoogle(input: AuthInput!): AuthResponse
+	authGooglePlus(input: AuthInput!): AuthResponse
 }

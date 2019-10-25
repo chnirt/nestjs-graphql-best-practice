@@ -6,10 +6,10 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
+import * as passport from 'passport'
 // import * as csurf from 'csurf'
 // import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
-// import * as passport from 'passport'
 // import * as fs from 'fs'
 import chalk from 'chalk'
 
@@ -101,9 +101,6 @@ async function bootstrap() {
 		// 			'Too many request created from this IP, please try again after an hour'
 		// 	})
 		// )
-
-		// passport
-		// app.use(passport.initialize())
 
 		// poggerMiddleware
 		NODE_ENV !== 'testing' && app.use(LoggerMiddleware)
