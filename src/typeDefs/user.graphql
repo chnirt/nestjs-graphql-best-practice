@@ -72,15 +72,15 @@ type RefreshTokenResponse {
 }
 
 type Local {
-	email: String!
-	password: String!
+	email: String
+	password: String
 }
 
 type Googleplus {
-	_id: String!
-	token: String!
-	name: String!
-	email: String!
+	_id: String
+	token: String
+	name: String
+	email: String
 }
 
 type User {
