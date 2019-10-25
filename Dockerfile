@@ -13,11 +13,3 @@ EXPOSE 11047
 
 # what should be executed when the Docker image is launching
 CMD [ "npm", “run”, "start:prod" ]
-
-
-
-# RUN mkdir -p /nest
-# ADD . /nest
-# WORKDIR /nest
-
-# RUN npm i -g @nestjs/cli
