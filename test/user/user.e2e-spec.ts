@@ -13,6 +13,7 @@ import { EmailModule } from '../../src/resolvers/email/email.module'
 import { UserResolver } from '../../src/resolvers/user/user.resolver'
 import { EmailResolver } from '../../src/resolvers/email/email.resolver'
 import { FileResolver } from '../../src/resolvers/file/file.resolver'
+import { AuthResolver } from '../../src/resolvers/user/auth.resolver'
 
 import { END_POINT } from '../../src/environments'
 
@@ -38,7 +39,8 @@ describe('UserModule (e2e)', () => {
 				{
 					provide: getRepositoryToken(File),
 					useClass: Repository
-				}
+				},
+				AuthResolver
 			]
 		}).compile()
 
@@ -56,7 +58,7 @@ describe('UserModule (e2e)', () => {
 				variables: {},
 				query:
 					// tslint:disable-next-line:max-line-length
-					'{ users { _id firstName lastName email password resetPasswordToken resetPasswordExpires fullName isLocked reason isActive createdAt updatedAt } }'
+					'{ users { _id firstName lastName resetPasswordToken resetPasswordExpires fullName isLocked reason isActive createdAt updatedAt } }'
 			})
 			.expect(200)
 	})
