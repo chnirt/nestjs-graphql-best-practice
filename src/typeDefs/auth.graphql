@@ -8,5 +8,5 @@ input AuthInput {
 }
 
 type Mutation {
-	authGooglePlus(input: AuthInput!): AuthResponse
+	oauthGooglePlus(input: AuthInput!): LoginResponse
 }

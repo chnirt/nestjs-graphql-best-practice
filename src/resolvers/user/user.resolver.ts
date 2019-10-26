@@ -163,7 +163,7 @@ export class UserResolver {
 		@Context('req') req: any
 	): Promise<User> {
 		try {
-			const { email, password } = input
+			const { firstName, lastName, email, password, gender } = input
 
 			const existedUser = await this.userRepository.findOne({
 				where: {
@@ -177,13 +177,13 @@ export class UserResolver {
 
 			const createdUser = await this.userRepository.save(
 				new User({
-					firstName: input.firstName,
-					lastName: input.lastName,
+					firstName,
+					lastName,
 					local: {
-						email: input.email,
+						email,
 						password: await hashPassword(password)
 					},
-					gender: input.gender
+					gender
 				})
 			)
 
@@ -216,7 +216,7 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const { password } = input
+			const { firstName, lastName, password, gender } = input
 
 			const user = await this.userRepository.findOne({ _id })
 
@@ -227,11 +227,13 @@ export class UserResolver {
 			return (await this.userRepository.save(
 				new User({
 					...user,
-					...input,
+					firstName,
+					lastName,
 					local: {
 						email: user.local.email,
 						password: await hashPassword(password)
-					}
+					},
+					gender
 				})
 			))
 				? true

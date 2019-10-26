@@ -34,7 +34,6 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 	// willSendResponse
 }
 
-// COMPLETE:
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
 	async createGqlOptions(): Promise<GqlModuleOptions> {

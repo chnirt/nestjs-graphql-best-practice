@@ -7,13 +7,8 @@ import {
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty, Length, IsEmail } from 'class-validator'
-import { Local, Googleplus } from '../generator/graphql.schema'
+import { Gender, Local, Googleplus } from '../generator/graphql.schema'
 // import { Exclude, Expose } from 'class-transformer'
-
-enum Gender {
-	MALE,
-	FEMALE
-}
 
 export class LoginUserInput {
 	@IsEmail(undefined, { message: 'Your email can not be blank' })
@@ -142,14 +137,24 @@ export class User {
 	@Column()
 	updatedAt: number
 
-	constructor(user: Partial<User>) {
-		Object.assign(this, user)
+	constructor(user?: Partial<User>) {
+		if (user) {
+			Object.assign(this, user)
+			this._id = uuid.v1()
+			this.isVerified = this.googleplus ? true : false
+			this.isOnline = false
+			this.isLocked = false
+			this.reason = ''
+			this.isActive = true
+			this.createdAt = this.createdAt ? this.createdAt : +new Date()
+			this.updatedAt = +new Date()
+		}
 	}
 
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.isVerified = false
+		this.isVerified = this.googleplus ? true : false
 		this.isOnline = false
 		this.isLocked = false
 		this.reason = ''

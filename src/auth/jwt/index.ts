@@ -17,9 +17,9 @@ import {
 export const generateToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
-			issuer: ISSUER,
-			subject: user._id,
-			audience: user.local.email
+			issuer: ISSUER!,
+			subject: user._id
+			// audience: user.local.email
 		},
 		ACCESS_TOKEN_SECRET!,
 		{
@@ -32,9 +32,9 @@ export const generateToken = async (user: User): Promise<string> => {
 export const generateRefreshToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
-			issuer: ISSUER,
-			subject: user._id,
-			audience: user.local.email
+			issuer: ISSUER!,
+			subject: user._id
+			// audience: user.local.email
 		},
 		REFRESH_TOKEN_SECRET!,
 		{
@@ -47,9 +47,9 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
 export const generateResetPassToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
-			issuer: ISSUER,
-			subject: user._id,
-			audience: user.local.email
+			issuer: ISSUER!,
+			subject: user._id
+			// audience: user.local.email
 		},
 		RESETPASS_TOKEN_SECRET!,
 		{
@@ -62,9 +62,9 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
 export const generateEmailToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
-			issuer: ISSUER,
-			subject: user._id,
-			audience: user.local.email
+			issuer: ISSUER!,
+			subject: user._id
+			// audience: user.local.email
 		},
 		EMAIL_TOKEN_SECRET!,
 		{

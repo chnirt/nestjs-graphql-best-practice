@@ -54,14 +54,20 @@ const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
 const USER_SUBSCRIPTION: string = 'newUser'
 const MESSAGES_SUBSCRIPTION: string = 'newMessages'
 
-// Oauth client
+// passport
 const GOOGLE_CLIENT_ID: string =
 	process.env.GOOGLE_CLIENT_ID ||
-	'136789717061-f8l416gn2fj2laun6ugl3e176qo5i34l.apps.googleusercontent.com'
+	'86787817879-0qaekf0879a63bqvaffr6i9c2m4vhss4.apps.googleusercontent.com'
 const GOOGLE_CLIENT_SECRET: string =
-	process.env.GOOGLE_CLIENT_SECRET || 'V8AH53Xb5dteR0SifGfRKp8P'
+	process.env.GOOGLE_CLIENT_SECRET || 'zBjNYmCUEJGe5iw-PXHBykap'
 const GOOGLE_CALLBACK_URL: string =
 	process.env.GOOGLE_CALLBACK_URL || 'auth/google/callback'
+
+const FACEBOOK_APP_ID: string = process.env.FACEBOOK_APP_ID || '465043680803554'
+const FACEBOOK_APP_SECRET: string =
+	process.env.FACEBOOK_APP_SECRET || '1223861f9df238389b22563472141166'
+const FACEBOOK_CALLBACK_URL: string =
+	process.env.FACEBOOK_CALLBACK_URL || 'auth/facebook/callback'
 
 export {
 	NODE_ENV,
@@ -94,5 +100,8 @@ export {
 	MESSAGES_SUBSCRIPTION,
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET,
-	GOOGLE_CALLBACK_URL
+	GOOGLE_CALLBACK_URL,
+	FACEBOOK_APP_ID,
+	FACEBOOK_APP_SECRET,
+	FACEBOOK_CALLBACK_URL
 }

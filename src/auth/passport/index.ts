@@ -1,14 +1,16 @@
 import * as passport from 'passport'
 import * as GooglePlusStrategy from 'passport-google-plus-token'
-import { User } from '../../models'
-
-import {
-	GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET,
-	GOOGLE_CALLBACK_URL
-} from '../../environments'
 import { getMongoRepository } from 'typeorm'
-import { AuthenticationError } from 'apollo-server-core'
+
+import { User } from '../../models'
+import { Gender } from '../../generator/graphql.schema'
+
+import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../../environments'
+
+interface OAuthResponse {
+	readonly data: any
+	readonly info: any
+}
 
 // GOOGLE PLUS STRATEGY
 const GooglePlusTokenStrategyCallback = async (
@@ -16,35 +18,12 @@ const GooglePlusTokenStrategyCallback = async (
 	refreshToken,
 	profile,
 	next
-) => {
-	const user = await getMongoRepository(User).findOne({
-		where: {
-			'googleplus._id': profile.id
-		}
-	})
-
-	if (user) {
-		next(null, user)
-	}
-
-	console.log(profile)
-
-	// add create User
-	// getMongoRepository(User).save(
-	// 	new User({
-	// 		googleplus: {
-	// 			_id: profile.id,
-	// 			email: profile.emails[0].value
-	// 		}
-	// 	})
-	// )
-
-	await next(null, {
+) =>
+	next(null, {
 		accessToken,
 		refreshToken,
 		profile
 	})
-}
 
 passport.use(
 	new GooglePlusStrategy(
@@ -57,7 +36,7 @@ passport.use(
 )
 
 // promisified authenticate functions
-export const authenticateGooglePlus = (req, res) =>
+export const authenticateGooglePlus = (req, res): Promise<OAuthResponse> =>
 	new Promise((resolve, reject) => {
 		passport.authenticate(
 			'google-plus-token',
