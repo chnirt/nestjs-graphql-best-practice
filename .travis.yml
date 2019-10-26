@@ -15,6 +15,7 @@ cache:
   yarn: true
 env:
   global:
+    - NODE_ENV=production
     - ACCESS_TOKEN_SECRET=chnirt1803
     # - DOCKER_USERNAME=chnirt
     # - DOCKER_PASSWORD=12345678
