@@ -4,7 +4,8 @@ services:
   - mongodb
 language: node_js # latest stable Node.js release
 node_js:
-  - lts/* #latest LTS Node.js release
+  # - lts/* #latest LTS Node.js release
+  - 12
 branches:
   only:
     - cicd
