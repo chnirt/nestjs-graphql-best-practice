@@ -1,7 +1,7 @@
 sudo: required
 services:
-  - docker
-  - mongodb
+  # - docker
+  # - mongodb
 language: node_js # latest stable Node.js release
 node_js:
   - lts/* #latest LTS Node.js release
@@ -15,13 +15,12 @@ cache:
   yarn: true
 env:
   global:
-    - NODE_ENV=production
     - ACCESS_TOKEN_SECRET=chnirt1803
     # - DOCKER_USERNAME=chnirt
     # - DOCKER_PASSWORD=12345678
 before_install:
-  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
-  - export PATH="$HOME/.yarn/bin:$PATH"
+  # - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
+  # - export PATH="$HOME/.yarn/bin:$PATH"
 install:
   - npm i
   - npm rebuild bcrypt --update-binary
