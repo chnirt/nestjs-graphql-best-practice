@@ -42,16 +42,13 @@ jobs:
     #     - docker push $DOCKER_USERNAME/travis-ci-build-stages-demo
     - stage: Unit Tests
       script:
-        - npm run lint
         - npm run gen
         - npm run test
     - stage: E2e Tests
       script:
-        - npm run lint
         - npm run gen
         - npm run test:e2e
     - stage: Coverage Tests
       script:
-        - npm run lint
         - npm run gen
         - npm run test:cov
