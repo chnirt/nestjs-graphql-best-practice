@@ -1,9 +1,5 @@
 import * as passport from 'passport'
 import * as GooglePlusStrategy from 'passport-google-plus-token'
-import { getMongoRepository } from 'typeorm'
-
-import { User } from '../../models'
-import { Gender } from '../../generator/graphql.schema'
 
 import { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } from '../../environments'
 
@@ -36,6 +32,17 @@ passport.use(
 )
 
 // promisified authenticate functions
+
+/**
+ * Returns oauth response by authenticate google plus.
+ *
+ * @remarks
+ * This method is part of the {@link auth/passport}.
+ *
+ * @returns The oauth response
+ *
+ * @beta
+ */
 export const authenticateGooglePlus = (req, res): Promise<OAuthResponse> =>
 	new Promise((resolve, reject) => {
 		passport.authenticate(

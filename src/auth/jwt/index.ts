@@ -20,7 +20,7 @@ import {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param user - The first input number
+ * @param user - 1st input number
  * @returns The access token mean of `user`
  *
  * @beta
@@ -46,7 +46,7 @@ export const generateToken = async (user: User): Promise<string> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param user - The first input number
+ * @param user - 1st input number
  * @returns The refresh token mean of `user`
  *
  * @beta
@@ -72,7 +72,7 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param user - The first input number
+ * @param user - 1st input number
  * @returns The reset password token mean of `user`
  *
  * @beta
@@ -98,7 +98,7 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param user - The first input number
+ * @param user - 1st input number
  * @returns The email token mean of `user`
  *
  * @beta
@@ -124,8 +124,8 @@ export const generateEmailToken = async (user: User): Promise<string> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param email - The first input number
- * @param password - The second input number
+ * @param email - 1st input number
+ * @param password - 2nd input number
  * @returns The login response mean of `email` and `password`
  *
  * @beta
@@ -174,7 +174,7 @@ export const tradeToken = async (
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param token - The first input number
+ * @param token - 1st input number
  * @returns The user mean of `token`
  *
  * @beta
@@ -207,7 +207,7 @@ export const verifyToken = async (token: string): Promise<User> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param token - The first input number
+ * @param token - 1st input number
  * @returns The user mean of `token`
  *
  * @beta
@@ -236,7 +236,7 @@ export const verifyRefreshToken = async (token: string): Promise<User> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param token - The first input number
+ * @param token - 1st input number
  * @returns The user mean of `token`
  *
  * @beta

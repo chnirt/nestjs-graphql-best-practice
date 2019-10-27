@@ -2,6 +2,17 @@ import * as cloudinary from 'cloudinary'
 
 import { CLOUD_NAME, API_KEY, API_SECRET } from '../../environments'
 
+/**
+ * Returns image url by upload file.
+ *
+ * @remarks
+ * This method is part of the {@link shared/upload}.
+ *
+ * @param createReadStream - 1st input number
+ * @returns The string mean of `createReadStream`
+ *
+ * @beta
+ */
 export const uploadFile = async (createReadStream: any): Promise<string> => {
 	cloudinary.config({
 		cloud_name: CLOUD_NAME!,
