@@ -152,7 +152,7 @@ export class UserResolver {
 
 			return user
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -165,7 +165,9 @@ export class UserResolver {
 		try {
 			const { firstName, lastName, email, password, gender } = input
 
-			const existedUser = await this.userRepository.findOne({
+			let existedUser
+
+			existedUser = await this.userRepository.findOne({
 				where: {
 					'local.email': email
 				}
@@ -173,6 +175,27 @@ export class UserResolver {
 
 			if (existedUser) {
 				throw new ForbiddenError('User already exists.')
+			}
+
+			// Is there a Google account with the same email?
+			existedUser = await this.userRepository.findOne({
+				where: {
+					$or: [{ 'google.email': email }, { 'facebook.email': email }]
+				}
+			})
+
+			if (existedUser) {
+				// Let's merge them?
+
+				existedUser.firstName = firstName
+				existedUser.lastName = lastName
+				existedUser.local = {
+					email,
+					password: await hashPassword(password)
+				}
+				existedUser.gender = gender
+
+				return await this.userRepository.save(existedUser)
 			}
 
 			const createdUser = await this.userRepository.save(
@@ -206,7 +229,7 @@ export class UserResolver {
 
 			return createdUser
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -239,7 +262,7 @@ export class UserResolver {
 				? true
 				: false
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -261,7 +284,7 @@ export class UserResolver {
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -278,7 +301,7 @@ export class UserResolver {
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -291,7 +314,7 @@ export class UserResolver {
 				? true
 				: false
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
@@ -352,7 +375,7 @@ export class UserResolver {
 
 			return (await this.userRepository.save(user)) ? true : false
 		} catch (error) {
-			throw new ApolloError(error, '500', {})
+			throw new ApolloError(error)
 		}
 	}
 
