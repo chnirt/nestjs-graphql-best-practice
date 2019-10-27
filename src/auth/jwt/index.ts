@@ -3,7 +3,6 @@ import { getMongoRepository } from 'typeorm'
 import { AuthenticationError, ForbiddenError } from 'apollo-server-core'
 
 import { User } from '../../models'
-import { comparePassword } from '../../utils/password'
 import { LoginResponse } from '../../generator/graphql.schema'
 
 import {
@@ -124,48 +123,29 @@ export const generateEmailToken = async (user: User): Promise<string> => {
  * @remarks
  * This method is part of the {@link auth/jwt}.
  *
- * @param email - 1st input number
- * @param password - 2nd input number
- * @returns The login response mean of `email` and `password`
+ * @param user - 1st input number
+ * @returns The login response mean of `user`
  *
  * @beta
  */
-export const tradeToken = async (
-	email: string,
-	password: string
-): Promise<LoginResponse> => {
-	const user = await getMongoRepository(User).findOne({
-		where: {
-			'local.email': email
-		}
-	})
+export const tradeToken = async (user: User): Promise<LoginResponse> => {
+	if (!user.isVerified) {
+		throw new ForbiddenError('Please verify your email.')
+	}
 
-	if (!user) {
+	if (!user.isActive) {
 		// tslint:disable-next-line:quotemark
 		throw new ForbiddenError("User already doestn't exist.")
 	}
 
-	if (user && (await comparePassword(password, user.local.password))) {
-		if (!user.isVerified) {
-			throw new ForbiddenError('Please verify your email.')
-		}
-
-		if (!user.isActive) {
-			// tslint:disable-next-line:quotemark
-			throw new ForbiddenError("User already doestn't exist.")
-		}
-
-		if (user.isLocked) {
-			throw new ForbiddenError('Your email has been locked.')
-		}
-
-		const accessToken = await generateToken(user)
-		const refreshToken = await generateRefreshToken(user)
-
-		return { accessToken, refreshToken }
+	if (user.isLocked) {
+		throw new ForbiddenError('Your email has been locked.')
 	}
 
-	throw new AuthenticationError('Login failed.')
+	const accessToken = await generateToken(user)
+	const refreshToken = await generateRefreshToken(user)
+
+	return { accessToken, refreshToken }
 }
 
 /**

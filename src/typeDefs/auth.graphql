@@ -1,12 +1,5 @@
-type AuthResponse {
-	token: String
-	name: String
-}
-
-input AuthInput {
-	accessToken: String!
-}
-
 type Mutation {
-	oauthGooglePlus(input: AuthInput!): LoginResponse
+	oauthGooglePlus(accessToken: String!): LoginResponse
+	oauthFacebook(accessToken: String!): LoginResponse
+	oauthGoogle(accessToken: String!): LoginResponse
 }

@@ -7,7 +7,7 @@ import {
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty, Length, IsEmail } from 'class-validator'
-import { Gender, Local, Googleplus } from '../generator/graphql.schema'
+import { Gender, Local, Google, Facebook } from '../generator/graphql.schema'
 // import { Exclude, Expose } from 'class-transformer'
 
 export class LoginUserInput {
@@ -89,7 +89,10 @@ export class User {
 	local: Local
 
 	@Column()
-	googleplus: Googleplus
+	google: Google
+
+	@Column()
+	facebook: Facebook
 
 	@Column()
 	firstName: string
@@ -141,7 +144,7 @@ export class User {
 		if (user) {
 			Object.assign(this, user)
 			this._id = uuid.v1()
-			this.isVerified = this.googleplus ? true : false
+			this.isVerified = this.google || this.facebook ? true : false
 			this.isOnline = false
 			this.isLocked = false
 			this.reason = ''
@@ -154,7 +157,7 @@ export class User {
 	@BeforeInsert()
 	save() {
 		this._id = uuid.v1()
-		this.isVerified = this.googleplus ? true : false
+		this.isVerified = this.google ? true : false
 		this.isOnline = false
 		this.isLocked = false
 		this.reason = ''

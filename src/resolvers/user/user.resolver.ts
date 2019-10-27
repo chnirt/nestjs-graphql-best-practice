@@ -311,7 +311,17 @@ export class UserResolver {
 	async login(@Args('input') input: LoginUserInput): Promise<LoginResponse> {
 		const { email, password } = input
 
-		return await tradeToken(email, password)
+		const user = await getMongoRepository(User).findOne({
+			where: {
+				'local.email': email
+			}
+		})
+
+		if (user && (await comparePassword(password, user.local.password))) {
+			return await tradeToken(user)
+		}
+
+		throw new AuthenticationError('Login failed.')
 	}
 
 	@Mutation()
@@ -457,10 +467,10 @@ export class UserResolver {
 		return `${firstName} ${lastName}`
 	}
 
-	@ResolveProperty()
-	async local(@Parent() user: User): Promise<object> {
-		const { local } = user
-		local.password = ''
-		return local
-	}
+	// @ResolveProperty()
+	// async local(@Parent() user: User): Promise<object> {
+	// 	const { local } = user
+	// 	local.password = ''
+	// 	return local
+	// }
 }

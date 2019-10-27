@@ -77,7 +77,14 @@ type Local {
 	password: String
 }
 
-type Googleplus {
+type Google {
+	_id: String
+	token: String
+	name: String
+	email: String
+}
+
+type Facebook {
 	_id: String
 	token: String
 	name: String
@@ -87,7 +94,8 @@ type Googleplus {
 type User {
 	_id: ID!
 	local: Local
-	googleplus: Googleplus
+	googleplus: Google
+	facebook: Facebook
 	firstName: String!
 	lastName: String!
 	avatar: String
