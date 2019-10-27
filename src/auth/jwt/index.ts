@@ -15,10 +15,15 @@ import {
 } from '../../environments'
 
 /**
- * generate User to access token
+ * Returns access token.
  *
- * @param User - the user login system
- * @returns string
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param user - The first input number
+ * @returns The access token mean of `user`
+ *
+ * @beta
  */
 export const generateToken = async (user: User): Promise<string> => {
 	return await sign(
@@ -36,14 +41,13 @@ export const generateToken = async (user: User): Promise<string> => {
 }
 
 /**
- * Returns the average of two numbers.
+ * Returns refresh token.
  *
  * @remarks
- * This method is part of the {@link core-library#Statistics | Statistics subsystem}.
+ * This method is part of the {@link auth/jwt}.
  *
- * @param x - The first input number
- * @param y - The second input number
- * @returns The arithmetic mean of `x` and `y`
+ * @param user - The first input number
+ * @returns The refresh token mean of `user`
  *
  * @beta
  */
@@ -62,6 +66,17 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
 	)
 }
 
+/**
+ * Returns reset password token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param user - The first input number
+ * @returns The reset password token mean of `user`
+ *
+ * @beta
+ */
 export const generateResetPassToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
@@ -77,6 +92,17 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
 	)
 }
 
+/**
+ * Returns email token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param user - The first input number
+ * @returns The email token mean of `user`
+ *
+ * @beta
+ */
 export const generateEmailToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
@@ -92,6 +118,18 @@ export const generateEmailToken = async (user: User): Promise<string> => {
 	)
 }
 
+/**
+ * Returns login response by trade token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param email - The first input number
+ * @param password - The second input number
+ * @returns The login response mean of `email` and `password`
+ *
+ * @beta
+ */
 export const tradeToken = async (
 	email: string,
 	password: string
@@ -130,6 +168,17 @@ export const tradeToken = async (
 	throw new AuthenticationError('Login failed.')
 }
 
+/**
+ * Returns user by verify token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param token - The first input number
+ * @returns The user mean of `token`
+ *
+ * @beta
+ */
 export const verifyToken = async (token: string): Promise<User> => {
 	let currentUser
 
@@ -152,6 +201,17 @@ export const verifyToken = async (token: string): Promise<User> => {
 	return currentUser
 }
 
+/**
+ * Returns user by verify refresh token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param token - The first input number
+ * @returns The user mean of `token`
+ *
+ * @beta
+ */
 export const verifyRefreshToken = async (token: string): Promise<User> => {
 	let currentUser
 
@@ -170,6 +230,17 @@ export const verifyRefreshToken = async (token: string): Promise<User> => {
 	return currentUser
 }
 
+/**
+ * Returns user by verify email token.
+ *
+ * @remarks
+ * This method is part of the {@link auth/jwt}.
+ *
+ * @param token - The first input number
+ * @returns The user mean of `token`
+ *
+ * @beta
+ */
 export const verifyEmailToken = async (token: string): Promise<User> => {
 	let currentUser
 
@@ -181,24 +252,6 @@ export const verifyEmailToken = async (token: string): Promise<User> => {
 		}
 
 		currentUser = await getMongoRepository(User).findOne({
-			_id: data.subject
-		})
-	})
-
-	return currentUser
-}
-
-export const refreshToken = async (refreshToken: string): Promise<string> => {
-	let currentUser
-
-	await verify(refreshToken, REFRESH_TOKEN_SECRET!, (err, data) => {
-		if (err) {
-			throw new AuthenticationError(
-				'Authentication token is invalid, please try again.'
-			)
-		}
-
-		currentUser = getMongoRepository(User).findOne({
 			_id: data.subject
 		})
 	})

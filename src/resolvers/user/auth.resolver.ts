@@ -11,6 +11,18 @@ import { authenticateGooglePlus } from '../../auth/passport'
 import { generateToken, generateRefreshToken } from '../../auth'
 import { User } from '../../models'
 
+/**
+ * Returns refresh token.
+ *
+ * @remarks
+ * This method is part of the {@link core-library#Statistics | Statistics subsystem}.
+ *
+ * @param user - The first input number
+ * @param y - The second input number
+ * @returns The arithmetic mean of `x` and `y`
+ *
+ * @beta
+ */
 @Resolver('Auth')
 export class AuthResolver {
 	@Mutation()
