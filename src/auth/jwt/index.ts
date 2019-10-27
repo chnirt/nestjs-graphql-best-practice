@@ -14,6 +14,12 @@ import {
 	EMAIL_TOKEN_SECRET
 } from '../../environments'
 
+/**
+ * generate User to access token
+ *
+ * @param User - the user login system
+ * @returns string
+ */
 export const generateToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
@@ -29,6 +35,18 @@ export const generateToken = async (user: User): Promise<string> => {
 	)
 }
 
+/**
+ * Returns the average of two numbers.
+ *
+ * @remarks
+ * This method is part of the {@link core-library#Statistics | Statistics subsystem}.
+ *
+ * @param x - The first input number
+ * @param y - The second input number
+ * @returns The arithmetic mean of `x` and `y`
+ *
+ * @beta
+ */
 export const generateRefreshToken = async (user: User): Promise<string> => {
 	return await sign(
 		{

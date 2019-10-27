@@ -55,13 +55,13 @@ export class UserResolver {
 		private readonly fileResolver: FileResolver
 	) {}
 
-	@Query(() => String)
+	@Query()
 	async hello(): Promise<string> {
 		return uuid.v1()
 		// return await 'world'
 	}
 
-	@Query(() => Date)
+	@Query()
 	async today(): Promise<Date> {
 		return new Date()
 	}
@@ -120,12 +120,12 @@ export class UserResolver {
 		return result
 	}
 
-	@Query(() => User)
+	@Query()
 	async me(@Context('currentUser') currentUser: User): Promise<User> {
 		return currentUser
 	}
 
-	@Query(() => [User])
+	@Query()
 	async users(
 		@Args('offset') offset: number,
 		@Args('limit') limit: number
@@ -141,7 +141,7 @@ export class UserResolver {
 		return users
 	}
 
-	@Query(() => User)
+	@Query()
 	async user(@Args('_id') _id: string): Promise<User> {
 		try {
 			const user = await this.userRepository.findOne({ _id })
@@ -156,7 +156,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => User)
+	@Mutation()
 	async createUser(
 		@Args('input') input: CreateUserInput,
 		@Context('pubsub') pubsub: any,
@@ -210,7 +210,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async updateUser(
 		@Args('_id') _id: string,
 		@Args('input') input: UpdateUserInput
@@ -243,7 +243,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async updateAvatar(
 		@Args('_id') _id: string,
 		@Args('file') file: any
@@ -265,7 +265,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
 			const user = await this.userRepository.findOne({ _id })
@@ -282,7 +282,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async deleteUsers(): Promise<boolean> {
 		try {
 			return (await this.userRepository.deleteMany({
@@ -295,7 +295,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
 		const user = await verifyEmailToken(emailToken)
 
@@ -307,14 +307,14 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => LoginResponse)
+	@Mutation()
 	async login(@Args('input') input: LoginUserInput): Promise<LoginResponse> {
 		const { email, password } = input
 
 		return await tradeToken(email, password)
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async refreshToken(
 		@Args('refreshToken') refreshToken: string
 	): Promise<RefreshTokenResponse> {
@@ -325,7 +325,7 @@ export class UserResolver {
 		return { accessToken }
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
 		@Args('reason') reason: string
@@ -346,7 +346,7 @@ export class UserResolver {
 		}
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async changePassword(
 		@Args('_id') _id: string,
 		@Args('currentPassword') currentPassword: string,
@@ -375,7 +375,7 @@ export class UserResolver {
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async forgotPassword(
 		@Args('email') email: string,
 		@Context('req') req: any
@@ -413,7 +413,7 @@ export class UserResolver {
 		return (await this.userRepository.save(user)) ? true : false
 	}
 
-	@Mutation(() => Boolean)
+	@Mutation()
 	async resetPassword(
 		@Args('resetPasswordToken') resetPasswordToken: string,
 		@Args('password') password: string
@@ -451,14 +451,16 @@ export class UserResolver {
 		return pubsub.asyncIterator(USER_SUBSCRIPTION)
 	}
 
-	@ResolveProperty(() => String)
+	@ResolveProperty()
 	async fullName(@Parent() user: User): Promise<string> {
 		const { firstName, lastName } = user
 		return `${firstName} ${lastName}`
 	}
 
-	// @ResolveProperty(() => String)
-	// async password(@Parent() user: User): Promise<string> {
-	// 	return ''
-	// }
+	@ResolveProperty()
+	async local(@Parent() user: User): Promise<object> {
+		const { local } = user
+		local.password = ''
+		return local
+	}
 }
