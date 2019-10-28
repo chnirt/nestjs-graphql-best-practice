@@ -19,10 +19,28 @@ export class NodeResolver {
 		@Args('code') code: string
 	): Promise<Node[]> {
 		if (text || code) {
+			// const node = await this.nodeRepository.find({
+			// 	where: {
+			// 		$or: [
+			// 			{ name: { $regex: `.*${text}|${text.toLowerCase()}.*` } },
+			// 			{
+			// 				code: code && {
+			// 					$regex: `.*${code}|${code.toLowerCase()}.*`
+			// 				}
+			// 			}
+			// 		]
+			// 	},
+			// 	cache: true
+			// })
+
+			/**
+			 * @type i: USER | user upper lower
+			 * @type s: space | enter is removed
+			 */
 			const node = await this.nodeRepository.find({
 				where: {
 					$or: [
-						{ name: { $regex: `.*${text}|${text.toLowerCase()}.*` } },
+						{ name: { $regex: text, $option: 'si' } },
 						{
 							code: code && {
 								$regex: `.*${code}|${code.toLowerCase()}.*`

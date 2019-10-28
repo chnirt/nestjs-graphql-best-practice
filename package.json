@@ -27,7 +27,7 @@
 		"test:cov": "NODE_ENV=testing jest -w 1 --config ./jest.config.json --coverage --forceExit",
 		"test:debug": "NODE_ENV=testing node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest -w 1 --runInBand --forceExit",
 		"test:e2e": "NODE_ENV=testing jest -w 1 --config ./test/jest-e2e.json --forceExit",
-		"webpack": "rimraf dist && NODE_ENV=development webpack --config webpack.config.js",
+		"webpack": "NODE_ENV=development webpack --config webpack.config.js",
 		"start:hmr": "node dist/main.js",
 		"gen": "ts-node src/generator/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
