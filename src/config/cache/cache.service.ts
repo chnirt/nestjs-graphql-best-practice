@@ -4,7 +4,6 @@ import {
 	CacheModuleOptions
 } from '@nestjs/common'
 
-// COMPLETE:
 @Injectable()
 export class CacheService implements CacheOptionsFactory {
 	createCacheOptions(): CacheModuleOptions {

@@ -1,13 +1,13 @@
 import { MongoClient } from 'mongodb'
 
+import { MONGO_URL, MONGO_DB } from './environments'
+
 async function main() {
 	console.log('🚀  Server ready')
 
-	const url = process.env.MONGO_PORT
-		? `mongodb://localhost:${process.env.MONGO_PORT}`
-		: 'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+	const url = MONGO_URL!
 
-	const dbName = 'chnirt-nest'
+	const dbName = MONGO_DB!
 
 	const client = new MongoClient(url, {
 		useNewUrlParser: true,
@@ -33,25 +33,41 @@ async function main() {
 
 		const users = [
 			{
-				_id: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
+				_id: 'ffbdd890-f8bd-11e9-9806-8b914d623ae9',
 				firstName: 'Chin',
 				lastName: 'Trinh',
 				gender: 'MALE',
-				email: 'trinhchinchin@gmail.com'
+				local: {
+					email: 'trinhchinchin@gmail.com',
+					password:
+						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
+				},
+				google: {
+					_id: '107178666920276184612',
+					email: 'trinhchinchin@gmail.com'
+				}
 			},
 			{
 				_id: 'd9dacf10-edb5-11e9-ba96-217967694746',
 				firstName: 'Chin Chin',
 				lastName: 'Trinh',
 				gender: 'MALE',
-				email: 'nhocpo.juzo@gmail.com'
+				local: {
+					email: 'nhocpo.juzo@gmail.com',
+					password:
+						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
+				}
 			},
 			{
 				_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
 				firstName: 'Hung',
 				lastName: 'Luu',
 				gender: 'MALE',
-				email: 'luuvinhhung159@gmail.com'
+				local: {
+					email: 'luuvinhhung159@gmail.com',
+					password:
+						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
+				}
 			}
 		]
 
@@ -63,11 +79,8 @@ async function main() {
 						_id: item._id
 					},
 					$set: {
-						local: {
-							email: item.email,
-							password:
-								'$2b$10$KeRbjXtzdK1nR0AR1BKjFu5AOh/PjYACgS.4OQV5KtykJZRFSEo22'
-						},
+						local: item.local,
+						google: item.google,
 						firstName: item.firstName,
 						lastName: item.lastName,
 						gender: item.gender,
