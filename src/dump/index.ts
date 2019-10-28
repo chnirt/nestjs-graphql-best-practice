@@ -18,7 +18,7 @@ enum fileType {
 
 const collection = 'users'
 const now = formatDate(new Date(), 'yyyy/mm/dd') || new Date().toISOString()
-const out = `./backup/${now}-${collection}.json`
+const out = `./backup/${now}/${collection}.json`
 
 // mongoexport
 const dump: child.ChildProcess = child.exec(
