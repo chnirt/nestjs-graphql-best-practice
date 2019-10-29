@@ -5,7 +5,7 @@
 [![Build Status](https://travis-ci.org/chnirt/nestjs-graphql-best-practice.svg?branch=cicd)](https://travis-ci.org/chnirt/nestjs-graphql-best-practice)
 [![CircleCI](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd.svg?style=svg)](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd)
 [![Known Vulnerabilities](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice/badge.svg?targetFile=package.json)](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice?targetFile=package.json) [![Greenkeeper badge](https://badges.greenkeeper.io/chnirt/nestjs-graphql-best-practice.svg)](https://greenkeeper.io/)
-[![buddy pipeline](https://app.buddy.works/chnirt/nestjs-graphql-best-practice/pipelines/pipeline/220237/badge.svg?token=09f68afade54c89b63d720e6675a438219c84824e2eda327083a78718a2cdb75 'buddy pipeline')](https://app.buddy.works/chnirt/nestjs-graphql-best-practice/pipelines/pipeline/220237)
+[![codecov](https://codecov.io/gh/chnirt/nestjs-graphql-best-practice/branch/cicd/graph/badge.svg)](https://codecov.io/gh/chnirt/nestjs-graphql-best-practice)
 
 <h1 align="center">
   <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">

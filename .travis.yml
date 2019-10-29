@@ -17,7 +17,6 @@ cache:
 env:
   global:
     - ACCESS_TOKEN_SECRET=chnirt1803
-    - CODECOV_TOKEN=870f236d-01d9-4103-bc9b-4e2dd1b836f6
     # - DOCKER_USERNAME=chnirt
     # - DOCKER_PASSWORD=12345678
 before_install:
