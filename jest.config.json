@@ -6,6 +6,7 @@
 		"^.+\\.ts$": "ts-jest"
 	},
 	"coverageDirectory": "./coverage",
+	"collectCoverage": true,
 	"testEnvironment": "node",
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/src/auth$1",

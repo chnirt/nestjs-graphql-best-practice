@@ -99,6 +99,7 @@
 		"@types/supertest": "^2.0.8",
 		"@typescript-eslint/eslint-plugin": "^2.5.0",
 		"@typescript-eslint/parser": "^2.5.0",
+		"codecov": "^3.6.1",
 		"concurrently": "^5.0.0",
 		"eslint": "^6.6.0",
 		"eslint-config-prettier": "^6.5.0",
