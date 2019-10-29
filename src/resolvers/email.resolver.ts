@@ -1,32 +1,27 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
-import { Email } from '../../models'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository } from 'typeorm'
-import { CreateEmailInput } from '../../generator/graphql.schema'
+import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
+
+import { Email } from '../models'
+import { CreateEmailInput } from '../generator/graphql.schema'
 
 @Resolver('Email')
 export class EmailResolver {
-	constructor(
-		@InjectRepository(Email)
-		private readonly emailRepository: MongoRepository<Email>
-	) {}
-
 	@Query()
 	async emails(): Promise<Email[]> {
-		return this.emailRepository.find({
+		return getMongoRepository(Email).find({
 			cache: true
 		})
 	}
 
 	@Mutation()
 	async createEmail(@Args('input') input: CreateEmailInput): Promise<Email> {
-		return await this.emailRepository.save(new Email(input))
+		return await getMongoRepository(Email).save(new Email(input))
 	}
 
 	@Mutation()
 	async openEmail(@Args('_id') _id: string): Promise<boolean> {
-		const email = await this.emailRepository.findOne({
+		const email = await getMongoRepository(Email).findOne({
 			_id
 		})
 
@@ -36,6 +31,6 @@ export class EmailResolver {
 
 		email.isOpened = true
 
-		return this.emailRepository.save(email) ? true : false
+		return getMongoRepository(Email).save(email) ? true : false
 	}
 }

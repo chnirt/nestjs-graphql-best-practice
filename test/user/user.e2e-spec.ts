@@ -7,13 +7,11 @@ import { Repository } from 'typeorm'
 import { User, Email, File } from '../../src/models'
 
 import { AppModule } from '../../src/app.module'
-import { FileModule } from '../../src/resolvers/file/file.module'
-import { EmailModule } from '../../src/resolvers/email/email.module'
 
-import { UserResolver } from '../../src/resolvers/user/user.resolver'
-import { EmailResolver } from '../../src/resolvers/email/email.resolver'
-import { FileResolver } from '../../src/resolvers/file/file.resolver'
-import { AuthResolver } from '../../src/resolvers/user/auth.resolver'
+import { UserResolver } from '../../src/resolvers/user.resolver'
+import { EmailResolver } from '../../src/resolvers/email.resolver'
+import { FileResolver } from '../../src/resolvers/file.resolver'
+import { AuthResolver } from '../../src/resolvers/auth.resolver'
 
 import { END_POINT } from '../../src/environments'
 
@@ -23,7 +21,7 @@ describe('UserModule (e2e)', () => {
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [AppModule, EmailModule, FileModule],
+			imports: [AppModule],
 			providers: [
 				UserResolver,
 				{

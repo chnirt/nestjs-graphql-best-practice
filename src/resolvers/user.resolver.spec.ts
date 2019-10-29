@@ -2,14 +2,12 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
-import { User, Email, File } from '../../models'
+import { User, Email, File } from '../models'
 
-import { AppModule } from '../../app.module'
-import { EmailModule } from '../email/email.module'
-import { FileModule } from '../file/file.module'
+import { AppModule } from '../app.module'
 
-import { EmailResolver } from '../email/email.resolver'
-import { FileResolver } from '../file/file.resolver'
+import { EmailResolver } from './email.resolver'
+import { FileResolver } from './file.resolver'
 // import { LoginResponse } from '../../models/user.entity'
 
 // const userArray = [
@@ -28,7 +26,7 @@ describe('UserResolver', () => {
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({
-			imports: [AppModule, EmailModule, FileModule],
+			imports: [AppModule],
 			providers: [
 				UserResolver,
 				{

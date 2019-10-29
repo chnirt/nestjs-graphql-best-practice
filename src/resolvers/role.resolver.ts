@@ -1,20 +1,15 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository, getMongoRepository } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
-import { Role, Node } from '../../models'
-import { CreateRoleInput } from '../../generator/graphql.schema'
+
+import { Role, Node } from '../models'
+import { CreateRoleInput } from '../generator/graphql.schema'
 
 @Resolver('Role')
 export class RoleResolver {
-	constructor(
-		@InjectRepository(Role)
-		private readonly roleRepository: MongoRepository<Role>
-	) {}
-
 	@Query()
 	async roles(): Promise<Role[]> {
-		return this.roleRepository.find({
+		return getMongoRepository(Role).find({
 			cache: true
 		})
 	}
@@ -39,7 +34,7 @@ export class RoleResolver {
 			throw new ForbiddenError('Permissions must be greater than 0.')
 		}
 
-		return await this.roleRepository.save(
+		return await getMongoRepository(Role).save(
 			new Role({ ...input, permissions: [...input.permissions] })
 		)
 	}

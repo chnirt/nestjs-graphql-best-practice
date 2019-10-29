@@ -8,8 +8,7 @@ import {
 	ResolveProperty,
 	Parent
 } from '@nestjs/graphql'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository, getMongoRepository } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 import {
 	ApolloError,
 	AuthenticationError,
@@ -17,15 +16,16 @@ import {
 	UserInputError
 } from 'apollo-server-core'
 import * as uuid from 'uuid'
+
 import {
 	CreateUserInput,
 	UpdateUserInput,
 	LoginUserInput
-} from '../../models/user.entity'
-import { User } from '../../models'
-import { comparePassword, hashPassword } from '../../utils/password'
-import { EmailResolver } from '../email/email.resolver'
-import { FileResolver } from '../file/file.resolver'
+} from '../models/user.entity'
+import { User } from '../models'
+import { comparePassword, hashPassword } from '../utils/password'
+import { EmailResolver } from './email.resolver'
+import { FileResolver } from './file.resolver'
 import {
 	Result,
 	SearchInput,
@@ -33,7 +33,7 @@ import {
 	LoginResponse,
 	RefreshTokenResponse,
 	Type
-} from '../../generator/graphql.schema'
+} from '../generator/graphql.schema'
 import {
 	generateToken,
 	generateResetPassToken,
@@ -41,16 +41,14 @@ import {
 	tradeToken,
 	verifyRefreshToken,
 	verifyEmailToken
-} from '../../auth'
-import { sendMail } from '../../shared/mail'
+} from '../auth'
+import { sendMail } from '../shared'
 
-import { USER_SUBSCRIPTION } from '../../environments'
+import { USER_SUBSCRIPTION } from '../environments'
 
 @Resolver('User')
 export class UserResolver {
 	constructor(
-		@InjectRepository(User)
-		private readonly userRepository: MongoRepository<User>,
 		private readonly emailResolver: EmailResolver,
 		private readonly fileResolver: FileResolver
 	) {}
@@ -104,7 +102,7 @@ export class UserResolver {
 			throw new UserInputError('userIds can not be blank.')
 		}
 
-		result = await this.userRepository.find({
+		result = await getMongoRepository(User).find({
 			where: {
 				_id: { $in: userIds }
 			}
@@ -130,7 +128,7 @@ export class UserResolver {
 		@Args('offset') offset: number,
 		@Args('limit') limit: number
 	): Promise<User[]> {
-		const users = await this.userRepository.find({
+		const users = await getMongoRepository(User).find({
 			// where: { email: { $nin: ['trinchinchin@gmail.com'] } },
 			// order: { createdAt: -1 },
 			skip: offset,
@@ -144,7 +142,7 @@ export class UserResolver {
 	@Query()
 	async user(@Args('_id') _id: string): Promise<User> {
 		try {
-			const user = await this.userRepository.findOne({ _id })
+			const user = await getMongoRepository(User).findOne({ _id })
 
 			if (!user) {
 				throw new ForbiddenError('User not found.')
@@ -167,7 +165,7 @@ export class UserResolver {
 
 			let existedUser
 
-			existedUser = await this.userRepository.findOne({
+			existedUser = await getMongoRepository(User).findOne({
 				where: {
 					'local.email': email
 				}
@@ -178,7 +176,7 @@ export class UserResolver {
 			}
 
 			// Is there a Google account with the same email?
-			existedUser = await this.userRepository.findOne({
+			existedUser = await getMongoRepository(User).findOne({
 				where: {
 					$or: [{ 'google.email': email }, { 'facebook.email': email }]
 				}
@@ -195,10 +193,10 @@ export class UserResolver {
 				}
 				existedUser.gender = gender
 
-				return await this.userRepository.save(existedUser)
+				return await getMongoRepository(User).save(existedUser)
 			}
 
-			const createdUser = await this.userRepository.save(
+			const createdUser = await getMongoRepository(User).save(
 				new User({
 					firstName,
 					lastName,
@@ -241,13 +239,13 @@ export class UserResolver {
 		try {
 			const { firstName, lastName, password, gender } = input
 
-			const user = await this.userRepository.findOne({ _id })
+			const user = await getMongoRepository(User).findOne({ _id })
 
 			if (!user) {
 				throw new ForbiddenError('User not found.')
 			}
 
-			return (await this.userRepository.save(
+			return (await getMongoRepository(User).save(
 				new User({
 					...user,
 					firstName,
@@ -272,7 +270,7 @@ export class UserResolver {
 		@Args('file') file: any
 	): Promise<boolean> {
 		try {
-			const user = await this.userRepository.findOne({ _id })
+			const user = await getMongoRepository(User).findOne({ _id })
 
 			if (!user) {
 				throw new ForbiddenError('User not found.')
@@ -282,7 +280,7 @@ export class UserResolver {
 
 			user.avatar = newFile.path
 
-			return (await this.userRepository.save(user)) ? true : false
+			return (await getMongoRepository(User).save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -291,7 +289,7 @@ export class UserResolver {
 	@Mutation()
 	async deleteUser(@Args('_id') _id: string): Promise<boolean> {
 		try {
-			const user = await this.userRepository.findOne({ _id })
+			const user = await getMongoRepository(User).findOne({ _id })
 
 			if (!user) {
 				throw new ForbiddenError('User not found.')
@@ -299,7 +297,7 @@ export class UserResolver {
 
 			user.isActive = false
 
-			return (await this.userRepository.save(user)) ? true : false
+			return (await getMongoRepository(User).save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -308,7 +306,7 @@ export class UserResolver {
 	@Mutation()
 	async deleteUsers(): Promise<boolean> {
 		try {
-			return (await this.userRepository.deleteMany({
+			return (await getMongoRepository(User).deleteMany({
 				email: { $nin: ['trinhchinchin@gmail.com'] }
 			}))
 				? true
@@ -324,7 +322,7 @@ export class UserResolver {
 
 		if (!user.isVerified) {
 			user.isVerified = true
-			return (await this.userRepository.save(user)) ? true : false
+			return (await getMongoRepository(User).save(user)) ? true : false
 		} else {
 			throw new ForbiddenError('Your email has been verified.')
 		}
@@ -364,7 +362,7 @@ export class UserResolver {
 		@Args('reason') reason: string
 	): Promise<boolean> {
 		try {
-			const user = await this.userRepository.findOne({ _id })
+			const user = await getMongoRepository(User).findOne({ _id })
 
 			if (!user) {
 				throw new ForbiddenError('User not found.')
@@ -373,7 +371,7 @@ export class UserResolver {
 			user.reason = !user.isLocked ? reason : ''
 			user.isLocked = !user.isLocked
 
-			return (await this.userRepository.save(user)) ? true : false
+			return (await getMongoRepository(User).save(user)) ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -385,7 +383,7 @@ export class UserResolver {
 		@Args('currentPassword') currentPassword: string,
 		@Args('password') password: string
 	): Promise<boolean> {
-		const user = await this.userRepository.findOne({ _id })
+		const user = await getMongoRepository(User).findOne({ _id })
 
 		// console.log(currentPassword , password)
 
@@ -405,7 +403,7 @@ export class UserResolver {
 
 		user.local.password = await hashPassword(password)
 
-		return (await this.userRepository.save(user)) ? true : false
+		return (await getMongoRepository(User).save(user)) ? true : false
 	}
 
 	@Mutation()
@@ -413,7 +411,7 @@ export class UserResolver {
 		@Args('email') email: string,
 		@Context('req') req: any
 	): Promise<boolean> {
-		const user = await this.userRepository.findOne({
+		const user = await getMongoRepository(User).findOne({
 			where: {
 				'local.email': email,
 				isVerified: true
@@ -431,6 +429,8 @@ export class UserResolver {
 			type: Type.FORGOT_PASSWORD
 		})
 
+		console.log(existedEmail)
+
 		await sendMail(
 			'forgotPassword',
 			user,
@@ -443,7 +443,7 @@ export class UserResolver {
 		user.resetPasswordToken = resetPassToken
 		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
 
-		return (await this.userRepository.save(user)) ? true : false
+		return (await getMongoRepository(User).save(user)) ? true : false
 	}
 
 	@Mutation()
@@ -451,7 +451,7 @@ export class UserResolver {
 		@Args('resetPasswordToken') resetPasswordToken: string,
 		@Args('password') password: string
 	): Promise<boolean> {
-		const user = await this.userRepository.findOne({
+		const user = await getMongoRepository(User).findOne({
 			resetPasswordToken
 		})
 
@@ -469,7 +469,7 @@ export class UserResolver {
 		user.resetPasswordToken = null
 		user.resetPasswordExpires = null
 
-		return (await this.userRepository.save(user)) ? true : false
+		return (await getMongoRepository(User).save(user)) ? true : false
 	}
 
 	@Subscription(() => Object, {

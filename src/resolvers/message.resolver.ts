@@ -6,24 +6,19 @@ import {
 	Context,
 	Subscription
 } from '@nestjs/graphql'
-import { Message } from '../../models'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository, getMongoRepository } from 'typeorm'
-import { CreateMessageInput } from '../../generator/graphql.schema'
-import { User, Room } from '../../models'
+import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
-import { MESSAGES_SUBSCRIPTION } from '../../environments'
+
+import { Message, Room, User } from '../models'
+import { CreateMessageInput } from '../generator/graphql.schema'
+
+import { MESSAGES_SUBSCRIPTION } from '../environments'
 
 @Resolver('Message')
 export class MessageResolver {
-	constructor(
-		@InjectRepository(Message)
-		private readonly messageRepository: MongoRepository<Message>
-	) {}
-
 	@Query()
 	async messages(@Args('roomId') roomId: string): Promise<Message[]> {
-		return this.messageRepository.find({
+		return getMongoRepository(Message).find({
 			where: { roomId },
 			cache: true
 		})
@@ -48,7 +43,7 @@ export class MessageResolver {
 			throw new ForbiddenError('Room not found.')
 		}
 
-		const newMessage = await this.messageRepository.save(
+		const newMessage = await getMongoRepository(Message).save(
 			new Message({ ...input, createdBy: [currentUser] })
 		)
 

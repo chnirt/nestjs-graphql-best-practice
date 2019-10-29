@@ -20,8 +20,8 @@ import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
 import { LoggerMiddleware } from './common/middleware/logger.middleware'
 
 import { timeout, interval, cron } from './shared'
-import { EmailModule } from './resolvers/email/email.module'
-import { EmailResolver } from './resolvers/email/email.resolver'
+
+import { EmailResolver } from './resolvers/email.resolver'
 
 import config from './config.orm'
 import { logger } from './common/wiston'
@@ -57,11 +57,6 @@ async function bootstrap() {
 			// },
 			logger: false
 		})
-
-		// application context
-		const emailResolver = app
-			.select(EmailModule)
-			.get(EmailResolver, { strict: true })
 
 		// tasks
 		// timeout()
@@ -127,13 +122,20 @@ async function bootstrap() {
 
 		app.enableShutdownHooks()
 
+		// application context
+		// const emailResolver = app
+		// 	.select(EmailModule)
+		// 	.get(EmailResolver, { strict: true })
+
+		const emailResolver = app.get(EmailResolver)
+
 		// mail tracking
 		app.use('/graphql/:id', (req, res, next) => {
-			const { _id } = req.params
-			// console.log(_id)
+			const { id } = req.params
+			// console.log(req)
 
-			if (_id) {
-				emailResolver.openEmail(_id)
+			if (id) {
+				emailResolver.openEmail(id)
 			}
 
 			next()

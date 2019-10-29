@@ -6,22 +6,17 @@ import {
 	Context,
 	Subscription
 } from '@nestjs/graphql'
-import { Notification } from '../../models'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository } from 'typeorm'
+import { getMongoRepository } from 'typeorm'
 
-import { NOTIFICATION_SUBSCRIPTION } from '../../environments'
+import { Notification } from '../models'
+
+import { NOTIFICATION_SUBSCRIPTION } from '../environments'
 
 @Resolver('Notification')
 export class NotificationResolver {
-	constructor(
-		@InjectRepository(Notification)
-		private readonly notificationRepository: MongoRepository<Notification>
-	) {}
-
 	@Query()
 	async notifications(): Promise<Notification[]> {
-		return this.notificationRepository.find({
+		return getMongoRepository(Notification).find({
 			cache: true
 		})
 	}
@@ -32,7 +27,7 @@ export class NotificationResolver {
 		@Args('label') label: string,
 		@Context('pubsub') pubsub: any
 	): Promise<Notification> {
-		const newNotification = await this.notificationRepository.save(
+		const newNotification = await getMongoRepository(Notification).save(
 			new Notification({ label })
 		)
 
