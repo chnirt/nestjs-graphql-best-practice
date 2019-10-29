@@ -13,6 +13,7 @@
 		"noImplicitAny": false,
 		"outDir": "./dist",
 		"baseUrl": "./",
+		"typeRoots": ["node_modules/@types", "types"],
 		"paths": {
 			"@auth/*": ["src/auth/*"],
 			"@utils/*": ["src/shared/*"],
@@ -21,5 +22,13 @@
 		}
 	},
 	"include": ["src/**/*.ts"],
-	"exclude": [".circleci", "node_modules", "dist"]
+	"compileOnSave": false,
+	"exclude": [
+		"node_modules",
+		"coverage",
+		"document",
+		"dist",
+		"backup",
+		"**/*.spec.ts"
+	]
 }

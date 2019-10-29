@@ -44,6 +44,7 @@
 		"@nestjs/typeorm": "^6.2.0",
 		"apollo-server-cache-memcached": "^0.6.3",
 		"apollo-server-express": "^2.9.7",
+		"assert": "^2.0.0",
 		"bcrypt": "^3.0.6",
 		"cache-manager": "^2.10.0",
 		"chai": "^4.2.0",
@@ -128,6 +129,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"yarn format",
+			"yarn lint",
 			"git add"
 		]
 	},

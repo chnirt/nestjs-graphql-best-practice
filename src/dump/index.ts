@@ -21,7 +21,7 @@ const now = formatDate(new Date(), 'yyyy/mm/dd') || new Date().toISOString()
 const out = `./backup/${now}/${collection}.json`
 
 // mongoexport
-const dump: child.ChildProcess = child.exec(
+export const dump: child.ChildProcess = child.exec(
 	`mongoexport -h ${MLAB_HOST}:${MLAB_PORT} -d ${MLAB_DATABASE} -c ${collection} -u ${MLAB_USER} -p ${MLAB_PASS} -o ${out}`,
 	() => {
 		console.log(`Success.`)

@@ -2,7 +2,7 @@ import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { defaultFieldResolver } from 'graphql'
 
 class ConcatDirective extends SchemaDirectiveVisitor {
-	visitFieldDefinition(field) {
+	public visitFieldDefinition(field) {
 		const { resolve = defaultFieldResolver } = field
 		const { value } = this.args
 		field.resolve = async function(...args) {
