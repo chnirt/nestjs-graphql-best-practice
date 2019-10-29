@@ -17,6 +17,7 @@ cache:
 env:
   global:
     - ACCESS_TOKEN_SECRET=chnirt1803
+    - CODECOV_TOKEN=870f236d-01d9-4103-bc9b-4e2dd1b836f6
     # - DOCKER_USERNAME=chnirt
     # - DOCKER_PASSWORD=12345678
 before_install:
@@ -25,6 +26,7 @@ before_install:
 install:
   - npm i
   - npm rebuild bcrypt --update-binary
+  - npm i codecov -g
 stages:
   # - build docker image
   - Unit Tests
@@ -53,3 +55,5 @@ jobs:
       script:
         - npm run gen
         - npm run test:cov
+after_success:
+  - codecov
