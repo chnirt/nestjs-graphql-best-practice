@@ -1,28 +1,22 @@
 import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
-import { Room } from '../../models'
-import { InjectRepository } from '@nestjs/typeorm'
-import { MongoRepository, getMongoRepository } from 'typeorm'
-import { CreateRoomInput } from '../../generator/graphql.schema'
-import { User } from '../../models'
+import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
+
+import { Room, User } from '../models'
+import { CreateRoomInput } from '../generator/graphql.schema'
 
 @Resolver('Room')
 export class RoomResolver {
-	constructor(
-		@InjectRepository(Room)
-		private readonly roomRepository: MongoRepository<Room>
-	) {}
-
 	@Query(() => [Room])
 	async rooms(): Promise<Room[]> {
-		return this.roomRepository.find({
+		return getMongoRepository(Room).find({
 			cache: true
 		})
 	}
 
 	@Query(() => Room)
 	async room(@Args('_id') _id: string): Promise<Room> {
-		const room = await this.roomRepository.findOne({
+		const room = await getMongoRepository(Room).findOne({
 			_id
 		})
 
@@ -30,7 +24,7 @@ export class RoomResolver {
 			throw new ForbiddenError('Room not found.')
 		}
 
-		return this.roomRepository.findOne({
+		return getMongoRepository(Room).findOne({
 			_id
 		})
 	}
@@ -54,7 +48,7 @@ export class RoomResolver {
 			throw new ForbiddenError('One of userIds is invalid.')
 		}
 
-		return await this.roomRepository.save(
+		return await getMongoRepository(Room).save(
 			new Room({ title, users: [...existedUserIds, currentUser] })
 		)
 	}
@@ -64,7 +58,7 @@ export class RoomResolver {
 		@Args('_id') _id: string,
 		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
-		const room = await this.roomRepository.findOne({
+		const room = await getMongoRepository(Room).findOne({
 			_id
 		})
 
@@ -80,7 +74,7 @@ export class RoomResolver {
 
 		room.users = [...room.users, currentUser]
 
-		return this.roomRepository.save(room) ? true : false
+		return getMongoRepository(Room).save(room) ? true : false
 	}
 
 	@Mutation(() => Boolean)
@@ -88,7 +82,7 @@ export class RoomResolver {
 		@Args('_id') _id: string,
 		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
-		const room = await this.roomRepository.findOne({
+		const room = await getMongoRepository(Room).findOne({
 			_id
 		})
 
@@ -104,6 +98,6 @@ export class RoomResolver {
 
 		room.users = room.users.filter(item => item._id !== currentUser._id)
 
-		return this.roomRepository.save(room) ? true : false
+		return getMongoRepository(Room).save(room) ? true : false
 	}
 }

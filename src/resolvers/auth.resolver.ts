@@ -2,14 +2,14 @@ import { Resolver, Mutation, Args, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ApolloError } from 'apollo-server-core'
 
-import { LoginResponse, Gender } from '../../generator/graphql.schema'
+import { LoginResponse, Gender } from '../generator/graphql.schema'
 import {
 	authenticateGooglePlus,
 	authenticateFacebook,
 	authenticateGoogle
-} from '../../auth'
-import { tradeToken } from '../../auth'
-import { User } from '../../models'
+} from '../auth'
+import { tradeToken } from '../auth'
+import { User } from '../models'
 
 @Resolver('Auth')
 export class AuthResolver {

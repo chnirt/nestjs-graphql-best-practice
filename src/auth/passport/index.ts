@@ -16,7 +16,7 @@ interface OAuthResponse {
 }
 
 // GOOGLE PLUS STRATEGY
-const GooglePlusTokenStrategyCallback = async (
+const googlePlusTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
@@ -34,12 +34,12 @@ passport.use(
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET
 		},
-		GooglePlusTokenStrategyCallback
+		googlePlusTokenStrategyCallback
 	)
 )
 
 // FACEBOOK STRATEGY
-const FacebookTokenStrategyCallback = (
+const facebookTokenStrategyCallback = (
 	accessToken,
 	refreshToken,
 	profile,
@@ -57,12 +57,12 @@ passport.use(
 			clientID: FACEBOOK_APP_ID,
 			clientSecret: FACEBOOK_APP_SECRET
 		},
-		FacebookTokenStrategyCallback
+		facebookTokenStrategyCallback
 	)
 )
 
 // GOOGLE STRATEGY
-const GoogleTokenStrategyCallback = async (
+const googleTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
@@ -80,7 +80,7 @@ passport.use(
 			clientID: GOOGLE_CLIENT_ID,
 			clientSecret: GOOGLE_CLIENT_SECRET
 		},
-		GoogleTokenStrategyCallback
+		googleTokenStrategyCallback
 	)
 )
 

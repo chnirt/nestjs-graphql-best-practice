@@ -8,6 +8,13 @@ enum NodeCategory {
 	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
 }
 
+input SearchNodeInput {
+	parentId: ID
+	name: String
+	code: String
+	category: NodeCategory
+}
+
 input CreateNodeInput {
 	parentId: ID
 	name: String!
@@ -35,7 +42,7 @@ type Node {
 #         Staff
 
 type Query {
-	nodes(text: String, code: String): [Node]
+	nodes(input: SearchNodeInput): [Node]
 }
 
 type Mutation {

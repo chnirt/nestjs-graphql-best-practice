@@ -6,18 +6,22 @@ import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
 import { LoggerModule } from './config/logger/logger.module'
-import { UserModule } from './resolvers/user/user.module'
-import { DateScalar } from './common/scalars/date.scalar'
-import { UploadScalar } from './common/scalars/upload.scalar'
-import { FileModule } from './resolvers/file/file.module'
-import { EmailModule } from './resolvers/email/email.module'
-import { NotificationModule } from './resolvers/notification/notification.module'
-import { RoomModule } from './resolvers/room/room.module'
-import { MessageModule } from './resolvers/message/message.module'
-import { FormModule } from './resolvers/form/form.module'
-import { NodeModule } from './resolvers/node/node.module'
-import { PermissionModule } from './resolvers/permission/permission.module'
-import { RoleModule } from './resolvers/role/role.module'
+import { DateScalar } from './config/graphql/scalars/date.scalar'
+import { UploadScalar } from './config/graphql/scalars/upload.scalar'
+
+import { UserResolver } from './resolvers/user.resolver'
+import { ResultResolver } from './resolvers/result.resolver'
+import { UserResultResolver } from './resolvers/userResult.resolver'
+import { AuthResolver } from './resolvers/auth.resolver'
+import { EmailResolver } from './resolvers/email.resolver'
+import { PermissionResolver } from './resolvers/permission.resolver'
+import { RoleResolver } from './resolvers/role.resolver'
+import { NotificationResolver } from './resolvers/notification.resolver'
+import { RoomResolver } from './resolvers/room.resolver'
+import { MessageResolver } from './resolvers/message.resolver'
+import { FormResolver } from './resolvers/form.resolver'
+import { NodeResolver } from './resolvers/node.resolver'
+import { FileResolver } from './resolvers/file.resolver'
 
 @Module({
 	imports: [
@@ -30,18 +34,24 @@ import { RoleModule } from './resolvers/role/role.module'
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
-		UserModule,
-		LoggerModule,
-		FileModule,
-		EmailModule,
-		NotificationModule,
-		RoomModule,
-		MessageModule,
-		FormModule,
-		NodeModule,
-		PermissionModule,
-		RoleModule
+		LoggerModule
 	],
-	providers: [DateScalar, UploadScalar]
+	providers: [
+		DateScalar,
+		UploadScalar,
+		UserResolver,
+		ResultResolver,
+		UserResultResolver,
+		AuthResolver,
+		EmailResolver,
+		FileResolver,
+		PermissionResolver,
+		RoleResolver,
+		NotificationResolver,
+		RoomResolver,
+		MessageResolver,
+		FormResolver,
+		NodeResolver
+	]
 })
 export class AppModule {}

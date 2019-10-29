@@ -14,13 +14,24 @@ const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''
 
+// mlab
+const MLAB_USER = process.env.MLAB_USER || 'admin'
+const MLAB_PASS = process.env.MLAB_PASS || 'chnirt1803'
+const MLAB_HOST = process.env.MLAB_HOST || 'ds147420.mlab.com'
+const MLAB_PORT = +process.env.MLAB_PORT || 47420
+const MLAB_DATABASE = process.env.MLAB_DATABASE || 'chnirt-nest'
+const MLAB_URL =
+	process.env.MLAB_URL ||
+	`mongodb://${MLAB_USER}:${MLAB_PASS}@${MLAB_HOST}:${MLAB_PORT}/${MLAB_DATABASE}`
+
 // mongodb
 // var url = 'mongodb://localhost:27017,localhost:27018/myproject?replicaSet=foo';
-const MONGO_URL: string =
-	process.env.MONGO_URL ||
-	'mongodb://admin:chnirt1803@ds147420.mlab.com:47420/chnirt-nest'
+const MONGO_URL: string = process.env.MONGO_PORT
+	? `mongodb://localhost:${process.env.MONGO_PORT}`
+	: MLAB_URL
+
 const MONGO_PORT: number = +process.env.MONGO_PORT || 11049
-const MONGO_DB: string = process.env.MONGO_DB || 'chnirt-nest'
+const MONGO_DB: string = process.env.MONGO_PORT ? 'chnirt-nest' : MLAB_DATABASE
 
 // jsonwebtoken
 const ISSUER: string = process.env.ISSUER || 'http://chnirt.dev.io'
@@ -77,6 +88,12 @@ export {
 	END_POINT,
 	VOYAGER,
 	FE_URL,
+	MLAB_USER,
+	MLAB_PASS,
+	MLAB_HOST,
+	MLAB_PORT,
+	MLAB_DATABASE,
+	MLAB_URL,
 	MONGO_URL,
 	MONGO_PORT,
 	MONGO_DB,

@@ -27,13 +27,14 @@
 		"test:cov": "NODE_ENV=testing jest -w 1 --config ./jest.config.json --coverage --forceExit",
 		"test:debug": "NODE_ENV=testing node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest -w 1 --runInBand --forceExit",
 		"test:e2e": "NODE_ENV=testing jest -w 1 --config ./test/jest-e2e.json --forceExit",
-		"webpack": "rimraf dist && NODE_ENV=development webpack --config webpack.config.js",
+		"webpack": "NODE_ENV=development webpack --config webpack.config.js",
 		"start:hmr": "node dist/main.js",
 		"gen": "ts-node src/generator/generate-typings.ts",
 		"db:seed": "ts-node src/dbseed.ts",
 		"doc": "npx compodoc --port 11045 -p tsconfig.json -s",
 		"doc:serve": "yarn doc && npx compodoc -s",
-		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build"
+		"heroku-postbuild": "yarn --only=dev --no-shrinkwrap && yarn build",
+		"dump": "ts-node src/dump"
 	},
 	"dependencies": {
 		"@nestjs/common": "^6.8.3",
@@ -43,6 +44,7 @@
 		"@nestjs/typeorm": "^6.2.0",
 		"apollo-server-cache-memcached": "^0.6.3",
 		"apollo-server-express": "^2.9.7",
+		"assert": "^2.0.0",
 		"bcrypt": "^3.0.6",
 		"cache-manager": "^2.10.0",
 		"chai": "^4.2.0",
