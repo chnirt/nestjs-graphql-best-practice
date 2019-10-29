@@ -26,7 +26,10 @@ before_install:
 install:
   - npm i
   - npm rebuild bcrypt --update-binary
-  - npm i codecov -g
+  - npm i -g codecov
+script:
+  - istanbul cover ./node_modules/mocha/bin/_mocha --reporter lcovonly -- -R spec
+  - codecov
 stages:
   # - build docker image
   - Unit Tests
@@ -55,5 +58,3 @@ jobs:
       script:
         - npm run gen
         - npm run test:cov
-after_success:
-  - codecov
