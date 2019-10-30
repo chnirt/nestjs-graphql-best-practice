@@ -7,6 +7,9 @@ import { GraphQLExtension, AuthenticationError } from 'apollo-server-core'
 import { MockList } from 'graphql-tools'
 import GraphQLJSON, { GraphQLJSONObject } from 'graphql-type-json'
 import * as depthLimit from 'graphql-depth-limit'
+// import { fileLoader, mergeTypes } from 'merge-graphql-schemas'
+// import { buildFederatedSchema } from '@apollo/federation'
+// import { ApolloGateway } from '@apollo/gateway'
 import { getMongoRepository } from 'typeorm'
 
 import schemaDirectives from './schemaDirectives'
@@ -16,6 +19,15 @@ import { User } from '../../models'
 import { logger } from '../../common/wiston'
 
 import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
+
+// const gateway = new ApolloGateway({
+// 	serviceList: [
+// 		{ name: 'accounts', url: 'http://localhost:11041/graphql' },
+// 		{ name: 'reviews', url: 'http://localhost:11042/graphql' },
+// 		{ name: 'products', url: 'http://localhost:11043/graphql' },
+// 		{ name: 'inventory', url: 'http://localhost:11044/graphql' }
+// 	]
+// })
 
 const pubsub = new PubSub()
 class MyErrorTrackingExtension extends GraphQLExtension {
@@ -37,20 +49,28 @@ class MyErrorTrackingExtension extends GraphQLExtension {
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
 	async createGqlOptions(): Promise<GqlModuleOptions> {
+		// const { schema, executor } = await gateway.load()
+		// const typeDefs = mergeTypes(fileLoader(`./**/*.graphql`), {
+		// 	all: true
+		// })
+
+		// console.log(typeDefs)
 		return {
+			// schema,
+			// executor,
+			// schema: buildFederatedSchema([
+			// 	{
+			// 		typeDefs,
+			// 		resolvers: {
+			// 			JSON: GraphQLJSON,
+			// 			JSONObject: GraphQLJSONObject
+			// 		}
+			// 	}
+			// ]),
 			typePaths: ['./**/*.graphql'],
 			resolvers: {
 				JSON: GraphQLJSON,
 				JSONObject: GraphQLJSONObject
-				// Result: {
-				// 	__resolveType(obj, ctx, info) {
-				// 		return null;
-				// },
-				// UserResult: {
-				// 	__resolveType(obj, ctx, info) {
-				// 		return obj.__typename
-				// 	}
-				// }
 			},
 			extensions: [() => new MyErrorTrackingExtension()],
 			mocks: NODE_ENV === 'testing' && {
@@ -232,8 +252,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					{ retries: 10, retry: 10000 } // Options
 				)
 			},
-			installSubscriptionHandlers: true,
-			uploads: false
+			installSubscriptionHandlers: true
+			// uploads: false
 		}
 	}
 }

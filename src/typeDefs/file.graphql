@@ -11,5 +11,5 @@ type Query {
 }
 
 type Mutation {
-	uploadFile(file: Upload!): File @isAuthenticated
+	uploadFile(file: Upload!): File
 }

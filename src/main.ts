@@ -69,7 +69,7 @@ async function bootstrap() {
 		app.useLogger(app.get(LoggerService))
 
 		// added security
-		app.use(helmet())
+		// app.use(helmet())
 
 		// body parser
 		app.use(bodyParser.json({ limit: '50mb' }))
@@ -82,7 +82,7 @@ async function bootstrap() {
 		)
 
 		// compress
-		app.use(compression())
+		// app.use(compression())
 
 		// cruf
 		// app.use(csurf())

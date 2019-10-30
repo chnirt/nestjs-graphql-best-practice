@@ -11,8 +11,8 @@ branches:
     - cicd
     # - /^greenkeeper/.*$/
 cache:
-  # directories:
-  #   - node_modules
+  directories:
+    - node_modules
   # yarn: true
 env:
   global:

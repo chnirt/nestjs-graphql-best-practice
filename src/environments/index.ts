@@ -56,9 +56,10 @@ const MAIL_USER: string = process.env.MAIL_USER || 'trinhchin.innos@gmail.com'
 const MAIL_PASS: string = process.env.MAIL_PASS || 'Matkhaula1!'
 
 // cloudinary
-const CLOUD_NAME: string = process.env.CLOUD_NAME || ''
-const API_KEY: string = process.env.API_KEY || ''
-const API_SECRET: string = process.env.API_SECRET || ''
+const CLOUD_NAME: string = process.env.CLOUD_NAME || 'chnirt'
+const API_KEY: string = process.env.API_KEY || '475584948229723'
+const API_SECRET: string =
+	process.env.API_SECRET || 'Duno2be58mE2lCFLcuOssGKG54c'
 
 // pubsub
 const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'

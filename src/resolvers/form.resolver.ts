@@ -16,8 +16,7 @@ export class FormResolver {
 
 	@Mutation()
 	async createForm(@Args('input') input: CreateFormInput): Promise<Form> {
-		// return await getMongoRepository(Form).save(new Form({ ...input }))
-		return null
+		return await getMongoRepository(Form).save(new Form({ ...input }))
 	}
 
 	@Mutation()
