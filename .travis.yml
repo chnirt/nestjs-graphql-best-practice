@@ -57,3 +57,5 @@ jobs:
       script:
         - npm run gen
         - npm run test:cov
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
