@@ -272,3 +272,5 @@
 Our contributors are working on this section. [Would you like to join?](https://github.com/i0natan/nodebestpractices/issues/256)
 
 [✔️] 7.1. Prefer native JS methods over user-land utils like Lodash
+
+[❔] 7.2. Use Fastify in place of Express
