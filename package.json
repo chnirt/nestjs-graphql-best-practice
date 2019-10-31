@@ -68,6 +68,7 @@
 		"handlebars": "^4.4.5",
 		"helmet": "^3.21.2",
 		"ioredis": "^4.14.1",
+		"jest-config": "^24.9.0",
 		"jsonwebtoken": "^8.5.1",
 		"merge-graphql-schemas": "^1.7.0",
 		"mongodb": "^3.3.3",

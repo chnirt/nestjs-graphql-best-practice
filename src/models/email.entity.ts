@@ -5,7 +5,6 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { IsNotEmpty } from 'class-validator'
 import * as uuid from 'uuid'
 
 enum Type {

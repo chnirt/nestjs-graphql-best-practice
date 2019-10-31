@@ -2,6 +2,7 @@ import { Module, CacheModule } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 
+import { AppController } from './app.controller'
 import { GraphqlService } from './config/graphql/graphql.service'
 import { TypeormService } from './config/typeorm/typeorm.service'
 import { CacheService } from './config/cache/cache.service'
@@ -36,6 +37,7 @@ import { FileResolver } from './resolvers/file.resolver'
 		}),
 		LoggerModule
 	],
+	controllers: [AppController],
 	providers: [
 		DateScalar,
 		UploadScalar,

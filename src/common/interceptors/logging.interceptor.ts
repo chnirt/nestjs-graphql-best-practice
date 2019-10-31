@@ -24,9 +24,10 @@ export class LoggingInterceptor implements NestInterceptor {
 				console.log(
 					new Date().toLocaleString(),
 					'⛩  ',
-					chalk.hex('#eb2f96').bold(context.getArgs()[3].parentType),
+					context.getArgs()[3] &&
+						chalk.hex('#eb2f96').bold(context.getArgs()[3].parentType),
 					'»',
-					context.getArgs()[3].fieldName,
+					context.getArgs()[3] && context.getArgs()[3].fieldName,
 					chalk.hex('#fff566')(`+${Date.now() - now}ms`)
 				)
 			})

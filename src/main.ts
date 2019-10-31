@@ -3,6 +3,8 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import { createConnection, getMetadataArgsStorage } from 'typeorm'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
+import { NestExpressApplication } from '@nestjs/platform-express'
+import { join } from 'path'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
@@ -26,7 +28,14 @@ import { EmailResolver } from './resolvers/email.resolver'
 import config from './config.orm'
 import { logger } from './common/wiston'
 
-import { NODE_ENV, DOMAIN, PORT, END_POINT, VOYAGER } from './environments'
+import {
+	NODE_ENV,
+	DOMAIN,
+	PORT,
+	END_POINT,
+	VOYAGER,
+	STATIC
+} from './environments'
 
 declare const module: any
 
@@ -50,7 +59,7 @@ createConnection({
 
 async function bootstrap() {
 	try {
-		const app = await NestFactory.create(AppModule, {
+		const app = await NestFactory.create<NestExpressApplication>(AppModule, {
 			// httpsOptions: {
 			// 	key: fs.readFileSync(`./ssl/product/server.key`),
 			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
@@ -149,6 +158,9 @@ async function bootstrap() {
 			}
 			next()
 		})
+
+		// serve static
+		app.useStaticAssets(join(__dirname, `../${STATIC}`))
 
 		const server = await app.listen(PORT)
 

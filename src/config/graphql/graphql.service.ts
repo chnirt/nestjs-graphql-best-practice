@@ -109,7 +109,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			directiveResolvers,
 			validationRules: [
 				depthLimit(10, { ignore: [/_trusted$/, 'idontcare'] }, depths => {
-					// console.log(depths)
+					console.log(depths)
 				})
 			],
 			introspection: true,

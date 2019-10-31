@@ -14,6 +14,9 @@ const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || ''
 
+// static
+const STATIC: string = process.env.STATIC || 'static'
+
 // mlab
 const MLAB_USER = process.env.MLAB_USER || 'admin'
 const MLAB_PASS = process.env.MLAB_PASS || 'chnirt1803'
@@ -89,6 +92,7 @@ export {
 	END_POINT,
 	VOYAGER,
 	FE_URL,
+	STATIC,
 	MLAB_USER,
 	MLAB_PASS,
 	MLAB_HOST,

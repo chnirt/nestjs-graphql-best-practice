@@ -1,3 +1,5 @@
+scalar Upload
+
 type File {
 	_id: ID!
 	filename: String!
@@ -12,4 +14,5 @@ type Query {
 
 type Mutation {
 	uploadFile(file: Upload!): File
+	uploadFileLocal(file: Upload!): File
 }
