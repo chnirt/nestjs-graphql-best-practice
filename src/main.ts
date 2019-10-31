@@ -8,25 +8,26 @@ import { join } from 'path'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
-import * as passport from 'passport'
 // import * as csurf from 'csurf'
 // import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
 
-import { LoggerService } from './config/logger/logger.service'
-import { ValidationPipe } from './common/pipes/validation.pipe'
-import { LoggingInterceptor } from './common/interceptors/logging.interceptor'
-import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor'
-import { LoggerMiddleware } from './common/middleware/logger.middleware'
+import { MyLogger } from './config'
+import {
+	ValidationPipe,
+	LoggingInterceptor,
+	TimeoutInterceptor,
+	LoggerMiddleware,
+	logger
+} from './common'
 
 import { timeout, interval, cron } from './shared'
 
 import { EmailResolver } from './resolvers/email.resolver'
 
 import config from './config.orm'
-import { logger } from './common/wiston'
 
 import {
 	NODE_ENV,
@@ -64,7 +65,7 @@ async function bootstrap() {
 			// 	key: fs.readFileSync(`./ssl/product/server.key`),
 			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
 			// },
-			logger: false
+			logger: new MyLogger()
 		})
 
 		// tasks
@@ -75,10 +76,8 @@ async function bootstrap() {
 		// adapter for e2e testing
 		const httpAdapter = app.getHttpAdapter()
 
-		app.useLogger(app.get(LoggerService))
-
 		// added security
-		// app.use(helmet())
+		app.use(helmet())
 
 		// body parser
 		app.use(bodyParser.json({ limit: '50mb' }))
@@ -91,7 +90,7 @@ async function bootstrap() {
 		)
 
 		// compress
-		// app.use(compression())
+		app.use(compression())
 
 		// cruf
 		// app.use(csurf())

@@ -16,7 +16,7 @@ services:
       ACCESS_TOKEN_SECRET: chnirt1803
     ports:
       - 3000:11047
-    command: npm run start:dev
+    command: npm run start:prod
   mongo:
     image: mongo
     expose:

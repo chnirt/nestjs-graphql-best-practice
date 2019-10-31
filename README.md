@@ -15,6 +15,7 @@
 
 - [Nestjs GraphQL Best Practice](#nestjs-graphql-best-practice)
   - [Table of Contents](#table-of-contents)
+  - [Structure](#structure)
   - [Function](#function)
   - [Usage](#usage)
   - [Starting the Server](#starting-the-server)
@@ -26,6 +27,10 @@
   - [5. Going To Production Practices](#5-going-to-production-practices)
   - [6. Security Best Practices](#6-security-best-practices)
   - [7. Performance Best Practices](#7-performance-best-practices)
+
+## Structure
+
+<img src="src/assets/images/structure.png" alt="Node.js Best Practices" width="150"/>
 
 ## Function
 

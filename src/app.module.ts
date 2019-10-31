@@ -3,10 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { GraphQLModule } from '@nestjs/graphql'
 
 import { AppController } from './app.controller'
-import { GraphqlService } from './config/graphql/graphql.service'
-import { TypeormService } from './config/typeorm/typeorm.service'
-import { CacheService } from './config/cache/cache.service'
-import { LoggerModule } from './config/logger/logger.module'
+import { CacheService, TypeormService, GraphqlService } from './config'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 
@@ -34,8 +31,7 @@ import { FileResolver } from './resolvers/file.resolver'
 		}),
 		CacheModule.registerAsync({
 			useClass: CacheService
-		}),
-		LoggerModule
+		})
 	],
 	controllers: [AppController],
 	providers: [
