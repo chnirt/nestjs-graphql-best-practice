@@ -57,5 +57,5 @@ jobs:
       script:
         - npm run gen
         - npm run test:cov
-after_success:
-  - bash <(curl -s https://codecov.io/bash)
+after_script:
+  - COVERALLS_REPO_TOKEN=$coveralls_repo_token npm run coveralls
