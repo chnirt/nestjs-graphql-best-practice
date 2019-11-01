@@ -1,7 +1,7 @@
 import { GOOGLE_APPLICATION_CREDENTIALS } from '../../environments'
 
 const googleTranslate = require('google-translate')(
-	GOOGLE_APPLICATION_CREDENTIALS
+	GOOGLE_APPLICATION_CREDENTIALS!
 )
 
 const loremIpsum = 'I am using google translator to convert this text'
