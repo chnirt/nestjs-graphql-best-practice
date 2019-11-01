@@ -91,10 +91,15 @@ type Facebook {
 	email: String
 }
 
+enum UserType {
+	BASIC # $0
+	PREMIUM # $9.99
+}
+
 type User {
 	_id: ID!
 	local: Local
-	googleplus: Google
+	google: Google
 	facebook: Facebook
 	firstName: String!
 	lastName: String!
@@ -109,6 +114,8 @@ type User {
 	isLocked: Boolean!
 	reason: String!
 	isActive: Boolean!
+	stripeId: String
+	type: UserType!
 	createdAt: Float!
 	updatedAt: Float!
 }
@@ -143,6 +150,8 @@ type Mutation {
 	): Boolean @isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
+	createSubcription(source: String!): User
+	# upgradeUser()
 }
 
 type Subscription {
