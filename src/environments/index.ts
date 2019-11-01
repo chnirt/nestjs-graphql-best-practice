@@ -18,11 +18,11 @@ const FE_URL: string = process.env.FE_URL || 'xxx'
 const STATIC: string = process.env.STATIC || 'static'
 
 // mlab
-const MLAB_USER = process.env.MLAB_USER || 'xxx'
-const MLAB_PASS = process.env.MLAB_PASS || 'xxx'
-const MLAB_HOST = process.env.MLAB_HOST || 'xxx'
-const MLAB_PORT = +process.env.MLAB_PORT || 0
-const MLAB_DATABASE = process.env.MLAB_DATABASE || 'xxx'
+const MLAB_USER = process.env.MLAB_USER || 'admin'
+const MLAB_PASS = process.env.MLAB_PASS || 'chnirt1803'
+const MLAB_HOST = process.env.MLAB_HOST || 'ds147420.mlab.com'
+const MLAB_PORT = +process.env.MLAB_PORT || 47420
+const MLAB_DATABASE = process.env.MLAB_DATABASE || 'chnirt-nest'
 const MLAB_URL =
 	process.env.MLAB_URL ||
 	`mongodb://${MLAB_USER}:${MLAB_PASS}@${MLAB_HOST}:${MLAB_PORT}/${MLAB_DATABASE}`
