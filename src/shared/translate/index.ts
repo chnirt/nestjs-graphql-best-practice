@@ -6,6 +6,18 @@ const googleTranslate = require('google-translate')(
 
 const loremIpsum = 'I am using google translator to convert this text'
 
+/**
+ * Returns string by translate.
+ *
+ * @remarks
+ * This method is part of the {@link shared/translate}.
+ *
+ * @param text - 1st input number
+ * @param code - 2nd input number
+ * @returns The string mean of `text` and `code`
+ *
+ * @beta
+ */
 export const translate = async (
 	text: string = loremIpsum,
 	code: string = 'vi'
