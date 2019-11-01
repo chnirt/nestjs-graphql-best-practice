@@ -4,7 +4,8 @@
 
 [![Build Status](https://travis-ci.org/chnirt/nestjs-graphql-best-practice.svg?branch=cicd)](https://travis-ci.org/chnirt/nestjs-graphql-best-practice)
 [![CircleCI](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd.svg?style=svg)](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd)
-[![Known Vulnerabilities](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice/badge.svg?targetFile=package.json)](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice?targetFile=package.json) [![Greenkeeper badge](https://badges.greenkeeper.io/chnirt/nestjs-graphql-best-practice.svg)](https://greenkeeper.io/)
+[![Known Vulnerabilities](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice/badge.svg?targetFile=package.json)](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice?targetFile=package.json) 
+[![Greenkeeper badge](https://badges.greenkeeper.io/chnirt/nestjs-graphql-best-practice.svg)](https://greenkeeper.io/)
 [![Coverage Status](https://coveralls.io/repos/github/chnirt/nestjs-graphql-best-practice/badge.svg)](https://coveralls.io/github/chnirt/nestjs-graphql-best-practice)
 
 <h1 align="center">
@@ -19,28 +20,46 @@
   - [Function](#function)
   - [Usage](#usage)
   - [Starting the Server](#starting-the-server)
-- [Node.js Best Practices](#nodejs-best-practices)
-  - [1. Project Structure Practices](#1-project-structure-practices)
-  - [2. Error Handling Practices](#2-error-handling-practices)
-  - [3. Code Style Practices](#3-code-style-practices)
-  - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
-  - [5. Going To Production Practices](#5-going-to-production-practices)
-  - [6. Security Best Practices](#6-security-best-practices)
-  - [7. Performance Best Practices](#7-performance-best-practices)
+  - [Node.js Best Practices](#nodejs-best-practices)
+    - [1. Project Structure Practices](#1-project-structure-practices)
+    - [2. Error Handling Practices](#2-error-handling-practices)
+    - [3. Code Style Practices](#3-code-style-practices)
+    - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
+    - [5. Going To Production Practices](#5-going-to-production-practices)
+    - [6. Security Best Practices](#6-security-best-practices)
+    - [7. Performance Best Practices](#7-performance-best-practices)
 
 ## Structure
 
-<img src="src/assets/images/structure.png" alt="Node.js Best Practices" width="200"/>
+<img src="src/assets/images/structure.png" alt="Node.js Best Practices" width="250"/>
 
 ## Function
 
 1. Dynamic import
-2. Authenticate with jsonwebtoken ( access-token, refresh-token )
-3. Upload file with cloudinary
-4. Send mail with nodemailer
-5. Task scheduler with timeout, interval, cron
-6. Unit, e2e, coverage testing
-7. Logger ( wiston )
+2. Authenticate
+   2.1 Config jwt like OAuth ( access-token, refresh-token )
+   2.2 OAuth Google
+   2.3 OAuth Facebook
+3. Dump database
+   3.1 Child process
+4. Logger
+   4.1 NestJs
+   4.2 Wiston
+5. Send mail
+   5.1 Nodemailer
+6. Task scheduler
+   6.1 Timeout
+   6.2 Interval
+   6.3 Cron
+7. Translate
+   7.1 Google translate
+8. Upload file
+   8.1 Cloudinary
+   8.2 Fs createWriteStream to folder static
+9. Test
+   9.1 Unit
+   9.2 E2e
+   9.3 Coverage
 
 ## Usage
 
@@ -82,13 +101,20 @@
   npm run gen
 ```
 
-2. Start in development
+2.1 Start in development normal
 
 ```
   npm run start:dev
 ```
 
-# Node.js Best Practices
+2.2 Start with webpack ( 2 terminal view )
+
+```
+  npm run webpack
+  npm run start:hmr
+```
+
+## Node.js Best Practices
 
 <h1 align="center">
   <img src="src/assets/images/banner-2.jpg" alt="Node.js Best Practices">
