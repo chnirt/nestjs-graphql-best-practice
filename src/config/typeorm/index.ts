@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { getMetadataArgsStorage } from 'typeorm'
+
 import config from '../../config.orm'
 
 @Injectable()
@@ -17,6 +18,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			// 	migrationsDir: 'src/modules/**/migration',
 			// 	subscribersDir: 'src/modules/**/subscriber'
 			// },
+			reconnectTries: Infinity,
 			synchronize: true,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
