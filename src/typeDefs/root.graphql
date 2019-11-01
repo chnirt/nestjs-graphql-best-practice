@@ -22,6 +22,7 @@ directive @validate on FIELD_DEFINITION
 directive @date(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
 directive @upper on FIELD_DEFINITION
 directive @concat(value: String!) on FIELD_DEFINITION
+directive @intl on FIELD_DEFINITION
 # rest
 directive @rest(url: String) on FIELD_DEFINITION
 

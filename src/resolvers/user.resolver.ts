@@ -23,7 +23,7 @@ import {
 	LoginUserInput
 } from '../models/user.entity'
 import { User } from '../models'
-import { comparePassword, hashPassword } from '../utils/password'
+import { comparePassword, hashPassword } from '../utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
 import {
@@ -42,9 +42,10 @@ import {
 	verifyRefreshToken,
 	verifyEmailToken
 } from '../auth'
-import { sendMail } from '../shared'
+import { sendMail, stripe } from '../shared'
+import { UserType } from '../generator/graphql.schema'
 
-import { USER_SUBSCRIPTION } from '../environments'
+import { USER_SUBSCRIPTION, STRIPE_PLAN } from '../environments'
 
 @Resolver('User')
 export class UserResolver {
@@ -470,6 +471,27 @@ export class UserResolver {
 		user.resetPasswordExpires = null
 
 		return (await getMongoRepository(User).save(user)) ? true : false
+	}
+
+	@Mutation()
+	async createSubcription(
+		@Args('source') source: string,
+		@Context('currentUser') currentUser: User
+	): Promise<User> {
+		console.log(source)
+
+		const customer = await stripe.customers.create({
+			email: currentUser.local.email,
+			source,
+			plan: STRIPE_PLAN!
+		})
+
+		currentUser.stripeId = customer.id
+		currentUser.type = UserType.PREMIUM
+
+		// const user = await getMongoRepository(User).save(currentUser)
+
+		return currentUser
 	}
 
 	@Subscription(() => Object, {

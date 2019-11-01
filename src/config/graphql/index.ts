@@ -11,6 +11,7 @@ import * as depthLimit from 'graphql-depth-limit'
 // import { buildFederatedSchema } from '@apollo/federation'
 // import { ApolloGateway } from '@apollo/gateway'
 import { getMongoRepository } from 'typeorm'
+// import responseCachePlugin from 'apollo-server-plugin-response-cache'
 
 import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
@@ -18,7 +19,13 @@ import { verifyToken } from '../../auth'
 import { User } from '../../models'
 import { logger } from '../../common/wiston'
 
-import { NODE_ENV, END_POINT, FE_URL, ACCESS_TOKEN } from '../../environments'
+import {
+	NODE_ENV,
+	END_POINT,
+	FE_URL,
+	DEPTH_LIMIT,
+	ACCESS_TOKEN
+} from '../../environments'
 
 // const gateway = new ApolloGateway({
 // 	serviceList: [
@@ -108,9 +115,18 @@ export class GraphqlService implements GqlOptionsFactory {
 			schemaDirectives,
 			directiveResolvers,
 			validationRules: [
-				depthLimit(10, { ignore: [/_trusted$/, 'idontcare'] }, depths => {
-					console.log(depths)
-				})
+				depthLimit(
+					DEPTH_LIMIT!,
+					{ ignore: [/_trusted$/, 'idontcare'] },
+					depths => {
+						if (depths[''] === DEPTH_LIMIT - 1) {
+							Logger.warn(
+								`⚠️  You can only descend ${DEPTH_LIMIT} levels.`,
+								'GraphQL'
+							)
+						}
+					}
+				)
 			],
 			introspection: true,
 			playground: NODE_ENV !== 'production' && {
@@ -138,6 +154,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				stripFormattedExtensions: false,
 				calculateHttpHeaders: false
 			},
+			// plugins: [responseCachePlugin()],
 			context: async ({ req, res, connection }) => {
 				if (connection) {
 					const { currentUser } = connection.context

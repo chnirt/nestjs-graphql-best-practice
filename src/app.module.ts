@@ -12,6 +12,7 @@ import { ResultResolver } from './resolvers/result.resolver'
 import { UserResultResolver } from './resolvers/userResult.resolver'
 import { AuthResolver } from './resolvers/auth.resolver'
 import { EmailResolver } from './resolvers/email.resolver'
+import { FileResolver } from './resolvers/file.resolver'
 import { PermissionResolver } from './resolvers/permission.resolver'
 import { RoleResolver } from './resolvers/role.resolver'
 import { NotificationResolver } from './resolvers/notification.resolver'
@@ -19,7 +20,7 @@ import { RoomResolver } from './resolvers/room.resolver'
 import { MessageResolver } from './resolvers/message.resolver'
 import { FormResolver } from './resolvers/form.resolver'
 import { NodeResolver } from './resolvers/node.resolver'
-import { FileResolver } from './resolvers/file.resolver'
+import { TranslateResolver } from './resolvers/translate.resolver'
 
 @Module({
 	imports: [
@@ -49,7 +50,8 @@ import { FileResolver } from './resolvers/file.resolver'
 		RoomResolver,
 		MessageResolver,
 		FormResolver,
-		NodeResolver
+		NodeResolver,
+		TranslateResolver
 	]
 })
 export class AppModule {}

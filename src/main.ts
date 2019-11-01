@@ -105,7 +105,7 @@ async function bootstrap() {
 		// 	})
 		// )
 
-		// poggerMiddleware
+		// loggerMiddleware
 		NODE_ENV !== 'testing' && app.use(LoggerMiddleware)
 
 		// voyager
@@ -169,20 +169,14 @@ async function bootstrap() {
 				try {
 					server.removeAllListeners('request', server)
 
-					const app = await NestFactory.create(AppModule, {
-						// httpsOptions: {
-						// 	key: fs.readFileSync(`./ssl/product/server.key`),
-						// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
-						// },
-						logger: false
-					})
-
-					// server.on(
-					// 	'request',
-					// 	app.useCallback(() => {
-					// 		callback
-					// 	}, [input])()
-					// )
+					// const app = await NestFactory.create(AppModule, {
+					// 	// httpsOptions: {
+					// 	// 	key: fs.readFileSync(`./ssl/product/server.key`),
+					// 	// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
+					// 	// },
+					// 	logger: false
+					// })
+					server.on('request', server)
 				} catch (err) {
 					console.log(err)
 				}

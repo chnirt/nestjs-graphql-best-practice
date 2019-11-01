@@ -24,7 +24,7 @@ type Type = 'verifyEmail' | 'forgotPassword'
  * @param req - 3rd input number
  * @param token - 4th input number
  * @param _id - 5th input number
- * @returns The any
+ * @returns The any mean of `type`, `user`, `req`, `token` and `_id`
  *
  * @beta
  */

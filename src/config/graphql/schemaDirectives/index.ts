@@ -8,6 +8,7 @@ import DateFormatDirective from './date'
 import UpperCaseDirective from './upper'
 import ConcatDirective from './concat'
 import RestDirective from './rest'
+import IntlDirective from './intl'
 
 export default {
 	isAuthenticated: AuthDirective,
@@ -19,5 +20,6 @@ export default {
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,
 	concat: ConcatDirective,
+	intl: IntlDirective,
 	rest: RestDirective
 }

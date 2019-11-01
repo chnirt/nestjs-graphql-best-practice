@@ -31,8 +31,8 @@ const googlePlusTokenStrategyCallback = async (
 passport.use(
 	new GooglePlusTokenStrategy(
 		{
-			clientID: GOOGLE_CLIENT_ID,
-			clientSecret: GOOGLE_CLIENT_SECRET
+			clientID: GOOGLE_CLIENT_ID!,
+			clientSecret: GOOGLE_CLIENT_SECRET!
 		},
 		googlePlusTokenStrategyCallback
 	)
@@ -54,8 +54,8 @@ const facebookTokenStrategyCallback = (
 passport.use(
 	new FacebookTokenStrategy(
 		{
-			clientID: FACEBOOK_APP_ID,
-			clientSecret: FACEBOOK_APP_SECRET
+			clientID: FACEBOOK_APP_ID!,
+			clientSecret: FACEBOOK_APP_SECRET!
 		},
 		facebookTokenStrategyCallback
 	)
@@ -77,8 +77,8 @@ const googleTokenStrategyCallback = async (
 passport.use(
 	new GoogleTokenStrategy(
 		{
-			clientID: GOOGLE_CLIENT_ID,
-			clientSecret: GOOGLE_CLIENT_SECRET
+			clientID: GOOGLE_CLIENT_ID!,
+			clientSecret: GOOGLE_CLIENT_SECRET!
 		},
 		googleTokenStrategyCallback
 	)

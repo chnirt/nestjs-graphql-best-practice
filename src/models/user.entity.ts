@@ -7,7 +7,13 @@ import {
 } from 'typeorm'
 import * as uuid from 'uuid'
 import { IsString, IsNotEmpty, Length, IsEmail } from 'class-validator'
-import { Gender, Local, Google, Facebook } from '../generator/graphql.schema'
+import {
+	Gender,
+	Local,
+	Google,
+	Facebook,
+	UserType
+} from '../generator/graphql.schema'
 // import { Exclude, Expose } from 'class-transformer'
 
 export class LoginUserInput {
@@ -136,6 +142,12 @@ export class User {
 	isActive: boolean
 
 	@Column()
+	stripeId: string
+
+	@Column()
+	type: UserType
+
+	@Column()
 	createdAt: number
 	@Column()
 	updatedAt: number
@@ -162,6 +174,7 @@ export class User {
 		this.isLocked = false
 		this.reason = ''
 		this.isActive = true
+		this.type = UserType.BASIC
 		this.createdAt = +new Date()
 		this.updatedAt = +new Date()
 	}
