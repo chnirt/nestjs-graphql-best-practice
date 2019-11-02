@@ -96,11 +96,6 @@ enum UserType {
 	PREMIUM # $9.99
 }
 
-fragment NameParts on User {
-	firstName
-	lastName
-}
-
 type User {
 	_id: ID!
 	local: Local

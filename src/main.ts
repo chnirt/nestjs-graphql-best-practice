@@ -1,7 +1,11 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
-import { createConnection, getMetadataArgsStorage } from 'typeorm'
+import {
+	createConnection,
+	getMetadataArgsStorage,
+	getConnection
+} from 'typeorm'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
@@ -40,24 +44,6 @@ import {
 } from './environments'
 
 declare const module: any
-
-// connect database
-createConnection({
-	...config,
-	type: 'mongodb',
-	entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-	synchronize: true,
-	useNewUrlParser: true,
-	useUnifiedTopology: true
-})
-	.then(data => {
-		logger.info(data)
-		Logger.log(`☁️  Database connected`, 'TypeORM')
-	})
-	.catch(err => {
-		logger.error(err)
-		Logger.error(`❌  Database connect error, ${err}`, 'TypeORM')
-	})
 
 async function bootstrap() {
 	try {
@@ -166,19 +152,19 @@ async function bootstrap() {
 
 		// hot module replacement
 		if (module.hot) {
-			module.hot.accept(async () => {
-				try {
-					server.removeAllListeners('request', server)
+			// module.hot.accept(async () => {
+			// 	try {
+			// 		server.removeAllListeners('request', server)
 
-					const app = await NestFactory.create(AppModule, {
-						logger: new MyLogger()
-					})
+			// 		const app = await NestFactory.create(AppModule, {
+			// 			logger: new MyLogger()
+			// 		})
 
-					server.on('request', await app.listen(PORT))
-				} catch (err) {
-					console.log(err)
-				}
-			})
+			// 		server.on('request', await app.listen(PORT))
+			// 	} catch (err) {
+			// 		console.log(err)
+			// 	}
+			// })
 			module.hot.accept()
 			module.hot.dispose(() => app.close())
 		}
@@ -210,4 +196,6 @@ async function bootstrap() {
 		process.exit()
 	}
 }
-bootstrap()
+bootstrap().catch(e => {
+	throw e
+})

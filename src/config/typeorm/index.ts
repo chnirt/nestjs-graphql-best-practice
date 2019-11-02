@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, Logger } from '@nestjs/common'
 import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { getMetadataArgsStorage } from 'typeorm'
+import { getMetadataArgsStorage, createConnection } from 'typeorm'
 
 import config from '../../config.orm'
+import { logger } from '../../common'
 
 @Injectable()
 export class TypeormService implements TypeOrmOptionsFactory {
 	async createTypeOrmOptions(): Promise<TypeOrmModuleOptions> {
-		return {
+		const options = {
 			...config,
 			type: 'mongodb',
 			entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
@@ -25,5 +26,16 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			keepConnectionAlive: true,
 			logging: true
 		}
+		createConnection(options)
+			.then(data => {
+				logger.info(data)
+				Logger.log(`☁️  Database connected`, 'TypeORM')
+			})
+			.catch(err => {
+				logger.error(err)
+				Logger.error(`❌  Database connect error`, 'TypeORM')
+			})
+
+		return options
 	}
 }
