@@ -430,7 +430,7 @@ export class UserResolver {
 			type: Type.FORGOT_PASSWORD
 		})
 
-		console.log(existedEmail)
+		// console.log(existedEmail)
 
 		await sendMail(
 			'forgotPassword',
@@ -481,11 +481,14 @@ export class UserResolver {
 	): Promise<User> {
 		// console.log(source)
 
+		const email = currentUser.local
+			? currentUser.local.email
+			: currentUser.google
+			? currentUser.google.email
+			: currentUser.facebook.email
+
 		const customer = await stripe.customers.create({
-			email:
-				currentUser.local.email ||
-				currentUser.google.email ||
-				currentUser.facebook.email,
+			email,
 			source,
 			plan: STRIPE_PLAN!
 		})

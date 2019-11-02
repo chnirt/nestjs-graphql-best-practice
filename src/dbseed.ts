@@ -37,11 +37,6 @@ async function main() {
 				firstName: 'Chin',
 				lastName: 'Trinh',
 				gender: 'MALE',
-				local: {
-					email: 'trinhchinchin@gmail.com',
-					password:
-						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
-				},
 				google: {
 					_id: '107178666920276184612',
 					email: 'trinhchinchin@gmail.com'

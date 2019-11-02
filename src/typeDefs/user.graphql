@@ -96,6 +96,11 @@ enum UserType {
 	PREMIUM # $9.99
 }
 
+fragment NameParts on User {
+	firstName
+	lastName
+}
+
 type User {
 	_id: ID!
 	local: Local
@@ -116,7 +121,7 @@ type User {
 	isActive: Boolean!
 	stripeId: String
 	type: UserType!
-	 : String
+	ccLast4: String
 	createdAt: Float!
 	updatedAt: Float!
 }
