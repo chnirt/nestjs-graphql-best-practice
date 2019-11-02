@@ -13,7 +13,8 @@ const PORT: number = +process.env.PORT || 11047
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || 'xxx'
-const DEPTH_LIMIT: number = +process.env.DEPTH_LIMIT || 3
+const RATE_LIMIT_MAX: number = +process.env.RATE_LIMIT_MAX || 100
+const GRAPHQL_DEPTH_LIMIT: number = +process.env.GRAPHQL_DEPTH_LIMIT || 3
 
 // static
 const STATIC: string = process.env.STATIC || 'static'
@@ -95,7 +96,8 @@ export {
 	END_POINT,
 	VOYAGER,
 	FE_URL,
-	DEPTH_LIMIT,
+	RATE_LIMIT_MAX,
+	GRAPHQL_DEPTH_LIMIT,
 	STATIC,
 	MLAB_USER,
 	MLAB_PASS,

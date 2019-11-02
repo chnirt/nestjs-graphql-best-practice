@@ -476,9 +476,10 @@ export class UserResolver {
 	@Mutation()
 	async createSubcription(
 		@Args('source') source: string,
+		@Args('ccLast4') ccLast4: string,
 		@Context('currentUser') currentUser: User
 	): Promise<User> {
-		console.log(source)
+		// console.log(source)
 
 		const customer = await stripe.customers.create({
 			email:
@@ -493,6 +494,29 @@ export class UserResolver {
 
 		currentUser.stripeId = customer.id
 		currentUser.type = UserType.PREMIUM
+		currentUser.ccLast4 = ccLast4
+
+		const user = await getMongoRepository(User).save(currentUser)
+
+		return user
+	}
+
+	@Mutation()
+	async changeCreditCard(
+		@Args('source') source: string,
+		@Args('ccLast4') ccLast4: string,
+		@Context('currentUser') currentUser: User
+	): Promise<User> {
+		// console.log(source)
+		if (!currentUser.stripeId || currentUser.type !== UserType.PREMIUM) {
+			throw new ForbiddenError('User not found.')
+		}
+
+		await stripe.customers.update(currentUser.stripeId, {
+			source
+		})
+
+		currentUser.ccLast4 = ccLast4
 
 		const user = await getMongoRepository(User).save(currentUser)
 

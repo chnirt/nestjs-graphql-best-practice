@@ -23,7 +23,7 @@ import {
 	NODE_ENV,
 	END_POINT,
 	FE_URL,
-	DEPTH_LIMIT,
+	GRAPHQL_DEPTH_LIMIT,
 	ACCESS_TOKEN
 } from '../../environments'
 
@@ -89,11 +89,11 @@ export class GraphqlService implements GqlOptionsFactory {
 			resolverValidationOptions: {
 				requireResolversForResolveType: false
 			},
-			path: `/${END_POINT}`,
+			path: `/${END_POINT!}`,
 			cors:
 				NODE_ENV === 'production'
 					? {
-							origin: FE_URL,
+							origin: FE_URL!,
 							credentials: true // <-- REQUIRED backend setting
 					  }
 					: true,
@@ -116,12 +116,12 @@ export class GraphqlService implements GqlOptionsFactory {
 			directiveResolvers,
 			validationRules: [
 				depthLimit(
-					DEPTH_LIMIT!,
+					GRAPHQL_DEPTH_LIMIT!,
 					{ ignore: [/_trusted$/, 'idontcare'] },
 					depths => {
-						if (depths[''] === DEPTH_LIMIT - 1) {
+						if (depths[''] === GRAPHQL_DEPTH_LIMIT! - 1) {
 							Logger.warn(
-								`⚠️  You can only descend ${DEPTH_LIMIT} levels.`,
+								`⚠️  You can only descend ${GRAPHQL_DEPTH_LIMIT!} levels.`,
 								'GraphQL'
 							)
 						}
@@ -169,7 +169,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				// console.log(ACCESS_TOKEN, req.headers)
 
-				const token = req.headers[ACCESS_TOKEN] || ''
+				const token = req.headers[ACCESS_TOKEN!] || ''
 
 				// console.log('token', token)
 				if (token) {
@@ -214,7 +214,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				return response
 			},
 			subscriptions: {
-				path: `/${END_POINT}`,
+				path: `/${END_POINT!}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
 					NODE_ENV !== 'production' &&
@@ -222,7 +222,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 					let currentUser
 
-					const token = connectionParams[ACCESS_TOKEN]
+					const token = connectionParams[ACCESS_TOKEN!]
 
 					if (token) {
 						// currentUser = await this.authService.verifyToken(token)

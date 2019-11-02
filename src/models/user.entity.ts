@@ -145,6 +145,9 @@ export class User {
 	stripeId: string
 
 	@Column()
+	ccLast4: string
+
+	@Column()
 	type: UserType
 
 	@Column()

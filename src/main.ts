@@ -9,7 +9,7 @@ import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 import * as compression from 'compression'
 // import * as csurf from 'csurf'
-// import * as rateLimit from 'express-rate-limit'
+import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
@@ -35,6 +35,7 @@ import {
 	PORT,
 	END_POINT,
 	VOYAGER,
+	RATE_LIMIT_MAX,
 	STATIC
 } from './environments'
 
@@ -96,14 +97,14 @@ async function bootstrap() {
 		// app.use(csurf())
 
 		// rateLimit
-		// app.use(
-		// 	rateLimit({
-		// 		windowMs: 15 * 60 * 1000, // 15 minutes
-		// 		max: 1, // limit each IP to 100 requests per windowMs
-		// 		message:
-		// 			'Too many request created from this IP, please try again after an hour'
-		// 	})
-		// )
+		app.use(
+			rateLimit({
+				windowMs: 1000 * 60 * 60, // an hour
+				max: RATE_LIMIT_MAX!, // limit each IP to 100 requests per windowMs
+				message:
+					'Too many request created from this IP, please try again after an hour'
+			})
+		)
 
 		// loggerMiddleware
 		NODE_ENV !== 'testing' && app.use(LoggerMiddleware)
@@ -138,7 +139,7 @@ async function bootstrap() {
 		const emailResolver = app.get(EmailResolver)
 
 		// mail tracking
-		app.use('/graphql/:id', (req, res, next) => {
+		app.use(`/${END_POINT}/:id`, (req, res, next) => {
 			const { id } = req.params
 			// console.log(req)
 

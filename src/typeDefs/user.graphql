@@ -116,6 +116,7 @@ type User {
 	isActive: Boolean!
 	stripeId: String
 	type: UserType!
+	 : String
 	createdAt: Float!
 	updatedAt: Float!
 }
@@ -150,7 +151,8 @@ type Mutation {
 	): Boolean @isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
-	createSubcription(source: String!): User @isAuthenticated
+	createSubcription(source: String!, ccLast4: String!): User @isAuthenticated
+	changeCreditCard(source: String!, ccLast4: String!): User @isAuthenticated
 }
 
 type Subscription {
