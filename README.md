@@ -56,10 +56,9 @@
    - Cloudinary
    - Fs createWriteStream to folder static
 10. Test
-
-- Unit
-- E2e
-- Coverage
+    - Unit
+    - E2e
+    - Coverage
 
 ## Usage
 

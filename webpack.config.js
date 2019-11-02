@@ -66,8 +66,8 @@ module.exports = {
 			banner: 'require("source-map-support").install();',
 			raw: true,
 			entryOnly: false
-		}),
-		new WebpackNotifierPlugin({ excludeWarnings: true, sound: false })
+		})
+		// new WebpackNotifierPlugin({ excludeWarnings: true, sound: false })
 	],
 	optimization: {
 		removeAvailableModules: false,
