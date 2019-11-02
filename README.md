@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/chnirt/nestjs-graphql-best-practice.svg?branch=cicd)](https://travis-ci.org/chnirt/nestjs-graphql-best-practice)
 [![CircleCI](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd.svg?style=svg)](https://circleci.com/gh/chnirt/nestjs-graphql-best-practice/tree/cicd)
-[![Known Vulnerabilities](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice/badge.svg?targetFile=package.json)](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice?targetFile=package.json) 
+[![Known Vulnerabilities](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice/badge.svg?targetFile=package.json)](https://snyk.io//test/github/chnirt/nestjs-graphql-best-practice?targetFile=package.json)
 [![Greenkeeper badge](https://badges.greenkeeper.io/chnirt/nestjs-graphql-best-practice.svg)](https://greenkeeper.io/)
 [![Coverage Status](https://coveralls.io/repos/github/chnirt/nestjs-graphql-best-practice/badge.svg)](https://coveralls.io/github/chnirt/nestjs-graphql-best-practice)
 
@@ -14,20 +14,18 @@
 
 ## Table of Contents
 
-- [Nestjs GraphQL Best Practice](#nestjs-graphql-best-practice)
-  - [Table of Contents](#table-of-contents)
-  - [Structure](#structure)
-  - [Function](#function)
-  - [Usage](#usage)
-  - [Starting the Server](#starting-the-server)
-  - [Node.js Best Practices](#nodejs-best-practices)
-    - [1. Project Structure Practices](#1-project-structure-practices)
-    - [2. Error Handling Practices](#2-error-handling-practices)
-    - [3. Code Style Practices](#3-code-style-practices)
-    - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
-    - [5. Going To Production Practices](#5-going-to-production-practices)
-    - [6. Security Best Practices](#6-security-best-practices)
-    - [7. Performance Best Practices](#7-performance-best-practices)
+- [Structure](#structure)
+- [Function](#function)
+- [Usage](#usage)
+- [Starting the Server](#starting-the-server)
+- [Node.js Best Practices](#nodejs-best-practices)
+  - [1. Project Structure Practices](#1-project-structure-practices)
+  - [2. Error Handling Practices](#2-error-handling-practices)
+  - [3. Code Style Practices](#3-code-style-practices)
+  - [4. Testing And Overall Quality Practices](#4-testing-and-overall-quality-practices)
+  - [5. Going To Production Practices](#5-going-to-production-practices)
+  - [6. Security Best Practices](#6-security-best-practices)
+  - [7. Performance Best Practices](#7-performance-best-practices)
 
 ## Structure
 
@@ -37,29 +35,31 @@
 
 1. Dynamic import
 2. Authenticate
-   2.1 Config jwt like OAuth ( access-token, refresh-token )
-   2.2 OAuth Google
-   2.3 OAuth Facebook
+   - Config jwt like OAuth ( access-token, refresh-token )
+   - OAuth Google
+   - OAuth Facebook
 3. Dump database
-   3.1 Child process
+   - Child process
 4. Logger
-   4.1 NestJs
-   4.2 Wiston
+   - NestJs
+   - Wiston
 5. Send mail
-   5.1 Nodemailer
-6. Task scheduler
-   6.1 Timeout
-   6.2 Interval
-   6.3 Cron
-7. Translate
-   7.1 Google translate
-8. Upload file
-   8.1 Cloudinary
-   8.2 Fs createWriteStream to folder static
-9. Test
-   9.1 Unit
-   9.2 E2e
-   9.3 Coverage
+   - Nodemailer
+6. Stripe
+7. Task scheduler
+   - Timeout
+   - Interval
+   - Cron
+8. Translate
+   - Google translate
+9. Upload file
+   - Cloudinary
+   - Fs createWriteStream to folder static
+10. Test
+
+- Unit
+- E2e
+- Coverage
 
 ## Usage
 
@@ -144,7 +144,7 @@
 
 [✔️] 2.5 Document API errors using Swagger or GraphQL
 
-![❔] 2.6 Exit the process gracefully when a stranger comes to town
+[✔️] 2.6 Exit the process gracefully when a stranger comes to town
 
 [✔️] 2.7 Use a mature logger to increase error visibility
 
@@ -152,7 +152,7 @@
 
 ![❔] 2.9 Discover errors and downtime using APM products
 
-![❔] 2.10 Catch unhandled promise rejections
+[✔️] 2.10 Catch unhandled promise rejections
 
 [✔️] 2.11 Fail fast, validate arguments using a dedicated library
 
@@ -194,13 +194,13 @@
 
 [〽️] use Jest - 4.5 Avoid global test fixtures and seeds, add data per-test
 
-![❔] 4.6 Constantly inspect for vulnerable dependencies
+[✔️] 4.6 Constantly inspect for vulnerable dependencies
 
 ![❔] 4.7 Tag your tests
 
 [✔️] 4.8 Check your test coverage, it helps to identify wrong test patterns
 
-![❔] 4.9 Inspect for outdated packages
+[✔️] 4.9 Inspect for outdated packages
 
 [✔️] 4.10 Use production-like env for e2e testing
 
@@ -212,7 +212,7 @@
 
 ![❔] 5.1. Monitoring!
 
-![❔] 5.2. Increase transparency using smart logging
+[✔️] 5.2. Increase transparency using smart logging
 
 ![❔] 5.3. Delegate anything possible (e.g. gzip, SSL) to a reverse proxy
 
@@ -224,17 +224,17 @@
 
 [✔️] 5.7. Create a ‘maintenance endpoint’
 
-![❔] 5.8. Discover errors and downtime using APM products
+[✔️] 5.8. Discover errors and downtime using APM products
 
 [✔️] 5.9. Make your code production-ready
 
 ![❔] 5.10. Measure and guard the memory usage
 
-![❔] 5.11. Get your frontend assets out of Node
+[✔️] 5.11. Get your frontend assets out of Node
 
 ![❔] 5.12. Be stateless, kill your servers almost every day
 
-![❔] 5.13. Use tools that automatically detect vulnerabilities
+[✔️] 5.13. Use tools that automatically detect vulnerabilities
 
 ![❔] 5.14. Assign a transaction id to each log statement
 
@@ -260,7 +260,7 @@
 
 [✔️] 6.6. Adjust the HTTP response headers for enhanced security
 
-![❔] 6.7. Constantly and automatically inspect for vulnerable dependencies
+[✔️] 6.7. Constantly and automatically inspect for vulnerable dependencies
 
 [✔️] 6.8. Avoid using the Node.js crypto library for handling passwords, use Bcrypt
 
@@ -296,7 +296,7 @@
 
 [❌] No neccessary - 6.24. Prevent unsafe redirects
 
-![❔] 6.25. Avoid publishing secrets to the npm registry
+[✔️] 6.25. Avoid publishing secrets to the npm registry
 
 ### 7. Performance Best Practices
 
