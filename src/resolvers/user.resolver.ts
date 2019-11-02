@@ -474,13 +474,15 @@ export class UserResolver {
 	}
 
 	@Mutation()
-	async createSubcription(
+	async createSubscription(
 		@Args('source') source: string,
 		@Args('ccLast4') ccLast4: string,
 		@Context('currentUser') currentUser: User
 	): Promise<User> {
 		// console.log(source)
-
+		if (currentUser.stripeId) {
+			throw new ForbiddenError('stripeId already existed.')
+		}
 		const email = currentUser.local
 			? currentUser.local.email
 			: currentUser.google
@@ -525,6 +527,40 @@ export class UserResolver {
 
 		return user
 	}
+
+	// @Mutation()
+	// async cancelSubscription(
+	// 	@Context('currentUser') currentUser: User
+	// ): Promise<User> {
+	// 	// console.log(source)
+	// 	if (!currentUser.stripeId || currentUser.type !== UserType.PREMIUM) {
+	// 		throw new ForbiddenError('User not found.')
+	// 	}
+
+	// 	// console.log(currentUser.stripeId)
+
+	// 	const stripeCustomer = await stripe.customers.retrieve(currentUser.stripeId)
+
+	// 	// console.log(stripeCustomer.sources)
+
+	// 	const [subscription] = stripeCustomer.subscriptions.data
+
+	// 	// console.log(subscription)
+
+	// 	await stripe.subscriptions.del(subscription.id)
+
+	// 	await stripe.customers.deleteCard(
+	// 		currentUser.stripeId,
+	// 		stripeCustomer.default_source as string
+	// 	)
+
+	// 	currentUser.stripeId = null
+	// 	currentUser.type = UserType.BASIC
+
+	// 	const user = await getMongoRepository(User).save(currentUser)
+
+	// 	return user
+	// }
 
 	@Subscription(() => Object, {
 		filter: (payload: any, variables: any) => {

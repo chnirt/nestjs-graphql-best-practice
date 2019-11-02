@@ -156,8 +156,9 @@ type Mutation {
 	): Boolean @isAuthenticated
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
-	createSubcription(source: String!, ccLast4: String!): User @isAuthenticated
+	createSubscription(source: String!, ccLast4: String!): User @isAuthenticated
 	changeCreditCard(source: String!, ccLast4: String!): User @isAuthenticated
+	# cancelSubscription: User @isAuthenticated
 }
 
 type Subscription {
