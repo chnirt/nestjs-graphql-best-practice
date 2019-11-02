@@ -481,17 +481,22 @@ export class UserResolver {
 		console.log(source)
 
 		const customer = await stripe.customers.create({
-			email: currentUser.local.email,
+			email:
+				currentUser.local.email ||
+				currentUser.google.email ||
+				currentUser.facebook.email,
 			source,
 			plan: STRIPE_PLAN!
 		})
 
+		// console.log(customer)
+
 		currentUser.stripeId = customer.id
 		currentUser.type = UserType.PREMIUM
 
-		// const user = await getMongoRepository(User).save(currentUser)
+		const user = await getMongoRepository(User).save(currentUser)
 
-		return currentUser
+		return user
 	}
 
 	@Subscription(() => Object, {

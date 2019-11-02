@@ -169,14 +169,11 @@ async function bootstrap() {
 				try {
 					server.removeAllListeners('request', server)
 
-					// const app = await NestFactory.create(AppModule, {
-					// 	// httpsOptions: {
-					// 	// 	key: fs.readFileSync(`./ssl/product/server.key`),
-					// 	// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
-					// 	// },
-					// 	logger: false
-					// })
-					server.on('request', server)
+					const app = await NestFactory.create(AppModule, {
+						logger: new MyLogger()
+					})
+
+					server.on('request', await app.listen(PORT))
 				} catch (err) {
 					console.log(err)
 				}

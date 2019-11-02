@@ -89,6 +89,7 @@ async function main() {
 						isLocked: false,
 						reason: '',
 						isActive: true,
+						type: 'BASIC',
 						createdAt: +new Date(),
 						updatedAt: +new Date()
 					}

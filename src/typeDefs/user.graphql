@@ -151,7 +151,6 @@ type Mutation {
 	forgotPassword(email: String!): Boolean
 	resetPassword(resetPasswordToken: String!, password: String!): Boolean
 	createSubcription(source: String!): User @isAuthenticated
-	# upgradeUser()
 }
 
 type Subscription {
