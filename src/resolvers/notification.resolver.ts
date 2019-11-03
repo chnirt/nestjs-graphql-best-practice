@@ -8,9 +8,9 @@ import {
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 
-import { Notification } from '../models'
+import { Notification } from '@models'
 
-import { NOTIFICATION_SUBSCRIPTION } from '../environments'
+import { NOTIFICATION_SUBSCRIPTION } from '@environments'
 
 @Resolver('Notification')
 export class NotificationResolver {

@@ -1,6 +1,6 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql'
 
-import { translate } from '../shared'
+import { translate } from '@shared'
 
 @Resolver('Translate')
 export class TranslateResolver {

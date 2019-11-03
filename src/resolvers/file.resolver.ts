@@ -3,8 +3,8 @@ import { getMongoRepository } from 'typeorm'
 import { createWriteStream } from 'fs'
 import * as uuid from 'uuid'
 
-import { File } from '../models'
-import { uploadFile } from '../shared/upload'
+import { File } from '@models'
+import { uploadFile } from '@shared'
 import { ApolloError } from 'apollo-server-core'
 
 @Resolver('File')

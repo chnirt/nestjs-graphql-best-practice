@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Email } from '../models'
+import { Email } from '@models'
 import { CreateEmailInput } from '../generator/graphql.schema'
 
 @Resolver('Email')

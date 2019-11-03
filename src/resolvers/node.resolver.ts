@@ -2,9 +2,12 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Node } from '../models'
-import { CreateNodeInput } from '../generator/graphql.schema'
-import { SearchNodeInput, NodeCategory } from '../generator/graphql.schema'
+import { Node } from '@models'
+import {
+	CreateNodeInput,
+	SearchNodeInput,
+	NodeCategory
+} from '../generator/graphql.schema'
 
 @Resolver('Node')
 export class NodeResolver {

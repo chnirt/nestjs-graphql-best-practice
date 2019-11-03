@@ -22,8 +22,8 @@ import {
 	UpdateUserInput,
 	LoginUserInput
 } from '../models/user.entity'
-import { User } from '../models'
-import { comparePassword, hashPassword } from '../utils'
+import { User } from '@models'
+import { comparePassword, hashPassword } from '@utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
 import {
@@ -43,10 +43,10 @@ import {
 	tradeToken,
 	verifyRefreshToken,
 	verifyEmailToken
-} from '../auth'
-import { sendMail, stripe } from '../shared'
+} from '@auth'
+import { sendMail, stripe } from '@shared'
 
-import { USER_SUBSCRIPTION, STRIPE_PLAN } from '../environments'
+import { USER_SUBSCRIPTION, STRIPE_PLAN } from '@environments'
 
 @Resolver('User')
 export class UserResolver {

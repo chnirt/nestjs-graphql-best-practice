@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Room, User } from '../models'
+import { Room, User } from '@models'
 import { CreateRoomInput } from '../generator/graphql.schema'
 
 @Resolver('Room')

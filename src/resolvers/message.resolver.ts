@@ -9,10 +9,10 @@ import {
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Message, Room, User } from '../models'
+import { Message, Room, User } from '@models'
 import { CreateMessageInput } from '../generator/graphql.schema'
 
-import { MESSAGES_SUBSCRIPTION } from '../environments'
+import { MESSAGES_SUBSCRIPTION } from '@environments'
 
 @Resolver('Message')
 export class MessageResolver {
