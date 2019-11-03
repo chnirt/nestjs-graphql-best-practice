@@ -1,17 +1,21 @@
 {
 	"moduleDirectories": ["node_modules", "src"],
 	"moduleFileExtensions": ["js", "json", "ts"],
+	"testEnvironment": "node",
 	"testRegex": ".spec.ts$",
 	"transform": {
 		"^.+\\.ts$": "ts-jest"
 	},
 	"coverageDirectory": "./coverage",
 	"collectCoverage": true,
-	"testEnvironment": "node",
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/src/auth$1",
-		"^@utils(.*)$": "<rootDir>/src/shared$1",
+		"^@common(.*)$": "<rootDir>/src/common$1",
+		"^@config(.*)$": "<rootDir>/src/config$1",
+		"^@environments$": "<rootDir>/../src/environments$1",
 		"^@models(.*)$": "<rootDir>/src/models$1",
-		"^@environments(.*)": "<rootDir>/src/environments$1"
+		"^@shared(.*)$": "<rootDir>/src/shared$1",
+		"^@utils(.*)$": "<rootDir>/src/utils$1",
+		"^@validations(.*)$": "<rootDir>/src/validations$1"
 	}
 }

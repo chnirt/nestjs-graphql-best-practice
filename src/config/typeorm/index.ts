@@ -3,7 +3,7 @@ import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { getMetadataArgsStorage, createConnection } from 'typeorm'
 
 import config from '../../config.orm'
-import { logger } from '../../common'
+// import { logger } from '../../common'
 
 @Injectable()
 export class TypeormService implements TypeOrmOptionsFactory {
@@ -28,12 +28,12 @@ export class TypeormService implements TypeOrmOptionsFactory {
 		}
 		createConnection(options)
 			.then(data => {
-				logger.info(data)
-				Logger.log(`☁️  Database connected`, 'TypeORM')
+				// logger.info(data)
+				Logger.log(`☁️  Database connected`, 'TypeORM', false)
 			})
 			.catch(err => {
-				logger.error(err)
-				Logger.error(`❌  Database connect error`, 'TypeORM')
+				// logger.error(err)
+				Logger.error(`❌  Database connect error`, '', 'TypeORM', false)
 			})
 
 		return options

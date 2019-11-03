@@ -27,12 +27,14 @@ import { comparePassword, hashPassword } from '../utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
 import {
+	CreateUserInput as ValidateCreateUserInput,
 	Result,
 	SearchInput,
 	UserResult,
 	LoginResponse,
 	RefreshTokenResponse,
-	Type
+	Type,
+	UserType
 } from '../generator/graphql.schema'
 import {
 	generateToken,
@@ -43,7 +45,6 @@ import {
 	verifyEmailToken
 } from '../auth'
 import { sendMail, stripe } from '../shared'
-import { UserType } from '../generator/graphql.schema'
 
 import { USER_SUBSCRIPTION, STRIPE_PLAN } from '../environments'
 
@@ -586,4 +587,11 @@ export class UserResolver {
 	// 	local.password = ''
 	// 	return local
 	// }
+
+	@Mutation()
+	async validateUser(
+		@Args('input') input: ValidateCreateUserInput
+	): Promise<boolean> {
+		return true
+	}
 }

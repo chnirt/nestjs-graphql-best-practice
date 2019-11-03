@@ -6,10 +6,10 @@ import { LoginResponse, Gender } from '../generator/graphql.schema'
 import {
 	authenticateGooglePlus,
 	authenticateFacebook,
-	authenticateGoogle
-} from '../auth'
-import { tradeToken } from '../auth'
-import { User } from '../models'
+	authenticateGoogle,
+	tradeToken
+} from '@auth'
+import { User } from '@models'
 
 @Resolver('Auth')
 export class AuthResolver {

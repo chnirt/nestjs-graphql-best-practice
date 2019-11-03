@@ -1,15 +1,9 @@
 import * as nodemailer from 'nodemailer'
 import * as handlebars from 'handlebars'
 import * as fs from 'fs'
-import { User } from '../../models'
+import { User } from '@models'
 
-import {
-	AUTHOR,
-	END_POINT,
-	ISSUER,
-	MAIL_USER,
-	MAIL_PASS
-} from '../../environments'
+import { AUTHOR, END_POINT, ISSUER, MAIL_USER, MAIL_PASS } from '@environments'
 
 type Type = 'verifyEmail' | 'forgotPassword'
 

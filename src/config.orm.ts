@@ -1,4 +1,4 @@
-import { NODE_ENV, MONGO_URL, MONGO_PORT, MONGO_DB } from './environments'
+import { NODE_ENV, MONGO_URL, MONGO_PORT, MONGO_DB } from '@environments'
 
 const orm = {
 	development: {

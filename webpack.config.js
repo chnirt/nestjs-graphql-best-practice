@@ -29,11 +29,14 @@ module.exports = {
 	mode: 'development',
 	resolve: {
 		alias: {
-			'@src': path.resolve(__dirname, './src'),
 			'@auth': path.resolve(__dirname, './src/auth'),
-			'@utils': path.resolve(__dirname, './src/shared'),
+			'@common': path.resolve(__dirname, './src/common'),
+			'@config': path.resolve(__dirname, './src/config'),
+			'@environments': path.resolve(__dirname, './src/environments'),
 			'@models': path.resolve(__dirname, './src/models'),
-			'@environments': path.resolve(__dirname, './src/environments')
+			'@shared': path.resolve(__dirname, './src/shared'),
+			'@utils': path.resolve(__dirname, './src/utils'),
+			'@validations': path.resolve(__dirname, './src/validations')
 		},
 		extensions: ['.tsx', '.ts', '.js']
 	},

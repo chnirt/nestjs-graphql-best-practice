@@ -1,6 +1,6 @@
 import { hash, compare } from 'bcrypt'
 
-import { SALT } from '../../environments'
+import { SALT } from '@environments'
 
 /**
  * Returns hashed password by hash password.

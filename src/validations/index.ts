@@ -1,1 +1,3 @@
-console.log('Hello validations')
+import userValidationSchema from './user'
+
+export default { userValidationSchema }

@@ -15,10 +15,14 @@
 		"baseUrl": "./",
 		"typeRoots": ["node_modules/@types", "types"],
 		"paths": {
-			"@auth/*": ["src/auth/*"],
-			"@utils/*": ["src/shared/*"],
-			"@models/*": ["src/models/*"],
-			"@environments/*": ["src/environments/*"]
+			"@auth": ["src/auth"],
+			"@common": ["src/common"],
+			"@config": ["src/config"],
+			"@environments": ["src/environments"],
+			"@models": ["src/models"],
+			"@shared": ["src/shared"],
+			"@utils": ["src/utils"],
+			"@validations": ["src/validations"]
 		}
 	},
 	"include": ["src/**/*.ts"],

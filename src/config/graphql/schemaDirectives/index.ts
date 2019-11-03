@@ -9,6 +9,7 @@ import UpperCaseDirective from './upper'
 import ConcatDirective from './concat'
 import RestDirective from './rest'
 import IntlDirective from './intl'
+import ValidateDirective from './validate'
 
 export default {
 	isAuthenticated: AuthDirective,
@@ -21,5 +22,6 @@ export default {
 	upper: UpperCaseDirective,
 	concat: ConcatDirective,
 	intl: IntlDirective,
-	rest: RestDirective
+	rest: RestDirective,
+	validate: ValidateDirective
 }

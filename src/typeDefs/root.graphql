@@ -17,7 +17,8 @@ directive @rateLimit(
 ) on FIELD_DEFINITION
 # validate
 directive @length(max: Int) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
-directive @validate on FIELD_DEFINITION
+directive @validate(schema: String) on ARGUMENT_DEFINITION
+directive @call on FIELD_DEFINITION
 # format
 directive @date(defaultFormat: String = "mmmm d, yyyy") on FIELD_DEFINITION
 directive @upper on FIELD_DEFINITION

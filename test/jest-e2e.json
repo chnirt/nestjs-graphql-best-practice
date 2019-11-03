@@ -1,6 +1,6 @@
 {
+	"moduleDirectories": ["node_modules", "src"],
 	"moduleFileExtensions": ["js", "json", "ts"],
-	"rootDir": ".",
 	"testEnvironment": "node",
 	"testRegex": ".e2e-spec.ts$",
 	"transform": {
@@ -8,7 +8,13 @@
 	},
 	"moduleNameMapper": {
 		"^@auth(.*)$": "<rootDir>/../src/auth$1",
+		"^@common(.*)$": "<rootDir>/../src/common$1",
+		"^@config(.*)$": "<rootDir>/../src/config$1",
+		"^@environments(.*)$": "<rootDir>/../src/environments$1",
+		"^@models(.*)$": "<rootDir>/../src/models$1",
+		"^@shared(.*)$": "<rootDir>/../src/shared$1",
 		"^@utils(.*)$": "<rootDir>/../src/utils$1",
-		"^@models(.*)$": "<rootDir>/../src/models$1"
+		"^@validations(.*)$": "<rootDir>/../src/validations$1",
+		"^@environments(.*)": "<rootDir>/../src/environments$1"
 	}
 }

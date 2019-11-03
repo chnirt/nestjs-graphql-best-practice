@@ -8,7 +8,7 @@ import {
 	FACEBOOK_APP_SECRET,
 	GOOGLE_CLIENT_ID,
 	GOOGLE_CLIENT_SECRET
-} from '../../environments'
+} from '@environments'
 
 interface OAuthResponse {
 	readonly data: any

@@ -1,11 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
-import {
-	createConnection,
-	getMetadataArgsStorage,
-	getConnection
-} from 'typeorm'
 import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
@@ -17,21 +12,18 @@ import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
+// import { registerSchema } from 'class-validator'
 
-import { MyLogger } from './config'
+import { MyLogger } from '@config'
 import {
 	ValidationPipe,
 	LoggingInterceptor,
 	TimeoutInterceptor,
-	LoggerMiddleware,
-	logger
-} from './common'
-
-import { timeout, interval, cron } from './shared'
-
+	LoggerMiddleware
+	// logger
+} from '@common'
+import { timeout, interval, cron } from '@shared'
 import { EmailResolver } from './resolvers/email.resolver'
-
-import config from './config.orm'
 
 import {
 	NODE_ENV,
@@ -41,7 +33,7 @@ import {
 	VOYAGER,
 	RATE_LIMIT_MAX,
 	STATIC
-} from './environments'
+} from '@environments'
 
 declare const module: any
 
@@ -191,8 +183,8 @@ async function bootstrap() {
 				'Bootstrap'
 			)
 	} catch (error) {
-		logger.error(error)
-		Logger.error(`❌  Error starting server, ${error}`, 'Bootstrap')
+		// logger.error(error)
+		Logger.error(`❌  Error starting server, ${error}`, '', 'Bootstrap', false)
 		process.exit()
 	}
 }

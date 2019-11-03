@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb'
 
-import { MONGO_URL, MONGO_DB } from './environments'
+import { MONGO_URL, MONGO_DB } from '@environments'
 
 async function main() {
 	console.log('🚀  Server ready')

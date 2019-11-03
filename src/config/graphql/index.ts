@@ -15,9 +15,9 @@ import { getMongoRepository } from 'typeorm'
 
 import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
-import { verifyToken } from '../../auth'
-import { User } from '../../models'
-import { logger } from '../../common/wiston'
+import { verifyToken } from '@auth'
+import { User } from '@models'
+// import { logger } from '../../common'
 
 import {
 	NODE_ENV,
@@ -25,7 +25,7 @@ import {
 	FE_URL,
 	GRAPHQL_DEPTH_LIMIT,
 	ACCESS_TOKEN
-} from '../../environments'
+} from '@environments'
 
 // const gateway = new ApolloGateway({
 // 	serviceList: [
@@ -200,7 +200,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				// 	return new Error('Different forbidden error message!')
 				// }
 
-				logger.error(error.message)
+				// logger.error(error.message)
 
 				return {
 					message: error.message,
@@ -247,7 +247,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				},
 				onDisconnect: async (webSocket, context) => {
 					NODE_ENV !== 'production' &&
-						Logger.error(`❌  Disconnected to websocket`, 'GraphQL')
+						Logger.error(`❌  Disconnected to websocket`, '', 'GraphQL', false)
 
 					const { initPromise } = context
 					const { currentUser } = await initPromise

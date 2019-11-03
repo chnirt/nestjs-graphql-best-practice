@@ -2,7 +2,7 @@ import { sign, verify } from 'jsonwebtoken'
 import { getMongoRepository } from 'typeorm'
 import { AuthenticationError, ForbiddenError } from 'apollo-server-core'
 
-import { User } from '../../models'
+import { User } from '@models'
 import { LoginResponse } from '../../generator/graphql.schema'
 
 import {
@@ -11,7 +11,7 @@ import {
 	REFRESH_TOKEN_SECRET,
 	RESETPASS_TOKEN_SECRET,
 	EMAIL_TOKEN_SECRET
-} from '../../environments'
+} from '@environments'
 
 /**
  * Returns access token.

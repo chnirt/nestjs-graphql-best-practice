@@ -1,5 +1,5 @@
-import ValidateDirective from './validate'
+import CallDirective from './call'
 
 export default {
-	validate: ValidateDirective
+	call: CallDirective
 }

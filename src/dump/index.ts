@@ -8,7 +8,7 @@ import {
 	MLAB_DATABASE,
 	MLAB_USER,
 	MLAB_PASS
-} from '../environments'
+} from '@environments'
 
 enum fileType {
 	JSON,

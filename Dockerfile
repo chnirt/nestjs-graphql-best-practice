@@ -12,4 +12,4 @@ RUN npm run gen
 EXPOSE 11047
 
 # what should be executed when the Docker image is launching
-CMD [ "npm", “run”, "start:prod" ]
+CMD "npm run start:prod" 
