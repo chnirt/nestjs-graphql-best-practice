@@ -55,7 +55,7 @@ const password = [
 // 	}
 // ]
 
-const userValidationSchema: ValidationSchema = {
+const createUserSchema: ValidationSchema = {
 	// using interface here is not required, its just for type-safety
 	name: 'createUserSchema', // this is required, and must be unique
 	properties: {
@@ -66,7 +66,7 @@ const userValidationSchema: ValidationSchema = {
 	}
 }
 
-export default userValidationSchema
+export const createUserRegister = registerSchema(createUserSchema)
 
 // const user = {
 // 	firstName: 'Johny',

@@ -24,6 +24,7 @@ import {
 } from '@common'
 import { timeout, interval, cron } from '@shared'
 import { EmailResolver } from './resolvers/email.resolver'
+import './validations'
 
 import {
 	NODE_ENV,
