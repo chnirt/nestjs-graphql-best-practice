@@ -1,4 +1,4 @@
-import { ValidationSchema, registerSchema, validate } from 'class-validator'
+import { ValidationSchema, registerSchema } from 'class-validator'
 
 const firstName = [
 	{
@@ -47,7 +47,7 @@ const password = [
 	}
 ]
 
-export const createUserValidation: ValidationSchema = {
+const createUserValidation: ValidationSchema = {
 	// using interface here is not required, its just for type-safety
 	name: 'createUserRegister', // this is required, and must be unique
 	properties: {
@@ -58,4 +58,24 @@ export const createUserValidation: ValidationSchema = {
 	}
 }
 
+const updateUserValidation: ValidationSchema = {
+	// using interface here is not required, its just for type-safety
+	name: 'updateUserRegister', // this is required, and must be unique
+	properties: {
+		firstName,
+		lastName,
+		password
+	}
+}
+
+export const loginUserValidation: ValidationSchema = {
+	name: 'loginUserRegister',
+	properties: {
+		email,
+		password
+	}
+}
+
 registerSchema(createUserValidation)
+registerSchema(updateUserValidation)
+registerSchema(loginUserValidation)

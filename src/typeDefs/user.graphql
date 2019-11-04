@@ -134,14 +134,21 @@ type Query {
 }
 
 type Mutation {
-	createUser(input: CreateUserInput!): User
+	createUser(
+		input: CreateUserInput! @validate(schema: "createUserRegister")
+	): User
 		@rateLimit(window: "5s", max: 1, message: "You are doing that too often.")
-	updateUser(_id: ID!, input: UpdateUserInput!): Boolean @isAuthenticated
+	updateUser(
+		_id: ID!
+		input: UpdateUserInput! @validate(schema: "updateUserRegister")
+	): Boolean @isAuthenticated
 	updateAvatar(_id: ID!, file: Upload!): Boolean @isAuthenticated
 	deleteUser(_id: ID!): Boolean @isAuthenticated
 	deleteUsers: Boolean! @isAuthenticated
 	verifyEmail(emailToken: String!): Boolean
-	login(input: LoginUserInput!): LoginResponse
+	login(
+		input: LoginUserInput! @validate(schema: "loginUserRegister")
+	): LoginResponse
 	refreshToken(refreshToken: String!): RefreshTokenResponse
 	lockAndUnlockUser(_id: ID!, reason: String!): Boolean @isAuthenticated
 	changePassword(

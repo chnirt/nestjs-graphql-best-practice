@@ -16,19 +16,15 @@ import {
 	UserInputError
 } from 'apollo-server-core'
 import * as uuid from 'uuid'
-import { validate } from 'class-validator'
 
-import {
-	// CreateUserInput,
-	UpdateUserInput,
-	LoginUserInput
-} from '../models/user.entity'
 import { User } from '@models'
 import { comparePassword, hashPassword } from '@utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
 import {
 	CreateUserInput,
+	UpdateUserInput,
+	LoginUserInput,
 	Result,
 	SearchInput,
 	UserResult,

@@ -5,7 +5,6 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { IsNotEmpty } from 'class-validator'
 import { User } from './user.entity'
 import { Message } from './message.entity'
 import * as uuid from 'uuid'

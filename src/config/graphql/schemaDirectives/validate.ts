@@ -6,8 +6,11 @@ import {
 	GraphQLObjectType
 } from 'graphql'
 import { validate } from 'class-validator'
-import * as GraphqlSchema from '../../../generator/graphql.schema'
 import { UserInputError } from 'apollo-server-core'
+import { Logger } from '@nestjs/common'
+import chalk from 'chalk'
+
+import * as GraphqlSchema from '../../../generator/graphql.schema'
 
 class ValidateDirective extends SchemaDirectiveVisitor {
 	visitArgumentDefinition(
@@ -25,9 +28,12 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 		field.resolve = async function(...args) {
 			const { input } = args[1]
 
-			// console.log(arg, details, input, schema)
+			Logger.log(
+				`🧪  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
+				'Validator'
+			)
 
-			// console.log(GraphqlSchema[prototype])
+			// console.log(arg, details, input, schema)
 
 			const prototype = arg.type.toString().replace('!', '')
 
