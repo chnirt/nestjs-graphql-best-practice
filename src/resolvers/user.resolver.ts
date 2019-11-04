@@ -16,9 +16,10 @@ import {
 	UserInputError
 } from 'apollo-server-core'
 import * as uuid from 'uuid'
+import { validate } from 'class-validator'
 
 import {
-	CreateUserInput,
+	// CreateUserInput,
 	UpdateUserInput,
 	LoginUserInput
 } from '../models/user.entity'
@@ -27,7 +28,7 @@ import { comparePassword, hashPassword } from '@utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
 import {
-	CreateUserInput as ValidateCreateUserInput,
+	CreateUserInput,
 	Result,
 	SearchInput,
 	UserResult,
@@ -47,6 +48,8 @@ import {
 import { sendMail, stripe } from '@shared'
 
 import { USER_SUBSCRIPTION, STRIPE_PLAN } from '@environments'
+
+import '../validations'
 
 @Resolver('User')
 export class UserResolver {
@@ -587,10 +590,11 @@ export class UserResolver {
 	// 	local.password = ''
 	// 	return local
 	// }
-	å
+
 	@Mutation()
 	async validateUser(
-		@Args('input') input: ValidateCreateUserInput
+		@Args('text') text: string,
+		@Args('input') input: CreateUserInput
 	): Promise<boolean> {
 		return true
 	}

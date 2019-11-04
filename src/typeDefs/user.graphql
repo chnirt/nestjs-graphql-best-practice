@@ -155,7 +155,8 @@ type Mutation {
 	changeCreditCard(source: String!, ccLast4: String!): User @isAuthenticated
 	# cancelSubscription: User @isAuthenticated
 	validateUser(
-		input: CreateUserInput! @validate(schema: "createUserSchema")
+		text: String!
+		input: CreateUserInput! @validate(schema: "createUserRegister")
 	): Boolean
 }
 

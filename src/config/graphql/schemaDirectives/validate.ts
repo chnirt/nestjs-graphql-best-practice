@@ -5,8 +5,9 @@ import {
 	GraphQLField,
 	GraphQLObjectType
 } from 'graphql'
-import { registerSchema, validate } from 'class-validator'
-import { CreateUserInput, UserInput } from '../../../generator/graphql.schema'
+import { validate } from 'class-validator'
+import * as GraphqlSchema from '../../../generator/graphql.schema'
+import { UserInputError } from 'apollo-server-core'
 
 class ValidateDirective extends SchemaDirectiveVisitor {
 	visitArgumentDefinition(
@@ -22,24 +23,33 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 		const { schema } = this.args
 
 		field.resolve = async function(...args) {
-			const { input: string } = args[1]
+			const { input } = args[1]
 
-			const user = {
-				firstName: 'Johny',
-				lastName: 'Cage',
-				email: 'chnirt@gmail.com'
+			// console.log(arg, details, input, schema)
+
+			// console.log(GraphqlSchema[prototype])
+
+			const prototype = arg.type.toString().replace('!', '')
+
+			const object = new GraphqlSchema[prototype]()
+
+			Object.assign(object, input)
+
+			const errors = await validate(schema, object)
+
+			if (errors.length > 0) {
+				throw new UserInputError(
+					`Form Arguments invalid: ${errors
+						.map(err => {
+							// tslint:disable-next-line: forin
+							for (const property in err.constraints) {
+								return err.constraints[property]
+							}
+						})
+						.join(', ')}`
+				)
 			}
 
-			validate(schema, user).then(errors => {
-				if (errors.length > 0) {
-					console.log('Validation failed: ', errors)
-				} else {
-					console.log('Validation succeed.')
-				}
-			})
-
-			// console.log(schema)
-			// console.log(input)
 			return await resolve.apply(this, args)
 		}
 	}

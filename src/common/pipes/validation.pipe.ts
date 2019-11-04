@@ -14,7 +14,7 @@ export class ValidationPipe implements PipeTransform<any> {
 		const errors = await validate(object)
 		if (errors.length > 0) {
 			throw new UserInputError(
-				`Form Arguments invalid ${this.formatErrors(errors)}`
+				`Form Arguments invalid: ${this.formatErrors(errors)}`
 			)
 		}
 		return value
