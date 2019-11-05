@@ -13,7 +13,7 @@ const PORT: number = +process.env.PORT || 11047
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || 'xxx'
-const RATE_LIMIT_MAX: number = +process.env.RATE_LIMIT_MAX || 100
+const RATE_LIMIT_MAX: number = +process.env.RATE_LIMIT_MAX || 10000
 const GRAPHQL_DEPTH_LIMIT: number = +process.env.GRAPHQL_DEPTH_LIMIT || 3
 
 // static

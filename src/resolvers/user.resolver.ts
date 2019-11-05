@@ -45,8 +45,6 @@ import { sendMail, stripe } from '@shared'
 
 import { USER_SUBSCRIPTION, STRIPE_PLAN } from '@environments'
 
-import '../validations'
-
 @Resolver('User')
 export class UserResolver {
 	constructor(
@@ -162,7 +160,7 @@ export class UserResolver {
 		@Context('req') req: any
 	): Promise<User> {
 		try {
-			const { firstName, lastName, email, password, gender } = input
+			const { email, password } = input
 
 			let existedUser
 
@@ -186,15 +184,17 @@ export class UserResolver {
 			if (existedUser) {
 				// Let's merge them?
 
-				existedUser.firstName = firstName
-				existedUser.lastName = lastName
-				existedUser.local = {
-					email,
-					password: await hashPassword(password)
-				}
-				existedUser.gender = gender
+				const updateUser = await getMongoRepository(User).save(
+					new User({
+						...input,
+						local: {
+							email,
+							password: await hashPassword(password)
+						}
+					})
+				)
 
-				return await getMongoRepository(User).save(existedUser)
+				return updateUser
 			}
 
 			const createdUser = await getMongoRepository(User).save(
@@ -236,7 +236,7 @@ export class UserResolver {
 		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
-			const { firstName, lastName, password, gender } = input
+			const { password } = input
 
 			const user = await getMongoRepository(User).findOne({ _id })
 
@@ -244,20 +244,18 @@ export class UserResolver {
 				throw new ForbiddenError('User not found.')
 			}
 
-			return (await getMongoRepository(User).save(
+			const updateUser = await await getMongoRepository(User).save(
 				new User({
 					...user,
-					firstName,
-					lastName,
+					...input,
 					local: {
 						email: user.local.email,
 						password: await hashPassword(password)
-					},
-					gender
+					}
 				})
-			))
-				? true
-				: false
+			)
+
+			return updateUser ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -277,9 +275,14 @@ export class UserResolver {
 
 			const newFile = await this.fileResolver.uploadFile(file)
 
-			user.avatar = newFile.path
+			const updateUser = await getMongoRepository(User).save(
+				new User({
+					...user,
+					avatar: newFile.path
+				})
+			)
 
-			return (await getMongoRepository(User).save(user)) ? true : false
+			return updateUser ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -294,9 +297,14 @@ export class UserResolver {
 				throw new ForbiddenError('User not found.')
 			}
 
-			user.isActive = false
+			const updateUser = await getMongoRepository(User).save(
+				new User({
+					...user,
+					isActive: false
+				})
+			)
 
-			return (await getMongoRepository(User).save(user)) ? true : false
+			return updateUser ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -319,9 +327,16 @@ export class UserResolver {
 	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
 		const user = await verifyEmailToken(emailToken)
 
+		// console.log(user)
+
 		if (!user.isVerified) {
-			user.isVerified = true
-			return (await getMongoRepository(User).save(user)) ? true : false
+			const updateUser = await getMongoRepository(User).save(
+				new User({
+					...user,
+					isVerified: true
+				})
+			)
+			return updateUser ? true : false
 		} else {
 			throw new ForbiddenError('Your email has been verified.')
 		}
@@ -367,10 +382,15 @@ export class UserResolver {
 				throw new ForbiddenError('User not found.')
 			}
 
-			user.reason = !user.isLocked ? reason : ''
-			user.isLocked = !user.isLocked
+			const updateUser = await getMongoRepository(User).save(
+				new User({
+					...user,
+					reason: !user.isLocked ? reason : '',
+					isLocked: !user.isLocked
+				})
+			)
 
-			return (await getMongoRepository(User).save(user)) ? true : false
+			return updateUser ? true : false
 		} catch (error) {
 			throw new ApolloError(error)
 		}
@@ -400,9 +420,16 @@ export class UserResolver {
 			)
 		}
 
-		user.local.password = await hashPassword(password)
+		const updateUser = await getMongoRepository(User).save(
+			new User({
+				...user,
+				local: {
+					password: await hashPassword(password)
+				}
+			})
+		)
 
-		return (await getMongoRepository(User).save(user)) ? true : false
+		return updateUser ? true : false
 	}
 
 	@Mutation()
@@ -439,10 +466,16 @@ export class UserResolver {
 		)
 
 		const date = new Date()
-		user.resetPasswordToken = resetPassToken
-		user.resetPasswordExpires = date.setHours(date.getHours() + 1) // 1 hour
 
-		return (await getMongoRepository(User).save(user)) ? true : false
+		const updateUser = await getMongoRepository(User).save(
+			new User({
+				...user,
+				resetPasswordToken: resetPassToken,
+				resetPasswordExpires: date.setHours(date.getHours() + 1) // 1 hour
+			})
+		)
+
+		return updateUser ? true : false
 	}
 
 	@Mutation()
@@ -464,11 +497,18 @@ export class UserResolver {
 			)
 		}
 
-		user.local.password = await hashPassword(password)
-		user.resetPasswordToken = null
-		user.resetPasswordExpires = null
+		const updateUser = await getMongoRepository(User).save(
+			new User({
+				...user,
+				local: {
+					password: await hashPassword(password)
+				},
+				resetPasswordToken: null,
+				resetPasswordExpires: null
+			})
+		)
 
-		return (await getMongoRepository(User).save(user)) ? true : false
+		return updateUser ? true : false
 	}
 
 	@Mutation()
@@ -495,11 +535,14 @@ export class UserResolver {
 
 		// console.log(customer)
 
-		currentUser.stripeId = customer.id
-		currentUser.type = UserType.PREMIUM
-		currentUser.ccLast4 = ccLast4
-
-		const user = await getMongoRepository(User).save(currentUser)
+		const user = await getMongoRepository(User).save(
+			new User({
+				...currentUser,
+				stripeId: customer.id,
+				type: UserType.PREMIUM,
+				ccLast4
+			})
+		)
 
 		return user
 	}
@@ -519,11 +562,14 @@ export class UserResolver {
 			source
 		})
 
-		currentUser.ccLast4 = ccLast4
+		const updateUser = await getMongoRepository(User).save(
+			new User({
+				...currentUser,
+				ccLast4
+			})
+		)
 
-		const user = await getMongoRepository(User).save(currentUser)
-
-		return user
+		return updateUser
 	}
 
 	// @Mutation()

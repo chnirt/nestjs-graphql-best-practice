@@ -16,6 +16,7 @@ import { Exclude, Expose, plainToClass } from 'class-transformer'
 	}
 })
 export class User {
+	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
@@ -23,9 +24,11 @@ export class User {
 	@Column()
 	local: Local
 
+	@Expose()
 	@Column()
 	google: Google
 
+	@Expose()
 	@Column()
 	facebook: Facebook
 
@@ -37,12 +40,15 @@ export class User {
 	@Column()
 	lastName: string
 
+	@Expose()
 	@Column()
 	avatar: string
 
+	@Expose()
 	@Column()
 	resetPasswordToken: string
 
+	@Expose()
 	@Column()
 	resetPasswordExpires: number
 
@@ -58,12 +64,15 @@ export class User {
 	@Column()
 	gender: Gender
 
+	@Expose()
 	@Column()
 	isVerified: boolean
 
+	@Expose()
 	@Column()
 	isOnline: boolean
 
+	@Expose()
 	@Column()
 	isLocked: boolean
 
@@ -71,6 +80,7 @@ export class User {
 	@Column()
 	reason: string
 
+	@Expose()
 	@Column()
 	isActive: boolean
 
@@ -86,8 +96,10 @@ export class User {
 	@Column()
 	type: UserType
 
+	@Expose()
 	@Column()
 	createdAt: number
+	@Expose()
 	@Column()
 	updatedAt: number
 
@@ -99,8 +111,9 @@ export class User {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = uuid.v1()
-			this.isVerified = this.google || this.facebook ? true : false
+			this._id = this._id || uuid.v1()
+			this.isVerified =
+				this.isVerified || (this.google || this.facebook ? true : false)
 			this.isOnline = false
 			this.isLocked = false
 			this.reason = ''
