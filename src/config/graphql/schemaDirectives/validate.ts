@@ -30,7 +30,8 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 
 			Logger.log(
 				`🧪  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
-				'Validator'
+				'Validator',
+				false
 			)
 
 			// console.log(arg, details, input, schema)

@@ -1,10 +1,4 @@
-import {
-	Entity,
-	ObjectIdColumn,
-	Column,
-	BeforeInsert,
-	BeforeUpdate
-} from 'typeorm'
+import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
 import {
 	Gender,
@@ -13,7 +7,7 @@ import {
 	Facebook,
 	UserType
 } from '../generator/graphql.schema'
-// import { Exclude, Expose } from 'class-transformer'
+import { Exclude, Expose, plainToClass } from 'class-transformer'
 
 @Entity({
 	name: 'users',
@@ -25,6 +19,7 @@ export class User {
 	@ObjectIdColumn()
 	_id: string
 
+	@Expose()
 	@Column()
 	local: Local
 
@@ -34,9 +29,11 @@ export class User {
 	@Column()
 	facebook: Facebook
 
+	@Expose()
 	@Column()
 	firstName: string
 
+	@Expose()
 	@Column()
 	lastName: string
 
@@ -57,6 +54,7 @@ export class User {
 	// @Transform(role => role.name)
 	// role: RoleEntity;
 
+	@Expose()
 	@Column()
 	gender: Gender
 
@@ -69,18 +67,22 @@ export class User {
 	@Column()
 	isLocked: boolean
 
+	@Expose()
 	@Column()
 	reason: string
 
 	@Column()
 	isActive: boolean
 
+	@Expose()
 	@Column()
 	stripeId: string
 
+	@Expose()
 	@Column()
 	ccLast4: string
 
+	@Expose()
 	@Column()
 	type: UserType
 
@@ -89,35 +91,23 @@ export class User {
 	@Column()
 	updatedAt: number
 
-	constructor(user?: Partial<User>) {
+	constructor(user: Partial<User>) {
 		if (user) {
-			Object.assign(this, user)
+			Object.assign(
+				this,
+				plainToClass(User, user, {
+					excludeExtraneousValues: true
+				})
+			)
 			this._id = uuid.v1()
 			this.isVerified = this.google || this.facebook ? true : false
 			this.isOnline = false
 			this.isLocked = false
 			this.reason = ''
 			this.isActive = true
-			this.createdAt = this.createdAt ? this.createdAt : +new Date()
+			this.type = UserType.BASIC
+			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}
-	}
-
-	@BeforeInsert()
-	save() {
-		this._id = uuid.v1()
-		this.isVerified = this.google ? true : false
-		this.isOnline = false
-		this.isLocked = false
-		this.reason = ''
-		this.isActive = true
-		this.type = UserType.BASIC
-		this.createdAt = +new Date()
-		this.updatedAt = +new Date()
-	}
-
-	@BeforeUpdate()
-	update() {
-		this.updatedAt = +new Date()
 	}
 }

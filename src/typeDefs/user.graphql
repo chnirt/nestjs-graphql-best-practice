@@ -123,6 +123,7 @@ type User {
 
 type Query {
 	hello: String!
+		@rateLimit(window: "2s", max: 1, message: "You are doing that too often.")
 	me: User @isAuthenticated
 	users(offset: Int, limit: Int): [User!] @isAuthenticated
 	user(_id: ID!): User @isAuthenticated

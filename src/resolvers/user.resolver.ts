@@ -199,13 +199,11 @@ export class UserResolver {
 
 			const createdUser = await getMongoRepository(User).save(
 				new User({
-					firstName,
-					lastName,
+					...input,
 					local: {
 						email,
 						password: await hashPassword(password)
-					},
-					gender
+					}
 				})
 			)
 

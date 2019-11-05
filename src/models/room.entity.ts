@@ -5,8 +5,7 @@ import {
 	BeforeInsert,
 	BeforeUpdate
 } from 'typeorm'
-import { User } from './user.entity'
-import { Message } from './message.entity'
+import { User, Message } from '@models'
 import * as uuid from 'uuid'
 
 @Entity({
