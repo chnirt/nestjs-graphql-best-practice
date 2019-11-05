@@ -6,6 +6,7 @@ import {
 	BeforeUpdate
 } from 'typeorm'
 import * as uuid from 'uuid'
+import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
 	name: 'forms',
@@ -14,34 +15,37 @@ import * as uuid from 'uuid'
 	}
 })
 export class Form {
+	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
+	@Expose()
 	@Column()
 	content: string
 
+	@Expose()
 	@Column()
 	state: number
 
+	@Expose()
 	@Column()
 	createdAt: number
+	@Expose()
 	@Column()
 	updatedAt: number
 
 	constructor(form: Partial<Form>) {
-		Object.assign(this, form)
-	}
-
-	@BeforeInsert()
-	save() {
-		this._id = uuid.v1()
-		this.state = 0
-		this.createdAt = +new Date()
-		this.updatedAt = +new Date()
-	}
-
-	@BeforeUpdate()
-	update() {
-		this.updatedAt = +new Date()
+		if (form) {
+			Object.assign(
+				this,
+				plainToClass(Form, form, {
+					excludeExtraneousValues: true
+				})
+			)
+			this._id = this._id || uuid.v1()
+			this.state = this.state || 0
+			this.createdAt = this.createdAt || +new Date()
+			this.updatedAt = +new Date()
+		}
 	}
 }

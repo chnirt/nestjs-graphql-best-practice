@@ -1,5 +1,7 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
+import { Exclude, Expose, plainToClass } from 'class-transformer'
+
 import {
 	Gender,
 	Local,
@@ -7,7 +9,6 @@ import {
 	Facebook,
 	UserType
 } from '../generator/graphql.schema'
-import { Exclude, Expose, plainToClass } from 'class-transformer'
 
 @Entity({
 	name: 'users',

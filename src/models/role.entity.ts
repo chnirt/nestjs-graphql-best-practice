@@ -1,11 +1,7 @@
-import {
-	Entity,
-	ObjectIdColumn,
-	Column,
-	BeforeInsert,
-	BeforeUpdate
-} from 'typeorm'
+import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
+import { Expose, plainToClass } from 'class-transformer'
+
 import { PermissionInfo } from '../generator/graphql.schema'
 
 @Entity({
@@ -15,36 +11,40 @@ import { PermissionInfo } from '../generator/graphql.schema'
 	}
 })
 export class Role {
+	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
+	@Expose()
 	@Column()
 	name: string
 
+	@Expose()
 	@Column()
 	nodeId: string
 
+	@Expose()
 	@Column()
 	permissions: PermissionInfo[]
 
+	@Expose()
 	@Column()
 	createdAt: number
+	@Expose()
 	@Column()
 	updatedAt: number
 
 	constructor(role: Partial<Role>) {
-		Object.assign(this, role)
-	}
-
-	@BeforeInsert()
-	save() {
-		this._id = uuid.v1()
-		this.createdAt = +new Date()
-		this.updatedAt = +new Date()
-	}
-
-	@BeforeUpdate()
-	update() {
-		this.updatedAt = +new Date()
+		if (role) {
+			Object.assign(
+				this,
+				plainToClass(Role, role, {
+					excludeExtraneousValues: true
+				})
+			)
+			this._id = this._id || uuid.v1()
+			this.createdAt = this.createdAt || +new Date()
+			this.updatedAt = +new Date()
+		}
 	}
 }
