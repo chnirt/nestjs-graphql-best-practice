@@ -12,7 +12,6 @@ import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
-// import { registerSchema } from 'class-validator'
 
 import { MyLogger } from '@config'
 import {
@@ -145,19 +144,6 @@ async function bootstrap() {
 
 		// hot module replacement
 		if (module.hot) {
-			// module.hot.accept(async () => {
-			// 	try {
-			// 		server.removeAllListeners('request', server)
-
-			// 		const app = await NestFactory.create(AppModule, {
-			// 			logger: new MyLogger()
-			// 		})
-
-			// 		server.on('request', await app.listen(PORT))
-			// 	} catch (err) {
-			// 		console.log(err)
-			// 	}
-			// })
 			module.hot.accept()
 			module.hot.dispose(() => app.close())
 		}
