@@ -112,13 +112,18 @@ export class User {
 					excludeExtraneousValues: true
 				})
 			)
+			console.log(this.isActive)
 			this._id = this._id || uuid.v1()
 			this.isVerified =
-				this.isVerified || (this.google || this.facebook ? true : false)
-			this.isOnline = false
-			this.isLocked = false
-			this.reason = ''
-			this.isActive = true
+				this.isVerified !== undefined
+					? this.isVerified
+					: this.google || this.facebook
+					? true
+					: false
+			this.isOnline = this.isOnline !== undefined ? this.isOnline : false
+			this.isLocked = this.isLocked !== undefined ? this.isLocked : false
+			this.reason = this.reason || ''
+			this.isActive = this.isActive !== undefined ? this.isActive : true
 			this.type = UserType.BASIC
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
