@@ -8,6 +8,7 @@ import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
 // import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
+// import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
 
@@ -135,7 +136,7 @@ async function bootstrap() {
 		// serve static
 		app.useStaticAssets(join(__dirname, `../${STATIC}`))
 
-		const server = await app.listen(PORT)
+		const server = await app.listen(PORT!)
 
 		// hot module replacement
 		if (module.hot) {

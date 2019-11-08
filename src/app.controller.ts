@@ -4,10 +4,10 @@ import { STATIC } from '@environments'
 
 @Controller()
 export class AppController {
-	@Get(`${STATIC}/:fileId`)
+	@Get(`${STATIC!}/:fileId`)
 	getUpload(@Param('fileId') fileId, @Res() res): any {
 		return res.sendFile(fileId, {
-			root: STATIC
+			root: STATIC!
 		})
 	}
 }
