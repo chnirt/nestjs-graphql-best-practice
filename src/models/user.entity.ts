@@ -112,7 +112,6 @@ export class User {
 					excludeExtraneousValues: true
 				})
 			)
-			console.log(this.isActive)
 			this._id = this._id || uuid.v1()
 			this.isVerified =
 				this.isVerified !== undefined
@@ -124,7 +123,7 @@ export class User {
 			this.isLocked = this.isLocked !== undefined ? this.isLocked : false
 			this.reason = this.reason || ''
 			this.isActive = this.isActive !== undefined ? this.isActive : true
-			this.type = UserType.BASIC
+			this.type = this.type || UserType.BASIC
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}
