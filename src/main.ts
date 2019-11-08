@@ -6,13 +6,11 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
-import * as compression from 'compression'
 // import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
 // import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
-// import { registerSchema } from 'class-validator'
 
 import { MyLogger } from '@config'
 import {
@@ -68,9 +66,6 @@ async function bootstrap() {
 				parameterLimit: 50000
 			})
 		)
-
-		// compress
-		app.use(compression())
 
 		// cruf
 		// app.use(csurf())
@@ -141,23 +136,10 @@ async function bootstrap() {
 		// serve static
 		app.useStaticAssets(join(__dirname, `../${STATIC}`))
 
-		const server = await app.listen(PORT)
+		const server = await app.listen(PORT!)
 
 		// hot module replacement
 		if (module.hot) {
-			// module.hot.accept(async () => {
-			// 	try {
-			// 		server.removeAllListeners('request', server)
-
-			// 		const app = await NestFactory.create(AppModule, {
-			// 			logger: new MyLogger()
-			// 		})
-
-			// 		server.on('request', await app.listen(PORT))
-			// 	} catch (err) {
-			// 		console.log(err)
-			// 	}
-			// })
 			module.hot.accept()
 			module.hot.dispose(() => app.close())
 		}

@@ -1,4 +1,5 @@
 import { CronJob } from 'cron'
+import { Logger } from '@nestjs/common'
 
 /**
  * Returns any.
@@ -11,7 +12,9 @@ import { CronJob } from 'cron'
  * @beta
  */
 export const timeout = () => {
-	const taskID = setTimeout(() => console.log('Task completed'), 1000)
+	const taskID = setTimeout(() => {
+		Logger.debug('Task completed', 'Timeout', false)
+	}, 1000)
 	// clearTimeout(taskID)
 }
 
@@ -26,7 +29,9 @@ export const timeout = () => {
  * @beta
  */
 export const interval = () => {
-	const intervalID = setInterval(() => console.log('Task executed'), 2000)
+	const intervalID = setInterval(() => {
+		Logger.debug('Task executed', 'Interval', false)
+	}, 2000)
 	// clearInterval(intervalID)
 }
 
@@ -44,7 +49,7 @@ export const cron = () => {
 	const job = new CronJob({
 		cronTime: '0 0 12 * * MON-FRI',
 		onTick: () => {
-			console.info('Cron job completed')
+			Logger.debug('Cron job completed', 'Cron', false)
 		},
 		start: false,
 		timeZone: 'Asia/Ho_Chi_Minh'
