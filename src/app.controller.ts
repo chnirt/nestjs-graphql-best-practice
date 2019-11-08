@@ -7,7 +7,7 @@ export class AppController {
 	@Get(`${STATIC}/:fileId`)
 	getUpload(@Param('fileId') fileId, @Res() res): any {
 		return res.sendFile(fileId, {
-			root: `${STATIC}`
+			root: STATIC
 		})
 	}
 }

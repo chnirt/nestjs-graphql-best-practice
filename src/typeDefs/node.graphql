@@ -4,8 +4,9 @@ enum NodeCategory {
 	# COUNTRY # Việt Nam
 	CITY # HCM, HN
 	# SITE # Sư Vạn Hạnh, Hoa Hồng
-	STORE # Cửa hàng
+	# STORE # Cửa hàng
 	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
+	POSITION # GD, TP, Nhân viên, Công tác viên
 }
 
 input SearchNodeInput {
@@ -33,13 +34,30 @@ type Node {
 	updatedAt: Float!
 }
 
-# Company
-#   Country
-# 		City
-#     	Site
-#     Department
-#       Group
-#         Staff
+# type Permission {
+# 	_id: ID!
+# 	code: String!
+# 	description: String!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
+
+# type Role {
+# 	_id: ID!
+# 	name: String! # Leader, Developer, QC, Tester
+# 	nodeId: ID
+# 	permissions: [ID!]!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
+
+# type UserRole {
+# 	_id: ID!
+# 	userId: ID!
+# 	roleId: ID!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
 
 type Query {
 	nodes(input: SearchNodeInput): [Node]

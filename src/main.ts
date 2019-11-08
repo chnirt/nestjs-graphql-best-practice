@@ -6,10 +6,8 @@ import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 import * as bodyParser from 'body-parser'
 import * as helmet from 'helmet'
-import * as compression from 'compression'
 // import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
-// import * as cookieParser from 'cookie-parser'
 // import * as fs from 'fs'
 import chalk from 'chalk'
 
@@ -67,9 +65,6 @@ async function bootstrap() {
 				parameterLimit: 50000
 			})
 		)
-
-		// compress
-		app.use(compression())
 
 		// cruf
 		// app.use(csurf())
