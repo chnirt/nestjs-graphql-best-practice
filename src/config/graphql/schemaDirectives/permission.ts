@@ -2,7 +2,7 @@ import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { ForbiddenError, AuthenticationError } from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 import { getMongoRepository } from 'typeorm'
-import { Role } from '../../../models'
+import { Role } from '@models'
 
 class PermissionDirective extends SchemaDirectiveVisitor {
 	visitFieldDefinition(field) {

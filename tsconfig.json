@@ -12,17 +12,17 @@
 		"noLib": false,
 		"noImplicitAny": false,
 		"outDir": "./dist",
-		"baseUrl": "./",
+		"baseUrl": "./src",
 		"typeRoots": ["node_modules/@types", "types"],
 		"paths": {
-			"@auth": ["src/auth"],
-			"@common": ["src/common"],
-			"@config": ["src/config"],
-			"@environments": ["src/environments"],
-			"@models": ["src/models"],
-			"@shared": ["src/shared"],
-			"@utils": ["src/utils"],
-			"@validations": ["src/validations"]
+			"@auth": ["auth"],
+			"@common": ["common"],
+			"@config": ["config"],
+			"@environments": ["environments"],
+			"@models": ["models"],
+			"@shared": ["shared"],
+			"@utils": ["utils"],
+			"@validations": ["validations"]
 		}
 	},
 	"include": ["src/**/*.ts"],
