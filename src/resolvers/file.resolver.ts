@@ -20,6 +20,8 @@ export class FileResolver {
 	async uploadFile(@Args('file') file: any): Promise<File> {
 		const { filename } = file
 
+		console.log(file)
+
 		const path = await uploadFile(file)
 
 		const newFile = await getMongoRepository(File).save(
