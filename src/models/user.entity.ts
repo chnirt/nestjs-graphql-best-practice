@@ -110,7 +110,7 @@ export class User {
 				this,
 				plainToClass(User, user, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.isVerified =

@@ -36,13 +36,13 @@ export const uploadFile = async (createReadStream: any): Promise<string> => {
 							reject(err)
 						}
 						resolve(image)
-					},
-				),
+					}
+				)
 			)
 			.on('close', () => {
 				resolve(true)
 			})
-			.on('error', () => reject(false)),
+			.on('error', () => reject(false))
 	)
 	return result['secure_url']
 }

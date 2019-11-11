@@ -27,7 +27,7 @@ export const sendMail = async (
 	user: User,
 	req: any,
 	token: string,
-	_id: string,
+	_id: string
 ): Promise<any> => {
 	const transporter = await nodemailer.createTransport({
 		service: 'gmail',

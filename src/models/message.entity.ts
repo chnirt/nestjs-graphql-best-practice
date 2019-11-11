@@ -40,7 +40,7 @@ export class Message {
 				this,
 				plainToClass(Message, message, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

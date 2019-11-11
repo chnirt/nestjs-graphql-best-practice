@@ -16,7 +16,7 @@ export class AuthResolver {
 	@Mutation()
 	async oauthGooglePlus(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any,
+		@Context() context: any
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
@@ -54,7 +54,7 @@ export class AuthResolver {
 						lastName: profile.name.familyName,
 						gender: Gender.UNKNOWN,
 						avatar: profile.photos[0].value,
-					}),
+					})
 				)
 			}
 
@@ -76,7 +76,7 @@ export class AuthResolver {
 	@Mutation()
 	async oauthFacebook(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any,
+		@Context() context: any
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
@@ -114,7 +114,7 @@ export class AuthResolver {
 						lastName: profile.name.familyName,
 						gender: profile.gender === '' && Gender.UNKNOWN,
 						avatar: profile.photos[0].value,
-					}),
+					})
 				)
 			}
 
@@ -136,7 +136,7 @@ export class AuthResolver {
 	@Mutation()
 	async oauthGoogle(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any,
+		@Context() context: any
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
@@ -174,7 +174,7 @@ export class AuthResolver {
 						lastName: profile.name.familyName,
 						gender: Gender.UNKNOWN,
 						avatar: profile.photos ? profile.photos[0].value : '',
-					}),
+					})
 				)
 			}
 

@@ -68,7 +68,7 @@ export class Node {
 				this,
 				plainToClass(Node, node, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

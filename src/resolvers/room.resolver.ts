@@ -32,7 +32,7 @@ export class RoomResolver {
 	@Mutation(() => Room)
 	async createRoom(
 		@Args('input') input: CreateRoomInput,
-		@Context('currentUser') currentUser: User,
+		@Context('currentUser') currentUser: User
 	): Promise<Room> {
 		const { title, userIds } = input
 
@@ -49,14 +49,14 @@ export class RoomResolver {
 		}
 
 		return await getMongoRepository(Room).save(
-			new Room({ title, users: [...existedUserIds, currentUser] }),
+			new Room({ title, users: [...existedUserIds, currentUser] })
 		)
 	}
 
 	@Mutation(() => Boolean)
 	async joinRoom(
 		@Args('_id') _id: string,
-		@Context('currentUser') currentUser: User,
+		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
 			_id,
@@ -80,7 +80,7 @@ export class RoomResolver {
 	@Mutation(() => Boolean)
 	async leaveRoom(
 		@Args('_id') _id: string,
-		@Context('currentUser') currentUser: User,
+		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
 			_id,

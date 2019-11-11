@@ -40,7 +40,7 @@ export class Form {
 				this,
 				plainToClass(Form, form, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.state = this.state || 0

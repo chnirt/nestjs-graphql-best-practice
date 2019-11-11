@@ -46,7 +46,7 @@ export class Room {
 				this,
 				plainToClass(Room, room, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.messages = this.messages || []

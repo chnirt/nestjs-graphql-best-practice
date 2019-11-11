@@ -49,7 +49,7 @@ import { USER_SUBSCRIPTION, STRIPE_PLAN } from '@environments'
 export class UserResolver {
 	constructor(
 		private readonly emailResolver: EmailResolver,
-		private readonly fileResolver: FileResolver,
+		private readonly fileResolver: FileResolver
 	) {}
 
 	@Query()
@@ -125,7 +125,7 @@ export class UserResolver {
 	@Query()
 	async users(
 		@Args('offset') offset: number,
-		@Args('limit') limit: number,
+		@Args('limit') limit: number
 	): Promise<User[]> {
 		const users = await getMongoRepository(User).find({
 			// where: { email: { $nin: ['trinchinchin@gmail.com'] } },
@@ -157,7 +157,7 @@ export class UserResolver {
 	async createUser(
 		@Args('input') input: CreateUserInput,
 		@Context('pubsub') pubsub: any,
-		@Context('req') req: any,
+		@Context('req') req: any
 	): Promise<User> {
 		try {
 			const { email, password } = input
@@ -191,7 +191,7 @@ export class UserResolver {
 							email,
 							password: await hashPassword(password),
 						},
-					}),
+					})
 				)
 
 				return updateUser
@@ -204,7 +204,7 @@ export class UserResolver {
 						email,
 						password: await hashPassword(password),
 					},
-				}),
+				})
 			)
 
 			pubsub.publish(USER_SUBSCRIPTION, { userCreated: createdUser })
@@ -221,7 +221,7 @@ export class UserResolver {
 				createdUser,
 				req,
 				emailToken,
-				existedEmail._id,
+				existedEmail._id
 			)
 
 			return createdUser
@@ -233,7 +233,7 @@ export class UserResolver {
 	@Mutation()
 	async updateUser(
 		@Args('_id') _id: string,
-		@Args('input') input: UpdateUserInput,
+		@Args('input') input: UpdateUserInput
 	): Promise<boolean> {
 		try {
 			const { password } = input
@@ -252,7 +252,7 @@ export class UserResolver {
 						email: user.local.email,
 						password: await hashPassword(password),
 					},
-				}),
+				})
 			)
 
 			return updateUser ? true : false
@@ -264,7 +264,7 @@ export class UserResolver {
 	@Mutation()
 	async updateAvatar(
 		@Args('_id') _id: string,
-		@Args('file') file: any,
+		@Args('file') file: any
 	): Promise<boolean> {
 		try {
 			const user = await getMongoRepository(User).findOne({ _id })
@@ -279,7 +279,7 @@ export class UserResolver {
 				new User({
 					...user,
 					avatar: newFile.path,
-				}),
+				})
 			)
 
 			return updateUser ? true : false
@@ -301,7 +301,7 @@ export class UserResolver {
 				new User({
 					...user,
 					isActive: false,
-				}),
+				})
 			)
 
 			return updateUser ? true : false
@@ -334,7 +334,7 @@ export class UserResolver {
 				new User({
 					...user,
 					isVerified: true,
-				}),
+				})
 			)
 			return updateUser ? true : false
 		} else {
@@ -361,7 +361,7 @@ export class UserResolver {
 
 	@Mutation()
 	async refreshToken(
-		@Args('refreshToken') refreshToken: string,
+		@Args('refreshToken') refreshToken: string
 	): Promise<RefreshTokenResponse> {
 		const user = await verifyRefreshToken(refreshToken)
 
@@ -373,7 +373,7 @@ export class UserResolver {
 	@Mutation()
 	async lockAndUnlockUser(
 		@Args('_id') _id: string,
-		@Args('reason') reason: string,
+		@Args('reason') reason: string
 	): Promise<boolean> {
 		try {
 			const user = await getMongoRepository(User).findOne({ _id })
@@ -387,7 +387,7 @@ export class UserResolver {
 					...user,
 					reason: !user.isLocked ? reason : '',
 					isLocked: !user.isLocked,
-				}),
+				})
 			)
 
 			return updateUser ? true : false
@@ -400,7 +400,7 @@ export class UserResolver {
 	async changePassword(
 		@Args('_id') _id: string,
 		@Args('currentPassword') currentPassword: string,
-		@Args('password') password: string,
+		@Args('password') password: string
 	): Promise<boolean> {
 		const user = await getMongoRepository(User).findOne({ _id })
 
@@ -416,7 +416,7 @@ export class UserResolver {
 
 		if (await comparePassword(password, user.local.password)) {
 			throw new ForbiddenError(
-				'Your new password must be different from your previous password.',
+				'Your new password must be different from your previous password.'
 			)
 		}
 
@@ -426,7 +426,7 @@ export class UserResolver {
 				local: {
 					password: await hashPassword(password),
 				},
-			}),
+			})
 		)
 
 		return updateUser ? true : false
@@ -435,7 +435,7 @@ export class UserResolver {
 	@Mutation()
 	async forgotPassword(
 		@Args('email') email: string,
-		@Context('req') req: any,
+		@Context('req') req: any
 	): Promise<boolean> {
 		const user = await getMongoRepository(User).findOne({
 			where: {
@@ -462,7 +462,7 @@ export class UserResolver {
 			user,
 			req,
 			resetPassToken,
-			existedEmail._id,
+			existedEmail._id
 		)
 
 		const date = new Date()
@@ -472,7 +472,7 @@ export class UserResolver {
 				...user,
 				resetPasswordToken: resetPassToken,
 				resetPasswordExpires: date.setHours(date.getHours() + 1), // 1 hour
-			}),
+			})
 		)
 
 		return updateUser ? true : false
@@ -481,7 +481,7 @@ export class UserResolver {
 	@Mutation()
 	async resetPassword(
 		@Args('resetPasswordToken') resetPasswordToken: string,
-		@Args('password') password: string,
+		@Args('password') password: string
 	): Promise<boolean> {
 		const user = await getMongoRepository(User).findOne({
 			resetPasswordToken,
@@ -493,7 +493,7 @@ export class UserResolver {
 
 		if (user.resetPasswordExpires < Date.now()) {
 			throw new AuthenticationError(
-				'Reset password token is invalid, please try again.',
+				'Reset password token is invalid, please try again.'
 			)
 		}
 
@@ -505,7 +505,7 @@ export class UserResolver {
 				},
 				resetPasswordToken: null,
 				resetPasswordExpires: null,
-			}),
+			})
 		)
 
 		return updateUser ? true : false
@@ -515,7 +515,7 @@ export class UserResolver {
 	async createSubscription(
 		@Args('source') source: string,
 		@Args('ccLast4') ccLast4: string,
-		@Context('currentUser') currentUser: User,
+		@Context('currentUser') currentUser: User
 	): Promise<User> {
 		// console.log(source)
 		if (currentUser.stripeId) {
@@ -541,7 +541,7 @@ export class UserResolver {
 				stripeId: customer.id,
 				type: UserType.PREMIUM,
 				ccLast4,
-			}),
+			})
 		)
 
 		return user
@@ -551,7 +551,7 @@ export class UserResolver {
 	async changeCreditCard(
 		@Args('source') source: string,
 		@Args('ccLast4') ccLast4: string,
-		@Context('currentUser') currentUser: User,
+		@Context('currentUser') currentUser: User
 	): Promise<User> {
 		// console.log(source)
 		if (!currentUser.stripeId || currentUser.type !== UserType.PREMIUM) {
@@ -566,7 +566,7 @@ export class UserResolver {
 			new User({
 				...currentUser,
 				ccLast4,
-			}),
+			})
 		)
 
 		return updateUser
@@ -634,7 +634,7 @@ export class UserResolver {
 	@Mutation()
 	async validateUser(
 		@Args('text') text: string,
-		@Args('input') input: CreateUserInput,
+		@Args('input') input: CreateUserInput
 	): Promise<boolean> {
 		return true
 	}

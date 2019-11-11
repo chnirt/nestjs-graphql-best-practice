@@ -38,7 +38,7 @@ export class Company {
 				this,
 				plainToClass(Company, company, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.isActive = this.isActive !== undefined ? this.isActive : true

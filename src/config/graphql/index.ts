@@ -126,10 +126,10 @@ export class GraphqlService implements GqlOptionsFactory {
 									.hex('#87e8de')
 									.bold(`${GRAPHQL_DEPTH_LIMIT!}`)} levels.`,
 								'GraphQL',
-								false,
+								false
 							)
 						}
-					},
+					}
 				),
 			],
 			introspection: true,
@@ -239,14 +239,14 @@ export class GraphqlService implements GqlOptionsFactory {
 							},
 							{
 								upsert: true,
-							},
+							}
 						)
 
 						return { currentUser }
 					}
 
 					throw new AuthenticationError(
-						'Authentication token is invalid, please try again.',
+						'Authentication token is invalid, please try again.'
 					)
 				},
 				onDisconnect: async (webSocket, context) => {
@@ -263,14 +263,14 @@ export class GraphqlService implements GqlOptionsFactory {
 						},
 						{
 							upsert: true,
-						},
+						}
 					)
 				},
 			},
 			persistedQueries: {
 				cache: new MemcachedCache(
 					['memcached-server-1', 'memcached-server-2', 'memcached-server-3'],
-					{ retries: 10, retry: 10000 }, // Options
+					{ retries: 10, retry: 10000 } // Options
 				),
 			},
 			installSubscriptionHandlers: true,

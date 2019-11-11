@@ -7,7 +7,7 @@ export class TranslateResolver {
 	@Mutation()
 	async translate(
 		@Args('text') text: string,
-		@Args('code') code: string,
+		@Args('code') code: string
 	): Promise<string> {
 		return await translate(text, code)
 	}

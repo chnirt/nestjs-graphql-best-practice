@@ -34,7 +34,7 @@ export class Role {
 				this,
 				plainToClass(Role, role, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

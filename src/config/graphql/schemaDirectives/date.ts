@@ -16,7 +16,7 @@ class DateFormatDirective extends SchemaDirectiveVisitor {
 			source,
 			{ format, ...otherArgs },
 			context,
-			info,
+			info
 		) {
 			const date = await resolve.call(this, source, otherArgs, context, info)
 			// If a format argument was not provided, default to the optional

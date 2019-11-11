@@ -20,7 +20,7 @@ const googlePlusTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
-	done,
+	done
 ) =>
 	done(null, {
 		accessToken,
@@ -34,8 +34,8 @@ passport.use(
 			clientID: GOOGLE_CLIENT_ID!,
 			clientSecret: GOOGLE_CLIENT_SECRET!,
 		},
-		googlePlusTokenStrategyCallback,
-	),
+		googlePlusTokenStrategyCallback
+	)
 )
 
 // FACEBOOK STRATEGY
@@ -43,7 +43,7 @@ const facebookTokenStrategyCallback = (
 	accessToken,
 	refreshToken,
 	profile,
-	done,
+	done
 ) =>
 	done(null, {
 		accessToken,
@@ -57,8 +57,8 @@ passport.use(
 			clientID: FACEBOOK_APP_ID!,
 			clientSecret: FACEBOOK_APP_SECRET!,
 		},
-		facebookTokenStrategyCallback,
-	),
+		facebookTokenStrategyCallback
+	)
 )
 
 // GOOGLE STRATEGY
@@ -66,7 +66,7 @@ const googleTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
-	done,
+	done
 ) =>
 	done(null, {
 		accessToken,
@@ -80,8 +80,8 @@ passport.use(
 			clientID: GOOGLE_CLIENT_ID!,
 			clientSecret: GOOGLE_CLIENT_SECRET!,
 		},
-		googleTokenStrategyCallback,
-	),
+		googleTokenStrategyCallback
+	)
 )
 
 // promisified authenticate functions
@@ -106,7 +106,7 @@ export const authenticateGooglePlus = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			},
+			}
 		)(req, res)
 	})
 
@@ -130,7 +130,7 @@ export const authenticateFacebook = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			},
+			}
 		)(req, res)
 	})
 
@@ -154,6 +154,6 @@ export const authenticateGoogle = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			},
+			}
 		)(req, res)
 	})

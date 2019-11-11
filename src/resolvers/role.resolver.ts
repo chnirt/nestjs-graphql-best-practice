@@ -47,7 +47,7 @@ export class RoleResolver {
 		}
 
 		return await getMongoRepository(Role).save(
-			new Role({ ...input, permissions: [...input.permissions] }),
+			new Role({ ...input, permissions: [...input.permissions] })
 		)
 	}
 }

@@ -25,10 +25,10 @@ export class NotificationResolver {
 	async pushNotification(
 		@Args('userIds') userIds: string[],
 		@Args('label') label: string,
-		@Context('pubsub') pubsub: any,
+		@Context('pubsub') pubsub: any
 	): Promise<Notification> {
 		const newNotification = await getMongoRepository(Notification).save(
-			new Notification({ label }),
+			new Notification({ label })
 		)
 
 		pubsub.publish(NOTIFICATION_SUBSCRIPTION, { userIds, newNotification })

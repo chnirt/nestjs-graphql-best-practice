@@ -14,7 +14,7 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 
 			if (!currentUser) {
 				throw new AuthenticationError(
-					'Authentication token is invalid, please try again.',
+					'Authentication token is invalid, please try again.'
 				)
 			}
 

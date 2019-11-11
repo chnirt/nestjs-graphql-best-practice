@@ -43,7 +43,7 @@ export class Email {
 				this,
 				plainToClass(Email, email, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.isOpened = this.isOpened || false

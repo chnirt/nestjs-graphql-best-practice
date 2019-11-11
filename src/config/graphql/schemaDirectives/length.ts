@@ -47,7 +47,7 @@ class LengthDirective extends SchemaDirectiveVisitor {
 		) {
 			console.log(this.args.max)
 			field.type = new GraphQLNonNull(
-				new LimitedLengthType(field.type.ofType, this.args.max),
+				new LimitedLengthType(field.type.ofType, this.args.max)
 			)
 		} else if (field.type instanceof GraphQLScalarType) {
 			console.log(this.args.max)

@@ -30,7 +30,7 @@ export class Notification {
 				this,
 				plainToClass(Notification, notification, {
 					excludeExtraneousValues: true,
-				}),
+				})
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

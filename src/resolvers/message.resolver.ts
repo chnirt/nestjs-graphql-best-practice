@@ -28,7 +28,7 @@ export class MessageResolver {
 	async sendMessage(
 		@Args('input') input: CreateMessageInput,
 		@Context('currentUser') currentUser: User,
-		@Context('pubsub') pubsub: any,
+		@Context('pubsub') pubsub: any
 	): Promise<Message> {
 		const { roomId } = input
 
@@ -44,7 +44,7 @@ export class MessageResolver {
 		}
 
 		const newMessage = await getMongoRepository(Message).save(
-			new Message({ ...input, createdBy: [currentUser] }),
+			new Message({ ...input, createdBy: [currentUser] })
 		)
 
 		room.messages = [...room.messages, newMessage]

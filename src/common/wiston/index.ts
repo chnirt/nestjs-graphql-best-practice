@@ -40,7 +40,7 @@ const logger = createLogger({
 		align(),
 		// prettyPrint(),
 		// colorize(),
-		myFormat,
+		myFormat
 	),
 	defaultMeta: { service: 'user-service' },
 	transports: [
