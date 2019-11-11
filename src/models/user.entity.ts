@@ -7,14 +7,14 @@ import {
 	Local,
 	Google,
 	Facebook,
-	UserType
+	UserType,
 } from '../generator/graphql.schema'
 
 @Entity({
 	name: 'users',
 	orderBy: {
-		createdAt: 'ASC'
-	}
+		createdAt: 'ASC',
+	},
 })
 export class User {
 	@Expose()
@@ -109,8 +109,8 @@ export class User {
 			Object.assign(
 				this,
 				plainToClass(User, user, {
-					excludeExtraneousValues: true
-				})
+					excludeExtraneousValues: true,
+				}),
 			)
 			this._id = this._id || uuid.v1()
 			this.isVerified =

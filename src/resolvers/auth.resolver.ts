@@ -7,7 +7,7 @@ import {
 	authenticateGooglePlus,
 	authenticateFacebook,
 	authenticateGoogle,
-	tradeToken
+	tradeToken,
 } from '@auth'
 import { User } from '@models'
 
@@ -16,13 +16,13 @@ export class AuthResolver {
 	@Mutation()
 	async oauthGooglePlus(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any
+		@Context() context: any,
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
 		req.body = {
 			...req.body,
-			access_token: accessToken
+			access_token: accessToken,
 		}
 
 		const { data, info } = await authenticateGooglePlus(req, res)
@@ -36,8 +36,8 @@ export class AuthResolver {
 
 			user = await getMongoRepository(User).findOne({
 				where: {
-					'google._id': profile.id
-				}
+					'google._id': profile.id,
+				},
 			})
 
 			// console.log(user)
@@ -48,13 +48,13 @@ export class AuthResolver {
 					new User({
 						google: {
 							_id: profile.id,
-							email: profile.emails[0].value
+							email: profile.emails[0].value,
 						},
 						firstName: profile.name.givenName,
 						lastName: profile.name.familyName,
 						gender: Gender.UNKNOWN,
-						avatar: profile.photos[0].value
-					})
+						avatar: profile.photos[0].value,
+					}),
 				)
 			}
 
@@ -76,13 +76,13 @@ export class AuthResolver {
 	@Mutation()
 	async oauthFacebook(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any
+		@Context() context: any,
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
 		req.body = {
 			...req.body,
-			access_token: accessToken
+			access_token: accessToken,
 		}
 
 		const { data, info } = await authenticateFacebook(req, res)
@@ -96,8 +96,8 @@ export class AuthResolver {
 
 			user = await getMongoRepository(User).findOne({
 				where: {
-					'facebook._id': profile.id
-				}
+					'facebook._id': profile.id,
+				},
 			})
 
 			// console.log(user)
@@ -108,13 +108,13 @@ export class AuthResolver {
 					new User({
 						facebook: {
 							_id: profile.id,
-							email: profile.emails[0].value
+							email: profile.emails[0].value,
 						},
 						firstName: profile.name.givenName,
 						lastName: profile.name.familyName,
 						gender: profile.gender === '' && Gender.UNKNOWN,
-						avatar: profile.photos[0].value
-					})
+						avatar: profile.photos[0].value,
+					}),
 				)
 			}
 
@@ -136,13 +136,13 @@ export class AuthResolver {
 	@Mutation()
 	async oauthGoogle(
 		@Args('accessToken') accessToken: string,
-		@Context() context: any
+		@Context() context: any,
 	): Promise<LoginResponse> {
 		const { req, res } = context
 
 		req.body = {
 			...req.body,
-			access_token: accessToken
+			access_token: accessToken,
 		}
 
 		const { data, info } = await authenticateGoogle(req, res)
@@ -156,8 +156,8 @@ export class AuthResolver {
 
 			user = await getMongoRepository(User).findOne({
 				where: {
-					'google._id': profile.id
-				}
+					'google._id': profile.id,
+				},
 			})
 
 			// console.log(user)
@@ -168,13 +168,13 @@ export class AuthResolver {
 					new User({
 						google: {
 							_id: profile.id,
-							email: profile.emails[0].value
+							email: profile.emails[0].value,
 						},
 						firstName: profile.name.givenName,
 						lastName: profile.name.familyName,
 						gender: Gender.UNKNOWN,
-						avatar: profile.photos ? profile.photos[0].value : ''
-					})
+						avatar: profile.photos ? profile.photos[0].value : '',
+					}),
 				)
 			}
 

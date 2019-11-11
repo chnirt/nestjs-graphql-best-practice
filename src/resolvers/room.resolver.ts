@@ -10,14 +10,14 @@ export class RoomResolver {
 	@Query(() => [Room])
 	async rooms(): Promise<Room[]> {
 		return getMongoRepository(Room).find({
-			cache: true
+			cache: true,
 		})
 	}
 
 	@Query(() => Room)
 	async room(@Args('_id') _id: string): Promise<Room> {
 		const room = await getMongoRepository(Room).findOne({
-			_id
+			_id,
 		})
 
 		if (!room) {
@@ -25,14 +25,14 @@ export class RoomResolver {
 		}
 
 		return getMongoRepository(Room).findOne({
-			_id
+			_id,
 		})
 	}
 
 	@Mutation(() => Room)
 	async createRoom(
 		@Args('input') input: CreateRoomInput,
-		@Context('currentUser') currentUser: User
+		@Context('currentUser') currentUser: User,
 	): Promise<Room> {
 		const { title, userIds } = input
 
@@ -41,7 +41,7 @@ export class RoomResolver {
 		}
 
 		const existedUserIds = await getMongoRepository(User).find({
-			where: { _id: { $in: userIds, $ne: currentUser._id } }
+			where: { _id: { $in: userIds, $ne: currentUser._id } },
 		})
 
 		if (userIds.length !== existedUserIds.length) {
@@ -49,17 +49,17 @@ export class RoomResolver {
 		}
 
 		return await getMongoRepository(Room).save(
-			new Room({ title, users: [...existedUserIds, currentUser] })
+			new Room({ title, users: [...existedUserIds, currentUser] }),
 		)
 	}
 
 	@Mutation(() => Boolean)
 	async joinRoom(
 		@Args('_id') _id: string,
-		@Context('currentUser') currentUser: User
+		@Context('currentUser') currentUser: User,
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
-			_id
+			_id,
 		})
 
 		if (!room) {
@@ -80,10 +80,10 @@ export class RoomResolver {
 	@Mutation(() => Boolean)
 	async leaveRoom(
 		@Args('_id') _id: string,
-		@Context('currentUser') currentUser: User
+		@Context('currentUser') currentUser: User,
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
-			_id
+			_id,
 		})
 
 		if (!room) {

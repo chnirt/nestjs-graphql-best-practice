@@ -23,5 +23,5 @@ export default {
 	concat: ConcatDirective,
 	intl: IntlDirective,
 	rest: RestDirective,
-	validate: ValidateDirective
+	validate: ValidateDirective,
 }

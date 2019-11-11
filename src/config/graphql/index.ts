@@ -25,7 +25,7 @@ import {
 	END_POINT,
 	FE_URL,
 	GRAPHQL_DEPTH_LIMIT,
-	ACCESS_TOKEN
+	ACCESS_TOKEN,
 } from '@environments'
 
 // const gateway = new ApolloGateway({
@@ -78,24 +78,24 @@ export class GraphqlService implements GqlOptionsFactory {
 			typePaths: ['./**/*.graphql'],
 			resolvers: {
 				JSON: GraphQLJSON,
-				JSONObject: GraphQLJSONObject
+				JSONObject: GraphQLJSONObject,
 			},
 			extensions: [() => new MyErrorTrackingExtension()],
 			mocks: NODE_ENV === 'testing' && {
 				// String: () => 'Chnirt',
 				Query: () => ({
-					users: () => new MockList([2, 6])
-				})
+					users: () => new MockList([2, 6]),
+				}),
 			},
 			resolverValidationOptions: {
-				requireResolversForResolveType: false
+				requireResolversForResolveType: false,
 			},
 			path: `/${END_POINT!}`,
 			cors:
 				NODE_ENV === 'production'
 					? {
 							origin: FE_URL!,
-							credentials: true // <-- REQUIRED backend setting
+							credentials: true, // <-- REQUIRED backend setting
 					  }
 					: true,
 			bodyParserConfig: { limit: '50mb' },
@@ -126,11 +126,11 @@ export class GraphqlService implements GqlOptionsFactory {
 									.hex('#87e8de')
 									.bold(`${GRAPHQL_DEPTH_LIMIT!}`)} levels.`,
 								'GraphQL',
-								false
+								false,
 							)
 						}
-					}
-				)
+					},
+				),
 			],
 			introspection: true,
 			playground: NODE_ENV !== 'production' && {
@@ -143,8 +143,8 @@ export class GraphqlService implements GqlOptionsFactory {
 					'general.betaUpdates': true,
 					'queryPlan.hideQueryPlanResponse': false,
 					'request.credentials': 'include', // possible values: 'omit', 'include', 'same-origin'
-					'tracing.hideTracingResponse': false
-				}
+					'tracing.hideTracingResponse': false,
+				},
 				// tabs: [
 				// 	{
 				// 		endpoint: END_POINT,
@@ -156,7 +156,7 @@ export class GraphqlService implements GqlOptionsFactory {
 			cacheControl: NODE_ENV === 'production' && {
 				defaultMaxAge: 5,
 				stripFormattedExtensions: false,
-				calculateHttpHeaders: false
+				calculateHttpHeaders: false,
 			},
 			// plugins: [responseCachePlugin()],
 			context: async ({ req, res, connection }) => {
@@ -165,7 +165,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 					return {
 						pubsub,
-						currentUser
+						currentUser,
 					}
 				}
 
@@ -191,7 +191,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					trackErrors(errors) {
 						// Track the errors
 						// console.log(errors)
-					}
+					},
 				}
 			},
 			formatError: error => {
@@ -210,7 +210,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					message: error.message,
 					code: error.extensions && error.extensions.code,
 					locations: error.locations,
-					path: error.path
+					path: error.path,
 				}
 			},
 			formatResponse: response => {
@@ -235,18 +235,18 @@ export class GraphqlService implements GqlOptionsFactory {
 						await getMongoRepository(User).updateOne(
 							{ _id: currentUser._id },
 							{
-								$set: { isOnline: true }
+								$set: { isOnline: true },
 							},
 							{
-								upsert: true
-							}
+								upsert: true,
+							},
 						)
 
 						return { currentUser }
 					}
 
 					throw new AuthenticationError(
-						'Authentication token is invalid, please try again.'
+						'Authentication token is invalid, please try again.',
 					)
 				},
 				onDisconnect: async (webSocket, context) => {
@@ -259,21 +259,21 @@ export class GraphqlService implements GqlOptionsFactory {
 					await getMongoRepository(User).updateOne(
 						{ _id: currentUser._id },
 						{
-							$set: { isOnline: false }
+							$set: { isOnline: false },
 						},
 						{
-							upsert: true
-						}
+							upsert: true,
+						},
 					)
-				}
+				},
 			},
 			persistedQueries: {
 				cache: new MemcachedCache(
 					['memcached-server-1', 'memcached-server-2', 'memcached-server-3'],
-					{ retries: 10, retry: 10000 } // Options
-				)
+					{ retries: 10, retry: 10000 }, // Options
+				),
 			},
-			installSubscriptionHandlers: true
+			installSubscriptionHandlers: true,
 			// uploads: false
 		}
 	}

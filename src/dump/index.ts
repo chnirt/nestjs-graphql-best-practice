@@ -7,13 +7,13 @@ import {
 	MLAB_PORT,
 	MLAB_DATABASE,
 	MLAB_USER,
-	MLAB_PASS
+	MLAB_PASS,
 } from '@environments'
 
 enum fileType {
 	JSON,
 	CSV,
-	TSV
+	TSV,
 }
 
 const collection = 'users'
@@ -25,5 +25,5 @@ export const dump: child.ChildProcess = child.exec(
 	`mongoexport -h ${MLAB_HOST}:${MLAB_PORT} -d ${MLAB_DATABASE} -c ${collection} -u ${MLAB_USER} -p ${MLAB_PASS} -o ${out}`,
 	() => {
 		console.log(`Success.`)
-	}
+	},
 )

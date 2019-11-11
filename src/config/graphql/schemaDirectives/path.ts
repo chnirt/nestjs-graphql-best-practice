@@ -14,7 +14,7 @@ class PathDirective extends SchemaDirectiveVisitor {
 
 			if (!currentUser) {
 				throw new AuthenticationError(
-					'Authentication token is invalid, please try again.'
+					'Authentication token is invalid, please try again.',
 				)
 			}
 
@@ -23,8 +23,8 @@ class PathDirective extends SchemaDirectiveVisitor {
 			const role = await getMongoRepository(Role).find({
 				where: {
 					userId: currentUser._id,
-					path: { $regex: `.*${path}|${path.toLowerCase()}.*` }
-				}
+					path: { $regex: `.*${path}|${path.toLowerCase()}.*` },
+				},
 			})
 
 			if (!role) {

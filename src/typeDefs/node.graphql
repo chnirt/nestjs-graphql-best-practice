@@ -22,9 +22,9 @@ input CreateNodeInput {
 	category: NodeCategory!
 }
 
-type Company {
-	name: String!
-}
+# type Company {
+# 	name: String!
+# }
 
 type City {
 	name: String

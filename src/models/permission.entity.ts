@@ -5,8 +5,8 @@ import { Expose, plainToClass } from 'class-transformer'
 @Entity({
 	name: 'permissions',
 	orderBy: {
-		createdAt: 'ASC'
-	}
+		createdAt: 'ASC',
+	},
 })
 export class Permission {
 	@Expose()

@@ -14,7 +14,7 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 
 			if (!currentUser) {
 				throw new AuthenticationError(
-					'Authentication token is invalid, please try again.'
+					'Authentication token is invalid, please try again.',
 				)
 			}
 
@@ -23,8 +23,8 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 			const role = await getMongoRepository(Role).find({
 				where: {
 					userId: currentUser._id,
-					'permissions.code': permission
-				}
+					'permissions.code': permission,
+				},
 			})
 
 			if (!role) {

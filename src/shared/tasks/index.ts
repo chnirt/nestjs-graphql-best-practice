@@ -52,7 +52,7 @@ export const cron = () => {
 			Logger.debug('Cron job completed', 'Cron', false)
 		},
 		start: false,
-		timeZone: 'Asia/Ho_Chi_Minh'
+		timeZone: 'Asia/Ho_Chi_Minh',
 	})
 	job.start()
 }

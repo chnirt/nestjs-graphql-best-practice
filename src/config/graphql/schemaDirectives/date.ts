@@ -9,14 +9,14 @@ class DateFormatDirective extends SchemaDirectiveVisitor {
 
 		field.args.push({
 			name: 'format',
-			type: GraphQLString
+			type: GraphQLString,
 		})
 
 		field.resolve = async function(
 			source,
 			{ format, ...otherArgs },
 			context,
-			info
+			info,
 		) {
 			const date = await resolve.call(this, source, otherArgs, context, info)
 			// If a format argument was not provided, default to the optional

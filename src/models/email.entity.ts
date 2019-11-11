@@ -4,14 +4,14 @@ import { Expose, plainToClass } from 'class-transformer'
 
 enum Type {
 	VERIFY_EMAIL,
-	FORGOT_PASSWORD
+	FORGOT_PASSWORD,
 }
 
 @Entity({
 	name: 'emails',
 	orderBy: {
-		createdAt: 'ASC'
-	}
+		createdAt: 'ASC',
+	},
 })
 export class Email {
 	@Expose()
@@ -42,8 +42,8 @@ export class Email {
 			Object.assign(
 				this,
 				plainToClass(Email, email, {
-					excludeExtraneousValues: true
-				})
+					excludeExtraneousValues: true,
+				}),
 			)
 			this._id = this._id || uuid.v1()
 			this.isOpened = this.isOpened || false

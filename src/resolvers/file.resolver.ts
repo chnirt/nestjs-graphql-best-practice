@@ -12,7 +12,7 @@ export class FileResolver {
 	@Query()
 	async files(): Promise<File[]> {
 		return getMongoRepository(File).find({
-			cache: true
+			cache: true,
 		})
 	}
 
@@ -23,7 +23,7 @@ export class FileResolver {
 		const path = await uploadFile(createReadStream)
 
 		const newFile = await getMongoRepository(File).save(
-			new File({ filename, path })
+			new File({ filename, path }),
 		)
 
 		return newFile
@@ -32,7 +32,7 @@ export class FileResolver {
 	@Mutation()
 	async uploadFileLocal(
 		@Args('file') file: any,
-		@Context('req') req: any
+		@Context('req') req: any,
 	): Promise<File> {
 		const { filename, createReadStream, mimetype } = file
 		// console.log(req.headers.host)
@@ -56,15 +56,15 @@ export class FileResolver {
 						return await getMongoRepository(File).save(
 							new File({
 								filename,
-								path
-							})
+								path,
+							}),
 						)
-					})
-			)
+					}),
+			),
 		)
 
 		const newFile = await getMongoRepository(File).save(
-			new File({ filename, path })
+			new File({ filename, path }),
 		)
 
 		return newFile

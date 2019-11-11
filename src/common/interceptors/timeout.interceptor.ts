@@ -2,7 +2,7 @@ import {
 	CallHandler,
 	ExecutionContext,
 	Injectable,
-	NestInterceptor
+	NestInterceptor,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { timeout } from 'rxjs/operators'

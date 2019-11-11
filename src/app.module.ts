@@ -7,32 +7,35 @@ import { CacheService, TypeormService, GraphqlService } from './config'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 
-import { UserResolver } from './resolvers/user.resolver'
-import { ResultResolver } from './resolvers/result.resolver'
-import { UserResultResolver } from './resolvers/userResult.resolver'
-import { AuthResolver } from './resolvers/auth.resolver'
-import { EmailResolver } from './resolvers/email.resolver'
-import { FileResolver } from './resolvers/file.resolver'
-import { PermissionResolver } from './resolvers/permission.resolver'
-import { RoleResolver } from './resolvers/role.resolver'
-import { NotificationResolver } from './resolvers/notification.resolver'
-import { RoomResolver } from './resolvers/room.resolver'
-import { MessageResolver } from './resolvers/message.resolver'
-import { FormResolver } from './resolvers/form.resolver'
-import { NodeResolver } from './resolvers/node.resolver'
-import { TranslateResolver } from './resolvers/translate.resolver'
+import {
+	UserResolver,
+	ResultResolver,
+	UserResultResolver,
+	AuthResolver,
+	EmailResolver,
+	FileResolver,
+	PermissionResolver,
+	RoleResolver,
+	NotificationResolver,
+	RoomResolver,
+	MessageResolver,
+	FormResolver,
+	NodeResolver,
+	TranslateResolver,
+	CompanyResolver,
+} from './resolvers'
 
 @Module({
 	imports: [
 		GraphQLModule.forRootAsync({
-			useClass: GraphqlService
+			useClass: GraphqlService,
 		}),
 		TypeOrmModule.forRootAsync({
-			useClass: TypeormService
+			useClass: TypeormService,
 		}),
 		CacheModule.registerAsync({
-			useClass: CacheService
-		})
+			useClass: CacheService,
+		}),
 	],
 	controllers: [AppController],
 	providers: [
@@ -51,7 +54,8 @@ import { TranslateResolver } from './resolvers/translate.resolver'
 		MessageResolver,
 		FormResolver,
 		NodeResolver,
-		TranslateResolver
-	]
+		TranslateResolver,
+		CompanyResolver,
+	],
 })
 export class AppModule {}

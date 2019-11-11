@@ -7,8 +7,8 @@ import { User } from '../generator/graphql.schema'
 @Entity({
 	name: 'messages',
 	orderBy: {
-		createdAt: 'ASC'
-	}
+		createdAt: 'ASC',
+	},
 })
 export class Message {
 	@Expose()
@@ -39,8 +39,8 @@ export class Message {
 			Object.assign(
 				this,
 				plainToClass(Message, message, {
-					excludeExtraneousValues: true
-				})
+					excludeExtraneousValues: true,
+				}),
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

@@ -11,7 +11,7 @@ async function main() {
 
 	const client = new MongoClient(url, {
 		useNewUrlParser: true,
-		useUnifiedTopology: true
+		useUnifiedTopology: true,
 	})
 
 	try {
@@ -31,89 +31,89 @@ async function main() {
 
 		// await db.collection('history').insertMany(tests)
 
-		// const users = [
-		// 	{
-		// 		_id: 'ffbdd890-f8bd-11e9-9806-8b914d623ae9',
-		// 		firstName: 'Chin',
-		// 		lastName: 'Trinh',
-		// 		gender: 'MALE',
-		// 		google: {
-		// 			_id: '107178666920276184612',
-		// 			email: 'trinhchinchin@gmail.com'
-		// 		}
-		// 	},
-		// 	{
-		// 		_id: 'd9dacf10-edb5-11e9-ba96-217967694746',
-		// 		firstName: 'Chin Chin',
-		// 		lastName: 'Trinh',
-		// 		gender: 'MALE',
-		// 		local: {
-		// 			email: 'nhocpo.juzo@gmail.com',
-		// 			password:
-		// 				'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
-		// 		}
-		// 	},
-		// 	{
-		// 		_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
-		// 		firstName: 'Hung',
-		// 		lastName: 'Luu',
-		// 		gender: 'MALE',
-		// 		local: {
-		// 			email: 'luuvinhhung159@gmail.com',
-		// 			password:
-		// 				'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
-		// 		}
-		// 	}
-		// ]
+		const users = [
+			{
+				_id: 'ffbdd890-f8bd-11e9-9806-8b914d623ae9',
+				firstName: 'Chin',
+				lastName: 'Trinh',
+				gender: 'MALE',
+				google: {
+					_id: '107178666920276184612',
+					email: 'trinhchinchin@gmail.com',
+				},
+			},
+			{
+				_id: 'd9dacf10-edb5-11e9-ba96-217967694746',
+				firstName: 'Chin Chin',
+				lastName: 'Trinh',
+				gender: 'MALE',
+				local: {
+					email: 'nhocpo.juzo@gmail.com',
+					password:
+						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS',
+				},
+			},
+			{
+				_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
+				firstName: 'Hung',
+				lastName: 'Luu',
+				gender: 'MALE',
+				local: {
+					email: 'luuvinhhung159@gmail.com',
+					password:
+						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS',
+				},
+			},
+		]
 
-		// users.map(async item => {
-		// 	await db.collection('users').findOneAndUpdate(
-		// 		{ _id: item._id },
-		// 		{
-		// 			$setOnInsert: {
-		// 				_id: item._id
-		// 			},
-		// 			$set: {
-		// 				local: item.local,
-		// 				google: item.google,
-		// 				firstName: item.firstName,
-		// 				lastName: item.lastName,
-		// 				gender: item.gender,
-		// 				isVerified: true,
-		// 				isOnline: false,
-		// 				isLocked: false,
-		// 				reason: '',
-		// 				isActive: true,
-		// 				type: 'BASIC',
-		// 				createdAt: +new Date(),
-		// 				updatedAt: +new Date()
-		// 			}
-		// 		},
-		// 		{ upsert: true }
-		// 	)
-		// })
+		users.map(async item => {
+			await db.collection('users').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id,
+					},
+					$set: {
+						local: item.local,
+						google: item.google,
+						firstName: item.firstName,
+						lastName: item.lastName,
+						gender: item.gender,
+						isVerified: true,
+						isOnline: false,
+						isLocked: false,
+						reason: '',
+						isActive: true,
+						type: 'BASIC',
+						createdAt: +new Date(),
+						updatedAt: +new Date(),
+					},
+				},
+				{ upsert: true },
+			)
+		})
 
 		const permissions = [
 			{
 				_id: 'f1dbbda0-be4d-11e9-bc7c-2117bce2f37c',
 				code: 'FORM_READ',
-				description: 'Xem biên bản'
+				description: 'Xem biên bản',
 			},
 			{
 				_id: 'ad5a65e0-be4e-11e9-a6ad-c109fb49072b',
 				code: 'FORM_CREATE',
-				description: 'Tạo biên bản'
+				description: 'Tạo biên bản',
 			},
 			{
 				_id: '6ca4ffb0-be4e-11e9-b75c-d915f7b6e00b',
 				code: 'FORM_ACCEPT_1ST',
-				description: 'Duyệt biên bản lần 1'
+				description: 'Duyệt biên bản lần 1',
 			},
 			{
 				_id: 'a6957510-be4e-11e9-a6ad-c109fb49072b',
 				code: 'FORM_ACCEPT_2ND',
-				description: 'Duyệt biên bản lần 2'
-			}
+				description: 'Duyệt biên bản lần 2',
+			},
 		]
 
 		permissions.map(async item => {
@@ -121,16 +121,42 @@ async function main() {
 				{ code: item.code, description: item.description },
 				{
 					$setOnInsert: {
-						_id: item._id
+						_id: item._id,
 					},
 					$set: {
 						code: item.code,
 						description: item.description,
 						createdAt: +new Date(),
-						updatedAt: +new Date()
-					}
+						updatedAt: +new Date(),
+					},
 				},
-				{ upsert: true }
+				{ upsert: true },
+			)
+		})
+
+		const companies = [
+			{
+				_id: '828ffd60-0454-11ea-a419-df3cbac30251',
+				name: 'Acexis',
+				manager: 'Le Si Phu',
+			},
+		]
+
+		companies.map(async item => {
+			await db.collection('companies').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id,
+					},
+					$set: {
+						name: item.name,
+						manager: item.manager,
+						createdAt: +new Date(),
+						updatedAt: +new Date(),
+					},
+				},
+				{ upsert: true },
 			)
 		})
 

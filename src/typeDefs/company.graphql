@@ -1,0 +1,27 @@
+input CreateCompanyInput {
+	name: String!
+  manager: String!
+}
+
+type Company {
+	_id: ID!
+	name: String
+  # businessCode: Int
+  # taxAdministration: String
+  # # basic
+  # address: String
+  # phone: String
+  # fax: 
+  manager: String!
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	companies: [Company]
+}
+
+type Mutation {
+	createCompany(input: CreateCompanyInput!): Company
+}

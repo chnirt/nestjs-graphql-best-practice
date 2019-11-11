@@ -4,7 +4,7 @@ import {
 	Args,
 	Query,
 	Context,
-	Subscription
+	Subscription,
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 
@@ -17,7 +17,7 @@ export class NotificationResolver {
 	@Query()
 	async notifications(): Promise<Notification[]> {
 		return getMongoRepository(Notification).find({
-			cache: true
+			cache: true,
 		})
 	}
 
@@ -25,10 +25,10 @@ export class NotificationResolver {
 	async pushNotification(
 		@Args('userIds') userIds: string[],
 		@Args('label') label: string,
-		@Context('pubsub') pubsub: any
+		@Context('pubsub') pubsub: any,
 	): Promise<Notification> {
 		const newNotification = await getMongoRepository(Notification).save(
-			new Notification({ label })
+			new Notification({ label }),
 		)
 
 		pubsub.publish(NOTIFICATION_SUBSCRIPTION, { userIds, newNotification })
@@ -41,7 +41,7 @@ export class NotificationResolver {
 			const { userIds } = payload
 			const { _id } = context.currentUser
 			return userIds.indexOf(_id) > -1
-		}
+		},
 	})
 	async newNotification(@Context('pubsub') pubsub: any): Promise<Notification> {
 		return pubsub.asyncIterator(NOTIFICATION_SUBSCRIPTION)

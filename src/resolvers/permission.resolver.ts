@@ -8,7 +8,7 @@ export class PermissionResolver {
 	@Query()
 	async permissions(): Promise<Permission[]> {
 		return getMongoRepository(Permission).find({
-			cache: true
+			cache: true,
 		})
 	}
 }

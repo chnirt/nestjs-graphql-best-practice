@@ -10,7 +10,7 @@ export class FormResolver {
 	@Query()
 	async forms(): Promise<Form[]> {
 		return getMongoRepository(Form).find({
-			cache: true
+			cache: true,
 		})
 	}
 

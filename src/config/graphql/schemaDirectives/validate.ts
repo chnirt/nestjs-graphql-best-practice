@@ -3,7 +3,7 @@ import {
 	defaultFieldResolver,
 	GraphQLArgument,
 	GraphQLField,
-	GraphQLObjectType
+	GraphQLObjectType,
 } from 'graphql'
 import { validate } from 'class-validator'
 import { UserInputError } from 'apollo-server-core'
@@ -18,7 +18,7 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 		details: {
 			field: GraphQLField<any, any>
 			objectType: GraphQLObjectType
-		}
+		},
 	) {
 		const { field } = details
 		const { resolve = defaultFieldResolver } = field
@@ -31,7 +31,7 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 			Logger.log(
 				`🧪  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
 				'Validator',
-				false
+				false,
 			)
 
 			// console.log(arg, details, input, schema)
@@ -53,7 +53,7 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 								return err.constraints[property]
 							}
 						})
-						.join(', ')}`
+						.join(', ')}`,
 				)
 			}
 

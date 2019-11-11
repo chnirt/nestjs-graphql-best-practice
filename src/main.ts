@@ -17,7 +17,7 @@ import {
 	ValidationPipe,
 	LoggingInterceptor,
 	TimeoutInterceptor,
-	LoggerMiddleware
+	LoggerMiddleware,
 	// logger
 } from '@common'
 import { timeout, interval, cron } from '@shared'
@@ -31,7 +31,7 @@ import {
 	END_POINT,
 	VOYAGER,
 	RATE_LIMIT_MAX,
-	STATIC
+	STATIC,
 } from '@environments'
 
 declare const module: any
@@ -43,7 +43,7 @@ async function bootstrap() {
 			// 	key: fs.readFileSync(`./ssl/product/server.key`),
 			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
 			// },
-			logger: new MyLogger()
+			logger: new MyLogger(),
 		})
 
 		// tasks
@@ -63,8 +63,8 @@ async function bootstrap() {
 			bodyParser.urlencoded({
 				limit: '50mb',
 				extended: true,
-				parameterLimit: 50000
-			})
+				parameterLimit: 50000,
+			}),
 		)
 
 		// cruf
@@ -76,8 +76,8 @@ async function bootstrap() {
 				windowMs: 1000 * 60 * 60, // an hour
 				max: RATE_LIMIT_MAX!, // limit each IP to 100 requests per windowMs
 				message:
-					'Too many request created from this IP, please try again after an hour'
-			})
+					'Too many request created from this IP, please try again after an hour',
+			}),
 		)
 
 		// loggerMiddleware
@@ -90,10 +90,10 @@ async function bootstrap() {
 				voyagerMiddleware({
 					displayOptions: {
 						skipRelay: false,
-						skipDeprecated: false
+						skipDeprecated: false,
 					},
-					endpointUrl: `/${END_POINT!}`
-				})
+					endpointUrl: `/${END_POINT!}`,
+				}),
 			)
 
 		// interceptors
@@ -149,13 +149,13 @@ async function bootstrap() {
 					`🚀  Server ready at http://${DOMAIN!}:${chalk
 						.hex('#87e8de')
 						.bold(`${PORT!}`)}/${END_POINT!}`,
-					'Bootstrap'
+					'Bootstrap',
 			  )
 			: Logger.log(
 					`🚀  Server is listening on port ${chalk
 						.hex('#87e8de')
 						.bold(`${PORT!}`)}`,
-					'Bootstrap'
+					'Bootstrap',
 			  )
 
 		NODE_ENV !== 'production' &&
@@ -163,7 +163,7 @@ async function bootstrap() {
 				`🚀  Subscriptions ready at ws://${DOMAIN!}:${chalk
 					.hex('#87e8de')
 					.bold(`${PORT!}`)}/${END_POINT!}`,
-				'Bootstrap'
+				'Bootstrap',
 			)
 	} catch (error) {
 		// logger.error(error)

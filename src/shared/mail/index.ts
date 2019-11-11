@@ -27,14 +27,14 @@ export const sendMail = async (
 	user: User,
 	req: any,
 	token: string,
-	_id: string
+	_id: string,
 ): Promise<any> => {
 	const transporter = await nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
 			user: MAIL_USER!,
-			pass: MAIL_PASS!
-		}
+			pass: MAIL_PASS!,
+		},
 	})
 
 	const readHTMLFile = (path, callback) => {
@@ -65,7 +65,7 @@ export const sendMail = async (
 			city: 'Ho Chi Minh',
 			country: 'Viet Nam',
 			to: user.firstName,
-			tracking: `http://${req.headers.host}/${END_POINT}/${_id}`
+			tracking: `http://${req.headers.host}/${END_POINT}/${_id}`,
 		}
 
 		const replacements = {
@@ -75,7 +75,7 @@ export const sendMail = async (
 				text1: 'To complete your sign up, please verify your email: ',
 				button: 'VERIFY EMAIL',
 				text2: 'Or copy this link and paste in your web	browser',
-				...common
+				...common,
 			},
 			forgotPassword: {
 				link: `${req.headers.origin}/reset/${token}`,
@@ -88,8 +88,8 @@ export const sendMail = async (
 				text2:
 					// tslint:disable-next-line:quotemark
 					"If that doesn't work, copy and paste the following link in your browser:",
-				...common
-			}
+				...common,
+			},
 		}
 
 		const htmlToSend = template(replacements[type])
@@ -102,33 +102,33 @@ export const sendMail = async (
 			attachments: [
 				{
 					path: './src/assets/images/logo.png',
-					cid: 'unique@kreata.ee' // same cid value as in the html img src
+					cid: 'unique@kreata.ee', // same cid value as in the html img src
 				},
 				{
 					path: './src/assets/images/mail/ios.gif',
-					cid: 'ios@chnirt.ee'
+					cid: 'ios@chnirt.ee',
 				},
 				{
 					path: './src/assets/images/mail/android.gif',
-					cid: 'android@chnirt.ee'
+					cid: 'android@chnirt.ee',
 				},
 				{
 					path: './src/assets/images/mail/twitter.jpg',
-					cid: 'twitter@chnirt.ee'
+					cid: 'twitter@chnirt.ee',
 				},
 				{
 					path: './src/assets/images/mail/facebook.jpg',
-					cid: 'facebook@chnirt.ee'
+					cid: 'facebook@chnirt.ee',
 				},
 				{
 					path: './src/assets/images/mail/googleplus.jpg',
-					cid: 'googleplus@chnirt.ee'
+					cid: 'googleplus@chnirt.ee',
 				},
 				{
 					path: './src/assets/images/mail/linkedin.jpg',
-					cid: 'linkedin@chnirt.ee'
-				}
-			]
+					cid: 'linkedin@chnirt.ee',
+				},
+			],
 		}
 
 		transporter.sendMail(mailOptions, (err, info) => {

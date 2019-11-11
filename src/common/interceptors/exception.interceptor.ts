@@ -4,7 +4,7 @@ import {
 	HttpException,
 	HttpStatus,
 	Injectable,
-	NestInterceptor
+	NestInterceptor,
 } from '@nestjs/common'
 import { Observable, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
@@ -16,8 +16,8 @@ export class ErrorsInterceptor implements NestInterceptor {
 			.handle()
 			.pipe(
 				catchError(err =>
-					throwError(new HttpException('New message', HttpStatus.BAD_GATEWAY))
-				)
+					throwError(new HttpException('New message', HttpStatus.BAD_GATEWAY)),
+				),
 			)
 	}
 }

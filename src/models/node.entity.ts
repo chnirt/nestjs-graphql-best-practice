@@ -9,14 +9,14 @@ import {
 	Store,
 	Department,
 	Position,
-	Job
+	Job,
 } from '../generator/graphql.schema'
 
 @Entity({
 	name: 'nodes',
 	orderBy: {
-		createdAt: 'ASC'
-	}
+		createdAt: 'ASC',
+	},
 })
 export class Node {
 	@Expose()
@@ -67,8 +67,8 @@ export class Node {
 			Object.assign(
 				this,
 				plainToClass(Node, node, {
-					excludeExtraneousValues: true
-				})
+					excludeExtraneousValues: true,
+				}),
 			)
 			this._id = this._id || uuid.v1()
 			this.createdAt = this.createdAt || +new Date()

@@ -17,7 +17,7 @@ export const uploadFile = async (createReadStream: any): Promise<string> => {
 	cloudinary.config({
 		cloud_name: CLOUD_NAME!,
 		api_key: API_KEY!,
-		api_secret: API_SECRET!
+		api_secret: API_SECRET!,
 	})
 
 	const uniqueFilename = new Date().toISOString()
@@ -29,20 +29,20 @@ export const uploadFile = async (createReadStream: any): Promise<string> => {
 					{
 						folder: 'chnirt',
 						public_id: uniqueFilename,
-						tags: `chnirt`
+						tags: `chnirt`,
 					}, // directory and tags are optional
 					(err, image) => {
 						if (err) {
 							reject(err)
 						}
 						resolve(image)
-					}
-				)
+					},
+				),
 			)
 			.on('close', () => {
 				resolve(true)
 			})
-			.on('error', () => reject(false))
+			.on('error', () => reject(false)),
 	)
 	return result['secure_url']
 }

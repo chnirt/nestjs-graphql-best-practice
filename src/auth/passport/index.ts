@@ -7,7 +7,7 @@ import {
 	FACEBOOK_APP_ID,
 	FACEBOOK_APP_SECRET,
 	GOOGLE_CLIENT_ID,
-	GOOGLE_CLIENT_SECRET
+	GOOGLE_CLIENT_SECRET,
 } from '@environments'
 
 interface OAuthResponse {
@@ -20,22 +20,22 @@ const googlePlusTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
-	done
+	done,
 ) =>
 	done(null, {
 		accessToken,
 		refreshToken,
-		profile
+		profile,
 	})
 
 passport.use(
 	new GooglePlusTokenStrategy(
 		{
 			clientID: GOOGLE_CLIENT_ID!,
-			clientSecret: GOOGLE_CLIENT_SECRET!
+			clientSecret: GOOGLE_CLIENT_SECRET!,
 		},
-		googlePlusTokenStrategyCallback
-	)
+		googlePlusTokenStrategyCallback,
+	),
 )
 
 // FACEBOOK STRATEGY
@@ -43,22 +43,22 @@ const facebookTokenStrategyCallback = (
 	accessToken,
 	refreshToken,
 	profile,
-	done
+	done,
 ) =>
 	done(null, {
 		accessToken,
 		refreshToken,
-		profile
+		profile,
 	})
 
 passport.use(
 	new FacebookTokenStrategy(
 		{
 			clientID: FACEBOOK_APP_ID!,
-			clientSecret: FACEBOOK_APP_SECRET!
+			clientSecret: FACEBOOK_APP_SECRET!,
 		},
-		facebookTokenStrategyCallback
-	)
+		facebookTokenStrategyCallback,
+	),
 )
 
 // GOOGLE STRATEGY
@@ -66,22 +66,22 @@ const googleTokenStrategyCallback = async (
 	accessToken,
 	refreshToken,
 	profile,
-	done
+	done,
 ) =>
 	done(null, {
 		accessToken,
 		refreshToken,
-		profile
+		profile,
 	})
 
 passport.use(
 	new GoogleTokenStrategy(
 		{
 			clientID: GOOGLE_CLIENT_ID!,
-			clientSecret: GOOGLE_CLIENT_SECRET!
+			clientSecret: GOOGLE_CLIENT_SECRET!,
 		},
-		googleTokenStrategyCallback
-	)
+		googleTokenStrategyCallback,
+	),
 )
 
 // promisified authenticate functions
@@ -106,7 +106,7 @@ export const authenticateGooglePlus = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			}
+			},
 		)(req, res)
 	})
 
@@ -130,7 +130,7 @@ export const authenticateFacebook = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			}
+			},
 		)(req, res)
 	})
 
@@ -154,6 +154,6 @@ export const authenticateGoogle = (req, res): Promise<OAuthResponse> =>
 					reject(err)
 				}
 				resolve({ data, info })
-			}
+			},
 		)(req, res)
 	})

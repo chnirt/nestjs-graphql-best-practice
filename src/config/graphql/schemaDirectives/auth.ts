@@ -1,6 +1,6 @@
 import {
 	SchemaDirectiveVisitor,
-	AuthenticationError
+	AuthenticationError,
 } from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 
@@ -13,7 +13,7 @@ class AuthDirective extends SchemaDirectiveVisitor {
 
 			if (!currentUser) {
 				throw new AuthenticationError(
-					'Authentication token is invalid, please try again.'
+					'Authentication token is invalid, please try again.',
 				)
 			}
 

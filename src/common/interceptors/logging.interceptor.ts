@@ -3,7 +3,7 @@ import {
 	ExecutionContext,
 	Injectable,
 	NestInterceptor,
-	Logger
+	Logger,
 } from '@nestjs/common'
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
@@ -21,7 +21,7 @@ export class LoggingInterceptor implements NestInterceptor {
 			return next.handle().pipe(
 				tap(() => {
 					Logger.debug(`⛩  ${parentType} » ${fieldName}`, 'GraphQL')
-				})
+				}),
 			)
 		} else {
 			const parentType = chalk
@@ -33,7 +33,7 @@ export class LoggingInterceptor implements NestInterceptor {
 			return next.handle().pipe(
 				tap(() => {
 					Logger.debug(`⛩  ${parentType} » ${fieldName}`, 'GraphQL')
-				})
+				}),
 			)
 		}
 	}
