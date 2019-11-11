@@ -6,7 +6,7 @@ import { Node } from '@models'
 import {
 	CreateNodeInput,
 	SearchNodeInput,
-	NodeCategory
+	NodeCategory,
 } from '../generator/graphql.schema'
 import { NotFoundException } from '@nestjs/common'
 
@@ -49,7 +49,7 @@ export class NodeResolver {
 		// }
 
 		return await getMongoRepository(Node).find({
-			cache: true
+			cache: true,
 		})
 	}
 
@@ -67,9 +67,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						city: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -79,8 +79,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					city: {
-						name
-					}
+						name,
+					},
 				}
 				break
 
@@ -88,9 +88,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						store: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -100,8 +100,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					store: {
-						name
-					}
+						name,
+					},
 				}
 				break
 
@@ -109,9 +109,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						department: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -121,8 +121,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					department: {
-						name
-					}
+						name,
+					},
 				}
 				break
 
@@ -130,9 +130,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						position: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -142,8 +142,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					position: {
-						name
-					}
+						name,
+					},
 				}
 				break
 
@@ -151,9 +151,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						job: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -163,8 +163,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					job: {
-						name
-					}
+						name,
+					},
 				}
 				break
 
@@ -176,9 +176,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						company: {
-							name
-						}
-					}
+							name,
+						},
+					},
 				})
 
 				if (foundNode) {
@@ -188,15 +188,15 @@ export class NodeResolver {
 				node = {
 					...input,
 					company: {
-						name
-					}
+						name,
+					},
 				}
 		}
 
 		const newNode = await getMongoRepository(Node).save(
 			new Node({
-				...node
-			})
+				...node,
+			}),
 		)
 
 		return newNode
@@ -205,7 +205,7 @@ export class NodeResolver {
 	@Mutation()
 	async updateNode(
 		@Args('_id') _id: string,
-		@Args('parentId') parentId: string
+		@Args('parentId') parentId: string,
 	): Promise<Node> {
 		const node = await getMongoRepository(Node).findOne({ _id })
 
