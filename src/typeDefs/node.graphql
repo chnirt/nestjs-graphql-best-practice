@@ -26,21 +26,21 @@ input CreateNodeInput {
 # 	name: String!
 # }
 
-type City {
-	name: String
-}
+# type City {
+# 	name: String
+# }
 
-type Store {
-	name: String
-}
+# type Store {
+# 	name: String
+# }
 
-type Department {
-	name: String
-}
+# type Department {
+# 	name: String
+# }
 
-type Position {
-	name: String
-}
+# type Position {
+# 	name: String
+# }
 
 type Job {
 	name: String

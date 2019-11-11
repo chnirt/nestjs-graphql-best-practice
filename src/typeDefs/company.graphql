@@ -6,12 +6,6 @@ input CreateCompanyInput {
 type Company {
 	_id: ID!
 	name: String
-  # businessCode: Int
-  # taxAdministration: String
-  # # basic
-  # address: String
-  # phone: String
-  # fax: 
   manager: String!
   isActive: Boolean!
 	createdAt: Float!

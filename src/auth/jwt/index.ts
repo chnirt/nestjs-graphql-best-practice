@@ -34,7 +34,7 @@ export const generateToken = async (user: User): Promise<string> => {
 		{
 			algorithm: 'HS256',
 			expiresIn: '30d', // 15m
-		},
+		}
 	)
 }
 
@@ -59,7 +59,7 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
 		{
 			algorithm: 'HS256',
 			expiresIn: '7d',
-		},
+		}
 	)
 }
 
@@ -84,7 +84,7 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
 		{
 			algorithm: 'HS256',
 			expiresIn: '1d',
-		},
+		}
 	)
 }
 
@@ -109,7 +109,7 @@ export const generateEmailToken = async (user: User): Promise<string> => {
 		{
 			algorithm: 'HS256',
 			expiresIn: '1d',
-		},
+		}
 	)
 }
 
@@ -130,7 +130,7 @@ export const tradeToken = async (user: User): Promise<LoginResponse> => {
 	}
 
 	if (!user.isActive) {
-		throw new ForbiddenError("User already doestn't exist.")
+		throw new ForbiddenError('User already doestn\'t exist.')
 	}
 
 	if (user.isLocked) {
@@ -160,7 +160,7 @@ export const verifyToken = async (token: string): Promise<User> => {
 	await verify(token, ACCESS_TOKEN_SECRET!, async (err, data) => {
 		if (err) {
 			throw new AuthenticationError(
-				'Authentication token is invalid, please try again.',
+				'Authentication token is invalid, please try again.'
 			)
 		}
 
@@ -193,7 +193,7 @@ export const verifyRefreshToken = async (token: string): Promise<User> => {
 	await verify(token, REFRESH_TOKEN_SECRET!, async (err, data) => {
 		if (err) {
 			throw new AuthenticationError(
-				'Authentication token is invalid, please try again.',
+				'Authentication token is invalid, please try again.'
 			)
 		}
 
@@ -222,7 +222,7 @@ export const verifyEmailToken = async (token: string): Promise<User> => {
 	await verify(token, EMAIL_TOKEN_SECRET!, async (err, data) => {
 		if (err) {
 			throw new AuthenticationError(
-				'Authentication token is invalid, please try again.',
+				'Authentication token is invalid, please try again.'
 			)
 		}
 

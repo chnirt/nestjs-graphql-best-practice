@@ -23,6 +23,10 @@ import {
 	NodeResolver,
 	TranslateResolver,
 	CompanyResolver,
+	CityResolver,
+	StoreResolver,
+	DepartmentResolver,
+	PositionResolver,
 } from './resolvers'
 
 @Module({
@@ -56,6 +60,16 @@ import {
 		NodeResolver,
 		TranslateResolver,
 		CompanyResolver,
+		CityResolver,
+		StoreResolver,
+		DepartmentResolver,
+		PositionResolver,
 	],
 })
 export class AppModule {}
+
+// const a = [1,2]
+// const b = [3,4]
+
+// const c = [1,2, ...b]
+// const d = [1,2,3,4]

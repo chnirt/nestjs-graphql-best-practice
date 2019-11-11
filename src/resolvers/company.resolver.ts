@@ -1,9 +1,9 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
+import { ForbiddenError } from 'apollo-server-core'
 
 import { Company } from '@models'
 import { CreateCompanyInput } from '../generator/graphql.schema'
-import { ForbiddenError } from 'apollo-server-core'
 
 @Resolver('Company')
 export class CompanyResolver {
@@ -16,7 +16,7 @@ export class CompanyResolver {
 
 	@Mutation()
 	async createCompany(
-		@Args('input') input: CreateCompanyInput,
+		@Args('input') input: CreateCompanyInput
 	): Promise<Company> {
 		const { name } = input
 
