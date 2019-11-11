@@ -2,7 +2,7 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Role, Node } from '@models'
+import { Role, Node, Permission } from '@models'
 import { CreateRoleInput } from '../generator/graphql.schema'
 
 @Resolver('Role')
@@ -16,7 +16,7 @@ export class RoleResolver {
 
 	@Mutation()
 	async createRole(@Args('input') input: CreateRoleInput) {
-		const { name, nodeId, permissions } = input
+		const { nodeId, permissions } = input
 
 		const node = await getMongoRepository(Node).findOne({ _id: nodeId })
 
@@ -24,14 +24,26 @@ export class RoleResolver {
 			throw new ForbiddenError('Node not found.')
 		}
 
-		const role = await getMongoRepository(Role).findOne({ name, nodeId })
+		const role = await getMongoRepository(Role).findOne({ nodeId })
 
 		if (role) {
-			throw new ForbiddenError('Role already exists.')
+			throw new ForbiddenError('Role base on Node already exists.')
 		}
 
 		if (permissions.length < 1) {
 			throw new ForbiddenError('Permissions must be greater than 0.')
+		}
+
+		const foundPermissions = getMongoRepository(Permission).find({
+			where: {
+				_id: {
+					$in: permissions
+				}
+			}
+		})
+
+		if (!foundPermissions) {
+			throw new ForbiddenError('Permissions not foud.')
 		}
 
 		return await getMongoRepository(Role).save(

@@ -1,0 +1,19 @@
+input CreateDepartmentInput {
+	name: String!
+}
+
+type Department {
+	_id: ID!
+	name: String
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	departments: [Department]
+}
+
+type Mutation {
+	createDepartment(input: CreateDepartmentInput!): Department
+}

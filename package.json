@@ -139,6 +139,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"yarn format",
+			"yarn lint:fix",
 			"git add"
 		]
 	},

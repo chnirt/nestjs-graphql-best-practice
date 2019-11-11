@@ -1,0 +1,19 @@
+input CreatePositionInput {
+	name: String!
+}
+
+type Position {
+	_id: ID!
+	name: String
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	positions: [Position]
+}
+
+type Mutation {
+	createPosition(input: CreatePositionInput!): Position
+}

@@ -1,0 +1,21 @@
+input CreateCompanyInput {
+	name: String!
+  manager: String!
+}
+
+type Company {
+	_id: ID!
+	name: String
+  manager: String!
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	companies: [Company]
+}
+
+type Mutation {
+	createCompany(input: CreateCompanyInput!): Company
+}

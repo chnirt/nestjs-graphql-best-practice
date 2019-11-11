@@ -11,6 +11,7 @@ import * as depthLimit from 'graphql-depth-limit'
 // import { buildFederatedSchema } from '@apollo/federation'
 // import { ApolloGateway } from '@apollo/gateway'
 import { getMongoRepository } from 'typeorm'
+import chalk from 'chalk'
 // import responseCachePlugin from 'apollo-server-plugin-response-cache'
 
 import schemaDirectives from './schemaDirectives'
@@ -121,8 +122,11 @@ export class GraphqlService implements GqlOptionsFactory {
 					depths => {
 						if (depths[''] === GRAPHQL_DEPTH_LIMIT! - 1) {
 							Logger.warn(
-								`⚠️  You can only descend ${GRAPHQL_DEPTH_LIMIT!} levels.`,
-								'GraphQL'
+								`⚠️  You can only descend ${chalk
+									.hex('#87e8de')
+									.bold(`${GRAPHQL_DEPTH_LIMIT!}`)} levels.`,
+								'GraphQL',
+								false
 							)
 						}
 					}
@@ -214,7 +218,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				return response
 			},
 			subscriptions: {
-				path: `/${END_POINT!}`,
+				path: `/ ${END_POINT!}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
 					NODE_ENV !== 'production' &&

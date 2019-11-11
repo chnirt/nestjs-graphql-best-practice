@@ -7,20 +7,27 @@ import { CacheService, TypeormService, GraphqlService } from './config'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 
-import { UserResolver } from './resolvers/user.resolver'
-import { ResultResolver } from './resolvers/result.resolver'
-import { UserResultResolver } from './resolvers/userResult.resolver'
-import { AuthResolver } from './resolvers/auth.resolver'
-import { EmailResolver } from './resolvers/email.resolver'
-import { FileResolver } from './resolvers/file.resolver'
-import { PermissionResolver } from './resolvers/permission.resolver'
-import { RoleResolver } from './resolvers/role.resolver'
-import { NotificationResolver } from './resolvers/notification.resolver'
-import { RoomResolver } from './resolvers/room.resolver'
-import { MessageResolver } from './resolvers/message.resolver'
-import { FormResolver } from './resolvers/form.resolver'
-import { NodeResolver } from './resolvers/node.resolver'
-import { TranslateResolver } from './resolvers/translate.resolver'
+import {
+	UserResolver,
+	ResultResolver,
+	UserResultResolver,
+	AuthResolver,
+	EmailResolver,
+	FileResolver,
+	PermissionResolver,
+	RoleResolver,
+	NotificationResolver,
+	RoomResolver,
+	MessageResolver,
+	FormResolver,
+	NodeResolver,
+	TranslateResolver,
+	CompanyResolver,
+	CityResolver,
+	StoreResolver,
+	DepartmentResolver,
+	PositionResolver
+} from './resolvers'
 
 @Module({
 	imports: [
@@ -51,7 +58,18 @@ import { TranslateResolver } from './resolvers/translate.resolver'
 		MessageResolver,
 		FormResolver,
 		NodeResolver,
-		TranslateResolver
+		TranslateResolver,
+		CompanyResolver,
+		CityResolver,
+		StoreResolver,
+		DepartmentResolver,
+		PositionResolver
 	]
 })
 export class AppModule {}
+
+// const a = [1,2]
+// const b = [3,4]
+
+// const c = [1,2, ...b]
+// const d = [1,2,3,4]
