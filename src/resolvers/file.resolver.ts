@@ -18,9 +18,9 @@ export class FileResolver {
 
 	@Mutation()
 	async uploadFile(@Args('file') file: any): Promise<File> {
-		const { filename, createReadStream, mimetype } = file
+		const { filename } = file
 
-		const path = await uploadFile(createReadStream)
+		const path = await uploadFile(file)
 
 		const newFile = await getMongoRepository(File).save(
 			new File({ filename, path })

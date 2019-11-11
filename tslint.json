@@ -48,15 +48,6 @@
 			"check-whitespace"
 		],
 		"triple-equals": [true, "allow-null-check"],
-		// "typedef": [
-		// 	true,
-		// 	"callSignature",
-		// 	"indexSignature",
-		// 	"parameter",
-		// 	"propertySignature",
-		// 	"variableDeclarator",
-		// 	"memberVariableDeclarator"
-		// ],
 		"use-strict": false,
 		"variable-name": [true, "allow-leading-underscore"],
 		"whitespace": [
