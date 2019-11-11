@@ -59,9 +59,10 @@ const MAIL_USER: string = process.env.MAIL_USER || 'xxx'
 const MAIL_PASS: string = process.env.MAIL_PASS || 'xxx'
 
 // cloudinary
-const CLOUD_NAME: string = process.env.CLOUD_NAME || 'xxx'
-const API_KEY: string = process.env.API_KEY || 'xxx'
-const API_SECRET: string = process.env.API_SECRET || 'xxx'
+const CLOUD_NAME: string = process.env.CLOUD_NAME || 'chnirt'
+const API_KEY: string = process.env.API_KEY || '475584948229723'
+const API_SECRET: string =
+	process.env.API_SECRET || 'Duno2be58mE2lCFLcuOssGKG54c'
 
 // pubsub
 const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
