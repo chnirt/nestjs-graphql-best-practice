@@ -8,13 +8,12 @@ import {
 	SearchNodeInput,
 	NodeCategory
 } from '../generator/graphql.schema'
+import { NotFoundException } from '@nestjs/common'
 
 @Resolver('Node')
 export class NodeResolver {
 	@Query()
-	async nodes(@Args('input') input: SearchNodeInput): Promise<Node[]> {
-		console.log('aaaa')
-		console.log(input && input)
+	async nodes(): Promise<Node[]> {
 		// const whereArray = [text, code]
 		// // const obj = { name: { $regex: ele, $options: 'si' } }
 		// const where = {}
@@ -56,43 +55,149 @@ export class NodeResolver {
 
 	@Mutation()
 	async createNode(@Args('input') input: CreateNodeInput): Promise<Node> {
-		const { parentId, code, category } = input
-
-		// const node = await getMongoRepository(Node).findOne({ code })
-
-		// if (node) {
-		// 	throw new ForbiddenError('Node already exists.')
+		const { parentId, name, category } = input
 		// }
+		const { CITY, STORE, DEPARTMENT, POSITION, JOB } = NodeCategory
 
-		if (parentId) {
-			if (category === NodeCategory.COMPANY && parentId.length >= 0) {
-				throw new ForbiddenError('category is COMPANY dont need parentId.')
-			}
+		let foundNode
+		let node
 
-			const nodeByParentId = await getMongoRepository(Node).findOne({
-				_id: parentId
-			})
+		switch (category) {
+			case CITY:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						city: {
+							name
+						}
+					}
+				})
 
-			if (!nodeByParentId) {
-				throw new ForbiddenError('Node not found.')
-			}
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
 
-			const path = `${nodeByParentId.path}/${code}`
+				node = {
+					...input,
+					city: {
+						name
+					}
+				}
+				break
 
-			const node = await getMongoRepository(Node).findOne({ path })
+			case STORE:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						store: {
+							name
+						}
+					}
+				})
 
-			if (node) {
-				throw new ForbiddenError('Node already exists.')
-			}
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
 
-			const newNode = await getMongoRepository(Node).save(
-				new Node({ ...input, path: nodeByParentId.path })
-			)
+				node = {
+					...input,
+					store: {
+						name
+					}
+				}
+				break
 
-			return newNode
+			case DEPARTMENT:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						department: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					department: {
+						name
+					}
+				}
+				break
+
+			case POSITION:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						position: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					position: {
+						name
+					}
+				}
+				break
+
+			case JOB:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						job: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					job: {
+						name
+					}
+				}
+				break
+
+			default:
+				if (parentId) {
+					throw new ForbiddenError("category is COMPANY don't need parentId.")
+				}
+
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						company: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					company: {
+						name
+					}
+				}
 		}
 
-		const newNode = await getMongoRepository(Node).save(new Node({ ...input }))
+		const newNode = await getMongoRepository(Node).save(
+			new Node({
+				...node
+			})
+		)
 
 		return newNode
 	}
@@ -108,21 +213,22 @@ export class NodeResolver {
 			throw new ForbiddenError('Node not found.')
 		}
 
-		const nodeByParentId = await getMongoRepository(Node).findOne({
-			_id: parentId
-		})
+		// const nodeByParentId = await getMongoRepository(Node).findOne({
+		// 	_id: parentId
+		// })
 
-		if (!nodeByParentId) {
-			throw new ForbiddenError('Node by parentId not found.')
-		}
+		// if (!nodeByParentId) {
+		// 	throw new ForbiddenError('Node by parentId not found.')
+		// }
 
-		node.parentId = parentId
-		node.path = nodeByParentId.path
+		// node.parentId = parentId
+		// node.path = nodeByParentId.path
 
-		const updatedNode = await getMongoRepository(Node).save(
-			new Node({ ...node })
-		)
+		// const updatedNode = await getMongoRepository(Node).save(
+		// 	new Node({ ...node })
+		// )
 
-		return updatedNode
+		// return updatedNode
+		return null
 	}
 }

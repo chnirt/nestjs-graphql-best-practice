@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb'
 
-import { MONGO_URL, MONGO_DB } from '@environments'
+import { MONGO_URL, MONGO_DB } from './environments'
 
 async function main() {
 	console.log('🚀  Server ready')
@@ -31,67 +31,67 @@ async function main() {
 
 		// await db.collection('history').insertMany(tests)
 
-		const users = [
-			{
-				_id: 'ffbdd890-f8bd-11e9-9806-8b914d623ae9',
-				firstName: 'Chin',
-				lastName: 'Trinh',
-				gender: 'MALE',
-				google: {
-					_id: '107178666920276184612',
-					email: 'trinhchinchin@gmail.com'
-				}
-			},
-			{
-				_id: 'd9dacf10-edb5-11e9-ba96-217967694746',
-				firstName: 'Chin Chin',
-				lastName: 'Trinh',
-				gender: 'MALE',
-				local: {
-					email: 'nhocpo.juzo@gmail.com',
-					password:
-						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
-				}
-			},
-			{
-				_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
-				firstName: 'Hung',
-				lastName: 'Luu',
-				gender: 'MALE',
-				local: {
-					email: 'luuvinhhung159@gmail.com',
-					password:
-						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
-				}
-			}
-		]
+		// const users = [
+		// 	{
+		// 		_id: 'ffbdd890-f8bd-11e9-9806-8b914d623ae9',
+		// 		firstName: 'Chin',
+		// 		lastName: 'Trinh',
+		// 		gender: 'MALE',
+		// 		google: {
+		// 			_id: '107178666920276184612',
+		// 			email: 'trinhchinchin@gmail.com'
+		// 		}
+		// 	},
+		// 	{
+		// 		_id: 'd9dacf10-edb5-11e9-ba96-217967694746',
+		// 		firstName: 'Chin Chin',
+		// 		lastName: 'Trinh',
+		// 		gender: 'MALE',
+		// 		local: {
+		// 			email: 'nhocpo.juzo@gmail.com',
+		// 			password:
+		// 				'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
+		// 		}
+		// 	},
+		// 	{
+		// 		_id: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
+		// 		firstName: 'Hung',
+		// 		lastName: 'Luu',
+		// 		gender: 'MALE',
+		// 		local: {
+		// 			email: 'luuvinhhung159@gmail.com',
+		// 			password:
+		// 				'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
+		// 		}
+		// 	}
+		// ]
 
-		users.map(async item => {
-			await db.collection('users').findOneAndUpdate(
-				{ _id: item._id },
-				{
-					$setOnInsert: {
-						_id: item._id
-					},
-					$set: {
-						local: item.local,
-						google: item.google,
-						firstName: item.firstName,
-						lastName: item.lastName,
-						gender: item.gender,
-						isVerified: true,
-						isOnline: false,
-						isLocked: false,
-						reason: '',
-						isActive: true,
-						type: 'BASIC',
-						createdAt: +new Date(),
-						updatedAt: +new Date()
-					}
-				},
-				{ upsert: true }
-			)
-		})
+		// users.map(async item => {
+		// 	await db.collection('users').findOneAndUpdate(
+		// 		{ _id: item._id },
+		// 		{
+		// 			$setOnInsert: {
+		// 				_id: item._id
+		// 			},
+		// 			$set: {
+		// 				local: item.local,
+		// 				google: item.google,
+		// 				firstName: item.firstName,
+		// 				lastName: item.lastName,
+		// 				gender: item.gender,
+		// 				isVerified: true,
+		// 				isOnline: false,
+		// 				isLocked: false,
+		// 				reason: '',
+		// 				isActive: true,
+		// 				type: 'BASIC',
+		// 				createdAt: +new Date(),
+		// 				updatedAt: +new Date()
+		// 			}
+		// 		},
+		// 		{ upsert: true }
+		// 	)
+		// })
 
 		const permissions = [
 			{

@@ -2,65 +2,66 @@ enum NodeCategory {
 	COMPANY # Acexis
 	# REGION # Bắc, Trung, Nam
 	# COUNTRY # Việt Nam
+	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
 	CITY # HCM, HN
 	# SITE # Sư Vạn Hạnh, Hoa Hồng
-	# STORE # Cửa hàng
-	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
+	STORE # Cửa hàng
 	POSITION # GD, TP, Nhân viên, Công tác viên
+	JOB # Leader, Developer, QC, Tester
 }
 
 input SearchNodeInput {
 	parentId: ID
 	name: String
-	code: String
 	category: NodeCategory
 }
 
 input CreateNodeInput {
 	parentId: ID
 	name: String!
-	code: String!
 	category: NodeCategory!
+}
+
+type Company {
+	name: String!
+}
+
+type City {
+	name: String
+}
+
+type Store {
+	name: String
+}
+
+type Department {
+	name: String
+}
+
+type Position {
+	name: String
+}
+
+type Job {
+	name: String
 }
 
 type Node {
 	_id: ID!
 	parentId: ID
-	name: String!
-	code: String!
-	category: NodeCategory!
-	path: String!
+	category: NodeCategory
+	company: Company
+	city: City
+	store: Store
+	department: Department
+	position: Position
+	job: Job
 	createdAt: Float!
 	updatedAt: Float!
 }
 
-# type Permission {
-# 	_id: ID!
-# 	code: String!
-# 	description: String!
-# 	createdAt: Float!
-# 	updatedAt: Float!
-# }
-
-# type Role {
-# 	_id: ID!
-# 	name: String! # Leader, Developer, QC, Tester
-# 	nodeId: ID
-# 	permissions: [ID!]!
-# 	createdAt: Float!
-# 	updatedAt: Float!
-# }
-
-# type UserRole {
-# 	_id: ID!
-# 	userId: ID!
-# 	roleId: ID!
-# 	createdAt: Float!
-# 	updatedAt: Float!
-# }
-
 type Query {
-	nodes(input: SearchNodeInput): [Node]
+	nodes: [Node]
 }
 
 type Mutation {

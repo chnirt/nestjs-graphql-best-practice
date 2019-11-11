@@ -2,8 +2,6 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
 import { Expose, plainToClass } from 'class-transformer'
 
-import { PermissionInfo } from '../generator/graphql.schema'
-
 @Entity({
 	name: 'roles',
 	orderBy: {
@@ -17,15 +15,11 @@ export class Role {
 
 	@Expose()
 	@Column()
-	name: string
-
-	@Expose()
-	@Column()
 	nodeId: string
 
 	@Expose()
 	@Column()
-	permissions: PermissionInfo[]
+	permissions: string[]
 
 	@Expose()
 	@Column()

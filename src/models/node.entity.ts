@@ -2,7 +2,15 @@ import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
 import { Expose, plainToClass } from 'class-transformer'
 
-import { NodeCategory } from '../generator/graphql.schema'
+import {
+	NodeCategory,
+	Company,
+	City,
+	Store,
+	Department,
+	Position,
+	Job
+} from '../generator/graphql.schema'
 
 @Entity({
 	name: 'nodes',
@@ -25,15 +33,27 @@ export class Node {
 
 	@Expose()
 	@Column()
-	name: string
+	company: Company
 
 	@Expose()
 	@Column()
-	code: string
+	city: City
 
 	@Expose()
 	@Column()
-	path: string
+	store: Store
+
+	@Expose()
+	@Column()
+	department: Department
+
+	@Expose()
+	@Column()
+	position: Position
+
+	@Expose()
+	@Column()
+	job: Job
 
 	@Expose()
 	@Column()
@@ -51,7 +71,6 @@ export class Node {
 				})
 			)
 			this._id = this._id || uuid.v1()
-			this.path = this.path ? `${this.path}/${this.code}` : this.code
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}
