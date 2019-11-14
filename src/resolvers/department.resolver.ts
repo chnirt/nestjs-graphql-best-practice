@@ -10,7 +10,7 @@ export class DepartmentResolver {
 	@Query()
 	async departments(): Promise<Department[]> {
 		return getMongoRepository(Department).find({
-			cache: true,
+			cache: true
 		})
 	}
 

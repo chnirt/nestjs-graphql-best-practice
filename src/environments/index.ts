@@ -55,13 +55,15 @@ const RESETPASS_TOKEN_SECRET: string =
 const SALT: number = +process.env.SALT || 10
 
 // nodemailer
-const MAIL_USER: string = process.env.MAIL_USER || 'xxx'
-const MAIL_PASS: string = process.env.MAIL_PASS || 'xxx'
+const NODEMAILER_USER: string = process.env.NODEMAILER_USER || 'xxx'
+const NODEMAILER_PASS: string = process.env.NODEMAILER_PASS || 'xxx'
 
 // cloudinary
-const CLOUD_NAME: string = process.env.CLOUD_NAME || 'xxx'
-const API_KEY: string = process.env.API_KEY || 'xxx'
-const API_SECRET: string = process.env.API_SECRET || 'xxx'
+const CLOUDINARY_NAME: string = process.env.CLOUDINARY_NAME || 'chnirt'
+const CLOUDINARY_API_KEY: string =
+	process.env.CLOUDINARY_API_KEY || '475584948229723'
+const CLOUDINARY_API_SECRET: string =
+	process.env.CLOUDINARY_API_SECRET || 'Duno2be58mE2lCFLcuOssGKG54c'
 
 // pubsub
 const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
@@ -118,11 +120,11 @@ export {
 	EMAIL_TOKEN,
 	EMAIL_TOKEN_SECRET,
 	SALT,
-	MAIL_USER,
-	MAIL_PASS,
-	CLOUD_NAME,
-	API_KEY,
-	API_SECRET,
+	NODEMAILER_USER,
+	NODEMAILER_PASS,
+	CLOUDINARY_NAME,
+	CLOUDINARY_API_KEY,
+	CLOUDINARY_API_SECRET,
 	USER_SUBSCRIPTION,
 	NOTIFICATION_SUBSCRIPTION,
 	MESSAGES_SUBSCRIPTION,
@@ -135,5 +137,5 @@ export {
 	GOOGLE_APPLICATION_CREDENTIALS,
 	STRIPE_PUBLIC_KEY,
 	STRIPE_SECRET_KEY,
-	STRIPE_PLAN,
+	STRIPE_PLAN
 }

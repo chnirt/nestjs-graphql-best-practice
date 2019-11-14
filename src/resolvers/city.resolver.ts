@@ -10,7 +10,7 @@ export class CityResolver {
 	@Query()
 	async cities(): Promise<City[]> {
 		return getMongoRepository(City).find({
-			cache: true,
+			cache: true
 		})
 	}
 

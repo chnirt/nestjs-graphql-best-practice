@@ -12,15 +12,17 @@ export class FileResolver {
 	@Query()
 	async files(): Promise<File[]> {
 		return getMongoRepository(File).find({
-			cache: true,
+			cache: true
 		})
 	}
 
 	@Mutation()
 	async uploadFile(@Args('file') file: any): Promise<File> {
-		const { filename, createReadStream, mimetype } = file
+		const { filename } = file
 
-		const path = await uploadFile(createReadStream)
+		console.log(file)
+
+		const path = await uploadFile(file)
 
 		const newFile = await getMongoRepository(File).save(
 			new File({ filename, path })
@@ -52,9 +54,9 @@ export class FileResolver {
 						// 	`${req.headers.host}/uploads/${convertFilename}`
 						// )
 
-						path = `${req.headers.host}/static/${convertFilename}`
+						const link = `${req.headers.host}/static/${convertFilename}`
 
-						resolve(path)
+						resolve(link)
 					})
 			)
 		)

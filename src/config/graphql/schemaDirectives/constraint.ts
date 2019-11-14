@@ -4,7 +4,7 @@ import {
 	GraphQLInt,
 	GraphQLFloat,
 	GraphQLNonNull,
-	GraphQLString,
+	GraphQLString
 } from 'graphql'
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 // import ConstraintStringType from '../scalars/string'
@@ -16,7 +16,7 @@ class ConstraintDirective extends SchemaDirectiveVisitor {
 			name: directiveName,
 			locations: [
 				DirectiveLocation.FIELD_DEFINITION,
-				DirectiveLocation.INPUT_FIELD_DEFINITION,
+				DirectiveLocation.INPUT_FIELD_DEFINITION
 			],
 			args: {
 				/* Strings */
@@ -34,8 +34,8 @@ class ConstraintDirective extends SchemaDirectiveVisitor {
 				max: { type: GraphQLFloat },
 				exclusiveMin: { type: GraphQLFloat },
 				exclusiveMax: { type: GraphQLFloat },
-				multipleOf: { type: GraphQLFloat },
-			},
+				multipleOf: { type: GraphQLFloat }
+			}
 		})
 	}
 

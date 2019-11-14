@@ -6,14 +6,14 @@ import {
 	Subscription,
 	Context,
 	ResolveProperty,
-	Parent,
+	Parent
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import {
 	ApolloError,
 	AuthenticationError,
 	ForbiddenError,
-	UserInputError,
+	UserInputError
 } from 'apollo-server-core'
 import * as uuid from 'uuid'
 
@@ -31,7 +31,7 @@ import {
 	LoginResponse,
 	RefreshTokenResponse,
 	Type,
-	UserType,
+	UserType
 } from '../generator/graphql.schema'
 import {
 	generateToken,
@@ -39,7 +39,7 @@ import {
 	generateEmailToken,
 	tradeToken,
 	verifyRefreshToken,
-	verifyEmailToken,
+	verifyEmailToken
 } from '@auth'
 import { sendMail, stripe } from '@shared'
 
@@ -81,7 +81,7 @@ export class UserResolver {
 			where: where[type] && JSON.parse(JSON.stringify(where[type])),
 			order: order && JSON.parse(JSON.stringify(order)),
 			skip,
-			take,
+			take
 		})
 
 		// console.log(result)
@@ -103,8 +103,8 @@ export class UserResolver {
 
 		result = await getMongoRepository(User).find({
 			where: {
-				_id: { $in: userIds },
-			},
+				_id: { $in: userIds }
+			}
 		})
 
 		// tslint:disable-next-line:prefer-conditional-expression
@@ -132,7 +132,7 @@ export class UserResolver {
 			// order: { createdAt: -1 },
 			skip: offset,
 			take: limit,
-			cache: true, // 1000: 60000 / 1 minute
+			cache: true // 1000: 60000 / 1 minute
 		})
 
 		return users
@@ -166,8 +166,8 @@ export class UserResolver {
 
 			existedUser = await getMongoRepository(User).findOne({
 				where: {
-					'local.email': email,
-				},
+					'local.email': email
+				}
 			})
 
 			if (existedUser) {
@@ -177,8 +177,8 @@ export class UserResolver {
 			// Is there a Google account with the same email?
 			existedUser = await getMongoRepository(User).findOne({
 				where: {
-					$or: [{ 'google.email': email }, { 'facebook.email': email }],
-				},
+					$or: [{ 'google.email': email }, { 'facebook.email': email }]
+				}
 			})
 
 			if (existedUser) {
@@ -189,8 +189,8 @@ export class UserResolver {
 						...input,
 						local: {
 							email,
-							password: await hashPassword(password),
-						},
+							password: await hashPassword(password)
+						}
 					})
 				)
 
@@ -202,8 +202,8 @@ export class UserResolver {
 					...input,
 					local: {
 						email,
-						password: await hashPassword(password),
-					},
+						password: await hashPassword(password)
+					}
 				})
 			)
 
@@ -213,7 +213,7 @@ export class UserResolver {
 
 			const existedEmail = await this.emailResolver.createEmail({
 				userId: createdUser._id,
-				type: Type.VERIFY_EMAIL,
+				type: Type.VERIFY_EMAIL
 			})
 
 			await sendMail(
@@ -250,8 +250,8 @@ export class UserResolver {
 					...input,
 					local: {
 						email: user.local.email,
-						password: await hashPassword(password),
-					},
+						password: await hashPassword(password)
+					}
 				})
 			)
 
@@ -278,7 +278,7 @@ export class UserResolver {
 			const updateUser = await getMongoRepository(User).save(
 				new User({
 					...user,
-					avatar: newFile.path,
+					avatar: newFile.path
 				})
 			)
 
@@ -300,7 +300,7 @@ export class UserResolver {
 			const updateUser = await getMongoRepository(User).save(
 				new User({
 					...user,
-					isActive: false,
+					isActive: false
 				})
 			)
 
@@ -314,7 +314,7 @@ export class UserResolver {
 	async deleteUsers(): Promise<boolean> {
 		try {
 			return (await getMongoRepository(User).deleteMany({
-				email: { $nin: ['trinhchinchin@gmail.com'] },
+				email: { $nin: ['trinhchinchin@gmail.com'] }
 			}))
 				? true
 				: false
@@ -333,7 +333,7 @@ export class UserResolver {
 			const updateUser = await getMongoRepository(User).save(
 				new User({
 					...user,
-					isVerified: true,
+					isVerified: true
 				})
 			)
 			return updateUser ? true : false
@@ -348,8 +348,8 @@ export class UserResolver {
 
 		const user = await getMongoRepository(User).findOne({
 			where: {
-				'local.email': email,
-			},
+				'local.email': email
+			}
 		})
 
 		if (user && (await comparePassword(password, user.local.password))) {
@@ -386,7 +386,7 @@ export class UserResolver {
 				new User({
 					...user,
 					reason: !user.isLocked ? reason : '',
-					isLocked: !user.isLocked,
+					isLocked: !user.isLocked
 				})
 			)
 
@@ -424,8 +424,8 @@ export class UserResolver {
 			new User({
 				...user,
 				local: {
-					password: await hashPassword(password),
-				},
+					password: await hashPassword(password)
+				}
 			})
 		)
 
@@ -440,8 +440,8 @@ export class UserResolver {
 		const user = await getMongoRepository(User).findOne({
 			where: {
 				'local.email': email,
-				isVerified: true,
-			},
+				isVerified: true
+			}
 		})
 
 		if (!user) {
@@ -452,7 +452,7 @@ export class UserResolver {
 
 		const existedEmail = await this.emailResolver.createEmail({
 			userId: user._id,
-			type: Type.FORGOT_PASSWORD,
+			type: Type.FORGOT_PASSWORD
 		})
 
 		// console.log(existedEmail)
@@ -471,7 +471,7 @@ export class UserResolver {
 			new User({
 				...user,
 				resetPasswordToken: resetPassToken,
-				resetPasswordExpires: date.setHours(date.getHours() + 1), // 1 hour
+				resetPasswordExpires: date.setHours(date.getHours() + 1) // 1 hour
 			})
 		)
 
@@ -484,7 +484,7 @@ export class UserResolver {
 		@Args('password') password: string
 	): Promise<boolean> {
 		const user = await getMongoRepository(User).findOne({
-			resetPasswordToken,
+			resetPasswordToken
 		})
 
 		if (!user) {
@@ -501,10 +501,10 @@ export class UserResolver {
 			new User({
 				...user,
 				local: {
-					password: await hashPassword(password),
+					password: await hashPassword(password)
 				},
 				resetPasswordToken: null,
-				resetPasswordExpires: null,
+				resetPasswordExpires: null
 			})
 		)
 
@@ -530,7 +530,7 @@ export class UserResolver {
 		const customer = await stripe.customers.create({
 			email,
 			source,
-			plan: STRIPE_PLAN!,
+			plan: STRIPE_PLAN!
 		})
 
 		// console.log(customer)
@@ -540,7 +540,7 @@ export class UserResolver {
 				...currentUser,
 				stripeId: customer.id,
 				type: UserType.PREMIUM,
-				ccLast4,
+				ccLast4
 			})
 		)
 
@@ -559,13 +559,13 @@ export class UserResolver {
 		}
 
 		await stripe.customers.update(currentUser.stripeId, {
-			source,
+			source
 		})
 
 		const updateUser = await getMongoRepository(User).save(
 			new User({
 				...currentUser,
-				ccLast4,
+				ccLast4
 			})
 		)
 
@@ -612,7 +612,7 @@ export class UserResolver {
 			// console.log('variables', variables)
 			// return payload.menuPublishByOrder.currentsite === variables.currentsite
 			return true
-		},
+		}
 	})
 	async newUser(@Context('pubsub') pubsub: any): Promise<User> {
 		return pubsub.asyncIterator(USER_SUBSCRIPTION)

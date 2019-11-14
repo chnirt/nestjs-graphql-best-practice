@@ -1,14 +1,14 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
+import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
-import { ForbiddenError } from 'apollo-server-core'
+import { ForbiddenError, ApolloError } from 'apollo-server-core'
+import { User } from './../models/user.entity'
 
 import { Node } from '@models'
 import {
 	CreateNodeInput,
 	SearchNodeInput,
-	NodeCategory,
+	NodeCategory
 } from '../generator/graphql.schema'
-import { NotFoundException } from '@nestjs/common'
 
 @Resolver('Node')
 export class NodeResolver {
@@ -49,7 +49,7 @@ export class NodeResolver {
 		// }
 
 		return await getMongoRepository(Node).find({
-			cache: true,
+			cache: true
 		})
 	}
 
@@ -67,9 +67,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						city: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -79,8 +79,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					city: {
-						name,
-					},
+						name
+					}
 				}
 				break
 
@@ -88,9 +88,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						store: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -100,8 +100,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					store: {
-						name,
-					},
+						name
+					}
 				}
 				break
 
@@ -109,9 +109,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						department: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -121,8 +121,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					department: {
-						name,
-					},
+						name
+					}
 				}
 				break
 
@@ -130,9 +130,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						position: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -142,8 +142,8 @@ export class NodeResolver {
 				node = {
 					...input,
 					position: {
-						name,
-					},
+						name
+					}
 				}
 				break
 
@@ -151,9 +151,9 @@ export class NodeResolver {
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						job: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -163,22 +163,22 @@ export class NodeResolver {
 				node = {
 					...input,
 					job: {
-						name,
-					},
+						name
+					}
 				}
 				break
 
 			default:
 				if (parentId) {
-					throw new ForbiddenError('category is COMPANY don\'t need parentId.')
+					throw new ForbiddenError("category is COMPANY don't need parentId.")
 				}
 
 				foundNode = await getMongoRepository(Node).findOne({
 					where: {
 						company: {
-							name,
-						},
-					},
+							name
+						}
+					}
 				})
 
 				if (foundNode) {
@@ -188,30 +188,31 @@ export class NodeResolver {
 				node = {
 					...input,
 					company: {
-						name,
-					},
+						name
+					}
 				}
 		}
 
 		const newNode = await getMongoRepository(Node).save(
 			new Node({
-				...node,
+				...node
 			})
 		)
 
-		return newNode
-	}
+		// 	return newNode
+		// }
 
-	@Mutation()
-	async updateNode(
-		@Args('_id') _id: string,
-		@Args('parentId') parentId: string
-	): Promise<Node> {
-		const node = await getMongoRepository(Node).findOne({ _id })
+		// @Mutation()
+		// async updateNode(
+		// 	@Args('_id') _id: string,
+		// 	@Args('parentId') parentId: string,
+		// 	@Context('currentUser') currentUser: User
+		// ): Promise<Node> {
+		// 	const node = await getMongoRepository(Node).findOne({ _id })
 
-		if (!node) {
-			throw new ForbiddenError('Node not found.')
-		}
+		// 	if (!node) {
+		// 		throw new ForbiddenError('Node not found.')
+		// 	}
 
 		// const nodeByParentId = await getMongoRepository(Node).findOne({
 		// 	_id: parentId

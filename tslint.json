@@ -25,6 +25,23 @@
 		"object-literal-key-quotes": false,
 		"no-bitwise": false,
 		"no-var-requires": false,
+		"one-line": [
+			true,
+			"check-open-brace",
+			"check-catch",
+			"check-else",
+			"check-whitespace"
+		],
+		"triple-equals": [true, "allow-null-check"],
+		"use-strict": false,
+		"whitespace": [
+			true,
+			"check-branch",
+			"check-decl",
+			"check-operator",
+			"check-separator",
+			"check-type"
+		],
 		"no-unused-expression": false,
 		"max-classes-per-file": true,
 		"no-trailing-whitespace": true

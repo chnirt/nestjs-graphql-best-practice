@@ -10,7 +10,7 @@ import {
 	ACCESS_TOKEN_SECRET,
 	REFRESH_TOKEN_SECRET,
 	RESETPASS_TOKEN_SECRET,
-	EMAIL_TOKEN_SECRET,
+	EMAIL_TOKEN_SECRET
 } from '@environments'
 
 /**
@@ -28,12 +28,12 @@ export const generateToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
 			issuer: ISSUER!,
-			subject: user._id,
+			subject: user._id
 		},
 		ACCESS_TOKEN_SECRET!,
 		{
 			algorithm: 'HS256',
-			expiresIn: '30d', // 15m
+			expiresIn: '30d' // 15m
 		}
 	)
 }
@@ -53,12 +53,12 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
 			issuer: ISSUER!,
-			subject: user._id,
+			subject: user._id
 		},
 		REFRESH_TOKEN_SECRET!,
 		{
 			algorithm: 'HS256',
-			expiresIn: '7d',
+			expiresIn: '7d'
 		}
 	)
 }
@@ -78,12 +78,12 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
 			issuer: ISSUER!,
-			subject: user._id,
+			subject: user._id
 		},
 		RESETPASS_TOKEN_SECRET!,
 		{
 			algorithm: 'HS256',
-			expiresIn: '1d',
+			expiresIn: '1d'
 		}
 	)
 }
@@ -103,12 +103,12 @@ export const generateEmailToken = async (user: User): Promise<string> => {
 	return await sign(
 		{
 			issuer: ISSUER!,
-			subject: user._id,
+			subject: user._id
 		},
 		EMAIL_TOKEN_SECRET!,
 		{
 			algorithm: 'HS256',
-			expiresIn: '1d',
+			expiresIn: '1d'
 		}
 	)
 }
@@ -130,7 +130,7 @@ export const tradeToken = async (user: User): Promise<LoginResponse> => {
 	}
 
 	if (!user.isActive) {
-		throw new ForbiddenError('User already doestn\'t exist.')
+		throw new ForbiddenError("User already doesn't exist.")
 	}
 
 	if (user.isLocked) {
@@ -165,7 +165,7 @@ export const verifyToken = async (token: string): Promise<User> => {
 		}
 
 		currentUser = await getMongoRepository(User).findOne({
-			_id: data.subject,
+			_id: data.subject
 		})
 	})
 
@@ -198,7 +198,7 @@ export const verifyRefreshToken = async (token: string): Promise<User> => {
 		}
 
 		currentUser = await getMongoRepository(User).findOne({
-			_id: data.subject,
+			_id: data.subject
 		})
 	})
 
@@ -227,7 +227,7 @@ export const verifyEmailToken = async (token: string): Promise<User> => {
 		}
 
 		currentUser = await getMongoRepository(User).findOne({
-			_id: data.subject,
+			_id: data.subject
 		})
 	})
 

@@ -10,14 +10,14 @@ export class RoomResolver {
 	@Query(() => [Room])
 	async rooms(): Promise<Room[]> {
 		return getMongoRepository(Room).find({
-			cache: true,
+			cache: true
 		})
 	}
 
 	@Query(() => Room)
 	async room(@Args('_id') _id: string): Promise<Room> {
 		const room = await getMongoRepository(Room).findOne({
-			_id,
+			_id
 		})
 
 		if (!room) {
@@ -25,7 +25,7 @@ export class RoomResolver {
 		}
 
 		return getMongoRepository(Room).findOne({
-			_id,
+			_id
 		})
 	}
 
@@ -41,7 +41,7 @@ export class RoomResolver {
 		}
 
 		const existedUserIds = await getMongoRepository(User).find({
-			where: { _id: { $in: userIds, $ne: currentUser._id } },
+			where: { _id: { $in: userIds, $ne: currentUser._id } }
 		})
 
 		if (userIds.length !== existedUserIds.length) {
@@ -59,7 +59,7 @@ export class RoomResolver {
 		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
-			_id,
+			_id
 		})
 
 		if (!room) {
@@ -83,7 +83,7 @@ export class RoomResolver {
 		@Context('currentUser') currentUser: User
 	): Promise<boolean> {
 		const room = await getMongoRepository(Room).findOne({
-			_id,
+			_id
 		})
 
 		if (!room) {

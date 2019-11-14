@@ -23,8 +23,8 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 			const role = await getMongoRepository(Role).find({
 				where: {
 					userId: currentUser._id,
-					'permissions.code': permission,
-				},
+					'permissions.code': permission
+				}
 			})
 
 			if (!role) {

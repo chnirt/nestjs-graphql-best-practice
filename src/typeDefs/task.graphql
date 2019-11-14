@@ -1,0 +1,25 @@
+type Task {
+  _id: ID
+  name: String
+  dueDate: Float
+  rulePenalty: String
+  description: String
+  idProject: ID
+  link: Link
+  idTrello: String
+  spentSum: Float
+  assignTo: ID
+  done: Boolean
+  isActive: Boolean
+  createdAt: Float
+  createdBy: ID
+  updatedAt: Float
+  updatedBy: ID
+}
+
+type Link {
+  userStory: String
+  wireframe: String
+  dbDiagram: String
+  gitlab: String
+}

@@ -4,7 +4,7 @@ import {
 	Args,
 	Query,
 	Context,
-	Subscription,
+	Subscription
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
@@ -20,7 +20,7 @@ export class MessageResolver {
 	async messages(@Args('roomId') roomId: string): Promise<Message[]> {
 		return getMongoRepository(Message).find({
 			where: { roomId },
-			cache: true,
+			cache: true
 		})
 	}
 
@@ -35,8 +35,8 @@ export class MessageResolver {
 		const room = await getMongoRepository(Room).findOne({
 			where: {
 				_id: roomId,
-				'users._id': currentUser._id,
-			},
+				'users._id': currentUser._id
+			}
 		})
 
 		if (!room) {
@@ -55,7 +55,7 @@ export class MessageResolver {
 
 		pubsub.publish(MESSAGES_SUBSCRIPTION, {
 			userIds,
-			newMessage: newRoomWithMessages,
+			newMessage: newRoomWithMessages
 		})
 
 		return newMessage
@@ -66,7 +66,7 @@ export class MessageResolver {
 			const { userIds } = payload
 			const { _id } = context.currentUser
 			return userIds.indexOf(_id) > -1
-		},
+		}
 	})
 	async newMessages(@Context('pubsub') pubsub: any): Promise<Notification> {
 		return pubsub.asyncIterator(MESSAGES_SUBSCRIPTION)

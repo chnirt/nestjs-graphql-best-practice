@@ -23,7 +23,7 @@ class LimitedLengthType extends GraphQLScalarType {
 
 			parseLiteral(ast) {
 				return type.parseLiteral(ast)
-			},
+			}
 		})
 	}
 }

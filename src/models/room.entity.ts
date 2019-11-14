@@ -3,7 +3,7 @@ import {
 	ObjectIdColumn,
 	Column,
 	BeforeInsert,
-	BeforeUpdate,
+	BeforeUpdate
 } from 'typeorm'
 import { Expose, plainToClass } from 'class-transformer'
 import * as uuid from 'uuid'
@@ -13,8 +13,8 @@ import { User, Message } from '@models'
 @Entity({
 	name: 'rooms',
 	orderBy: {
-		createdAt: 'ASC',
-	},
+		createdAt: 'ASC'
+	}
 })
 export class Room {
 	@Expose()
@@ -45,7 +45,7 @@ export class Room {
 			Object.assign(
 				this,
 				plainToClass(Room, room, {
-					excludeExtraneousValues: true,
+					excludeExtraneousValues: true
 				})
 			)
 			this._id = this._id || uuid.v1()

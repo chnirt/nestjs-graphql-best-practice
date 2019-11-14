@@ -31,19 +31,19 @@ describe('UserResolver', () => {
 				UserResolver,
 				{
 					provide: getRepositoryToken(User),
-					useClass: Repository,
+					useClass: Repository
 				},
 				EmailResolver,
 				{
 					provide: getRepositoryToken(Email),
-					useClass: Repository,
+					useClass: Repository
 				},
 				FileResolver,
 				{
 					provide: getRepositoryToken(File),
-					useClass: Repository,
-				},
-			],
+					useClass: Repository
+				}
+			]
 		}).compile()
 
 		userResolver = module.get<UserResolver>(UserResolver)

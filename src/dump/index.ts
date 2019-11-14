@@ -7,13 +7,13 @@ import {
 	MLAB_PORT,
 	MLAB_DATABASE,
 	MLAB_USER,
-	MLAB_PASS,
+	MLAB_PASS
 } from '@environments'
 
 enum fileType {
 	JSON,
 	CSV,
-	TSV,
+	TSV
 }
 
 const collection = 'users'

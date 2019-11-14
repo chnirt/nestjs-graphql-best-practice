@@ -4,47 +4,47 @@ const firstName = [
 	{
 		type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
 		constraints: [3],
-		message: 'Your firstName must be between 3 and 20 characters',
+		message: 'Your firstName must be between 3 and 20 characters'
 	},
 	{
 		type: 'maxLength',
 		constraints: [20],
-		message: 'Your firstName must be between 3 and 20 characters',
-	},
+		message: 'Your firstName must be between 3 and 20 characters'
+	}
 ]
 
 const lastName = [
 	{
 		type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
 		constraints: [3],
-		message: 'Your lastName must be between 3 and 20 characters.',
+		message: 'Your lastName must be between 3 and 20 characters.'
 	},
 	{
 		type: 'maxLength',
 		constraints: [20],
-		message: 'Your lastName must be between 3 and 20 characters.',
-	},
+		message: 'Your lastName must be between 3 and 20 characters.'
+	}
 ]
 
 const email = [
 	{
 		type: 'isEmail',
 		constraints: [{}],
-		message: 'Your email is invalid.',
-	},
+		message: 'Your email is invalid.'
+	}
 ]
 
 const password = [
 	{
 		type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
 		constraints: [1],
-		message: 'Your password must be between 1 and 8 characters.',
+		message: 'Your password must be between 1 and 8 characters.'
 	},
 	{
 		type: 'maxLength',
 		constraints: [8],
-		message: 'Your password must be between 1 and 8 characters.',
-	},
+		message: 'Your password must be between 1 and 8 characters.'
+	}
 ]
 
 const createUserValidation: ValidationSchema = {
@@ -54,8 +54,8 @@ const createUserValidation: ValidationSchema = {
 		firstName,
 		lastName,
 		email,
-		password,
-	},
+		password
+	}
 }
 
 const updateUserValidation: ValidationSchema = {
@@ -64,16 +64,16 @@ const updateUserValidation: ValidationSchema = {
 	properties: {
 		firstName,
 		lastName,
-		password,
-	},
+		password
+	}
 }
 
 export const loginUserValidation: ValidationSchema = {
 	name: 'loginUserRegister',
 	properties: {
 		email,
-		password,
-	},
+		password
+	}
 }
 
 registerSchema(createUserValidation)

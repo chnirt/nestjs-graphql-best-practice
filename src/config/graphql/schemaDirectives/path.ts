@@ -23,8 +23,8 @@ class PathDirective extends SchemaDirectiveVisitor {
 			const role = await getMongoRepository(Role).find({
 				where: {
 					userId: currentUser._id,
-					path: { $regex: `.*${path}|${path.toLowerCase()}.*` },
-				},
+					path: { $regex: `.*${path}|${path.toLowerCase()}.*` }
+				}
 			})
 
 			if (!role) {

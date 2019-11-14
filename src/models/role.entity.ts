@@ -5,8 +5,8 @@ import { Expose, plainToClass } from 'class-transformer'
 @Entity({
 	name: 'roles',
 	orderBy: {
-		createdAt: 'ASC',
-	},
+		createdAt: 'ASC'
+	}
 })
 export class Role {
 	@Expose()
@@ -33,7 +33,7 @@ export class Role {
 			Object.assign(
 				this,
 				plainToClass(Role, role, {
-					excludeExtraneousValues: true,
+					excludeExtraneousValues: true
 				})
 			)
 			this._id = this._id || uuid.v1()

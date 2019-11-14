@@ -3,7 +3,7 @@ import {
 	defaultFieldResolver,
 	GraphQLArgument,
 	GraphQLField,
-	GraphQLObjectType,
+	GraphQLObjectType
 } from 'graphql'
 import { validate } from 'class-validator'
 import { UserInputError } from 'apollo-server-core'
@@ -29,7 +29,7 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 			const { input } = args[1]
 
 			Logger.log(
-				`🧪  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
+				`🛡  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
 				'Validator',
 				false
 			)

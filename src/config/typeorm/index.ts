@@ -24,7 +24,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 			keepConnectionAlive: true,
-			logging: true,
+			logging: true
 		}
 		createConnection(options)
 			.then(data => {

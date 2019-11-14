@@ -10,7 +10,7 @@ export class RoleResolver {
 	@Query()
 	async roles(): Promise<Role[]> {
 		return getMongoRepository(Role).find({
-			cache: true,
+			cache: true
 		})
 	}
 
@@ -37,9 +37,9 @@ export class RoleResolver {
 		const foundPermissions = getMongoRepository(Permission).find({
 			where: {
 				_id: {
-					$in: permissions,
-				},
-			},
+					$in: permissions
+				}
+			}
 		})
 
 		if (!foundPermissions) {

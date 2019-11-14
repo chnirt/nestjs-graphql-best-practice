@@ -10,7 +10,7 @@ export class PositionResolver {
 	@Query()
 	async positions(): Promise<Position[]> {
 		return getMongoRepository(Position).find({
-			cache: true,
+			cache: true
 		})
 	}
 

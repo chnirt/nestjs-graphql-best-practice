@@ -67,4 +67,5 @@ type Query {
 type Mutation {
 	createNode(input: CreateNodeInput!): Node
 	updateNode(_id: ID!, parentId: ID!): Node
+	deleteNode(_id: ID!): Boolean
 }

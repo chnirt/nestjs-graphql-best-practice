@@ -1,6 +1,6 @@
 import {
 	SchemaDirectiveVisitor,
-	AuthenticationError,
+	AuthenticationError
 } from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 

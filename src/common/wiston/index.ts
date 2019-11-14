@@ -11,7 +11,7 @@ const config = {
 		info: 4,
 		verbose: 5,
 		silly: 6,
-		custom: 7,
+		custom: 7
 	},
 	colors: {
 		error: 'red',
@@ -21,8 +21,8 @@ const config = {
 		info: 'green',
 		verbose: 'cyan',
 		silly: 'magenta',
-		custom: 'yellow',
-	},
+		custom: 'yellow'
+	}
 }
 
 const myFormat = printf(({ level, message, label, timestamp }) => {
@@ -51,26 +51,26 @@ const logger = createLogger({
 		// new transports.Console(),
 		new transports.File({
 			filename: 'logs/info.log',
-			level: 'info',
+			level: 'info'
 		}),
 		new transports.File({
 			filename: 'logs/error.log',
-			level: 'error',
+			level: 'error'
 		}),
 		new transports.File({
 			filename: 'logs/warn.log',
-			level: 'warn',
+			level: 'warn'
 		}),
 		new transports.File({
 			filename: 'logs/debug.log',
-			level: 'debug',
+			level: 'debug'
 		}),
 		new transports.File({
 			filename: 'logs/verbose.log',
-			level: 'verbose',
-		}),
+			level: 'verbose'
+		})
 		// new transports.File({ filename: 'src/logs/combined.log' })
-	],
+	]
 })
 
 addColors(config.colors)

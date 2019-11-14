@@ -10,7 +10,7 @@ export class StoreResolver {
 	@Query()
 	async stores(): Promise<Store[]> {
 		return getMongoRepository(Store).find({
-			cache: true,
+			cache: true
 		})
 	}
 

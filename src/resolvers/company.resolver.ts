@@ -10,7 +10,7 @@ export class CompanyResolver {
 	@Query()
 	async companies(): Promise<Company[]> {
 		return getMongoRepository(Company).find({
-			cache: true,
+			cache: true
 		})
 	}
 

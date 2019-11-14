@@ -1,0 +1,12 @@
+type ProjectType {
+  _id: ID
+  name: String
+  description: String
+  ratio: Int
+  idTrello: String
+  isActive: String
+  createdAt: Float
+  createdBy: ID
+  updatedAt: Float
+  updatedBy: ID
+}

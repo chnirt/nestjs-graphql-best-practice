@@ -10,7 +10,7 @@ export class EmailResolver {
 	@Query()
 	async emails(): Promise<Email[]> {
 		return getMongoRepository(Email).find({
-			cache: true,
+			cache: true
 		})
 	}
 
@@ -22,7 +22,7 @@ export class EmailResolver {
 	@Mutation()
 	async openEmail(@Args('_id') _id: string): Promise<boolean> {
 		const email = await getMongoRepository(Email).findOne({
-			_id,
+			_id
 		})
 
 		if (!email) {
