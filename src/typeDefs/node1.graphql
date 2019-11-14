@@ -1,5 +1,10 @@
 enum NodeCategory {
+	# COMPANY # Acexis
+	# REGION # Bắc, Trung, Nam
+	# COUNTRY # Việt Nam
+	# CITY # HCM, HN
 	SITE # Sư Vạn Hạnh, Hoa Hồng
+	# STORE # Cửa hàng
 	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
 	POSITION # GD, TP, Nhân viên, Công tác viên
 }
@@ -24,20 +29,41 @@ type Node {
 	name: String!
 	code: String!
 	category: NodeCategory!
-	isActive: Boolean
+	path: String!
 	createdAt: Float!
-	createdBy: ID
 	updatedAt: Float!
-	updatedBy: ID
 }
 
+# type Permission {
+# 	_id: ID!
+# 	code: String!
+# 	description: String!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
+
+# type Role {
+# 	_id: ID!
+# 	name: String! # Leader, Developer, QC, Tester
+# 	nodeId: ID
+# 	permissions: [ID!]!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
+
+# type UserRole {
+# 	_id: ID!
+# 	userId: ID!
+# 	roleId: ID!
+# 	createdAt: Float!
+# 	updatedAt: Float!
+# }
+
 type Query {
-	nodes: [Node]
-	searchNodes(input: SearchNodeInput): [Node]
+	nodes(input: SearchNodeInput): [Node]
 }
 
 type Mutation {
 	createNode(input: CreateNodeInput!): Node
 	updateNode(_id: ID!, parentId: ID!): Node
-	deleteNode(_id: ID!): Boolean
 }

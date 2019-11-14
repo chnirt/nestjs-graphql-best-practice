@@ -1,5 +1,6 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
+
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Expose, plainToClass } from 'class-transformer'
 
 import { NodeCategory } from '../generator/graphql.schema'
@@ -33,14 +34,23 @@ export class Node {
 
 	@Expose()
 	@Column()
-	path: string
+	isActive: boolean
 
 	@Expose()
 	@Column()
 	createdAt: number
+
+	@Expose()
+	@Column()
+	createdBy: string
+
 	@Expose()
 	@Column()
 	updatedAt: number
+
+	@Expose()
+	@Column()
+	updatedBy: string
 
 	constructor(node: Partial<Node>) {
 		if (node) {
@@ -51,7 +61,7 @@ export class Node {
 				})
 			)
 			this._id = this._id || uuid.v1()
-			this.path = this.path ? `${this.path}/${this.code}` : this.code
+			this.isActive = this.isActive === undefined ? true : this.isActive
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

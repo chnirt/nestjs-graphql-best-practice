@@ -1,0 +1,13 @@
+type Project {
+  _id: ID
+  name: String
+  idProjectType: ID
+  description: String
+  idTrello: String
+  members: [ID]
+  isActive: Boolean
+  createdAt: Float
+  createdBy: ID
+  updatedAt: Float
+  updatedBy: ID
+}

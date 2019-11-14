@@ -1,6 +1,7 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
+import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
-import { ForbiddenError } from 'apollo-server-core'
+import { ForbiddenError, ApolloError } from 'apollo-server-core'
+import { User } from './../models/user.entity'
 
 import { Node } from '@models'
 import {
@@ -12,7 +13,19 @@ import {
 @Resolver('Node')
 export class NodeResolver {
 	@Query()
-	async nodes(@Args('input') input: SearchNodeInput): Promise<Node[]> {
+	async nodes(): Promise<Node[]> {
+		try {
+			return await getMongoRepository(Node).find({
+				where: { isActive: true },
+				cache: true
+			})
+		} catch (error) {
+			throw new ApolloError(error)
+		}
+	}
+
+	@Query()
+	async searchNodes(@Args('input') input: SearchNodeInput): Promise<Node[]> {
 		console.log('aaaa')
 		console.log(input && input)
 		// const whereArray = [text, code]
@@ -55,74 +68,88 @@ export class NodeResolver {
 	}
 
 	@Mutation()
-	async createNode(@Args('input') input: CreateNodeInput): Promise<Node> {
-		const { parentId, code, category } = input
+	async createNode(
+		@Args('input') input: CreateNodeInput,
+		@Context('currentUser') currentUser: User
+	): Promise<Node> {
+		console.log(input)
+		return null
+		// 	const { parentId, code, category } = input
 
-		// const node = await getMongoRepository(Node).findOne({ code })
+		// 	// const node = await getMongoRepository(Node).findOne({ code })
 
-		// if (node) {
-		// 	throw new ForbiddenError('Node already exists.')
+		// 	// if (node) {
+		// 	// 	throw new ForbiddenError('Node already exists.')
+		// 	// }
+
+		// 	if (parentId) {
+		// 		if (category === NodeCategory.SITE && parentId.length >= 0) {
+		// 			throw new ForbiddenError('category is SITE dont need parentId.')
+		// 		}
+
+		// 		const nodeByParentId = await getMongoRepository(Node).findOne({
+		// 			_id: parentId
+		// 		})
+
+		// 		if (!nodeByParentId) {
+		// 			throw new ForbiddenError('Node not found.')
+		// 		}
+
+		// 		const node = await getMongoRepository(Node).findOne({ code })
+
+		// 		if (node) {
+		// 			throw new ForbiddenError('Node already exists.')
+		// 		}
+
+		// 		const newNode = await getMongoRepository(Node).save(
+		// 			new Node({
+		// 				...input,
+		// 				createdBy: currentUser._id,
+		// 				updatedBy: currentUser._id
+		// 			})
+		// 		)
+
+		// 		return newNode
+		// 	}
+
+		// 	const newNode = await getMongoRepository(Node).save(
+		// 		new Node({
+		// 			...input,
+		// 			createdBy: currentUser._id,
+		// 			updatedBy: currentUser._id
+		// 		})
+		// 	)
+
+		// 	return newNode
 		// }
 
-		if (parentId) {
-			if (category === NodeCategory.COMPANY && parentId.length >= 0) {
-				throw new ForbiddenError('category is COMPANY dont need parentId.')
-			}
+		// @Mutation()
+		// async updateNode(
+		// 	@Args('_id') _id: string,
+		// 	@Args('parentId') parentId: string,
+		// 	@Context('currentUser') currentUser: User
+		// ): Promise<Node> {
+		// 	const node = await getMongoRepository(Node).findOne({ _id })
 
-			const nodeByParentId = await getMongoRepository(Node).findOne({
-				_id: parentId
-			})
+		// 	if (!node) {
+		// 		throw new ForbiddenError('Node not found.')
+		// 	}
 
-			if (!nodeByParentId) {
-				throw new ForbiddenError('Node not found.')
-			}
+		// 	const nodeByParentId = await getMongoRepository(Node).findOne({
+		// 		_id: parentId
+		// 	})
 
-			const path = `${nodeByParentId.path}/${code}`
+		// 	if (!nodeByParentId) {
+		// 		throw new ForbiddenError('Node by parentId not found.')
+		// 	}
 
-			const node = await getMongoRepository(Node).findOne({ path })
+		// 	node.parentId = parentId
+		// 	node.code = node.code.replace(/[A-Z]+_/, `${nodeByParentId.code}_`)
 
-			if (node) {
-				throw new ForbiddenError('Node already exists.')
-			}
+		// 	const updatedNode = await getMongoRepository(Node).save(
+		// 		new Node({ ...node, updatedBy: currentUser._id })
+		// 	)
 
-			const newNode = await getMongoRepository(Node).save(
-				new Node({ ...input, path: nodeByParentId.path })
-			)
-
-			return newNode
-		}
-
-		const newNode = await getMongoRepository(Node).save(new Node({ ...input }))
-
-		return newNode
-	}
-
-	@Mutation()
-	async updateNode(
-		@Args('_id') _id: string,
-		@Args('parentId') parentId: string
-	): Promise<Node> {
-		const node = await getMongoRepository(Node).findOne({ _id })
-
-		if (!node) {
-			throw new ForbiddenError('Node not found.')
-		}
-
-		const nodeByParentId = await getMongoRepository(Node).findOne({
-			_id: parentId
-		})
-
-		if (!nodeByParentId) {
-			throw new ForbiddenError('Node by parentId not found.')
-		}
-
-		node.parentId = parentId
-		node.path = nodeByParentId.path
-
-		const updatedNode = await getMongoRepository(Node).save(
-			new Node({ ...node })
-		)
-
-		return updatedNode
+		// 	return updatedNode
 	}
 }

@@ -2,10 +2,22 @@ type Permission {
 	_id: ID!
 	code: String!
 	description: String!
+	isActive: Boolean
 	createdAt: Float!
 	updatedAt: Float!
 }
 
 type Query {
 	permissions: [Permission!]
+}
+
+input PermissionInput {
+	code: String!
+	description: String!
+}
+
+type Mutation {
+	createPermission(input: PermissionInput!): Boolean
+	updatePermission(id: ID!, input: PermissionInput!): Boolean
+	deletePermission(id: ID!): Boolean
 }
