@@ -29,7 +29,6 @@ export const generateToken = async (user: User): Promise<string> => {
 		{
 			issuer: ISSUER!,
 			subject: user._id
-			// audience: user.local.email
 		},
 		ACCESS_TOKEN_SECRET!,
 		{
@@ -55,7 +54,6 @@ export const generateRefreshToken = async (user: User): Promise<string> => {
 		{
 			issuer: ISSUER!,
 			subject: user._id
-			// audience: user.local.email
 		},
 		REFRESH_TOKEN_SECRET!,
 		{
@@ -81,7 +79,6 @@ export const generateResetPassToken = async (user: User): Promise<string> => {
 		{
 			issuer: ISSUER!,
 			subject: user._id
-			// audience: user.local.email
 		},
 		RESETPASS_TOKEN_SECRET!,
 		{
@@ -107,7 +104,6 @@ export const generateEmailToken = async (user: User): Promise<string> => {
 		{
 			issuer: ISSUER!,
 			subject: user._id
-			// audience: user.local.email
 		},
 		EMAIL_TOKEN_SECRET!,
 		{
@@ -134,8 +130,7 @@ export const tradeToken = async (user: User): Promise<LoginResponse> => {
 	}
 
 	if (!user.isActive) {
-		// tslint:disable-next-line:quotemark
-		throw new ForbiddenError("User already doestn't exist.")
+		throw new ForbiddenError('User already doesn\'t exist.')
 	}
 
 	if (user.isLocked) {

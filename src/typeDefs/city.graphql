@@ -1,0 +1,19 @@
+input CreateCityInput {
+	name: String!
+}
+
+type City {
+	_id: ID!
+	name: String
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	cities: [City]
+}
+
+type Mutation {
+	createCity(input: CreateCityInput!): City
+}

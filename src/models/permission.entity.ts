@@ -29,7 +29,6 @@ export class Permission {
 	@Expose()
 	@Column()
 	createdAt: number
-
 	@Expose()
 	@Column()
 	updatedAt: number

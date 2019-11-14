@@ -1,6 +1,6 @@
 import { Controller, Get, Param, Res } from '@nestjs/common'
 
-import { STATIC } from '@environments'
+import { STATIC } from './environments'
 
 @Controller()
 export class AppController {

@@ -1,0 +1,19 @@
+input CreateStoreInput {
+	name: String!
+}
+
+type Store {
+	_id: ID!
+	name: String
+  isActive: Boolean!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	stores: [Store]
+}
+
+type Mutation {
+	createStore(input: CreateStoreInput!): Store
+}

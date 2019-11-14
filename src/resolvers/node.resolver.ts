@@ -14,20 +14,6 @@ import {
 export class NodeResolver {
 	@Query()
 	async nodes(): Promise<Node[]> {
-		try {
-			return await getMongoRepository(Node).find({
-				where: { isActive: true },
-				cache: true
-			})
-		} catch (error) {
-			throw new ApolloError(error)
-		}
-	}
-
-	@Query()
-	async searchNodes(@Args('input') input: SearchNodeInput): Promise<Node[]> {
-		console.log('aaaa')
-		console.log(input && input)
 		// const whereArray = [text, code]
 		// // const obj = { name: { $regex: ele, $options: 'si' } }
 		// const where = {}
@@ -68,57 +54,150 @@ export class NodeResolver {
 	}
 
 	@Mutation()
-	async createNode(
-		@Args('input') input: CreateNodeInput,
-		@Context('currentUser') currentUser: User
-	): Promise<Node> {
-		console.log(input)
-		return null
-		// 	const { parentId, code, category } = input
+	async createNode(@Args('input') input: CreateNodeInput): Promise<Node> {
+		const { parentId, name, category } = input
+		// }
+		const { CITY, STORE, DEPARTMENT, POSITION, JOB } = NodeCategory
 
-		// 	// const node = await getMongoRepository(Node).findOne({ code })
+		let foundNode
+		let node
 
-		// 	// if (node) {
-		// 	// 	throw new ForbiddenError('Node already exists.')
-		// 	// }
+		switch (category) {
+			case CITY:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						city: {
+							name
+						}
+					}
+				})
 
-		// 	if (parentId) {
-		// 		if (category === NodeCategory.SITE && parentId.length >= 0) {
-		// 			throw new ForbiddenError('category is SITE dont need parentId.')
-		// 		}
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
 
-		// 		const nodeByParentId = await getMongoRepository(Node).findOne({
-		// 			_id: parentId
-		// 		})
+				node = {
+					...input,
+					city: {
+						name
+					}
+				}
+				break
 
-		// 		if (!nodeByParentId) {
-		// 			throw new ForbiddenError('Node not found.')
-		// 		}
+			case STORE:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						store: {
+							name
+						}
+					}
+				})
 
-		// 		const node = await getMongoRepository(Node).findOne({ code })
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
 
-		// 		if (node) {
-		// 			throw new ForbiddenError('Node already exists.')
-		// 		}
+				node = {
+					...input,
+					store: {
+						name
+					}
+				}
+				break
 
-		// 		const newNode = await getMongoRepository(Node).save(
-		// 			new Node({
-		// 				...input,
-		// 				createdBy: currentUser._id,
-		// 				updatedBy: currentUser._id
-		// 			})
-		// 		)
+			case DEPARTMENT:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						department: {
+							name
+						}
+					}
+				})
 
-		// 		return newNode
-		// 	}
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
 
-		// 	const newNode = await getMongoRepository(Node).save(
-		// 		new Node({
-		// 			...input,
-		// 			createdBy: currentUser._id,
-		// 			updatedBy: currentUser._id
-		// 		})
-		// 	)
+				node = {
+					...input,
+					department: {
+						name
+					}
+				}
+				break
+
+			case POSITION:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						position: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					position: {
+						name
+					}
+				}
+				break
+
+			case JOB:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						job: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					job: {
+						name
+					}
+				}
+				break
+
+			default:
+				if (parentId) {
+					throw new ForbiddenError('category is COMPANY don\'t need parentId.')
+				}
+
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						company: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					company: {
+						name
+					}
+				}
+		}
+
+		const newNode = await getMongoRepository(Node).save(
+			new Node({
+				...node
+			})
+		)
 
 		// 	return newNode
 		// }
@@ -135,21 +214,22 @@ export class NodeResolver {
 		// 		throw new ForbiddenError('Node not found.')
 		// 	}
 
-		// 	const nodeByParentId = await getMongoRepository(Node).findOne({
-		// 		_id: parentId
-		// 	})
+		// const nodeByParentId = await getMongoRepository(Node).findOne({
+		// 	_id: parentId
+		// })
 
-		// 	if (!nodeByParentId) {
-		// 		throw new ForbiddenError('Node by parentId not found.')
-		// 	}
+		// if (!nodeByParentId) {
+		// 	throw new ForbiddenError('Node by parentId not found.')
+		// }
 
-		// 	node.parentId = parentId
-		// 	node.code = node.code.replace(/[A-Z]+_/, `${nodeByParentId.code}_`)
+		// node.parentId = parentId
+		// node.path = nodeByParentId.path
 
-		// 	const updatedNode = await getMongoRepository(Node).save(
-		// 		new Node({ ...node, updatedBy: currentUser._id })
-		// 	)
+		// const updatedNode = await getMongoRepository(Node).save(
+		// 	new Node({ ...node })
+		// )
 
-		// 	return updatedNode
+		// return updatedNode
+		return null
 	}
 }

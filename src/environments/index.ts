@@ -9,7 +9,7 @@ const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
 const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
-const PORT: number = +process.env.PORT || 11047
+const PORT: number = +process.env.PORT || 14047
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'
 const FE_URL: string = process.env.FE_URL || 'xxx'
@@ -59,9 +59,11 @@ const MAIL_USER: string = process.env.MAIL_USER || 'xxx'
 const MAIL_PASS: string = process.env.MAIL_PASS || 'xxx'
 
 // cloudinary
-const CLOUD_NAME: string = process.env.CLOUD_NAME || 'xxx'
-const API_KEY: string = process.env.API_KEY || 'xxx'
-const API_SECRET: string = process.env.API_SECRET || 'xxx'
+const CLOUDINARY_NAME: string = process.env.CLOUDINARY_NAME || 'chnirt'
+const CLOUDINARY_API_KEY: string =
+	process.env.CLOUDINARY_API_KEY || '475584948229723'
+const CLOUDINARY_API_SECRET: string =
+	process.env.CLOUDINARY_API_SECRET || 'Duno2be58mE2lCFLcuOssGKG54c'
 
 // pubsub
 const NOTIFICATION_SUBSCRIPTION: string = 'newNotification'
@@ -120,9 +122,9 @@ export {
 	SALT,
 	MAIL_USER,
 	MAIL_PASS,
-	CLOUD_NAME,
-	API_KEY,
-	API_SECRET,
+	CLOUDINARY_NAME,
+	CLOUDINARY_API_KEY,
+	CLOUDINARY_API_SECRET,
 	USER_SUBSCRIPTION,
 	NOTIFICATION_SUBSCRIPTION,
 	MESSAGES_SUBSCRIPTION,

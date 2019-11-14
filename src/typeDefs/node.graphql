@@ -1,39 +1,67 @@
 enum NodeCategory {
-	SITE # Sư Vạn Hạnh, Hoa Hồng
+	COMPANY # Acexis
+	# REGION # Bắc, Trung, Nam
+	# COUNTRY # Việt Nam
 	DEPARTMENT # Nhân sự, Kết toán, Lập trình nhúng, Phần mềm
+	CITY # HCM, HN
+	# SITE # Sư Vạn Hạnh, Hoa Hồng
+	STORE # Cửa hàng
 	POSITION # GD, TP, Nhân viên, Công tác viên
+	JOB # Leader, Developer, QC, Tester
 }
 
 input SearchNodeInput {
 	parentId: ID
 	name: String
-	code: String
 	category: NodeCategory
 }
 
 input CreateNodeInput {
 	parentId: ID
 	name: String!
-	code: String!
 	category: NodeCategory!
+}
+
+# type Company {
+# 	name: String!
+# }
+
+# type City {
+# 	name: String
+# }
+
+# type Store {
+# 	name: String
+# }
+
+# type Department {
+# 	name: String
+# }
+
+# type Position {
+# 	name: String
+# }
+
+type Job {
+	name: String
 }
 
 type Node {
 	_id: ID!
 	parentId: ID
-	name: String!
-	code: String!
-	category: NodeCategory!
-	isActive: Boolean
+	category: NodeCategory
+	company: Company
+	city: City
+	store: Store
+	department: Department
+	position: Position
+	job: Job
 	createdAt: Float!
-	createdBy: ID
 	updatedAt: Float!
-	updatedBy: ID
 }
 
 type Query {
 	nodes: [Node]
-	searchNodes(input: SearchNodeInput): [Node]
 }
 
 type Mutation {

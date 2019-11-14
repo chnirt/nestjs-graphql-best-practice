@@ -53,7 +53,7 @@
 		"cache-manager": "^2.10.0",
 		"chai": "^4.2.0",
 		"class-transformer": "^0.2.3",
-		"cloudinary": "^1.16.0",
+		"cloudinary": "1.16.0",
 		"cron": "^1.7.2",
 		"csurf": "^1.10.0",
 		"dateformat": "^3.0.3",
@@ -139,6 +139,7 @@
 	"lint-staged": {
 		"*.ts": [
 			"yarn format",
+			"yarn lint:fix",
 			"git add"
 		]
 	},

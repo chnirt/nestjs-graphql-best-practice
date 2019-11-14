@@ -1,9 +1,16 @@
 import * as uuid from 'uuid'
 
+import {
+	City,
+	Company,
+	Department,
+	Job,
+	NodeCategory,
+	Position,
+	Store
+} from '../generator/graphql.schema'
 import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Expose, plainToClass } from 'class-transformer'
-
-import { NodeCategory } from '../generator/graphql.schema'
 
 @Entity({
 	name: 'nodes',
@@ -26,15 +33,27 @@ export class Node {
 
 	@Expose()
 	@Column()
-	name: string
+	company: Company
 
 	@Expose()
 	@Column()
-	code: string
+	city: City
 
 	@Expose()
 	@Column()
-	isActive: boolean
+	store: Store
+
+	@Expose()
+	@Column()
+	department: Department
+
+	@Expose()
+	@Column()
+	position: Position
+
+	@Expose()
+	@Column()
+	job: Job
 
 	@Expose()
 	@Column()
@@ -61,7 +80,6 @@ export class Node {
 				})
 			)
 			this._id = this._id || uuid.v1()
-			this.isActive = this.isActive === undefined ? true : this.isActive
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

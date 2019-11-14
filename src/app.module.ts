@@ -1,25 +1,32 @@
+import {
+	AuthResolver,
+	CityResolver,
+	CompanyResolver,
+	DepartmentResolver,
+	EmailResolver,
+	FileResolver,
+	FormResolver,
+	MessageResolver,
+	NodeResolver,
+	NotificationResolver,
+	PermissionResolver,
+	PositionResolver,
+	ResultResolver,
+	RoleResolver,
+	RoomResolver,
+	StoreResolver,
+	TranslateResolver,
+	UserResolver,
+	UserResultResolver
+} from './resolvers'
 import { CacheModule, Module } from '@nestjs/common'
 import { CacheService, GraphqlService, TypeormService } from './config'
 
 import { AppController } from './app.controller'
-import { AuthResolver } from './resolvers/auth.resolver'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
-import { EmailResolver } from './resolvers/email.resolver'
-import { FileResolver } from './resolvers/file.resolver'
-import { FormResolver } from './resolvers/form.resolver'
 import { GraphQLModule } from '@nestjs/graphql'
-import { MessageResolver } from './resolvers/message.resolver'
-import { NodeResolver } from './resolvers/node.resolver'
-import { NotificationResolver } from './resolvers/notification.resolver'
-import { PermissionResolver } from './resolvers/permission.resolver'
-import { ResultResolver } from './resolvers/result.resolver'
-import { RoleResolver } from './resolvers/role.resolver'
-import { RoomResolver } from './resolvers/room.resolver'
-import { TranslateResolver } from './resolvers/translate.resolver'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
-import { UserResolver } from './resolvers/user.resolver'
-import { UserResultResolver } from './resolvers/userResult.resolver'
 
 @Module({
 	imports: [
@@ -50,7 +57,18 @@ import { UserResultResolver } from './resolvers/userResult.resolver'
 		MessageResolver,
 		FormResolver,
 		NodeResolver,
-		TranslateResolver
+		TranslateResolver,
+		CompanyResolver,
+		CityResolver,
+		StoreResolver,
+		DepartmentResolver,
+		PositionResolver
 	]
 })
 export class AppModule {}
+
+// const a = [1,2]
+// const b = [3,4]
+
+// const c = [1,2, ...b]
+// const d = [1,2,3,4]
