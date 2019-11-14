@@ -170,7 +170,7 @@ export class NodeResolver {
 
 			default:
 				if (parentId) {
-					throw new ForbiddenError("category is COMPANY don't need parentId.")
+					throw new ForbiddenError('category is COMPANY don\'t need parentId.')
 				}
 
 				foundNode = await getMongoRepository(Node).findOne({
