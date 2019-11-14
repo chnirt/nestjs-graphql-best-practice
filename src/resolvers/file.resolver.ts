@@ -35,17 +35,18 @@ export class FileResolver {
 	async uploadFileLocal(
 		@Args('file') file: any,
 		@Context('req') req: any
-	): Promise<File> {
+	): Promise<any> {
 		const { filename, createReadStream, mimetype } = file
 		// console.log(req.headers.host)
 		const convertFilename = `${uuid.v1()}.${mimetype.split('/')[1]}`
 		let path
-		await new Promise(res =>
+		path = await new Promise(async (resolve, reject) =>
 			createReadStream(file).pipe(
-				createWriteStream(`./uploads/${convertFilename}`)
+				createWriteStream(`./static/${convertFilename}`)
 					.on('error', err => {
 						console.log('Error upload ', err)
-						throw new ApolloError(err)
+
+						reject(err)
 					})
 					.on('finish', async () => {
 						// console.log(
@@ -53,17 +54,14 @@ export class FileResolver {
 						// 	`${req.headers.host}/uploads/${convertFilename}`
 						// )
 
-						path = `${req.headers.host}/uploads/${convertFilename}`
+						const link = `${req.headers.host}/static/${convertFilename}`
 
-						return await getMongoRepository(File).save(
-							new File({
-								filename,
-								path
-							})
-						)
+						resolve(link)
 					})
 			)
 		)
+
+		// console.log(path)
 
 		const newFile = await getMongoRepository(File).save(
 			new File({ filename, path })

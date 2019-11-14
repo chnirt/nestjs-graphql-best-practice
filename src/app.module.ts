@@ -1,33 +1,32 @@
-import { Module, CacheModule } from '@nestjs/common'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { GraphQLModule } from '@nestjs/graphql'
-
-import { AppController } from './app.controller'
-import { CacheService, TypeormService, GraphqlService } from './config'
-import { DateScalar } from './config/graphql/scalars/date.scalar'
-import { UploadScalar } from './config/graphql/scalars/upload.scalar'
-
 import {
-	UserResolver,
-	ResultResolver,
-	UserResultResolver,
 	AuthResolver,
+	CityResolver,
+	CompanyResolver,
+	DepartmentResolver,
 	EmailResolver,
 	FileResolver,
-	PermissionResolver,
-	RoleResolver,
-	NotificationResolver,
-	RoomResolver,
-	MessageResolver,
 	FormResolver,
+	MessageResolver,
 	NodeResolver,
-	TranslateResolver,
-	CompanyResolver,
-	CityResolver,
+	NotificationResolver,
+	PermissionResolver,
+	PositionResolver,
+	ResultResolver,
+	RoleResolver,
+	RoomResolver,
 	StoreResolver,
-	DepartmentResolver,
-	PositionResolver
+	TranslateResolver,
+	UserResolver,
+	UserResultResolver
 } from './resolvers'
+import { CacheModule, Module } from '@nestjs/common'
+import { CacheService, GraphqlService, TypeormService } from './config'
+
+import { AppController } from './app.controller'
+import { DateScalar } from './config/graphql/scalars/date.scalar'
+import { GraphQLModule } from '@nestjs/graphql'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 
 @Module({
 	imports: [

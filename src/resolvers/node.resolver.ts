@@ -1,6 +1,7 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
+import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
-import { ForbiddenError } from 'apollo-server-core'
+import { ForbiddenError, ApolloError } from 'apollo-server-core'
+import { User } from './../models/user.entity'
 
 import { Node } from '@models'
 import {
@@ -169,7 +170,7 @@ export class NodeResolver {
 
 			default:
 				if (parentId) {
-					throw new ForbiddenError('category is COMPANY don\'t need parentId.')
+					throw new ForbiddenError("category is COMPANY don't need parentId.")
 				}
 
 				foundNode = await getMongoRepository(Node).findOne({
@@ -198,19 +199,20 @@ export class NodeResolver {
 			})
 		)
 
-		return newNode
-	}
+		// 	return newNode
+		// }
 
-	@Mutation()
-	async updateNode(
-		@Args('_id') _id: string,
-		@Args('parentId') parentId: string
-	): Promise<Node> {
-		const node = await getMongoRepository(Node).findOne({ _id })
+		// @Mutation()
+		// async updateNode(
+		// 	@Args('_id') _id: string,
+		// 	@Args('parentId') parentId: string,
+		// 	@Context('currentUser') currentUser: User
+		// ): Promise<Node> {
+		// 	const node = await getMongoRepository(Node).findOne({ _id })
 
-		if (!node) {
-			throw new ForbiddenError('Node not found.')
-		}
+		// 	if (!node) {
+		// 		throw new ForbiddenError('Node not found.')
+		// 	}
 
 		// const nodeByParentId = await getMongoRepository(Node).findOne({
 		// 	_id: parentId

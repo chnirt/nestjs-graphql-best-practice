@@ -1,5 +1,6 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
+
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
@@ -31,4 +32,19 @@ export class Permission {
 	@Expose()
 	@Column()
 	updatedAt: number
+
+	constructor(permission: Partial<Permission>) {
+		if (permission) {
+			Object.assign(
+				this,
+				plainToClass(Permission, permission, {
+					excludeExtraneousValues: true
+				})
+			)
+			this._id = this._id || uuid.v1()
+			this.isActive = this.isActive === undefined ? true : this.isActive
+			this.createdAt = this.createdAt || +new Date()
+			this.updatedAt = +new Date()
+		}
+	}
 }

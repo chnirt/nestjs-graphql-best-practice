@@ -1,16 +1,16 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm'
 import * as uuid from 'uuid'
-import { Expose, plainToClass } from 'class-transformer'
 
 import {
-	NodeCategory,
-	Company,
 	City,
-	Store,
+	Company,
 	Department,
+	Job,
+	NodeCategory,
 	Position,
-	Job
+	Store
 } from '../generator/graphql.schema'
+import { Column, Entity, ObjectIdColumn } from 'typeorm'
+import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
 	name: 'nodes',
@@ -58,9 +58,18 @@ export class Node {
 	@Expose()
 	@Column()
 	createdAt: number
+
+	@Expose()
+	@Column()
+	createdBy: string
+
 	@Expose()
 	@Column()
 	updatedAt: number
+
+	@Expose()
+	@Column()
+	updatedBy: string
 
 	constructor(node: Partial<Node>) {
 		if (node) {

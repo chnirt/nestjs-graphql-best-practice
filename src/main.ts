@@ -76,7 +76,7 @@ async function bootstrap() {
 				windowMs: 1000 * 60 * 60, // an hour
 				max: RATE_LIMIT_MAX!, // limit each IP to 100 requests per windowMs
 				message:
-					'Too many request created from this IP, please try again after an hour'
+					'⚠️  Too many request created from this IP, please try again after an hour'
 			})
 		)
 
@@ -146,13 +146,13 @@ async function bootstrap() {
 
 		NODE_ENV !== 'production'
 			? Logger.log(
-					`🚀  Server ready at http://${DOMAIN!}:${chalk
+					`🎯  Server ready at http://${DOMAIN!}:${chalk
 						.hex('#87e8de')
 						.bold(`${PORT!}`)}/${END_POINT!}`,
 					'Bootstrap'
 			  )
 			: Logger.log(
-					`🚀  Server is listening on port ${chalk
+					`🎯  Server is listening on port ${chalk
 						.hex('#87e8de')
 						.bold(`${PORT!}`)}`,
 					'Bootstrap'
@@ -160,7 +160,7 @@ async function bootstrap() {
 
 		NODE_ENV !== 'production' &&
 			Logger.log(
-				`🚀  Subscriptions ready at ws://${DOMAIN!}:${chalk
+				`🎯  Subscriptions ready at ws://${DOMAIN!}:${chalk
 					.hex('#87e8de')
 					.bold(`${PORT!}`)}/${END_POINT!}`,
 				'Bootstrap'

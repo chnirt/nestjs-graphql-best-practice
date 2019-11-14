@@ -24,6 +24,7 @@ type Mutation {
 # 	_id: ID!
 # 	userId: ID!
 # 	roleId: ID!
+# 	active: Boolean!
 # 	createdAt: Float!
 # 	updatedAt: Float!
 # }

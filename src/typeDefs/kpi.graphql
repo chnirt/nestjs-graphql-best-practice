@@ -1,0 +1,11 @@
+type KPI {
+  _id: ID
+  month: Int
+  belongTo: ID
+  spentTotal: Float
+  isActive: Boolean
+  createdAt: Float
+  createdBy: ID
+  updatedAt: Float
+  updatedBy: ID
+}

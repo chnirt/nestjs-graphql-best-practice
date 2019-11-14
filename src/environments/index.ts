@@ -55,8 +55,8 @@ const RESETPASS_TOKEN_SECRET: string =
 const SALT: number = +process.env.SALT || 10
 
 // nodemailer
-const MAIL_USER: string = process.env.MAIL_USER || 'xxx'
-const MAIL_PASS: string = process.env.MAIL_PASS || 'xxx'
+const NODEMAILER_USER: string = process.env.NODEMAILER_USER || 'xxx'
+const NODEMAILER_PASS: string = process.env.NODEMAILER_PASS || 'xxx'
 
 // cloudinary
 const CLOUDINARY_NAME: string = process.env.CLOUDINARY_NAME || 'chnirt'
@@ -120,8 +120,8 @@ export {
 	EMAIL_TOKEN,
 	EMAIL_TOKEN_SECRET,
 	SALT,
-	MAIL_USER,
-	MAIL_PASS,
+	NODEMAILER_USER,
+	NODEMAILER_PASS,
 	CLOUDINARY_NAME,
 	CLOUDINARY_API_KEY,
 	CLOUDINARY_API_SECRET,
