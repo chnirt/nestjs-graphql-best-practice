@@ -1,8 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm'
-import { getMetadataArgsStorage, createConnection } from 'typeorm'
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm'
+import { createConnection, getMetadataArgsStorage } from 'typeorm'
 
 import config from '../../config.orm'
+
 // import { logger } from '../../common'
 
 @Injectable()

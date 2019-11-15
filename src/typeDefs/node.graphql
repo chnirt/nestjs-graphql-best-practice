@@ -22,6 +22,12 @@ input CreateNodeInput {
 	category: NodeCategory!
 }
 
+input UpdateNodeInput {
+	parentId: ID
+	name: String!
+	category: NodeCategory!
+}
+
 # type Company {
 # 	name: String!
 # }
@@ -49,13 +55,16 @@ type Job {
 type Node {
 	_id: ID!
 	parentId: ID
+	name: String
+	code: String
 	category: NodeCategory
-	company: Company
-	city: City
-	store: Store
-	department: Department
-	position: Position
-	job: Job
+	# company: Company
+	# city: City
+	# store: Store
+	# department: Department
+	# position: Position
+	# job: Job
+	isActive: Boolean
 	createdAt: Float!
 	updatedAt: Float!
 }
@@ -66,6 +75,6 @@ type Query {
 
 type Mutation {
 	createNode(input: CreateNodeInput!): Node
-	updateNode(_id: ID!, parentId: ID!): Node
+	updateNode(_id: ID!, input: UpdateNodeInput!): Node
 	deleteNode(_id: ID!): Boolean
 }

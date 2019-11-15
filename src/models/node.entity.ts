@@ -29,31 +29,43 @@ export class Node {
 
 	@Expose()
 	@Column()
+	name: string
+
+	@Expose()
+	@Column()
+	code: string
+
+	@Expose()
+	@Column()
 	category: NodeCategory
 
-	@Expose()
-	@Column()
-	company: Company
+	// @Expose()
+	// @Column()
+	// company: Company
+
+	// @Expose()
+	// @Column()
+	// city: City
+
+	// @Expose()
+	// @Column()
+	// store: Store
+
+	// @Expose()
+	// @Column()
+	// department: Department
+
+	// @Expose()
+	// @Column()
+	// position: Position
+
+	// @Expose()
+	// @Column()
+	// job: Job
 
 	@Expose()
 	@Column()
-	city: City
-
-	@Expose()
-	@Column()
-	store: Store
-
-	@Expose()
-	@Column()
-	department: Department
-
-	@Expose()
-	@Column()
-	position: Position
-
-	@Expose()
-	@Column()
-	job: Job
+	isActive: boolean
 
 	@Expose()
 	@Column()
@@ -79,7 +91,14 @@ export class Node {
 					excludeExtraneousValues: true
 				})
 			)
+			this.code = !this.name.trim().match(/\s/)
+				? this.name.toUpperCase()
+				: ` ${this.name}`
+						.match(/\s./g)
+						.map(n => n.trim().toUpperCase())
+						.join('')
 			this._id = this._id || uuid.v1()
+			this.isActive = this.isActive === undefined ? true : this.isActive
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}
