@@ -1,0 +1,13 @@
+type Tree {
+  _id: ID
+  treeData: JSONObject
+}
+
+type Query {
+  tree: Tree
+}
+
+type Mutation {
+  createTree(input: JSONObject): Boolean
+  updateTree(input: JSONObject, _id: ID): Boolean
+}

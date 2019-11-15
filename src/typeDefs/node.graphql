@@ -49,6 +49,7 @@ type Job {
 type Node {
 	_id: ID!
 	parentId: ID
+	name: String
 	category: NodeCategory
 	company: Company
 	city: City

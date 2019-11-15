@@ -29,6 +29,10 @@ export class Node {
 
 	@Expose()
 	@Column()
+	name: string
+
+	@Expose()
+	@Column()
 	category: NodeCategory
 
 	@Expose()
