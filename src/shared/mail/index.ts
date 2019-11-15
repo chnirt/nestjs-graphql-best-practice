@@ -3,7 +3,13 @@ import * as handlebars from 'handlebars'
 import * as fs from 'fs'
 import { User } from '@models'
 
-import { AUTHOR, END_POINT, ISSUER, MAIL_USER, MAIL_PASS } from '@environments'
+import {
+	AUTHOR,
+	END_POINT,
+	ISSUER,
+	NODEMAILER_USER,
+	NODEMAILER_PASS
+} from '@environments'
 
 type Type = 'verifyEmail' | 'forgotPassword'
 
@@ -32,8 +38,8 @@ export const sendMail = async (
 	const transporter = await nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: MAIL_USER!,
-			pass: MAIL_PASS!
+			user: NODEMAILER_USER!,
+			pass: NODEMAILER_PASS!
 		}
 	})
 
@@ -95,7 +101,7 @@ export const sendMail = async (
 		const htmlToSend = template(replacements[type])
 
 		const mailOptions = {
-			from: 'Chnirt  📮:' + MAIL_USER, // sender address
+			from: 'Chnirt  📮:' + NODEMAILER_USER, // sender address
 			to: user.local.email, // list of receivers
 			subject: replacements[type].subject,
 			html: htmlToSend,
