@@ -1,0 +1,16 @@
+{
+	"version": 2,
+	"name": "nestjs-graphql-best-practice",
+	"build": [
+		{
+			"src": "dist/main.js",
+			"use": "@now/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/(.*)",
+			"dest": "dist/main.js"
+		}
+	]
+}
