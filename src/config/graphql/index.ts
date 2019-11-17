@@ -22,6 +22,7 @@ import { User } from '@models'
 
 import {
 	NODE_ENV,
+	PRIMARY_COLOR,
 	END_POINT,
 	FE_URL,
 	GRAPHQL_DEPTH_LIMIT,
@@ -123,7 +124,7 @@ export class GraphqlService implements GqlOptionsFactory {
 						if (depths[''] === GRAPHQL_DEPTH_LIMIT! - 1) {
 							Logger.warn(
 								`⚠️  You can only descend ${chalk
-									.hex('#87e8de')
+									.hex(PRIMARY_COLOR!)
 									.bold(`${GRAPHQL_DEPTH_LIMIT!}`)} levels.`,
 								'GraphQL',
 								false

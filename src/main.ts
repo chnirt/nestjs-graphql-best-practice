@@ -26,6 +26,7 @@ import '@validations'
 
 import {
 	NODE_ENV,
+	PRIMARY_COLOR,
 	DOMAIN,
 	PORT,
 	END_POINT,
@@ -146,22 +147,22 @@ async function bootstrap() {
 
 		NODE_ENV !== 'production'
 			? Logger.log(
-					`🎯  Server ready at http://${DOMAIN!}:${chalk
-						.hex('#87e8de')
+					`🚀  Server ready at http://${DOMAIN!}:${chalk
+						.hex(PRIMARY_COLOR!)
 						.bold(`${PORT!}`)}/${END_POINT!}`,
 					'Bootstrap'
 			  )
 			: Logger.log(
-					`🎯  Server is listening on port ${chalk
-						.hex('#87e8de')
+					`🚀  Server is listening on port ${chalk
+						.hex(PRIMARY_COLOR!)
 						.bold(`${PORT!}`)}`,
 					'Bootstrap'
 			  )
 
 		NODE_ENV !== 'production' &&
 			Logger.log(
-				`🎯  Subscriptions ready at ws://${DOMAIN!}:${chalk
-					.hex('#87e8de')
+				`🚀  Subscriptions ready at ws://${DOMAIN!}:${chalk
+					.hex(PRIMARY_COLOR!)
 					.bold(`${PORT!}`)}/${END_POINT!}`,
 				'Bootstrap'
 			)

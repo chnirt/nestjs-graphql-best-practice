@@ -3,9 +3,9 @@
 import { Logger } from '@nestjs/common'
 
 export function LoggerMiddleware(req, res, next) {
-	// logger.debug(`💭  ${req.headers['user-agent']}`)
+	// logger.debug(`💬  ${req.headers['user-agent']}`)
 	Logger.debug(
-		`💭  ${req.headers['user-agent'].split(') ')[0]})`,
+		`💬  ${req.headers['user-agent'].split(') ')[0]})`,
 		'Bootstrap',
 		false
 	)

@@ -8,6 +8,7 @@ const NODE_ENV: string = process.env.NODE_ENV || 'development'
 const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
+const PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#bae7ff'
 const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
 const PORT: number = +process.env.PORT || 14047
 const END_POINT: string = process.env.END_POINT || 'graphql'
@@ -30,7 +31,7 @@ const MLAB_URL =
 	`mongodb://${MLAB_USER}:${MLAB_PASS}@${MLAB_HOST}:${MLAB_PORT}/${MLAB_DATABASE}`
 
 // mongodb
-const MONGO_URL: string = process.env.MONGO_PORT
+const MONGO_URL: string = +process.env.MONGO_PORT
 	? `mongodb://localhost:${process.env.MONGO_PORT}`
 	: MLAB_URL
 const MONGO_PORT: number = +process.env.MONGO_PORT || 11049
@@ -93,6 +94,7 @@ const STRIPE_PLAN: string = process.env.STRIPE_PLAN || 'xxx'
 export {
 	NODE_ENV,
 	AUTHOR,
+	PRIMARY_COLOR,
 	DOMAIN,
 	PORT,
 	END_POINT,

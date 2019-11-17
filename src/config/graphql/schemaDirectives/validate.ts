@@ -12,6 +12,8 @@ import chalk from 'chalk'
 
 import * as GraphqlSchema from '../../../generator/graphql.schema'
 
+import { PRIMARY_COLOR } from '@environments'
+
 class ValidateDirective extends SchemaDirectiveVisitor {
 	visitArgumentDefinition(
 		arg: GraphQLArgument,
@@ -29,7 +31,7 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 			const { input } = args[1]
 
 			Logger.log(
-				`🛡  Schema: ${chalk.hex('#87e8de').bold(`${schema!}`)}`,
+				`🧪  Schema: ${chalk.hex(PRIMARY_COLOR!).bold(`${schema!}`)}`,
 				'Validator',
 				false
 			)
