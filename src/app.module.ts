@@ -17,7 +17,8 @@ import {
 	StoreResolver,
 	TranslateResolver,
 	UserResolver,
-	UserResultResolver
+	UserResultResolver,
+	TreeResolver
 } from './resolvers'
 import { CacheModule, Module } from '@nestjs/common'
 import { CacheService, GraphqlService, TypeormService } from './config'
@@ -62,7 +63,8 @@ import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 		CityResolver,
 		StoreResolver,
 		DepartmentResolver,
-		PositionResolver
+		PositionResolver,
+		TreeResolver
 	]
 })
 export class AppModule {}

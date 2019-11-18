@@ -6,6 +6,7 @@ import { User } from './../models/user.entity'
 import { Node } from '@models'
 import {
 	CreateNodeInput,
+	UpdateNodeInput,
 	SearchNodeInput,
 	NodeCategory
 } from '../generator/graphql.schema'
@@ -198,21 +199,19 @@ export class NodeResolver {
 				...node
 			})
 		)
+		return newNode
+	}
 
-		// 	return newNode
-		// }
+	@Mutation()
+	async updateNode(
+		@Args('_id') _id: string,
+		@Args('input') input: UpdateNodeInput
+	): Promise<Node> {
+		const node = await getMongoRepository(Node).findOne({ _id })
 
-		// @Mutation()
-		// async updateNode(
-		// 	@Args('_id') _id: string,
-		// 	@Args('parentId') parentId: string,
-		// 	@Context('currentUser') currentUser: User
-		// ): Promise<Node> {
-		// 	const node = await getMongoRepository(Node).findOne({ _id })
-
-		// 	if (!node) {
-		// 		throw new ForbiddenError('Node not found.')
-		// 	}
+		if (!node) {
+			throw new ForbiddenError('Node not found.')
+		}
 
 		// const nodeByParentId = await getMongoRepository(Node).findOne({
 		// 	_id: parentId
@@ -224,12 +223,14 @@ export class NodeResolver {
 
 		// node.parentId = parentId
 		// node.path = nodeByParentId.path
+		const newNode = {
+			...node,
+			...input
+		}
+		const updatedNode = await getMongoRepository(Node).save(
+			new Node({ ...newNode })
+		)
 
-		// const updatedNode = await getMongoRepository(Node).save(
-		// 	new Node({ ...node })
-		// )
-
-		// return updatedNode
-		return null
+		return updatedNode
 	}
 }
