@@ -45,7 +45,8 @@
    - Wiston
 5. Send mail
    - Nodemailer
-6. Stripe
+6. Payment
+   - Stripe
 7. Task scheduler
    - Timeout
    - Interval
