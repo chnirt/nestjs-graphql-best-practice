@@ -1,13 +1,12 @@
 import * as uuid from 'uuid'
 
 import {
-	City,
-	Company,
-	Department,
-	Job,
 	NodeCategory,
-	Position,
-	Store
+	Company,
+	City,
+	Store,
+	Department,
+	Position
 } from '../generator/graphql.schema'
 import { Column, Entity, ObjectIdColumn } from 'typeorm'
 import { Expose, plainToClass } from 'class-transformer'
@@ -26,6 +25,10 @@ export class Node {
 	@Expose()
 	@Column()
 	parentId: string
+
+	@Expose()
+	@Column()
+	name: string
 
 	@Expose()
 	@Column()
@@ -50,10 +53,6 @@ export class Node {
 	@Expose()
 	@Column()
 	position: Position
-
-	@Expose()
-	@Column()
-	job: Job
 
 	@Expose()
 	@Column()

@@ -12,7 +12,8 @@ import {
  * @remarks
  * This method is part of the {@link shared/upload}.
  *
- * @param file - 1st input number
+ * @param file - 1st input
+ *
  * @returns The string mean of `createReadStream`
  *
  * @beta

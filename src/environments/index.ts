@@ -38,7 +38,8 @@ const MONGO_PORT: number = +process.env.MONGO_PORT || 11049
 const MONGO_DB: string = process.env.MONGO_PORT ? 'chnirt-nest' : MLAB_DATABASE
 
 // jsonwebtoken
-const ISSUER: string = process.env.ISSUER || 'http://chnirt.github.io'
+const ISSUER: string = process.env.ISSUER || 'Chnirt corp'
+const AUDIENCE: string = process.env.AUDIENCE || 'http://chnirt.github.io'
 const ACCESS_TOKEN: string = process.env.ACCESS_TOKEN || 'access-token'
 const ACCESS_TOKEN_SECRET: string =
 	process.env.ACCESS_TOKEN_SECRET || 'access-token-key'
@@ -113,6 +114,7 @@ export {
 	MONGO_PORT,
 	MONGO_DB,
 	ISSUER,
+	AUDIENCE,
 	ACCESS_TOKEN,
 	ACCESS_TOKEN_SECRET,
 	REFRESH_TOKEN,

@@ -12,8 +12,9 @@ const loremIpsum = 'I am using google translator to convert this text'
  * @remarks
  * This method is part of the {@link shared/translate}.
  *
- * @param text - 1st input number
- * @param code - 2nd input number
+ * @param text - 1st input
+ * @param code - 2nd input
+ *
  * @returns The string mean of `text` and `code`
  *
  * @beta

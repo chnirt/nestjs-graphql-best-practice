@@ -19,11 +19,12 @@ type Type = 'verifyEmail' | 'forgotPassword'
  * @remarks
  * This method is part of the {@link shared/mail}.
  *
- * @param type - 1st input number
- * @param user - 2nd input number
- * @param req - 3rd input number
- * @param token - 4th input number
- * @param _id - 5th input number
+ * @param type - 1st input
+ * @param user - 2nd input
+ * @param req - 3rd input
+ * @param token - 4th input
+ * @param _id - 5th input
+ *
  * @returns The any mean of `type`, `user`, `req`, `token` and `_id`
  *
  * @beta
@@ -37,9 +38,15 @@ export const sendMail = async (
 ): Promise<any> => {
 	const transporter = await nodemailer.createTransport({
 		service: 'gmail',
+		secure: false, // true
+		host: 'smtp.gmail.com',
+		port: 587, // 465
 		auth: {
 			user: NODEMAILER_USER!,
 			pass: NODEMAILER_PASS!
+		},
+		tls: {
+			rejectUnauthorized: false
 		}
 	})
 
@@ -85,7 +92,6 @@ export const sendMail = async (
 			},
 			forgotPassword: {
 				link: `${req.headers.origin}/reset/${token}`,
-
 				subject: 'Reset Your Password',
 				text1:
 					// tslint:disable-next-line:quotemark
