@@ -14,12 +14,12 @@ export class TreeResolver {
 	}
 
 	@Mutation()
-	async createTree(@Args('input') input: string): Promise<boolean> {
+	async createTree(@Args('input') input: string): Promise<string> {
 		try {
 			const result = await getMongoRepository(TreeEntity).save(
 				new TreeEntity({ treeData: input })
 			)
-			return true
+			return result._id
 		} catch (err) {
 			throw new Error(err)
 		}
