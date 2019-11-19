@@ -206,7 +206,8 @@ export class NodeResolver {
 	async nodesById(@Args('_id') _id: string): Promise<Node[]> {
 		const nodes = await getMongoRepository(Node).find({
 			where: {
-				parentId: _id
+				parentId: _id,
+				category: NodeCategory.POSITION
 			}
 		})
 

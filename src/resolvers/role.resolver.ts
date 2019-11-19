@@ -46,8 +46,6 @@ export class RoleResolver {
 			throw new ForbiddenError('Permissions not foud.')
 		}
 
-		return await getMongoRepository(Role).save(
-			new Role({ ...input, permissions: [...input.permissions] })
-		)
+		return await getMongoRepository(Role).save(new Role({ ...input }))
 	}
 }

@@ -1,0 +1,20 @@
+input CreateUserRoleInput {
+	userId: ID!
+	roleId: ID!
+}
+
+type UserRole {
+	_id: ID!
+	userId: ID!
+	roleId: ID!
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type Query {
+	userRoles: [UserRole]
+}
+
+type Mutation {
+	createUserRole(input: CreateUserRoleInput!): UserRole
+}

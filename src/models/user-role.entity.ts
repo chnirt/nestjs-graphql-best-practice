@@ -3,31 +3,23 @@ import * as uuid from 'uuid'
 import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
-	name: 'roles',
+	name: 'user_role',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class Role {
+export class UserRole {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	code: string
+	userId: string
 
 	@Expose()
 	@Column()
-	description: string
-
-	@Expose()
-	@Column()
-	nodeId: string
-
-	@Expose()
-	@Column()
-	permissions: string[]
+	roleId: string
 
 	@Expose()
 	@Column()
@@ -36,11 +28,11 @@ export class Role {
 	@Column()
 	updatedAt: number
 
-	constructor(role: Partial<Role>) {
-		if (role) {
+	constructor(userRole: Partial<UserRole>) {
+		if (userRole) {
 			Object.assign(
 				this,
-				plainToClass(Role, role, {
+				plainToClass(UserRole, userRole, {
 					excludeExtraneousValues: true
 				})
 			)

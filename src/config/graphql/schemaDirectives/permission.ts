@@ -2,7 +2,7 @@ import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { ForbiddenError, AuthenticationError } from 'apollo-server-express'
 import { defaultFieldResolver } from 'graphql'
 import { getMongoRepository } from 'typeorm'
-import { Role } from '@models'
+import { UserRole } from '@models'
 
 class PermissionDirective extends SchemaDirectiveVisitor {
 	visitFieldDefinition(field) {
@@ -20,18 +20,57 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 
 			// console.log(currentUser._id, permission)
 
-			const role = await getMongoRepository(Role).find({
+			const userRole = await getMongoRepository(UserRole).find({
 				where: {
-					userId: currentUser._id,
-					'permissions.code': permission
+					userId: currentUser._id
 				}
 			})
 
-			if (!role) {
+			const roles = await getMongoRepository(UserRole)
+				.aggregate([
+					{
+						$match: {
+							userId: currentUser._id
+						}
+					},
+					{
+						$lookup: {
+							from: 'roles',
+							localField: 'roleId',
+							foreignField: '_id',
+							as: 'roles'
+						}
+					},
+					{
+						$lookup: {
+							from: 'permissions',
+							localField: 'roles.permissions',
+							foreignField: '_id',
+							as: 'permissions'
+						}
+					},
+					{
+						$project: {
+							permissions: {
+								$map: {
+									input: '$permissions.code',
+									as: 'code',
+									in: '$$code'
+								}
+							},
+							_id: 0
+						}
+					}
+				])
+				.toArray()
+
+			// console.log(roles[0].permissions.indexOf(permission))
+
+			if (roles[0].permissions.indexOf(permission) === -1) {
 				throw new ForbiddenError('You are not authorized for this resource.')
 			}
 
-			// console.log('Role', role)
+			// console.log('userRole', userRole)
 
 			return resolve.apply(this, args)
 		}

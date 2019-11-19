@@ -11,7 +11,7 @@ type Form {
 }
 
 type Query {
-	forms: [Form] @isAuthenticated @hasPath(path: "ns")
+	forms: [Form] @isAuthenticated @hasPermission(permission: "FORM_READ")
 }
 
 type Mutation {
