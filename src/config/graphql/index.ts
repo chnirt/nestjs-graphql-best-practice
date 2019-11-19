@@ -218,7 +218,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				return response
 			},
 			subscriptions: {
-				path: `/ ${END_POINT!}`,
+				path: `/${END_POINT!}`,
 				keepAlive: 1000,
 				onConnect: async (connectionParams, webSocket, context) => {
 					NODE_ENV !== 'production' &&

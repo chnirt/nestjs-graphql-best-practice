@@ -24,7 +24,7 @@ const common = {
 	accessToken: {
 		privateKey: ACCESS_TOKEN_SECRET!,
 		signOptions: {
-			expiresIn: '15m' // 15m
+			expiresIn: '30d' // 15m
 		}
 	},
 	refreshToken: {

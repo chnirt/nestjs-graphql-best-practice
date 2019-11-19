@@ -67,6 +67,7 @@ type Node {
 
 type Query {
 	nodes: [Node]
+	nodesById(_id: ID!): [Node]
 }
 
 type Mutation {

@@ -127,6 +127,48 @@ export class NodeResolver {
 				}
 				break
 
+			case POSITION:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						position: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					position: {
+						name
+					}
+				}
+				break
+
+			case JOB:
+				foundNode = await getMongoRepository(Node).findOne({
+					where: {
+						job: {
+							name
+						}
+					}
+				})
+
+				if (foundNode) {
+					throw new ForbiddenError('Node already existed.')
+				}
+
+				node = {
+					...input,
+					job: {
+						name
+					}
+				}
+				break
+
 			default:
 				if (parentId) {
 					throw new ForbiddenError('category is COMPANY don\'t need parentId.')
@@ -158,6 +200,21 @@ export class NodeResolver {
 			})
 		)
 		return newNode
+	}
+
+	@Query()
+	async nodesById(@Args('_id') _id: string): Promise<Node[]> {
+		const nodes = await getMongoRepository(Node).find({
+			where: {
+				parentId: _id
+			}
+		})
+
+		if (nodes.length < 1) {
+			throw new ForbiddenError('Nodes not found.')
+		}
+
+		return nodes
 	}
 
 	@Mutation()
