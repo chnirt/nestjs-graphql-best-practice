@@ -33,14 +33,7 @@ import {
 	Type,
 	UserType
 } from '../generator/graphql.schema'
-import {
-	generateToken,
-	generateResetPassToken,
-	generateEmailToken,
-	tradeToken,
-	verifyRefreshToken,
-	verifyEmailToken
-} from '@auth'
+import { generateToken, verifyToken, tradeToken } from '@auth'
 import { sendMail, stripe } from '@shared'
 
 import { USER_SUBSCRIPTION, STRIPE_PLAN } from '@environments'
@@ -209,7 +202,9 @@ export class UserResolver {
 
 			pubsub.publish(USER_SUBSCRIPTION, { userCreated: createdUser })
 
-			const emailToken = await generateEmailToken(createdUser)
+			// const emailToken = await generateEmailToken(createdUser)
+
+			const emailToken = await generateToken(createdUser, 'emailToken')
 
 			const existedEmail = await this.emailResolver.createEmail({
 				userId: createdUser._id,
@@ -325,9 +320,10 @@ export class UserResolver {
 
 	@Mutation()
 	async verifyEmail(@Args('emailToken') emailToken: string): Promise<boolean> {
-		const user = await verifyEmailToken(emailToken)
+		// const user = await verifyEmailToken(emailToken)
+		const user = await verifyToken(emailToken, 'emailToken')
 
-		// console.log(user)
+		console.log(user)
 
 		if (!user.isVerified) {
 			const updateUser = await getMongoRepository(User).save(
@@ -363,9 +359,9 @@ export class UserResolver {
 	async refreshToken(
 		@Args('refreshToken') refreshToken: string
 	): Promise<RefreshTokenResponse> {
-		const user = await verifyRefreshToken(refreshToken)
+		const user = await verifyToken(refreshToken, 'refreshToken')
 
-		const accessToken = await generateToken(user)
+		const accessToken = await generateToken(user, 'accessToken')
 
 		return { accessToken }
 	}
@@ -448,7 +444,7 @@ export class UserResolver {
 			throw new ForbiddenError('User not found.')
 		}
 
-		const resetPassToken = await generateResetPassToken(user)
+		const resetPassToken = await generateToken(user, 'resetPassToken')
 
 		const existedEmail = await this.emailResolver.createEmail({
 			userId: user._id,
@@ -501,6 +497,7 @@ export class UserResolver {
 			new User({
 				...user,
 				local: {
+					email: user.local.email,
 					password: await hashPassword(password)
 				},
 				resetPasswordToken: null,

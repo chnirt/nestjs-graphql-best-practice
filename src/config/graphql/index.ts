@@ -178,8 +178,7 @@ export class GraphqlService implements GqlOptionsFactory {
 
 				// console.log('token', token)
 				if (token) {
-					// currentUser = await this.authService.verifyToken(token)
-					currentUser = await verifyToken(token)
+					currentUser = await verifyToken(token, 'accessToken')
 				}
 
 				// console.log(currentUser)
@@ -230,8 +229,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					const token = connectionParams[ACCESS_TOKEN!]
 
 					if (token) {
-						// currentUser = await this.authService.verifyToken(token)
-						currentUser = await verifyToken(token)
+						currentUser = await verifyToken(token, 'accessToken')
 
 						await getMongoRepository(User).updateOne(
 							{ _id: currentUser._id },

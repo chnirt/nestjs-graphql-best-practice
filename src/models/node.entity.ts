@@ -53,14 +53,6 @@ export class Node {
 
 	@Expose()
 	@Column()
-	position: Position
-
-	@Expose()
-	@Column()
-	job: Job
-
-	@Expose()
-	@Column()
 	createdAt: number
 
 	@Expose()

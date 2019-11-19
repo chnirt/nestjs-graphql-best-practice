@@ -61,7 +61,6 @@ type Node {
 	store: Store
 	department: Department
 	position: Position
-	job: Job
 	createdAt: Float!
 	updatedAt: Float!
 }

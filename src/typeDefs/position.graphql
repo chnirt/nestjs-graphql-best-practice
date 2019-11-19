@@ -4,8 +4,9 @@ input CreatePositionInput {
 
 type Position {
 	_id: ID!
+	nodeId: ID!
 	name: String
-  isActive: Boolean!
+	isActive: Boolean!
 	createdAt: Float!
 	updatedAt: Float!
 }
