@@ -1,6 +1,6 @@
 import { hash, compare } from 'bcrypt'
 
-import { SALT } from '@environments'
+import { BCRYPT_SALT } from '@environments'
 
 /**
  * Returns hashed password by hash password.
@@ -14,7 +14,7 @@ import { SALT } from '@environments'
  * @beta
  */
 export const hashPassword = async (password: string): Promise<string> => {
-	return await hash(password, SALT)
+	return await hash(password, BCRYPT_SALT)
 }
 
 /**
