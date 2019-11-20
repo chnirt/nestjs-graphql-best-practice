@@ -120,7 +120,9 @@ export const verifyToken = async (
 		return currentUser
 	}
 
-	if (!currentUser.isVerified) {
+	// console.log(currentUser)
+
+	if (currentUser && !currentUser.isVerified) {
 		throw new ForbiddenError('Please verify your email.')
 	}
 

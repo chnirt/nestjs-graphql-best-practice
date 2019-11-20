@@ -8,7 +8,7 @@ const NODE_ENV: string = process.env.NODE_ENV || 'development'
 const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
-const PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#bae7ff'
+const PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#ffd591'
 const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
 const PORT: number = +process.env.PORT || 14047
 const END_POINT: string = process.env.END_POINT || 'graphql'
@@ -54,7 +54,7 @@ const RESETPASS_TOKEN_SECRET: string =
 	process.env.RESETPASS_TOKEN_SECRET || 'resetpass-token-key'
 
 // bcrypt
-const SALT: number = +process.env.SALT || 10
+const BCRYPT_SALT: number = +process.env.BCRYPT_SALT || 10
 
 // nodemailer
 const NODEMAILER_USER: string = process.env.NODEMAILER_USER || 'xxx'
@@ -123,7 +123,7 @@ export {
 	RESETPASS_TOKEN_SECRET,
 	EMAIL_TOKEN,
 	EMAIL_TOKEN_SECRET,
-	SALT,
+	BCRYPT_SALT,
 	NODEMAILER_USER,
 	NODEMAILER_PASS,
 	CLOUDINARY_NAME,

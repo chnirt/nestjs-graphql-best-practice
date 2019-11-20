@@ -20,13 +20,7 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 
 			// console.log(currentUser._id, permission)
 
-			const userRole = await getMongoRepository(UserRole).find({
-				where: {
-					userId: currentUser._id
-				}
-			})
-
-			const roles = await getMongoRepository(UserRole)
+			const userRoles = await getMongoRepository(UserRole)
 				.aggregate([
 					{
 						$match: {
@@ -64,9 +58,9 @@ class PermissionDirective extends SchemaDirectiveVisitor {
 				])
 				.toArray()
 
-			// console.log(roles[0].permissions.indexOf(permission))
+			console.log(userRoles[0].permissions)
 
-			if (roles[0].permissions.indexOf(permission) === -1) {
+			if (userRoles[0].permissions.indexOf(permission) === -1) {
 				throw new ForbiddenError('You are not authorized for this resource.')
 			}
 

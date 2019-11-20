@@ -17,6 +17,13 @@ export class Tree {
 	@Column()
 	treeData: string
 
+	@Expose()
+	@Column()
+	createdAt: number
+	@Expose()
+	@Column()
+	updatedAt: number
+
 	constructor(tree: Partial<Tree>) {
 		if (tree) {
 			Object.assign(
@@ -26,6 +33,8 @@ export class Tree {
 				})
 			)
 			this._id = this._id || uuid.v1()
+			this.createdAt = this.createdAt || +new Date()
+			this.updatedAt = +new Date()
 		}
 	}
 }
