@@ -31,6 +31,10 @@ export class Role {
 
 	@Expose()
 	@Column()
+	isActive: boolean
+
+	@Expose()
+	@Column()
 	createdAt: number
 	@Expose()
 	@Column()
@@ -45,6 +49,7 @@ export class Role {
 				})
 			)
 			this._id = this._id || uuid.v1()
+			this.isActive = this.isActive === undefined ? true : this.isActive
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

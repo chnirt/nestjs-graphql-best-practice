@@ -74,6 +74,17 @@ async function main() {
 					password:
 						'$2b$10$fcew2jC4VYtB1/tz/L6sA.pTxkqmjL2t7eXQzU19kr.mMnkhGpjsS'
 				}
+			},
+			{
+				_id: 'b0053a50-0a9c-11ea-84d9-2b143e93bb9e',
+				firstName: 'Chin',
+				lastName: 'Trinh',
+				gender: 'MALE',
+				local: {
+					email: 'trinhchin.innos@gmail.com',
+					password:
+						'$2b$10$dIYDOSkHYv4lwEEDIdF3aedBDZvKNtsrweQuDyXiwTOIarrwSksBe'
+				}
 			}
 		]
 
@@ -129,7 +140,7 @@ async function main() {
 
 		permissions.map(async item => {
 			await db.collection('permissions').findOneAndUpdate(
-				{ code: item.code, description: item.description },
+				{ code: item.code },
 				{
 					$setOnInsert: {
 						_id: item._id
@@ -138,6 +149,381 @@ async function main() {
 						code: item.code,
 						description: item.description,
 						isActive: true,
+						createdAt: +new Date(),
+						updatedAt: +new Date()
+					}
+				},
+				{ upsert: true }
+			)
+		})
+
+		const nodes = [
+			{
+				_id: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+				parentId: null,
+				name: 'Acexis',
+				category: 'COMPANY',
+				company: {
+					name: 'Acexis'
+				},
+				city: null,
+				store: null,
+				department: null,
+				position: null
+			},
+			{
+				_id: '8292d480-0a9f-11ea-a435-9d991513b2d7',
+				parentId: null,
+				name: 'Song tan',
+				category: 'COMPANY',
+				company: {
+					name: 'Song tan'
+				},
+				city: null,
+				store: null,
+				department: null,
+				position: null
+			},
+			{
+				_id: 'bd398510-0aa0-11ea-a435-9d991513b2d7',
+				parentId: 'a1f97720-0a9f-11ea-a435-9d991513b2d7',
+				name: 'Giamdoc',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Giamdoc'
+				}
+			},
+			{
+				_id: 'c226cfb0-0aa0-11ea-a435-9d991513b2d7',
+				parentId: 'a1f97720-0a9f-11ea-a435-9d991513b2d7',
+				name: 'Phogiamdoc',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Phogiamdoc'
+				}
+			},
+			{
+				_id: '267f70c0-0aa1-11ea-a435-9d991513b2d7',
+				parentId: 'a1f97720-0a9f-11ea-a435-9d991513b2d7',
+				name: 'Codong',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Codong'
+				}
+			},
+			{
+				_id: 'a1f97720-0a9f-11ea-a435-9d991513b2d7',
+				parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'Directorate',
+				category: 'DEPARTMENT',
+				company: null,
+				city: null,
+				store: null,
+				department: {
+					name: 'Directorate'
+				},
+				position: null
+			},
+			{
+				_id: 'ae507e10-0a9f-11ea-a435-9d991513b2d7',
+				parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'HR',
+				category: 'DEPARTMENT',
+				company: null,
+				city: null,
+				store: null,
+				department: {
+					name: 'HR'
+				},
+				position: null
+			},
+			{
+				_id: 'b31977d0-0a9f-11ea-a435-9d991513b2d7',
+				parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'LT',
+				category: 'DEPARTMENT',
+				company: null,
+				city: null,
+				store: null,
+				department: {
+					name: 'LT'
+				},
+				position: null
+			},
+			{
+				_id: '484d0ad0-0aad-11ea-9935-f578ac4d70fd',
+				parentId: 'b31977d0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'Truongbophan',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Truongbophan'
+				}
+			},
+			{
+				_id: '519dfdb0-0aad-11ea-9935-f578ac4d70fd',
+				parentId: 'b31977d0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'CHA',
+				category: 'STORE',
+				company: null,
+				city: null,
+				store: {
+					name: 'CHA'
+				},
+				department: null,
+				position: null
+			},
+			{
+				_id: '55e85190-0aad-11ea-9935-f578ac4d70fd',
+				parentId: 'b31977d0-0a9f-11ea-a435-9d991513b2d7',
+				name: 'CHB',
+				category: 'STORE',
+				company: null,
+				city: null,
+				store: {
+					name: 'CHB'
+				},
+				department: null,
+				position: null
+			},
+			{
+				_id: 'b274cb00-0aad-11ea-9935-f578ac4d70fd',
+				parentId: '519dfdb0-0aad-11ea-9935-f578ac4d70fd',
+				name: 'Truongcuahang',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Truongcuahang'
+				}
+			},
+			{
+				_id: 'e2d792a0-0aad-11ea-9935-f578ac4d70fd',
+				parentId: '519dfdb0-0aad-11ea-9935-f578ac4d70fd',
+				name: 'Nhanvien',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'Nhanvien'
+				}
+			},
+			{
+				_id: '0886f790-0ab6-11ea-8f2a-3967714b286f',
+				parentId: 'ae507e10-0a9f-11ea-a435-9d991513b2d7',
+				name: 'NhanvienHR',
+				category: 'POSITION',
+				company: null,
+				city: null,
+				store: null,
+				department: null,
+				position: {
+					name: 'NhanvienHR'
+				}
+			}
+		]
+
+		nodes.map(async item => {
+			await db.collection('nodes').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id
+					},
+					$set: {
+						parentId: item.parentId,
+						name: item.name,
+						category: item.category,
+						company: item.company,
+						city: item.city,
+						store: item.store,
+						department: item.department,
+						position: item.position,
+						isActive: true,
+						createdAt: +new Date(),
+						createdBy: null,
+						updatedAt: +new Date(),
+						updatedBy: null
+					}
+				},
+				{ upsert: true }
+			)
+		})
+
+		const trees = [
+			{
+				_id: '7d1c35a0-0a9f-11ea-a435-9d991513b2d7',
+				treeData: [
+					{
+						id: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+						title: 'Acexis',
+						parentId: null,
+						expanded: true,
+						children: [
+							{
+								id: 'a1f97720-0a9f-11ea-a435-9d991513b2d7',
+								title: 'Directorate',
+								parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+								expanded: true,
+								children: []
+							},
+							{
+								id: 'ae507e10-0a9f-11ea-a435-9d991513b2d7',
+								title: 'HR',
+								parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7'
+							},
+							{
+								id: 'b31977d0-0a9f-11ea-a435-9d991513b2d7',
+								title: 'LT',
+								parentId: '7caef4e0-0a9f-11ea-a435-9d991513b2d7',
+								expanded: true,
+								children: [
+									{
+										id: '519dfdb0-0aad-11ea-9935-f578ac4d70fd',
+										title: 'CHA',
+										parentId: 'b31977d0-0a9f-11ea-a435-9d991513b2d7'
+									},
+									{
+										id: '55e85190-0aad-11ea-9935-f578ac4d70fd',
+										title: 'CHB',
+										parentId: 'b31977d0-0a9f-11ea-a435-9d991513b2d7'
+									}
+								]
+							}
+						]
+					},
+					{
+						id: '8292d480-0a9f-11ea-a435-9d991513b2d7',
+						title: 'Song tan',
+						parentId: null
+					}
+				]
+			}
+		]
+
+		trees.map(async item => {
+			await db.collection('trees').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id
+					},
+					$set: {
+						treeData: item.treeData,
+						createdAt: +new Date(),
+						updatedAt: +new Date()
+					}
+				},
+				{ upsert: true }
+			)
+		})
+
+		const roles = [
+			{
+				_id: '6d592f10-0aae-11ea-9935-f578ac4d70fd',
+				nodeId: 'e2d792a0-0aad-11ea-9935-f578ac4d70fd',
+				code: 'LT_EMPLOYEE',
+				description: 'Nhân viên Lập Trình',
+				permissions: ['ad5a65e0-be4e-11e9-a6ad-c109fb49072b']
+			},
+			{
+				_id: 'a0ef0e30-0aae-11ea-9935-f578ac4d70fd',
+				nodeId: 'b274cb00-0aad-11ea-9935-f578ac4d70fd',
+				code: 'CHA_MANAGER',
+				description: 'Trưởng của hàng A',
+				permissions: ['6ca4ffb0-be4e-11e9-b75c-d915f7b6e00b']
+			},
+			{
+				_id: 'eb8c01f0-0aae-11ea-9935-f578ac4d70fd',
+				nodeId: 'ae507e10-0a9f-11ea-a435-9d991513b2d7',
+				code: 'HR',
+				description: 'Bộ phận HR',
+				permissions: ['f1dbbda0-be4d-11e9-bc7c-2117bce2f37c']
+			},
+			{
+				_id: 'be45e3a0-0aae-11ea-9935-f578ac4d70fd',
+				nodeId: '484d0ad0-0aad-11ea-9935-f578ac4d70fd',
+				code: 'LT_MANAGER',
+				description: 'Trưởng bộ phân Lập Trình',
+				permissions: [
+					'a6957510-be4e-11e9-a6ad-c109fb49072b',
+					'f1dbbda0-be4d-11e9-bc7c-2117bce2f37c'
+				]
+			}
+		]
+
+		roles.map(async item => {
+			await db.collection('roles').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id
+					},
+					$set: {
+						nodeId: item.nodeId,
+						code: item.code,
+						description: item.description,
+						isActive: true,
+						createdAt: +new Date(),
+						updatedAt: +new Date()
+					}
+				},
+				{ upsert: true }
+			)
+		})
+
+		const userRoles = [
+			{
+				_id: '43fbcd90-0ab7-11ea-bcbf-675de3f924a3',
+				userId: 'd9dacf10-edb5-11e9-ba96-217967694746',
+				roleId: 'eb8c01f0-0aae-11ea-9935-f578ac4d70fd'
+			},
+			{
+				_id: '6c6e1cb0-0ab7-11ea-bcbf-675de3f924a3',
+				userId: '284b98b0-0ab6-11ea-8f2a-3967714b286f',
+				roleId: 'be45e3a0-0aae-11ea-9935-f578ac4d70fd'
+			},
+			{
+				_id: '93e2aae0-0ab7-11ea-bcbf-675de3f924a3',
+				userId: 'b0053a50-0a9c-11ea-84d9-2b143e93bb9e',
+				roleId: 'a0ef0e30-0aae-11ea-9935-f578ac4d70fd'
+			},
+			{
+				_id: 'b6a48670-0ab7-11ea-bcbf-675de3f924a3',
+				userId: '964879b0-ee4f-11e9-8659-0d1c206c3c76',
+				roleId: '6d592f10-0aae-11ea-9935-f578ac4d70fd'
+			}
+		]
+
+		userRoles.map(async item => {
+			await db.collection('user_role').findOneAndUpdate(
+				{ _id: item._id },
+				{
+					$setOnInsert: {
+						_id: item._id
+					},
+					$set: {
+						userId: item.userId,
+						roleId: item.roleId,
 						createdAt: +new Date(),
 						updatedAt: +new Date()
 					}
