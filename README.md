@@ -114,6 +114,8 @@
   npm run start:hmr
 ```
 
+<a href="https://www.buymeacoffee.com/#" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" style="border-radius: 4px; height: 40px !important;width: 173px !important;" ></a>
+
 ## Node.js Best Practices
 
 <h1 align="center">
