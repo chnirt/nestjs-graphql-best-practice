@@ -17,7 +17,9 @@ export default {
 	hasPath: PathDirective,
 	deprecated: DeprecatedDirective,
 	// length: LengthDirective,
-	rateLimit: createRateLimitDirective({ identifyContext: ctx => ctx.id }),
+	rateLimit: createRateLimitDirective({
+		identifyContext: ctx => ctx.currentUser._id
+	}),
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,
 	concat: ConcatDirective,
