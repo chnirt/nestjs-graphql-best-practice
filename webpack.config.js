@@ -70,7 +70,6 @@ module.exports = {
 			raw: true,
 			entryOnly: false
 		})
-		// new WebpackNotifierPlugin({ excludeWarnings: true, sound: false })
 	],
 	optimization: {
 		removeAvailableModules: false,

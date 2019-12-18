@@ -25,7 +25,7 @@
 			"@validations": ["validations"]
 		}
 	},
-	"include": ["src/**/*.ts"],
+	"include": ["src/**/*.ts", "src/services/reviews/index.js"],
 	"compileOnSave": false,
 	"exclude": [
 		"node_modules",

@@ -32,7 +32,7 @@ import {
 // const gateway = new ApolloGateway({
 // 	serviceList: [
 // 		{ name: 'accounts', url: 'http://localhost:11041/graphql' },
-// 		{ name: 'reviews', url: 'http://localhost:11042/graphql' },
+// 		{ name: 'reviews', url: 'http://localhost:14042/graphql' },
 // 		{ name: 'products', url: 'http://localhost:11043/graphql' },
 // 		{ name: 'inventory', url: 'http://localhost:11044/graphql' }
 // 	]

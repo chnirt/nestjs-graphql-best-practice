@@ -45,6 +45,7 @@
 		"@nestjs/graphql": "^6.5.3",
 		"@nestjs/platform-express": "^6.8.3",
 		"@nestjs/typeorm": "^6.2.0",
+		"apollo-server": "^2.9.9",
 		"apollo-server-cache-memcached": "^0.6.3",
 		"apollo-server-express": "^2.9.7",
 		"apollo-server-plugin-response-cache": "^0.3.5",
@@ -127,7 +128,6 @@
 		"webpack-cli": "^3.3.9",
 		"webpack-loader-helper": "^1.0.0",
 		"webpack-node-externals": "^1.7.2",
-		"webpack-notifier": "^1.8.0",
 		"yarn": "^1.19.1"
 	},
 	"lint-staged": {
