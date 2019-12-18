@@ -272,8 +272,12 @@ export class GraphqlService implements GqlOptionsFactory {
 					{ retries: 10, retry: 10000 } // Options
 				)
 			},
-			installSubscriptionHandlers: true
-			// uploads: false
+			installSubscriptionHandlers: true,
+			uploads: {
+				maxFieldSize: 2, // 1mb
+				maxFileSize: 20, // 20mb
+				maxFiles: 5
+			}
 		}
 	}
 }
