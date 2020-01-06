@@ -74,7 +74,7 @@
 		"ioredis": "^4.14.1",
 		"jest-config": "^24.9.0",
 		"jsonwebtoken": "^8.5.1",
-		"merge-graphql-schemas": "^1.7.0",
+		"merge-graphql-schemas": "^1.7.6",
 		"mongodb": "^3.3.3",
 		"morgan": "^1.9.1",
 		"multer": "^1.4.2",
