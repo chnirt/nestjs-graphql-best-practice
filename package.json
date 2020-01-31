@@ -43,7 +43,7 @@
 		"@nestjs/common": "^6.11.5",
 		"@nestjs/core": "^6.11.5",
 		"@nestjs/graphql": "^6.5.3",
-		"@nestjs/platform-express": "^6.8.3",
+		"@nestjs/platform-express": "^6.11.5",
 		"@nestjs/typeorm": "^6.2.0",
 		"apollo-server": "^2.9.9",
 		"apollo-server-cache-memcached": "^0.6.3",
