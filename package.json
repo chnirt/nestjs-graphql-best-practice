@@ -52,7 +52,7 @@
 		"assert": "^2.0.0",
 		"axios": "^0.19.0",
 		"bcrypt": "^3.0.6",
-		"cache-manager": "^2.10.0",
+		"cache-manager": "^3.0.0",
 		"chai": "^4.2.0",
 		"class-transformer": "^0.2.3",
 		"cloudinary": "1.16.0",
