@@ -1,20 +1,20 @@
 import { Injectable, Logger } from '@nestjs/common'
-import { Cron, CronExpression, Interval } from '@nestjs/schedule'
+import { Cron, CronExpression, Interval, Timeout } from '@nestjs/schedule'
 
 @Injectable()
 export class AppService {
-	private readonly logger = new Logger(AppService.name)
-
 	@Cron('45 * * * * *')
-	handleCronCallSecond45() {
-		this.logger.debug('Called when the current second is 45')
+	handleCron() {
+		Logger.log('Called when the second is 45', AppService.name)
 	}
-	@Cron(CronExpression.EVERY_45_SECONDS)
-	handleCronEvery45s() {
-		this.logger.debug('Called every 45 seconds')
-	}
+
 	@Interval(10000)
 	handleInterval() {
-		this.logger.debug('Called every 10 seconds')
+		Logger.log('Called every 10 seconds', AppService.name)
+	}
+
+	@Timeout(5000)
+	handleTimeout() {
+		Logger.log('Called once after 5 seconds', AppService.name)
 	}
 }

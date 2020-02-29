@@ -19,7 +19,7 @@ export class TypeormService implements TypeOrmOptionsFactory {
 			// 	migrationsDir: 'src/modules/**/migration',
 			// 	subscribersDir: 'src/modules/**/subscriber'
 			// },
-			reconnectTries: Infinity,
+			// reconnectTries: Infinity,
 			synchronize: true,
 			useNewUrlParser: true,
 			useUnifiedTopology: true,

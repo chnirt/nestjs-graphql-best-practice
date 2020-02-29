@@ -20,7 +20,7 @@ import {
 	LoggerMiddleware
 	// logger
 } from '@common'
-// import { timeout, interval, cron } from '@shared'
+import { timeout, interval, cron } from '@shared'
 import { EmailResolver } from './resolvers/email.resolver'
 import '@validations'
 
@@ -50,7 +50,7 @@ async function bootstrap() {
 		// tasks
 		// timeout()
 		// interval()
-		// cron()
+		cron()
 
 		// adapter for e2e testing
 		const httpAdapter = app.getHttpAdapter()
