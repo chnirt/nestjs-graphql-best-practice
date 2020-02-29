@@ -181,7 +181,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					currentUser = await verifyToken(token, 'accessToken')
 				}
 
-				// console.log(currentUser)
+				console.log(currentUser)
 
 				return {
 					req,

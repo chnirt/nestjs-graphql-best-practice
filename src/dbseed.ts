@@ -10,7 +10,6 @@ async function main() {
 	const dbName = MONGO_DB!
 
 	const client = new MongoClient(url, {
-		useNewUrlParser: true,
 		useUnifiedTopology: true
 	})
 

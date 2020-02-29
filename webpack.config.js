@@ -1,7 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
 const { loader } = require('webpack-loader-helper')
-const WebpackNotifierPlugin = require('webpack-notifier')
 const nodeExternals = require('webpack-node-externals')
 const chalk = require('chalk')
 const ProgressBarPlugin = require('progress-bar-webpack-plugin')
