@@ -1,4 +1,4 @@
-import { CacheModule, Module } from '@nestjs/common'
+import { CacheModule, Module, HttpModule } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
@@ -19,7 +19,8 @@ import * as Resolvers from './resolvers'
 		}),
 		CacheModule.registerAsync({
 			useClass: CacheService
-		})
+		}),
+		HttpModule
 	],
 	controllers: [AppController],
 	providers: [DateScalar, UploadScalar, ...Object.values(Resolvers)]

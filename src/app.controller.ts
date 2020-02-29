@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res } from '@nestjs/common'
+import { Controller, Get, Param, Res, Post } from '@nestjs/common'
 
 import { STATIC } from './environments'
 
@@ -9,5 +9,10 @@ export class AppController {
 		return res.sendFile(fileId, {
 			root: STATIC!
 		})
+	}
+
+	@Post('/gitlab')
+	postGitlab(@Res() res): any {
+		return res.body
 	}
 }

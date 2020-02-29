@@ -18,7 +18,7 @@ export default {
 	deprecated: DeprecatedDirective,
 	// length: LengthDirective,
 	rateLimit: createRateLimitDirective({
-		identifyContext: ctx => ctx.currentUser._id
+		identifyContext: ctx => ctx.currentUser._id || ''
 	}),
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,
