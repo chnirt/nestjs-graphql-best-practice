@@ -30,10 +30,10 @@ import * as Resolvers from './resolvers'
 		CacheModule.registerAsync({
 			useClass: CacheService
 		}),
-		BullModule.registerQueueAsync({
-			name: 'app',
-			useClass: BullConfigService
-		}),
+		// BullModule.registerQueueAsync({
+		// 	name: 'app',
+		// 	useClass: BullConfigService
+		// }),
 		HttpModule
 	],
 	controllers: [AppController],
@@ -41,8 +41,8 @@ import * as Resolvers from './resolvers'
 		DateScalar,
 		UploadScalar,
 		...Object.values(Resolvers),
-		AppService,
-		AppProcessor
+		AppService
+		// AppProcessor
 	]
 })
 export class AppModule {}
