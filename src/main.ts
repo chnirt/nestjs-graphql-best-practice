@@ -34,6 +34,7 @@ import {
 	RATE_LIMIT_MAX,
 	STATIC
 } from '@environments'
+import { getConnection } from 'typeorm'
 
 declare const module: any
 
@@ -44,21 +45,29 @@ async function bootstrap() {
 			// 	key: fs.readFileSync(`./ssl/product/server.key`),
 			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
 			// },
+			cors: true,
 			logger: new MyLogger()
 		})
 
-		// tasks
+		// NOTE: database connect
+		const connection = getConnection('default')
+		const { isConnected } = connection
+		isConnected
+			? Logger.log(`🌨️  Database connected`, 'TypeORM', false)
+			: Logger.error(`❌  Database connect error`, '', 'TypeORM', false)
+
+		// NOTE: tasks
 		// timeout()
 		// interval()
 		cron()
 
-		// adapter for e2e testing
+		// NOTE: adapter for e2e testing
 		const httpAdapter = app.getHttpAdapter()
 
-		// added security
+		// NOTE: added security
 		app.use(helmet())
 
-		// body parser
+		// NOTE: body parser
 		app.use(bodyParser.json({ limit: '50mb' }))
 		app.use(
 			bodyParser.urlencoded({
@@ -68,10 +77,10 @@ async function bootstrap() {
 			})
 		)
 
-		// cruf
+		// NOTE: cruf
 		// app.use(csurf())
 
-		// rateLimit
+		// NOTE: rateLimit
 		app.use(
 			rateLimit({
 				windowMs: 1000 * 60 * 60, // an hour
@@ -81,10 +90,10 @@ async function bootstrap() {
 			})
 		)
 
-		// loggerMiddleware
+		// NOTE:loggerMiddleware
 		NODE_ENV !== 'testing' && app.use(LoggerMiddleware)
 
-		// voyager
+		// NOTE: voyager
 		process.env.NODE_ENV !== 'production' &&
 			app.use(
 				`/${VOYAGER!}`,
@@ -97,23 +106,23 @@ async function bootstrap() {
 				})
 			)
 
-		// interceptors
+		// NOTE: interceptors
 		app.useGlobalInterceptors(new LoggingInterceptor())
 		app.useGlobalInterceptors(new TimeoutInterceptor())
 
-		// global nest setup
+		// NOTE: global nest setup
 		app.useGlobalPipes(new ValidationPipe())
 
 		app.enableShutdownHooks()
 
-		// application context
+		// NOTE: application context
 		// const emailResolver = app
 		// 	.select(EmailModule)
 		// 	.get(EmailResolver, { strict: true })
 
 		const emailResolver = app.get(EmailResolver)
 
-		// mail tracking
+		// NOTE: mail tracking
 		app.use(`/${END_POINT}/:id`, (req, res, next) => {
 			const { id } = req.params
 			// console.log(req)
@@ -125,7 +134,7 @@ async function bootstrap() {
 			next()
 		})
 
-		// size limit
+		// NOTE: size limit
 		app.use('*', (req, res, next) => {
 			const query = req.query.query || req.body.query || ''
 			if (query.length > 2000) {
@@ -134,12 +143,12 @@ async function bootstrap() {
 			next()
 		})
 
-		// serve static
+		// NOTE: serve static
 		app.useStaticAssets(join(__dirname, `../${STATIC}`))
 
 		const server = await app.listen(PORT!)
 
-		// hot module replacement
+		// NOTE: hot module replacement
 		if (module.hot) {
 			module.hot.accept()
 			module.hot.dispose(() => app.close())
@@ -150,13 +159,15 @@ async function bootstrap() {
 					`🚀  Server ready at http://${DOMAIN!}:${chalk
 						.hex(PRIMARY_COLOR!)
 						.bold(`${PORT!}`)}/${END_POINT!}`,
-					'Bootstrap'
+					'Bootstrap',
+					false
 			  )
 			: Logger.log(
 					`🚀  Server is listening on port ${chalk
 						.hex(PRIMARY_COLOR!)
 						.bold(`${PORT!}`)}`,
-					'Bootstrap'
+					'Bootstrap',
+					false
 			  )
 
 		NODE_ENV !== 'production' &&
@@ -164,7 +175,8 @@ async function bootstrap() {
 				`🚀  Subscriptions ready at ws://${DOMAIN!}:${chalk
 					.hex(PRIMARY_COLOR!)
 					.bold(`${PORT!}`)}/${END_POINT!}`,
-				'Bootstrap'
+				'Bootstrap',
+				false
 			)
 	} catch (error) {
 		// logger.error(error)
