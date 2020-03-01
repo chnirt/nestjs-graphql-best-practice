@@ -13,7 +13,7 @@ import {
 import { InjectQueue } from '@nestjs/bull'
 import { Queue } from 'bull'
 
-import { STATIC } from './environments'
+import { STATIC } from '@environments'
 
 @Controller()
 export class AppController {
@@ -57,9 +57,8 @@ export class AppController {
 
 	@Get('transcode')
 	async transcode() {
-		// await this.audioQueue.add('transcode', {
-		// 	file: 'audio.mp3'
-		// })
-		return null
+		await this.appQueue.add('transcode', {
+			file: 'audio.mp3'
+		})
 	}
 }

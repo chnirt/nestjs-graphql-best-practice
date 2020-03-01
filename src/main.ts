@@ -5,6 +5,7 @@ import { express as voyagerMiddleware } from 'graphql-voyager/middleware'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 import * as bodyParser from 'body-parser'
+import * as compression from 'compression'
 import * as helmet from 'helmet'
 // import * as csurf from 'csurf'
 import * as rateLimit from 'express-rate-limit'
@@ -63,6 +64,9 @@ async function bootstrap() {
 
 		// NOTE: adapter for e2e testing
 		const httpAdapter = app.getHttpAdapter()
+
+		// NOTE: compression
+		app.use(compression())
 
 		// NOTE: added security
 		app.use(helmet())
@@ -185,5 +189,6 @@ async function bootstrap() {
 	}
 }
 bootstrap().catch(e => {
+	Logger.error(`❌  Error starting server, ${e}`, '', 'Bootstrap', false)
 	throw e
 })

@@ -12,7 +12,7 @@ import {
 } from './config'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-// import { AppProcessor } from './app.processor'
+import { AppProcessor } from './app.processor'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 
@@ -41,8 +41,8 @@ import * as Resolvers from './resolvers'
 		DateScalar,
 		UploadScalar,
 		...Object.values(Resolvers),
-		AppService
-		// AppProcessor
+		AppService,
+		AppProcessor
 	]
 })
 export class AppModule {}

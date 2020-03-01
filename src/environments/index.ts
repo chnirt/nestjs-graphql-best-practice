@@ -9,7 +9,7 @@ const AUTHOR: string = process.env.AUTHOR || 'Chnirt'
 
 // application
 const PRIMARY_COLOR: string = process.env.PRIMARY_COLOR || '#87e8de'
-const DOMAIN: string = process.env.DOMAIN || 'devcloud4.digihcs.com'
+const DOMAIN: string = process.env.DOMAIN || 'localhost'
 const PORT: number = +process.env.PORT || 14047
 const END_POINT: string = process.env.END_POINT || 'graphql'
 const VOYAGER: string = process.env.VOYAGER || 'voyager'

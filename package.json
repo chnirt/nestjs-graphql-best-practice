@@ -59,6 +59,7 @@
 		"chai": "^4.2.0",
 		"class-transformer": "^0.2.3",
 		"cloudinary": "1.16.0",
+		"compression": "^1.7.4",
 		"cron": "^1.7.2",
 		"csurf": "^1.10.0",
 		"dateformat": "^3.0.3",
