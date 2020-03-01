@@ -46,7 +46,6 @@ async function bootstrap() {
 			// 	key: fs.readFileSync(`./ssl/product/server.key`),
 			// 	cert: fs.readFileSync(`./ssl/product/server.crt`)
 			// },
-			cors: true,
 			logger: new MyLogger()
 		})
 

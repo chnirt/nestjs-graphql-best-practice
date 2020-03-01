@@ -2,17 +2,17 @@ import { CacheModule, Module, HttpModule } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { ScheduleModule } from '@nestjs/schedule'
-import { BullModule } from '@nestjs/bull'
+// import { BullModule } from '@nestjs/bull'
 
 import {
 	CacheService,
 	GraphqlService,
-	TypeOrmService,
-	BullConfigService
+	TypeOrmService
+	// BullConfigService
 } from './config'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { AppProcessor } from './app.processor'
+// import { AppProcessor } from './app.processor'
 import { DateScalar } from './config/graphql/scalars/date.scalar'
 import { UploadScalar } from './config/graphql/scalars/upload.scalar'
 

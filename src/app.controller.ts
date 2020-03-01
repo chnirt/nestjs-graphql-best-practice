@@ -10,8 +10,8 @@ import {
 	CacheInterceptor,
 	Logger
 } from '@nestjs/common'
-import { InjectQueue } from '@nestjs/bull'
-import { Queue } from 'bull'
+// import { InjectQueue } from '@nestjs/bull'
+// import { Queue } from 'bull'
 
 import { STATIC } from '@environments'
 
@@ -19,7 +19,7 @@ import { STATIC } from '@environments'
 export class AppController {
 	counter = 0
 	constructor(
-		@InjectQueue('app') private readonly appQueue: Queue,
+		// @InjectQueue('app') private readonly appQueue: Queue,
 		@Inject(CACHE_MANAGER) private cacheManager
 	) {}
 
@@ -55,10 +55,10 @@ export class AppController {
 		return this.cacheManager.del(routeToClear, () => Logger.log('clear done'))
 	}
 
-	@Get('transcode')
-	async transcode() {
-		await this.appQueue.add('transcode', {
-			file: 'audio.mp3'
-		})
-	}
+	// @Get('transcode')
+	// async transcode() {
+	// 	await this.appQueue.add('transcode', {
+	// 		file: 'audio.mp3'
+	// 	})
+	// }
 }
