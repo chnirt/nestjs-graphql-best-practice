@@ -106,7 +106,7 @@
 		"@nestjs/testing": "^6.8.3",
 		"@types/bull": "^3.12.1",
 		"@types/express": "^4.17.1",
-		"@types/jest": "^24.0.19",
+		"@types/jest": "^25.2.1",
 		"@types/mongodb": "^3.3.6",
 		"@types/node": "^12.11.1",
 		"@types/nodemailer": "^6.2.1",
