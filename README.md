@@ -8,9 +8,7 @@
 [![Greenkeeper badge](https://badges.greenkeeper.io/chnirt/nestjs-graphql-best-practice.svg)](https://greenkeeper.io/)
 [![Coverage Status](https://coveralls.io/repos/github/chnirt/nestjs-graphql-best-practice/badge.svg)](https://coveralls.io/github/chnirt/nestjs-graphql-best-practice)
 
-<h1 align="center">
-  <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
-</h1>
+<img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 
 ## Table of Contents
 
