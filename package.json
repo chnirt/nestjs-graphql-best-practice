@@ -117,7 +117,7 @@
 		"coveralls": "^3.0.7",
 		"husky": "^3.0.9",
 		"jest": "^24.9.0",
-		"lint-staged": "^9.4.2",
+		"lint-staged": "^10.2.2",
 		"nodemon": "^1.19.4",
 		"prettier": "^1.18.2",
 		"progress-bar-webpack-plugin": "^1.12.1",
