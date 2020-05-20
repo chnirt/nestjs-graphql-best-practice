@@ -97,7 +97,7 @@
 		"tsconfig-paths": "^3.9.0",
 		"typeorm": "^0.2.20",
 		"typescript": "^3.6.4",
-		"uuid": "^3.3.3",
+		"uuid": "^8.1.0",
 		"webpack-bundle-analyzer": "^3.6.0",
 		"winston": "^3.2.1"
 	},
