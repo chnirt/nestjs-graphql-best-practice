@@ -50,7 +50,7 @@
 		"apollo-server": "^2.9.9",
 		"apollo-server-cache-memcached": "^0.6.3",
 		"apollo-server-express": "^2.9.7",
-		"apollo-server-plugin-response-cache": "^0.3.5",
+		"apollo-server-plugin-response-cache": "^0.5.2",
 		"assert": "^2.0.0",
 		"axios": "^0.19.0",
 		"bcrypt": "^3.0.6",
