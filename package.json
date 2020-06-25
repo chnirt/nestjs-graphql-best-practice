@@ -93,7 +93,7 @@
 		"reflect-metadata": "^0.1.13",
 		"rimraf": "^3.0.0",
 		"rxjs": "^6.5.3",
-		"stripe": "^7.11.0",
+		"stripe": "^8.67.0",
 		"tsconfig-paths": "^3.9.0",
 		"typeorm": "^0.2.20",
 		"typescript": "^3.6.4",
