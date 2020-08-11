@@ -128,7 +128,7 @@
 		"tslint": "^5.20.0",
 		"tslint-clean-code": "^0.2.10",
 		"tslint-config-prettier": "^1.18.0",
-		"wait-on": "^3.3.0",
+		"wait-on": "^5.2.0",
 		"webpack": "^4.41.2",
 		"webpack-cli": "^3.3.9",
 		"webpack-loader-helper": "^1.0.0",
