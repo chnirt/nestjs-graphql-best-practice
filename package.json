@@ -108,7 +108,7 @@
 		"@types/express": "^4.17.1",
 		"@types/jest": "^24.0.19",
 		"@types/mongodb": "^3.3.6",
-		"@types/node": "^12.11.1",
+		"@types/node": "^14.10.1",
 		"@types/nodemailer": "^6.2.1",
 		"@types/stripe": "^7.10.7",
 		"@types/supertest": "^2.0.8",
