@@ -1,8 +1,8 @@
-import { Resolver, ResolveProperty } from '@nestjs/graphql'
+import { Resolver, ResolveField } from '@nestjs/graphql'
 
 @Resolver('UserResult')
 export class UserResultResolver {
-	@ResolveProperty()
+	@ResolveField()
 	__resolveType(obj) {
 		if (obj.email) {
 			return 'User'

@@ -1,31 +1,25 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 import { Expose, plainToClass } from 'class-transformer'
 
-import { User } from '../generator/graphql.schema'
-
 @Entity({
-	name: 'messages',
+	name: 'cities',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class Message {
+export class City {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	text: string
+	name: string
 
 	@Expose()
 	@Column()
-	roomId: string
-
-	@Expose()
-	@Column()
-	createdBy: User[]
+	isActive: boolean
 
 	@Expose()
 	@Column()
@@ -34,15 +28,16 @@ export class Message {
 	@Column()
 	updatedAt: number
 
-	constructor(message: Partial<Message>) {
-		if (message) {
+	constructor(city: Partial<City>) {
+		if (city) {
 			Object.assign(
 				this,
-				plainToClass(Message, message, {
+				plainToClass(City, city, {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
+			this._id = this._id || uuidv4()
+			this.isActive = this.isActive !== undefined ? this.isActive : true
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

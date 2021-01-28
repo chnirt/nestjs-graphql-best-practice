@@ -1,9 +1,19 @@
-import { LoggerService } from '@nestjs/common'
+import { Logger } from '@nestjs/common'
 
-export class MyLogger implements LoggerService {
-	log(message: string) {}
-	error(message: string, trace: string) {}
-	warn(message: string) {}
-	debug(message: string) {}
-	verbose(message: string) {}
+export class MyLogger extends Logger {
+	log(message: string) {
+		super.log(message)
+	}
+	error(message: string, trace: string) {
+		super.error(message, trace)
+	}
+	warn(message: string) {
+		super.warn(message)
+	}
+	debug(message: string) {
+		super.debug(message)
+	}
+	verbose(message: string) {
+		super.verbose(message)
+	}
 }

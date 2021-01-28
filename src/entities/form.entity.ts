@@ -1,34 +1,31 @@
-import { Entity, ObjectIdColumn, Column } from 'typeorm'
-import * as uuid from 'uuid'
+import {
+	Entity,
+	ObjectIdColumn,
+	Column,
+	BeforeInsert,
+	BeforeUpdate
+} from 'typeorm'
+import { uuidv4 } from '@utils'
 import { Expose, plainToClass } from 'class-transformer'
 
-enum Type {
-	VERIFY_EMAIL,
-	FORGOT_PASSWORD
-}
-
 @Entity({
-	name: 'emails',
+	name: 'forms',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class Email {
+export class Form {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	userId: string
+	content: string
 
 	@Expose()
 	@Column()
-	type: Type
-
-	@Expose()
-	@Column()
-	isOpened: boolean
+	state: number
 
 	@Expose()
 	@Column()
@@ -37,16 +34,16 @@ export class Email {
 	@Column()
 	updatedAt: number
 
-	constructor(email: Partial<Email>) {
-		if (email) {
+	constructor(form: Partial<Form>) {
+		if (form) {
 			Object.assign(
 				this,
-				plainToClass(Email, email, {
+				plainToClass(Form, form, {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
-			this.isOpened = this.isOpened || false
+			this._id = this._id || uuidv4()
+			this.state = this.state || 0
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

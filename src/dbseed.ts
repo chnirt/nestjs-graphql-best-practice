@@ -1,16 +1,17 @@
 import { MongoClient } from 'mongodb'
 
-import { MONGO_URL, MONGO_DB } from './environments'
+import { MLAB_URL, MLAB_DATABASE } from './environments'
 
 async function main() {
 	console.log('🚀  Server ready')
 
-	const url = MONGO_URL!
+	const url = MLAB_URL!
 
-	const dbName = MONGO_DB!
+	const dbName = MLAB_DATABASE!
 
 	const client = new MongoClient(url, {
-		useUnifiedTopology: true
+		// useUnifiedTopology: true,
+		// useNewUrlParser: true,
 	})
 
 	try {
@@ -19,16 +20,6 @@ async function main() {
 		console.log('🌱  Database seeder is running')
 
 		const db = client.db(dbName)
-
-		// const tests = [...Array(10000).keys()].map(item => ({
-		// 	_id: item,
-		// 	userId: 'c30c0730-be4f-11e9-9f04-f72d443f7ef2',
-		// 	description: 'test' + item,
-		// 	createdAt: new Date(),
-		// 	updatedAt: new Date()
-		// }))
-
-		// await db.collection('history').insertMany(tests)
 
 		const users = [
 			{
@@ -110,7 +101,8 @@ async function main() {
 						updatedAt: +new Date()
 					}
 				},
-				{ upsert: true }
+				{ upsert: true },
+				function(err, res) {}
 			)
 		})
 
@@ -681,12 +673,12 @@ async function main() {
 		// 		{ upsert: true }
 		// 	)
 		// })
-
-		client.close()
-		console.log('💤  Server off')
 	} catch (err) {
 		console.log('❌  Server error', err.stack)
+	} finally {
+		console.log('💤  Server off')
+		await client.close()
 	}
 }
 
-main()
+main().catch(error => console.log('❌  Server error', error.stack))

@@ -8,7 +8,7 @@
  *
  * @beta
  */
-export const uuidv4 = () => {
+export const uuidv4 = (): string => {
 	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
 		const r = (Math.random() * 16) | 0
 		const v = c === 'x' ? r : (r & 0x3) | 0x8
@@ -26,7 +26,7 @@ export const uuidv4 = () => {
  *
  * @beta
  */
-export const generateUID = () => {
+export const generateUID = (): string => {
 	// I generate the UID from two parts here
 	// to ensure the random number provide enough bits.
 	const firstPart = (Math.random() * 46656) | 0

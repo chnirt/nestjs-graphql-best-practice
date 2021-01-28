@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Position } from '@models'
+import { Position } from '@entities'
 import { CreatePositionInput } from '../generator/graphql.schema'
 
 @Resolver('Position')

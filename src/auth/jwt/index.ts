@@ -2,7 +2,7 @@ import { sign, verify } from 'jsonwebtoken'
 import { getMongoRepository } from 'typeorm'
 import { AuthenticationError, ForbiddenError } from 'apollo-server-core'
 
-import { User } from '@models'
+import { User } from '@entities'
 import { LoginResponse } from '../../generator/graphql.schema'
 
 import {
@@ -22,25 +22,25 @@ type TokenType =
 
 const common = {
 	accessToken: {
-		privateKey: ACCESS_TOKEN_SECRET!,
+		privateKey: ACCESS_TOKEN_SECRET,
 		signOptions: {
 			expiresIn: '30d' // 15m
 		}
 	},
 	refreshToken: {
-		privateKey: REFRESH_TOKEN_SECRET!,
+		privateKey: REFRESH_TOKEN_SECRET,
 		signOptions: {
 			expiresIn: '7d' // 7d
 		}
 	},
 	emailToken: {
-		privateKey: EMAIL_TOKEN_SECRET!,
+		privateKey: EMAIL_TOKEN_SECRET,
 		signOptions: {
 			expiresIn: '1d' // 1d
 		}
 	},
 	resetPassToken: {
-		privateKey: RESETPASS_TOKEN_SECRET!,
+		privateKey: RESETPASS_TOKEN_SECRET,
 		signOptions: {
 			expiresIn: '1d' // 1d
 		}
@@ -70,13 +70,13 @@ export const generateToken = async (
 		},
 		common[type].privateKey,
 		{
-			issuer: ISSUER!,
+			issuer: ISSUER,
 			subject: user.local
 				? user.local.email
 				: user.google
 				? user.google.email
 				: user.facebook.email,
-			audience: AUDIENCE!,
+			audience: AUDIENCE,
 			algorithm: 'HS256',
 			expiresIn: common[type].signOptions.expiresIn // 15m
 		}
@@ -147,7 +147,7 @@ export const tradeToken = async (user: User): Promise<LoginResponse> => {
 	}
 
 	if (!user.isActive) {
-		throw new ForbiddenError('User already doesn\'t exist.')
+		throw new ForbiddenError("User already doesn't exist.")
 	}
 
 	if (user.isLocked) {

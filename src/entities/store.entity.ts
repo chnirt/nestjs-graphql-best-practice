@@ -1,31 +1,25 @@
-import {
-	Entity,
-	ObjectIdColumn,
-	Column,
-	BeforeInsert,
-	BeforeUpdate
-} from 'typeorm'
-import * as uuid from 'uuid'
+import { Entity, ObjectIdColumn, Column } from 'typeorm'
+import { uuidv4 } from '@utils'
 import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
-	name: 'forms',
+	name: 'stores',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class Form {
+export class Store {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	content: string
+	name: string
 
 	@Expose()
 	@Column()
-	state: number
+	isActive: boolean
 
 	@Expose()
 	@Column()
@@ -34,16 +28,16 @@ export class Form {
 	@Column()
 	updatedAt: number
 
-	constructor(form: Partial<Form>) {
-		if (form) {
+	constructor(store: Partial<Store>) {
+		if (store) {
 			Object.assign(
 				this,
-				plainToClass(Form, form, {
+				plainToClass(Store, store, {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
-			this.state = this.state || 0
+			this._id = this._id || uuidv4()
+			this.isActive = this.isActive !== undefined ? this.isActive : true
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

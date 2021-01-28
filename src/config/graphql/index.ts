@@ -11,13 +11,13 @@ import * as depthLimit from 'graphql-depth-limit'
 // import { buildFederatedSchema } from '@apollo/federation'
 // import { ApolloGateway } from '@apollo/gateway'
 import { getMongoRepository } from 'typeorm'
-import chalk from 'chalk'
+import * as chalk from 'chalk'
 // import responseCachePlugin from 'apollo-server-plugin-response-cache'
 
 import schemaDirectives from './schemaDirectives'
 import directiveResolvers from './directiveResolvers'
 import { verifyToken } from '@auth'
-import { User } from '@models'
+import { User } from '@entities'
 // import { logger } from '../../common'
 
 import {
@@ -39,21 +39,21 @@ import {
 // })
 
 const pubsub = new PubSub()
-class MyErrorTrackingExtension extends GraphQLExtension {
-	willSendResponse(o) {
-		const { context, graphqlResponse } = o
+// class MyErrorTrackingExtension extends GraphQLExtension {
+//   willSendResponse(o) {
+//     const { context, graphqlResponse } = o;
 
-		context.trackErrors(graphqlResponse.errors)
+//     context.trackErrors(graphqlResponse.errors);
 
-		return o
-	}
-	// Other lifecycle methods include
-	// requestDidStart
-	// parsingDidStart
-	// validationDidStart
-	// executionDidStart
-	// willSendResponse
-}
+//     return o;
+//   }
+//   // Other lifecycle methods include
+//   // requestDidStart
+//   // parsingDidStart
+//   // validationDidStart
+//   // executionDidStart
+//   // willSendResponse
+// }
 
 @Injectable()
 export class GraphqlService implements GqlOptionsFactory {
@@ -81,7 +81,7 @@ export class GraphqlService implements GqlOptionsFactory {
 				JSON: GraphQLJSON,
 				JSONObject: GraphQLJSONObject
 			},
-			extensions: [() => new MyErrorTrackingExtension()],
+			// extensions: [() => new MyErrorTrackingExtension()],
 			mocks: NODE_ENV === 'testing' && {
 				// String: () => 'Chnirt',
 				Query: () => ({
@@ -181,7 +181,7 @@ export class GraphqlService implements GqlOptionsFactory {
 					currentUser = await verifyToken(token, 'accessToken')
 				}
 
-				console.log(currentUser)
+				// console.log(currentUser);
 
 				return {
 					req,

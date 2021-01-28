@@ -1,9 +1,9 @@
 import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { createWriteStream } from 'fs'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 
-import { File } from '@models'
+import { File } from '@entities'
 import { uploadFile } from '@shared'
 import { ApolloError } from 'apollo-server-core'
 
@@ -38,7 +38,7 @@ export class FileResolver {
 	): Promise<any> {
 		const { filename, createReadStream, mimetype } = file
 		// console.log(req.headers.host)
-		const convertFilename = `${uuid.v1()}.${mimetype.split('/')[1]}`
+		const convertFilename = `${uuidv4()}.${mimetype.split('/')[1]}`
 		let path
 		path = await new Promise(async (resolve, reject) =>
 			createReadStream(file).pipe(

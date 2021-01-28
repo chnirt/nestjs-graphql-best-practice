@@ -2,13 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 import { UserResolver } from './user.resolver'
-import { User, Email, File } from '../models'
+import { User, Email, File } from '../entities'
 
 import { AppModule } from '../app.module'
 
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
-// import { LoginResponse } from '../../models/user.entity'
+// import { LoginResponse } from '../../entities/user.entity'
 
 // const userArray = [
 // 	new User('Test Cat 1', 'Test Breed 1', 4, 'uuid1'),
@@ -55,7 +55,7 @@ describe('UserResolver', () => {
 	})
 
 	it('hello should return world', async () => {
-		// const word = uuid.v1()
+		// const word = uuidv4()
 		// expect(userResolver.hello()).resolves.toBe(word)
 		expect(userResolver.hello())
 	})

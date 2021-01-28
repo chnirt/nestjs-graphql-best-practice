@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Store } from '@models'
+import { Store } from '@entities'
 import { CreateStoreInput } from '../generator/graphql.schema'
 
 @Resolver('Store')

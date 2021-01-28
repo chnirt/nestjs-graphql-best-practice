@@ -1,6 +1,6 @@
 import { SchemaDirectiveVisitor } from 'graphql-tools'
 import { defaultFieldResolver, GraphQLString } from 'graphql'
-import * as formatDate from 'dateformat'
+import formatDate from 'dateformat'
 
 class DateFormatDirective extends SchemaDirectiveVisitor {
 	visitFieldDefinition(field) {

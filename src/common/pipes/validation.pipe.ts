@@ -20,9 +20,7 @@ export class ValidationPipe implements PipeTransform<any> {
 		return value
 	}
 
-	// tslint:disable-next-line:ban-types
 	private toValidate(metatype: Function): boolean {
-		// tslint:disable-next-line:ban-types
 		const types: Function[] = [String, Boolean, Number, Array, Object]
 		return !types.includes(metatype)
 	}
@@ -30,7 +28,6 @@ export class ValidationPipe implements PipeTransform<any> {
 	private formatErrors(errors: any[]) {
 		return errors
 			.map(err => {
-				// tslint:disable-next-line: forin
 				for (const property in err.constraints) {
 					return err.constraints[property]
 				}

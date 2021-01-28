@@ -1,25 +1,25 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
-	name: 'user_role',
+	name: 'departments',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class UserRole {
+export class Department {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	userId: string
+	name: string
 
 	@Expose()
 	@Column()
-	roleId: string
+	isActive: boolean
 
 	@Expose()
 	@Column()
@@ -28,15 +28,16 @@ export class UserRole {
 	@Column()
 	updatedAt: number
 
-	constructor(userRole: Partial<UserRole>) {
-		if (userRole) {
+	constructor(department: Partial<Department>) {
+		if (department) {
 			Object.assign(
 				this,
-				plainToClass(UserRole, userRole, {
+				plainToClass(Department, department, {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
+			this._id = this._id || uuidv4()
+			this.isActive = this.isActive !== undefined ? this.isActive : true
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}

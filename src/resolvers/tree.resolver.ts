@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { ForbiddenError } from 'apollo-server-core'
 import { getMongoRepository } from 'typeorm'
-import { Tree as TreeEntity } from '@models'
+import { Tree as TreeEntity } from '@entities'
 import { Tree as TreeType } from '../generator/graphql.schema'
 
 @Resolver('Tree')

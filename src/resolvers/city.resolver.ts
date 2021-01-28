@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { City } from '@models'
+import { City } from '@entities'
 import { CreateCityInput } from '../generator/graphql.schema'
 
 @Resolver('City')

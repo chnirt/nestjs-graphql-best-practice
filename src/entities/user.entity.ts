@@ -1,5 +1,5 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 import { Exclude, Expose, plainToClass } from 'class-transformer'
 
 import {
@@ -112,7 +112,7 @@ export class User {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
+			this._id = this._id || uuidv4()
 			this.isVerified =
 				this.isVerified !== undefined
 					? this.isVerified

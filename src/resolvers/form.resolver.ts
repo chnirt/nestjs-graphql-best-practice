@@ -2,7 +2,7 @@ import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 import { ForbiddenError } from 'apollo-server-core'
 
-import { Form } from '@models'
+import { Form } from '@entities'
 import { CreateFormInput } from '../generator/graphql.schema'
 
 @Resolver('Form')

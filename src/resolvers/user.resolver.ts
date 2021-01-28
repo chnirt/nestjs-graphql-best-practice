@@ -5,7 +5,7 @@ import {
 	Args,
 	Subscription,
 	Context,
-	ResolveProperty,
+	ResolveField,
 	Parent
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
@@ -15,9 +15,9 @@ import {
 	ForbiddenError,
 	UserInputError
 } from 'apollo-server-core'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 
-import { User } from '@models'
+import { User } from '@entities'
 import { comparePassword, hashPassword } from '@utils'
 import { EmailResolver } from './email.resolver'
 import { FileResolver } from './file.resolver'
@@ -47,7 +47,7 @@ export class UserResolver {
 
 	@Query()
 	async hello(): Promise<string> {
-		return uuid.v1()
+		return uuidv4()
 		// return await 'world'
 	}
 
@@ -323,7 +323,7 @@ export class UserResolver {
 		// const user = await verifyEmailToken(emailToken)
 		const user = await verifyToken(emailToken, 'emailToken')
 
-		console.log(user)
+		// console.log(user);
 
 		if (!user.isVerified) {
 			const updateUser = await getMongoRepository(User).save(
@@ -525,9 +525,9 @@ export class UserResolver {
 			: currentUser.facebook.email
 
 		const customer = await stripe.customers.create({
-			email,
-			source,
-			plan: STRIPE_PLAN!
+			email
+			// source,
+			// plan: STRIPE_PLAN!,
 		})
 
 		// console.log(customer)
@@ -615,13 +615,13 @@ export class UserResolver {
 		return pubsub.asyncIterator(USER_SUBSCRIPTION)
 	}
 
-	@ResolveProperty()
+	@ResolveField()
 	async fullName(@Parent() user: User): Promise<string> {
 		const { firstName, lastName } = user
 		return `${firstName} ${lastName}`
 	}
 
-	// @ResolveProperty()
+	// @ResolveField()
 	// async local(@Parent() user: User): Promise<object> {
 	// 	const { local } = user
 	// 	local.password = ''

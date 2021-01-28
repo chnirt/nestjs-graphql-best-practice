@@ -9,7 +9,7 @@ import {
 	authenticateGoogle,
 	tradeToken
 } from '@auth'
-import { User } from '@models'
+import { User } from '@entities'
 
 @Resolver('Auth')
 export class AuthResolver {

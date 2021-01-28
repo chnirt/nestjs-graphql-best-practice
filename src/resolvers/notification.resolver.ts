@@ -8,7 +8,7 @@ import {
 } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 
-import { Notification } from '@models'
+import { Notification } from '@entities'
 
 import { NOTIFICATION_SUBSCRIPTION } from '@environments'
 

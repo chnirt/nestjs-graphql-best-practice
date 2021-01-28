@@ -23,10 +23,10 @@ export class AppController {
 		@Inject(CACHE_MANAGER) private cacheManager
 	) {}
 
-	@Get(`${STATIC!}/:fileId`)
+	@Get(`${STATIC}/:fileId`)
 	getUpload(@Param('fileId') fileId, @Res() res): any {
 		return res.sendFile(fileId, {
-			root: STATIC!
+			root: STATIC
 		})
 	}
 

@@ -1,7 +1,7 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
 
-import { Permission } from '@models'
+import { Permission } from '@entities'
 import { ApolloError } from 'apollo-server-core'
 import { PermissionInput } from '../generator/graphql.schema'
 

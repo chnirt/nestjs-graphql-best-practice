@@ -1,37 +1,25 @@
 import { Entity, ObjectIdColumn, Column } from 'typeorm'
-import * as uuid from 'uuid'
+import { uuidv4 } from '@utils'
 import { Expose, plainToClass } from 'class-transformer'
 
 @Entity({
-	name: 'roles',
+	name: 'files',
 	orderBy: {
 		createdAt: 'ASC'
 	}
 })
-export class Role {
+export class File {
 	@Expose()
 	@ObjectIdColumn()
 	_id: string
 
 	@Expose()
 	@Column()
-	code: string
+	filename: string
 
 	@Expose()
 	@Column()
-	description: string
-
-	@Expose()
-	@Column()
-	nodeId: string
-
-	@Expose()
-	@Column()
-	permissions: string[]
-
-	@Expose()
-	@Column()
-	isActive: boolean
+	path: string
 
 	@Expose()
 	@Column()
@@ -40,16 +28,15 @@ export class Role {
 	@Column()
 	updatedAt: number
 
-	constructor(role: Partial<Role>) {
-		if (role) {
+	constructor(file: Partial<File>) {
+		if (file) {
 			Object.assign(
 				this,
-				plainToClass(Role, role, {
+				plainToClass(File, file, {
 					excludeExtraneousValues: true
 				})
 			)
-			this._id = this._id || uuid.v1()
-			this.isActive = this.isActive === undefined ? true : this.isActive
+			this._id = this._id || uuidv4()
 			this.createdAt = this.createdAt || +new Date()
 			this.updatedAt = +new Date()
 		}
