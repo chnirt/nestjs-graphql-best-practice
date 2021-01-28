@@ -11,8 +11,8 @@ jobs:
       - run: npm i
       - run: npm run gen
       # - run: npm run lint
-      - run: npm run test
-      - run: npm run test:e2e
+      # - run: npm run test
+      # - run: npm run test:e2e
 workflows:
   version: 2.1
   workflow:
