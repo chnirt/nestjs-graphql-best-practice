@@ -58,7 +58,7 @@
 		"cache-manager": "^2.10.0",
 		"chai": "^4.2.0",
 		"chalk": "^4.1.0",
-		"class-transformer": "^0.2.3",
+		"class-transformer": "^0.3.2",
 		"class-validator": "^0.13.1",
 		"cloudinary": "1.16.0",
 		"compression": "^1.7.4",
