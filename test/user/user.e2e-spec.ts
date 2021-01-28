@@ -4,7 +4,7 @@ import * as request from 'supertest'
 import { getRepositoryToken } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
 
-import { User, Email, File } from '../../src/models'
+import { User, Email, File } from '../../src/entities'
 
 import { AppModule } from '../../src/app.module'
 
@@ -17,7 +17,7 @@ import { END_POINT } from '../../src/environments'
 
 describe('UserModule (e2e)', () => {
 	let app: INestApplication
-	let userResolver
+	// let userResolver
 
 	beforeEach(async () => {
 		const module: TestingModule = await Test.createTestingModule({

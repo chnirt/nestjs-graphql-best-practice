@@ -4,6 +4,7 @@ import { Resolver, ResolveField } from '@nestjs/graphql'
 export class ResultResolver {
 	@ResolveField()
 	__resolveType(obj, context, info) {
+		console.log(context, info)
 		if (obj.email) {
 			return 'User'
 		}

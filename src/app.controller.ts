@@ -17,11 +17,16 @@ import { STATIC } from '@environments'
 
 @Controller()
 export class AppController {
-	counter = 0
-	constructor(
-		// @InjectQueue('app') private readonly appQueue: Queue,
-		@Inject(CACHE_MANAGER) private cacheManager
-	) {}
+	// counter = 0
+	// constructor(
+	// 	// @InjectQueue('app') private readonly appQueue: Queue,
+	// 	@Inject(CACHE_MANAGER) private cacheManager
+	// ) {}
+
+	@Get('getHello')
+	getHello() {
+		return 'Hello World!'
+	}
 
 	@Get(`${STATIC}/:fileId`)
 	getUpload(@Param('fileId') fileId, @Res() res): any {
@@ -35,25 +40,25 @@ export class AppController {
 		return res.body
 	}
 
-	@Get('cache')
-	@UseInterceptors(CacheInterceptor)
-	incrementCounter() {
-		this.counter++
-		return this.counter
-	}
+	// @Get('cache')
+	// @UseInterceptors(CacheInterceptor)
+	// incrementCounter() {
+	// 	this.counter++
+	// 	return this.counter
+	// }
 
-	@Get('nocache')
-	incrementCounterNoCache() {
-		this.counter++
-		return this.counter
-	}
+	// @Get('nocache')
+	// incrementCounterNoCache() {
+	// 	this.counter++
+	// 	return this.counter
+	// }
 
-	// Call this endpoint to reset the cache for the route '/'
-	@Get('reset')
-	resetCache() {
-		const routeToClear = '/'
-		return this.cacheManager.del(routeToClear, () => Logger.log('clear done'))
-	}
+	// // Call this endpoint to reset the cache for the route '/'
+	// @Get('reset')
+	// resetCache() {
+	// 	const routeToClear = '/'
+	// 	return this.cacheManager.del(routeToClear, () => Logger.log('clear done'))
+	// }
 
 	// @Get('transcode')
 	// async transcode() {

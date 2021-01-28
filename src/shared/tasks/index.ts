@@ -15,7 +15,7 @@ export const timeout = () => {
 	const taskID = setTimeout(() => {
 		Logger.debug('Task completed', 'Timeout', false)
 	}, 1000)
-	// clearTimeout(taskID)
+	clearTimeout(taskID)
 }
 
 /**
@@ -32,7 +32,7 @@ export const interval = () => {
 	const intervalID = setInterval(() => {
 		Logger.debug('Task executed', 'Interval', false)
 	}, 2000)
-	// clearInterval(intervalID)
+	clearInterval(intervalID)
 }
 
 /**

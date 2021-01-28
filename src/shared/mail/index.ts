@@ -42,8 +42,8 @@ export const sendMail = async (
 		host: 'smtp.gmail.com',
 		port: 587, // 465
 		auth: {
-			user: NODEMAILER_USER!,
-			pass: NODEMAILER_PASS!
+			user: NODEMAILER_USER,
+			pass: NODEMAILER_PASS
 		},
 		tls: {
 			rejectUnauthorized: false
@@ -64,8 +64,8 @@ export const sendMail = async (
 		const template = handlebars.compile(html)
 
 		const common = {
-			author: AUTHOR!,
-			issuer: ISSUER!,
+			author: AUTHOR,
+			issuer: ISSUER,
 			ios: 'https://itunes.apple.com/us/app/chnirt',
 			android: 'https://play.google.com/store/apps/chnirt',
 			twitter: 'https://twitter.com/chnirt',

@@ -20,9 +20,9 @@ import {
  */
 export const uploadFile = async (file: any): Promise<string> => {
 	cloudinary.v2.config({
-		cloud_name: CLOUDINARY_NAME!,
-		api_key: CLOUDINARY_API_KEY!,
-		api_secret: CLOUDINARY_API_SECRET!
+		cloud_name: CLOUDINARY_NAME,
+		api_key: CLOUDINARY_API_KEY,
+		api_secret: CLOUDINARY_API_SECRET
 	})
 
 	const uniqueFilename = new Date().toISOString()
