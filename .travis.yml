@@ -31,8 +31,8 @@ script:
   - codecov
 stages:
   # - build docker image
-  # - Unit Tests
-  # - E2e Tests
+  - Unit Tests
+  - E2e Tests
   - Coverage Tests
   # - UI Tests
   # - Deploy

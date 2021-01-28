@@ -10,6 +10,8 @@
 
 <img src="src/assets/images/project-logo.png" alt="Node.js Best Practices">
 
+##[Version 7.5.0](https://github.com/chnirt/nestjsv7.5.0.git)
+
 ## Table of Contents
 
 - [Structure](#structure)
