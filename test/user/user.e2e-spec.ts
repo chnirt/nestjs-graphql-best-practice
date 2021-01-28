@@ -42,7 +42,7 @@ describe('UserModule (e2e)', () => {
 			]
 		}).compile()
 
-		userResolver = module.get<UserResolver>(UserResolver)
+		// userResolver = module.get<UserResolver>(UserResolver)
 
 		app = module.createNestApplication()
 		await app.init()
