@@ -60,7 +60,7 @@
 		"chalk": "^4.1.0",
 		"class-transformer": "^0.2.3",
 		"class-validator": "^0.13.1",
-		"cloudinary": "1.16.0",
+		"cloudinary": "1.24.0",
 		"compression": "^1.7.4",
 		"cron": "^1.7.2",
 		"csurf": "^1.10.0",
