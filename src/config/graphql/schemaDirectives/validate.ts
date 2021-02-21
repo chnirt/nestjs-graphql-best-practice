@@ -5,7 +5,7 @@ import {
 	GraphQLField,
 	GraphQLObjectType
 } from 'graphql'
-import { validate } from 'class-validator'
+import { registerSchema, validate } from 'class-validator'
 import { UserInputError } from 'apollo-server-core'
 import { Logger } from '@nestjs/common'
 import * as chalk from 'chalk'
@@ -30,13 +30,39 @@ class ValidateDirective extends SchemaDirectiveVisitor {
 		field.resolve = async function(...args) {
 			const { input } = args[1]
 
+			let UserValidationSchema = {
+				// using interface here is not required, its just for type-safety
+				name: 'myUserSchema', // this is required, and must be unique
+				properties: {
+					firstName: [
+						{
+							type: 'minLength', // validation type. All validation types are listed in ValidationTypes class.
+							constraints: [2]
+						},
+						{
+							type: 'maxLength',
+							constraints: [3]
+						}
+					]
+				}
+			}
+			registerSchema(UserValidationSchema)
+			const user = { firstName: 'Johny' }
+			validate('myUserSchema', user).then(errors => {
+				if (errors.length > 0) {
+					console.log('Validation failed: ', errors)
+				} else {
+					console.log('Validation succeed.')
+				}
+			})
+
 			Logger.log(
 				`🧪  Schema: ${chalk.hex(PRIMARY_COLOR).bold(`${schema}`)}`,
 				'Validator',
 				false
 			)
 
-			console.log(arg, details, input, schema)
+			// console.log('-->', arg, details, input, schema)
 
 			const prototype = arg.type.toString().replace('!', '')
 

@@ -24,6 +24,7 @@ import {
 	ValidationPipe,
 	LoggerMiddleware
 } from '@common'
+import '@validations'
 
 declare const module: any
 
