@@ -6,6 +6,7 @@ import DateFormatDirective from './date'
 import UpperCaseDirective from './upper'
 import ConcatDirective from './concat'
 import RestDirective from './rest'
+import ValidateDirective from './validate'
 
 export default {
 	isAuthenticated: AuthDirective,
@@ -16,5 +17,6 @@ export default {
 	date: DateFormatDirective,
 	upper: UpperCaseDirective,
 	concat: ConcatDirective,
-	rest: RestDirective
+	rest: RestDirective,
+	validate: ValidateDirective
 }
