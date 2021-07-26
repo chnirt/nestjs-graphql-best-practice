@@ -9,6 +9,7 @@ node_js:
 branches:
   only:
     - cicd
+    - /^greenkeeper/.*$/
     # - /^greenkeeper/.*$/
 cache:
   directories:
