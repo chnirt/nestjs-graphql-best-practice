@@ -96,7 +96,7 @@
 		"rimraf": "^3.0.0",
 		"rxjs": "^6.5.3",
 		"stripe": "^8.132.0",
-		"tsconfig-paths": "^3.9.0",
+		"tsconfig-paths": "^4.0.0",
 		"typeorm": "^0.2.20",
 		"typescript": "^3.6.4",
 		"uuid": "^3.3.3",
