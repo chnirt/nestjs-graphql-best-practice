@@ -97,7 +97,7 @@
 		"rxjs": "^6.5.3",
 		"stripe": "^8.132.0",
 		"tsconfig-paths": "^3.9.0",
-		"typeorm": "^0.2.20",
+		"typeorm": "^0.3.14",
 		"typescript": "^3.6.4",
 		"uuid": "^3.3.3",
 		"webpack-bundle-analyzer": "^3.6.0",
