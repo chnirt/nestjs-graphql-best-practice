@@ -52,7 +52,7 @@
 		"apollo-server-express": "^2.9.7",
 		"apollo-server-plugin-response-cache": "^0.3.5",
 		"assert": "^2.0.0",
-		"axios": "^0.19.0",
+		"axios": "^1.6.3",
 		"bcrypt": "^3.0.6",
 		"bull": "^3.13.0",
 		"cache-manager": "^2.10.0",
