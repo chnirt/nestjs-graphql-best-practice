@@ -100,7 +100,7 @@
 		"typeorm": "^0.2.20",
 		"typescript": "^3.6.4",
 		"uuid": "^3.3.3",
-		"webpack-bundle-analyzer": "^3.6.0",
+		"webpack-bundle-analyzer": "^4.0.0",
 		"winston": "^3.2.1"
 	},
 	"devDependencies": {
