@@ -83,7 +83,7 @@
 		"merge-graphql-schemas": "^1.7.0",
 		"mongodb": "^3.3.3",
 		"morgan": "^1.9.1",
-		"multer": "^1.4.2",
+		"multer": "^2.0.0",
 		"nodemailer": "^6.3.1",
 		"nodemailer-express-handlebars": "^3.1.0",
 		"passport": "^0.4.0",
